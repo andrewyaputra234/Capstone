@@ -20,8 +20,12 @@ def run_script(script_name: str, args: list[str]) -> int:
 
 def main() -> int:
     parser = ArgumentParser(description="Run Capstone project commands from the repo root.")
-    parser.add_argument("command", choices=["ingest", "search", "assistant"], help="Command to run.")
-    parser.add_argument("path", help="Path to the input folder or chunk output folder.")
+    parser.add_argument(
+        "command",
+        choices=["ingest", "search", "semantic-search", "assistant"],
+        help="Command to run.",
+    )
+    parser.add_argument("path", nargs="?", default=None, help="Path to the input folder or chunk output folder.")
     parser.add_argument("--output-dir", default=None, help="Output directory for ingestion.")
     parser.add_argument("--query", default=None, help="Search query or assistant question.")
     parser.add_argument(
@@ -29,9 +33,16 @@ def main() -> int:
         action="store_true",
         help="Run in interactive mode for search or assistant.",
     )
+    parser.add_argument(
+        "--rebuild",
+        action="store_true",
+        help="Rebuild the vector database from scratch.",
+    )
     args = parser.parse_args()
 
     if args.command == "ingest":
+        if not args.path:
+            parser.error("ingest command requires a path argument")
         ingest_args = [args.path]
         if args.output_dir:
             ingest_args += ["--output-dir", args.output_dir]
@@ -40,6 +51,8 @@ def main() -> int:
         return run_script("main.py", ingest_args)
 
     if args.command == "search":
+        if not args.path:
+            parser.error("search command requires a path argument")
         search_args = [args.path]
         if args.query:
             search_args += ["--query", args.query]
@@ -47,7 +60,19 @@ def main() -> int:
             search_args += ["--interactive"]
         return run_script("qa.py", search_args)
 
+    if args.command == "semantic-search":
+        vs_args = []
+        if args.rebuild:
+            vs_args += ["--rebuild"]
+        if args.query:
+            vs_args += ["--query", args.query]
+        if args.interactive:
+            vs_args += ["--interactive"]
+        return run_script("vector_store.py", vs_args)
+
     if args.command == "assistant":
+        if not args.path:
+            parser.error("assistant command requires a path argument")
         assistant_args = [args.path]
         if args.query:
             assistant_args += ["--query", args.query]
