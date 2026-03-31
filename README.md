@@ -60,6 +60,31 @@ Or use interactive search:
 python src/qa.py data/output --interactive
 ```
 
+### Use the assistant
+
+From the root folder:
+
+```powershell
+python src/assistant.py data/output --query "project"
+```
+
+Or interactive assistant mode:
+
+```powershell
+python src/assistant.py data/output --interactive
+```
+
+### Run from the root with a single wrapper
+
+You can also use the root wrapper script to run commands from the repo root:
+
+```powershell
+python run.py ingest data/input --output-dir data/output
+python run.py search data/output --query "project"
+python run.py assistant data/output --query "project"
+python run.py assistant data/output --interactive
+```
+
 ## Good next steps
 
 - add more `.docx` files to `data/input`
