@@ -1,12 +1,22 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
-from langchain_community.document_loaders import UnstructuredWordDocumentLoader
+from langchain_community.document_loaders import UnstructuredWordDocumentLoader, UnstructuredPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from subject_manager import SubjectManager
 
 
 def load_document(file_path: Path):
-    loader = UnstructuredWordDocumentLoader(str(file_path))
+    """Load DOCX or PDF files."""
+    file_ext = file_path.suffix.lower()
+    
+    if file_ext == ".docx":
+        loader = UnstructuredWordDocumentLoader(str(file_path))
+    elif file_ext == ".pdf":
+        loader = UnstructuredPDFLoader(str(file_path))
+    else:
+        raise ValueError(f"Unsupported file format: {file_ext}. Supported: .docx, .pdf")
+    
     return loader.load()
 
 
@@ -36,9 +46,13 @@ def search_chunks(chunks, query: str):
 
 
 def get_docx_files(input_path: Path):
+    """Get all DOCX and PDF files from input path."""
     if input_path.is_file():
         return [input_path]
-    return sorted(input_path.glob("*.docx"))
+    
+    # Get both DOCX and PDF files
+    files = sorted(input_path.glob("*.docx")) + sorted(input_path.glob("*.pdf"))
+    return files
 
 
 def process_file(file_path: Path, chunk_size: int, chunk_overlap: int, output_dir: Path | None, search_query: str | None = None):
@@ -69,10 +83,10 @@ def process_file(file_path: Path, chunk_size: int, chunk_overlap: int, output_di
 
 
 def main():
-    parser = ArgumentParser(description="Load DOCX file(s) and split them into text chunks.")
+    parser = ArgumentParser(description="Load DOCX or PDF file(s) and split them into text chunks.")
     parser.add_argument(
         "path",
-        help="Path to a DOCX file or a directory containing DOCX files.",
+        help="Path to a DOCX/PDF file or a directory containing DOCX/PDF files.",
     )
     parser.add_argument("--chunk-size", type=int, default=1000, help="Maximum characters per chunk.")
     parser.add_argument("--chunk-overlap", type=int, default=100, help="Overlap characters between chunks.")
@@ -86,6 +100,11 @@ def main():
         default=None,
         help="Optional keyword to search for inside generated chunks.",
     )
+    parser.add_argument(
+        "--subject",
+        default=None,
+        help="Subject/topic name for multi-subject organization.",
+    )
     args = parser.parse_args()
 
     input_path = Path(args.path)
@@ -93,9 +112,17 @@ def main():
         print(f"Error: path not found: {input_path}")
         return
 
-    output_dir = Path(args.output_dir) if args.output_dir else None
-    if output_dir:
-        output_dir.mkdir(parents=True, exist_ok=True)
+    # Use SubjectManager if subject is specified, otherwise use provided output-dir
+    if args.subject:
+        subject_manager = SubjectManager()
+        output_dir = subject_manager.get_subject_output_path(args.subject)
+        subject_label = f" [{args.subject}]"
+        print(f"Ingesting documents{subject_label}...")
+    else:
+        output_dir = Path(args.output_dir) if args.output_dir else None
+        subject_label = ""
+        if output_dir:
+            output_dir.mkdir(parents=True, exist_ok=True)
 
     docx_files = get_docx_files(input_path)
     if not docx_files:

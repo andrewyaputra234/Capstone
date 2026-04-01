@@ -1,29 +1,44 @@
 """
 Agent A3: Dialogue Manager
-Generates questions from ingested documents and manages Q&A dialogue flow.
+Extracts actual exam questions from ingested documents and manages Q&A dialogue flow.
+Uses rubric-based assessment for scoring student responses.
 """
 
 import os
+import re
+import json
+from typing import List, Dict
+from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-import random
+from subject_manager import SubjectManager
+from rubric_engine import RubricEngine
 
 load_dotenv()
 
 class DialogueManager:
-    """Manages oral assessment dialogue and question generation."""
+    """Manages oral assessment using actual extracted exam questions and rubric-based scoring."""
     
-    def __init__(self, chroma_db_path="./data/chroma_db"):
-        """Initialize dialogue manager with vector store and LLM."""
-        self.chroma_db_path = chroma_db_path
+    def __init__(self, subject: str | None = None, rubric_name: str | None = None):
+        """
+        Initialize dialogue manager.
+        
+        Args:
+            subject: Subject/topic name for multi-subject organization
+            rubric_name: Name of rubric to use for scoring
+        """
+        self.subject = subject
+        self.subject_manager = SubjectManager()
+        self.chroma_db_path = str(self.subject_manager.get_subject_chroma_path(subject))
+        
         self.embedding_function = OpenAIEmbeddings(
             api_key=os.getenv("OPENAI_API_KEY")
         )
         
-        # Initialize LLM for question generation and feedback
+        # Initialize LLM for question extraction and reasoning
         self.llm = ChatOpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
             model="gpt-3.5-turbo",
@@ -36,284 +51,282 @@ class DialogueManager:
             embedding_function=self.embedding_function
         )
         
-        # Conversation history
-        self.conversation_history = []
-        self.current_topic = None
-        self.asked_questions = []
+        # Initialize rubric engine
+        self.rubric_engine = RubricEngine()
+        if rubric_name:
+            self.rubric_engine.load_rubric(rubric_name)
         
-    def generate_initial_questions(self, num_questions=5):
+        # Conversation state
+        self.questions = []
+        self.current_question_index = 0
+        self.answers = []
+        self.scores = []
+    
+    def extract_questions_from_document(self, num_questions: int = 5) -> List[Dict]:
         """
-        Generate initial set of questions based on document content.
+        Extract actual questions from the ingested document.
+        Uses semantic search and pattern matching to identify questions.
         
         Args:
-            num_questions: Number of questions to generate
+            num_questions: Number of questions to extract
             
         Returns:
-            List of question objects with metadata
+            List of question dictionaries with id, text, and context
         """
-        print(f"\n📚 Generating {num_questions} initial questions from document...\n")
+        print(f"\n📚 Extracting questions from document...\n")
         
-        # Get random insights from the document
-        retriever = self.vector_store.as_retriever(search_kwargs={"k": 3})
-        general_docs = retriever.invoke("project overview objectives goals")
+        # Get all chunks from the document
+        retriever = self.vector_store.as_retriever(search_kwargs={"k": 50})
+        doc_samples = retriever.invoke("question Q problem exercise")
+        
+        # Combine all chunks for analysis
+        combined_text = "\n".join([doc.page_content for doc in doc_samples])
         
         questions = []
-        for i, doc in enumerate(general_docs[:min(3, len(general_docs))]):
-            # Generate questions from these chunks
+        
+        # Pattern 1: Q1) Q2) Q3) format
+        q_pattern = r'Q(\d+)\)\s*([^\n]+?)(?:\n|$)'
+        matches = re.finditer(q_pattern, combined_text)
+        seen = set()
+        for match in matches:
+            qid = int(match.group(1))
+            qtext = match.group(2).strip()
+            
+            # Clean up the question text
+            if qtext and len(qtext) > 5 and qtext not in seen:
+                seen.add(qtext)
+                # Remove common formatting noise
+                qtext = qtext.replace('www.sgexam.com', '').strip()
+                if qtext:
+                    questions.append({
+                        "id": len(questions) + 1,
+                        "text": qtext,
+                        "source": f"Question {qid} from document",
+                        "answered": False,
+                        "answer": None,
+                        "scores": None
+                    })
+        
+        # Pattern 2: Numbered format 1. 2. 3. or 1) 2) 3)
+        if len(questions) < num_questions:
+            num_pattern = r'^\s*(\d+)[.)\s]\s+([^\n]+?)(?:\n|$)'
+            matches = re.finditer(num_pattern, combined_text, re.MULTILINE)
+            for match in matches:
+                qnum = int(match.group(1))
+                qtext = match.group(2).strip()
+                
+                if qtext and len(qtext) > 10 and qtext not in seen and len(questions) < num_questions * 2:
+                    seen.add(qtext)
+                    qtext = qtext.replace('www.sgexam.com', '').strip()
+                    if qtext:
+                        # Avoid duplicates
+                        if not any(q['text'] == qtext for q in questions):
+                            questions.append({
+                                "id": len(questions) + 1,
+                                "text": qtext,
+                                "source": f"Question {qnum} from document",
+                                "answered": False,
+                                "answer": None,
+                                "scores": None
+                            })
+        
+        # If LLM parsing is needed, try it as fallback
+        if len(questions) < 3:
             prompt = ChatPromptTemplate.from_template(
-                """Based on this document excerpt, generate 2 unique, assessment-style questions 
-                that a graduate examiner would ask during an oral defense. 
-                Make questions thoughtful and require detailed explanations.
+                """Extract all exam questions from this text.
+                Return ONLY a JSON list: {{"questions": ["Q1 text", "Q2 text", ...]}}
                 
-                Document excerpt:
-                {content}
-                
-                Return ONLY the questions, numbered 1. and 2., one per line."""
+                Text:
+                {content}"""
             )
             
             chain = prompt | self.llm | StrOutputParser()
-            response = chain.invoke({"content": doc.page_content[:500]})
-            
-            # Parse questions
-            for line in response.strip().split('\n'):
-                if line.strip() and any(c.isalpha() for c in line):
-                    # Clean up the question
-                    question_text = line.replace('1.', '').replace('2.', '').strip()
-                    if question_text and len(question_text) > 10:
+            try:
+                response = chain.invoke({"content": combined_text[:3000]})
+                data = json.loads(response)
+                for q_text in data.get("questions", []):
+                    if q_text and len(q_text) > 5 and q_text not in seen:
+                        seen.add(q_text)
                         questions.append({
-                            'id': len(questions) + 1,
-                            'text': question_text,
-                            'source_chunk': doc.metadata.get('source', 'Unknown'),
-                            'answered': False,
-                            'answer': None,
-                            'score': None
+                            "id": len(questions) + 1,
+                            "text": q_text.strip(),
+                            "source": "LLM-extracted from document",
+                            "answered": False,
+                            "answer": None,
+                            "scores": None
                         })
+            except:
+                pass  # If LLM fails, use what we already extracted
         
-        # If we don't have enough questions, add some generic ones
-        if len(questions) < num_questions:
-            generic_questions = [
-                "What is the main objective of your project?",
-                "How does your system architecture work?",
-                "What are the key components and agents in your system?",
-                "What technical challenges did you face and how did you solve them?",
-                "What are the future improvements for your system?",
-            ]
-            for q in generic_questions[: num_questions - len(questions)]:
-                questions.append({
-                    'id': len(questions) + 1,
-                    'text': q,
-                    'source_chunk': 'General',
-                    'answered': False,
-                    'answer': None,
-                    'score': None
-                })
-        
-        self.asked_questions = questions[:num_questions]
-        return questions[:num_questions]
+        self.questions = questions[:num_questions]
+        return self.questions
     
-    def ask_next_question(self):
-        """
-        Get the next unanswered question.
-        
-        Returns:
-            Question object or None if all answered
-        """
-        for question in self.asked_questions:
-            if not question['answered']:
-                return question
+    def get_current_question(self) -> Dict | None:
+        """Get the current unanswered question"""
+        for q in self.questions:
+            if not q["answered"]:
+                return q
         return None
     
-    def receive_answer(self, question_id, student_answer):
+    def submit_answer(self, answer: str) -> Dict:
         """
-        Record student's answer and generate feedback.
+        Submit an answer to the current question.
         
         Args:
-            question_id: ID of the question being answered
-            student_answer: Student's response text
+            answer: Student's response
             
         Returns:
-            Feedback object with score and comments
+            Assessment result with feedback
         """
-        # Find the question
-        question = None
-        for q in self.asked_questions:
-            if q['id'] == question_id:
-                question = q
-                break
-        
+        question = self.get_current_question()
         if not question:
-            return {"error": "Question not found"}
+            return {"error": "All questions answered"}
         
-        # Store answer
-        question['answer'] = student_answer
-        question['answered'] = True
+        # Record answer
+        question["answer"] = answer
+        question["answered"] = True
+        self.answers.append(answer)
         
-        # Generate feedback using LLM
-        feedback = self._generate_feedback(question, student_answer)
-        question['score'] = feedback['score']
+        # Score using rubric if loaded
+        result = {
+            "question_id": question["id"],
+            "question": question["text"],
+            "answer": answer
+        }
         
-        return feedback
-    
-    def _generate_feedback(self, question, answer):
-        """
-        Generate feedback and score for student answer.
-        
-        Args:
-            question: Question object
-            answer: Student's answer
+        if self.rubric_engine.current_rubric:
+            scores = self.rubric_engine.score_answer(
+                question["text"], 
+                answer
+            )
             
-        Returns:
-            Feedback object with score and comments
-        """
-        # Retrieve relevant context from document
-        retriever = self.vector_store.as_retriever(search_kwargs={"k": 2})
-        context_docs = retriever.invoke(question['text'])
-        context = "\n".join([doc.page_content for doc in context_docs])
+            question["scores"] = scores
+            total_score = sum(s.score for s in scores)
+            max_score = sum(s.max_score for s in scores)
+            
+            result["scores"] = {
+                "criterion_scores": [
+                    {
+                        "criterion": s.criterion_name,
+                        "score": s.score,
+                        "max_score": s.max_score,
+                        "feedback": s.feedback
+                    }
+                    for s in scores
+                ],
+                "total_score": total_score,
+                "max_score": max_score,
+                "percentage": round((total_score / max_score * 100) if max_score > 0 else 0, 1)
+            }
+            
+            self.scores.append(total_score)
+        else:
+            result["note"] = "No rubric loaded - no scoring applied"
         
-        # Generate feedback prompt
-        prompt = ChatPromptTemplate.from_template(
-            """You are an expert academic examiner. Score the student's answer on a scale of 1-10.
-
-Question: {question}
-Student Answer: {answer}
-
-Document Reference:
-{context}
-
-Provide:
-1. Score (1-10)
-2. Strengths in the answer
-3. Areas for improvement
-4. Brief comment
-
-Format your response as:
-SCORE: [number]
-STRENGTHS: [text]
-IMPROVEMENTS: [text]
-COMMENT: [text]"""
-        )
-        
-        chain = prompt | self.llm | StrOutputParser()
-        response = chain.invoke({
-            "question": question['text'],
-            "answer": answer,
-            "context": context[:1000]
-        })
-        
-        # Parse response
-        feedback = {
-            'question_id': question['id'],
-            'student_answer': answer,
-            'score': 7,  # Default
-            'strengths': '',
-            'improvements': '',
-            'comment': ''
-        }
-        
-        try:
-            for line in response.split('\n'):
-                if line.startswith('SCORE:'):
-                    score_text = line.replace('SCORE:', '').strip()
-                    feedback['score'] = int(''.join(filter(str.isdigit, score_text.split('/')[0])))
-                elif line.startswith('STRENGTHS:'):
-                    feedback['strengths'] = line.replace('STRENGTHS:', '').strip()
-                elif line.startswith('IMPROVEMENTS:'):
-                    feedback['improvements'] = line.replace('IMPROVEMENTS:', '').strip()
-                elif line.startswith('COMMENT:'):
-                    feedback['comment'] = line.replace('COMMENT:', '').strip()
-        except Exception as e:
-            feedback['comment'] = response[:200]
-        
-        return feedback
+        return result
     
-    def get_dialogue_context(self):
-        """Get current dialogue state and history."""
-        return {
-            'total_questions': len(self.asked_questions),
-            'answered_count': sum(1 for q in self.asked_questions if q['answered']),
-            'conversation_history': self.conversation_history,
-            'questions': self.asked_questions
-        }
-    
-    def generate_session_report(self):
-        """Generate assessment report for this session."""
-        if not self.asked_questions:
-            return {"error": "No questions asked yet"}
+    def get_assessment_report(self) -> Dict:
+        """Generate final assessment report"""
+        if not self.questions:
+            return {"error": "No questions asked"}
         
-        total_score = sum(q.get('score', 0) for q in self.asked_questions if q['answered'])
-        answered = sum(1 for q in self.asked_questions if q['answered'])
+        answered_count = sum(1 for q in self.questions if q["answered"])
         
         report = {
-            'total_questions': len(self.asked_questions),
-            'answered_questions': answered,
-            'total_score': total_score,
-            'average_score': total_score / answered if answered > 0 else 0,
-            'responses': []
+            "subject": self.subject,
+            "total_questions": len(self.questions),
+            "answered_questions": answered_count,
+            "questions": self.questions
         }
         
-        for q in self.asked_questions:
-            if q['answered']:
-                report['responses'].append({
-                    'question': q['text'],
-                    'answer': q['answer'],
-                    'score': q['score']
-                })
+        if self.scores:
+            total_score = sum(self.scores)
+            max_possible = len(self.scores) * 10  # Basic calculation
+            report["total_score"] = total_score
+            report["average_score"] = round(total_score / len(self.scores), 1) if self.scores else 0
+            report["percentage"] = round((total_score / max_possible * 100) if max_possible > 0 else 0, 1)
         
         return report
 
 
-def interactive_assessment():
-    """Interactive assessment mode."""
+def interactive_assessment(subject: str | None = None, rubric_name: str | None = None):
+    """Run interactive assessment mode"""
+    subject_label = f" [{subject}]" if subject else ""
     print("\n" + "="*60)
-    print("🎓 Oral Assessment System - Agent A3 (Dialogue Manager)")
+    print(f"🎓 Oral Assessment System - Agent A3 (Dialogue Manager){subject_label}")
     print("="*60 + "\n")
     
-    # Initialize dialogue manager
-    dialogue = DialogueManager()
+    # Initialize
+    dialogue = DialogueManager(subject=subject, rubric_name=rubric_name)
     
-    # Generate questions
-    questions = dialogue.generate_initial_questions(num_questions=5)
-    print(f"Generated {len(questions)} questions:\n")
+    # Extract questions from document
+    questions = dialogue.extract_questions_from_document(num_questions=5)
+    
+    if not questions:
+        print("❌ Could not extract questions from document")
+        return
+    
+    print(f"✅ Extracted {len(questions)} questions:\n")
     for q in questions:
-        print(f"{q['id']}. {q['text']}\n")
+        print(f"  {q['id']}. {q['text']}\n")
     
     # Assessment loop
     while True:
-        next_q = dialogue.ask_next_question()
+        question = dialogue.get_current_question()
         
-        if not next_q:
-            print("\n✅ All questions answered! Generating report...\n")
-            report = dialogue.generate_session_report()
-            print(f"Session Summary:")
-            print(f"  - Total Questions: {report['total_questions']}")
-            print(f"  - Answered: {report['answered_questions']}")
-            print(f"  - Average Score: {report['average_score']:.1f}/10\n")
+        if not question:
+            # All questions answered - show report
+            print("\n✅ Assessment Complete!\n")
+            report = dialogue.get_assessment_report()
+            
+            print("="*60)
+            print("Assessment Report")
+            print("="*60)
+            print(f"Questions Asked: {report['total_questions']}")
+            print(f"Questions Answered: {report['answered_questions']}")
+            
+            if "total_score" in report:
+                print(f"Total Score: {report['total_score']} / {report.get('max_possible', '?')}")
+                print(f"Average Score: {report['average_score']}/10")
+                print(f"Percentage: {report['percentage']}%")
+            
+            print("="*60 + "\n")
             break
         
-        print(f"\n❓ Question {next_q['id']}/{len(dialogue.asked_questions)}:")
-        print(f"{next_q['text']}\n")
+        # Ask question
+        print(f"❓ Question {dialogue.current_question_index + 1}/{len(dialogue.questions)}:")
+        print(f"{question['text']}\n")
         
         answer = input("Your answer: ").strip()
         
-        if answer.lower() in ['skip', 'next']:
-            print("Skipping this question...")
-            continue
-        
         if not answer:
-            print("Please provide an answer.")
+            print("Please provide an answer.\n")
             continue
         
-        # Get feedback
-        print("\n⏳ Generating feedback...\n")
-        feedback = dialogue.receive_answer(next_q['id'], answer)
+        # Submit and get feedback
+        print("\n⏳ Evaluating answer...\n")
+        result = dialogue.submit_answer(answer)
         
-        print(f"Score: {feedback['score']}/10")
-        print(f"Strengths: {feedback['strengths']}")
-        print(f"Improvements: {feedback['improvements']}")
-        print(f"Comment: {feedback['comment']}\n")
+        # Show feedback
+        if "scores" in result:
+            print("📊 Scores by Criterion:")
+            for criterion_score in result["scores"]["criterion_scores"]:
+                print(f"  {criterion_score['criterion']}: {criterion_score['score']}/{criterion_score['max_score']}")
+            print(f"\n📈 Total: {result['scores']['total_score']}/{result['scores']['max_score']} ({result['scores']['percentage']}%)\n")
+        elif "note" in result:
+            print(f"ℹ️  {result['note']}\n")
         
-        print("-" * 60)
+        dialogue.current_question_index += 1
+        print("-" * 60 + "\n")
 
 
 if __name__ == "__main__":
-    interactive_assessment()
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Dialogue Manager for Assessment")
+    parser.add_argument("--interactive", action="store_true", help="Run in interactive mode")
+    parser.add_argument("--subject", type=str, default=None, help="Subject/topic name")
+    parser.add_argument("--rubric", type=str, default=None, help="Rubric name to use for scoring")
+    args = parser.parse_args()
+    
+    interactive_assessment(subject=args.subject, rubric_name=args.rubric)

@@ -2,7 +2,7 @@ from langchain_community.document_loaders import UnstructuredWordDocumentLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # 1. Path to your specific file
-file_path = "Capstone project Proposal Template_AndrewYaputra_2303129.docx"
+file_path = "Capstone project Proposal Template_AndrewYaputra_2303129.docx                                                                                                                                                                                                              "
 
 # 2. Agent A1: Load the document
 print("--- Agent A1: Ingesting Document ---")
