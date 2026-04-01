@@ -22,7 +22,7 @@ def main() -> int:
     parser = ArgumentParser(description="Run Capstone project commands from the repo root.")
     parser.add_argument(
         "command",
-        choices=["ingest", "search", "semantic-search", "assistant"],
+        choices=["ingest", "search", "semantic-search", "assistant", "dialogue"],
         help="Command to run.",
     )
     parser.add_argument("path", nargs="?", default=None, help="Path to the input folder or chunk output folder.")
@@ -79,6 +79,12 @@ def main() -> int:
         if args.interactive:
             assistant_args += ["--interactive"]
         return run_script("assistant.py", assistant_args)
+
+    if args.command == "dialogue":
+        dialogue_args = []
+        if args.interactive:
+            dialogue_args += ["--interactive"]
+        return run_script("agent_a3_dialogue.py", dialogue_args)
 
     print("Unknown command")
     return 1
