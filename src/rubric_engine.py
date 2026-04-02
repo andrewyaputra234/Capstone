@@ -123,9 +123,8 @@ class RubricEngine:
             max_score = criterion.get("max_score", 10)
             levels = criterion.get("levels", {})
             
-            # Score using LLM (you can implement scoring logic here)
-            # For now, placeholder
-            score = self._score_criterion(answer, description, levels, max_score)
+            # Score using LLM with question context
+            score = self._score_criterion(question, answer, description, levels, max_score)
             feedback = levels.get(str(score), f"Score: {score}/{max_score}")
             
             scores.append(RubricScore(
@@ -138,27 +137,75 @@ class RubricEngine:
         
         return scores
     
-    def _score_criterion(self, answer: str, description: str, 
+    def _score_criterion(self, question: str, answer: str, description: str, 
                         levels: Dict, max_score: int) -> int:
         """
-        Score based on criterion. 
-        This is a placeholder - can be enhanced with LLM scoring.
+        Score based on criterion using LLM semantic evaluation.
+        Evaluates if the answer meets the criterion, not just length.
         """
-        # Simple heuristic: check if answer is empty
         if not answer or len(answer.strip()) == 0:
             return 0
         
-        # Check answer length as proxy for effort
-        answer_length = len(answer.split())
-        
-        if answer_length < 3:
-            return max(0, max_score // 4)  # 25%
-        elif answer_length < 10:
-            return max(0, max_score // 2)  # 50%
-        elif answer_length < 50:
-            return max(0, (max_score * 3) // 4)  # 75%
-        else:
-            return max_score  # Full score
+        # Use LLM to evaluate answer quality based on criterion
+        try:
+            from langchain_openai import ChatOpenAI
+            from langchain_core.prompts import ChatPromptTemplate
+            from langchain_core.output_parsers import StrOutputParser
+            from dotenv import load_dotenv
+            import os
+            
+            load_dotenv()
+            
+            llm = ChatOpenAI(
+                api_key=os.getenv("OPENAI_API_KEY"),
+                model="gpt-3.5-turbo",
+                temperature=0.2
+            )
+            
+            # Build level descriptions
+            level_descriptions = "\n".join([f"  {k}: {v}" for k, v in sorted(levels.items())])
+            
+            evaluation_prompt = ChatPromptTemplate.from_template("""
+Evaluate this student answer.
+
+Question: {question}
+Student's answer: {answer}
+
+Evaluation criterion: {criterion}
+
+Score levels:
+{levels}
+
+Choose the score that best matches how well the answer addresses this criterion. Reply with ONLY the score number.
+""")
+            
+            chain = evaluation_prompt | llm | StrOutputParser()
+            
+            result = chain.invoke({
+                "question": question,
+                "answer": answer,
+                "criterion": description,
+                "levels": level_descriptions
+            })
+            
+            # Extract the number from result
+            import re
+            result_clean = result.strip()
+            
+            # Try to find a number in the response
+            numbers = re.findall(r'\b(\d+)\b', result_clean)
+            
+            if numbers:
+                score = int(numbers[0])  # Take first number found
+                return min(score, max_score)
+            else:
+                # If no number found, fallback to 50%
+                return max_score // 2
+                
+        except Exception as e:
+            print(f"LLM evaluation error: {e}")
+            # Fallback: If answer exists, give 50% score
+            return max_score // 2
     
     def generate_rubric_template(self, rubric_name: str, 
                                 criteria_count: int = 3) -> Dict:

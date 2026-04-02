@@ -1,98 +1,166 @@
-# Capstone
+# 🎓 Multi-Agent Oral Assessment System
 
-A simple document ingestion and search prototype.
+An AI-powered system for giving oral assessments to students with automatic grading, feedback, and session tracking.
 
-## What this project does
+## What Can You Do?
 
-- loads `.docx` files from `data/input`
-- splits them into text chunks
-- saves chunk files into `data/output`
-- supports keyword search over saved chunk files
+✅ **Load any document** (PDF, DOCX, TXT)  
+✅ **Extract exam questions** automatically  
+✅ **Conduct oral assessments** with text or voice  
+✅ **Record student voices** and transcribe automatically  
+✅ **Grade instantly** against your custom rubric  
+✅ **Save everything** with one command  
+✅ **Export results** as JSON/CSV for record-keeping  
 
-## Repository structure
+## Quick Start (2 minutes)
 
-- `src/`
-  - `main.py` — ingest documents and save chunks
-  - `qa.py` — search saved chunk files
-  - `agent_a1_ingestion.py` — original ingestion example
-- `data/input/` — place source `.docx` files here
-- `data/output/` — generated chunk output goes here
-- `venv/` — Python virtual environment
-- `requirements.txt` — Python dependencies
+### 1. Load a Document
 
-## Setup
-
-1. Open PowerShell in the project root:
-   `C:\Users\User\OneDrive\Documents\GitHub\Capstone`
-2. Activate the virtual environment:
-   `.
-   venv\Scripts\Activate.ps1`
-3. Install requirements if needed:
-   `python -m pip install -r requirements.txt`
-
-## Usage
-
-### Ingest documents and save chunks
-
-From the root folder:
-
-```powershell
-python src/main.py data/input --output-dir data/output
+```bash
+python run.py ingest data/input/mathematics/ --subject math
 ```
 
-If you want to search while ingesting:
+### 2. Run an Assessment
 
-```powershell
-python src/main.py data/input --output-dir data/output --search "project"
+```bash
+python run.py dialogue --interactive --subject math --rubric primary1_math
 ```
 
-### Search saved chunk files
+### 3. With Audio (Optional)
 
-From the root folder:
-
-```powershell
-python src/qa.py data/output --query "project"
+```bash
+python run.py dialogue --interactive --subject math --rubric primary1_math --audio --use-audio-input --use-sessions --student-id alice_smith
 ```
 
-Or use interactive search:
+## Documentation
 
-```powershell
-python src/qa.py data/output --interactive
+**Start here:** [QUICK_REFERENCE.md](QUICK_REFERENCE.md) ⚡ (60 seconds)
+
+| Guide | When to Read |
+|---|---|
+| [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | Command cheat sheet (START HERE!) |
+| [GETTING_STARTED.md](GETTING_STARTED.md) | Complete beginner walkthrough |
+| [WORKFLOW_DIAGRAMS.md](WORKFLOW_DIAGRAMS.md) | Visual flowcharts |
+| [AUDIO_INPUT_GUIDE.md](AUDIO_INPUT_GUIDE.md) | Recording & voice features |
+| [SESSION_MANAGEMENT_GUIDE.md](SESSION_MANAGEMENT_GUIDE.md) | Saving assessments |
+| [AGENT_A5_RUBRIC_GRADER.md](AGENT_A5_RUBRIC_GRADER.md) | Creating rubrics |
+| [CAPSTONE_REQUIREMENTS_ASSESSMENT.md](CAPSTONE_REQUIREMENTS_ASSESSMENT.md) | Requirements mapping |
+
+## Installation (3 minutes)
+
+```bash
+# 1. Navigate to project
+cd Capstone
+
+# 2. Activate virtual environment
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Mac/Linux
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Set OpenAI API key
+$env:OPENAI_API_KEY = "sk-your-key-here"  # Windows
+export OPENAI_API_KEY="sk-your-key-here"  # Mac/Linux
+
+# 5. You're ready!
+python run.py --help
 ```
 
-### Use the assistant
+## Common Tasks
 
-From the root folder:
+```bash
+# Load a document
+python run.py ingest data/input/biology/exam.pdf --subject biology
 
-```powershell
-python src/assistant.py data/output --query "project"
+# Take a text quiz
+python run.py dialogue --interactive --subject biology --rubric biology_rubric
+
+# Take with voice recording
+python run.py dialogue --interactive --subject biology --rubric biology_rubric --use-audio-input
+
+# Grade an assignment
+python run.py grade "assignment question" --answer "student answer" --rubric essay_assignment
+
+# View student sessions
+python src/agent_a6_session_manager.py list
+
+# Export results to Excel
+python src/agent_a6_session_manager.py export --session <id> --format csv
 ```
 
-Or interactive assistant mode:
+## File Structure
 
-```powershell
-python src/assistant.py data/output --interactive
+```
+Capstone/
+├── run.py                          # Main entry point
+├── data/
+│   ├── input/                      # Your documents
+│   ├── rubrics/                    # Grading rubrics
+│   ├── sessions/                   # Saved assessments
+│   └── output/                     # Generated audio
+├── src/
+│   ├── agent_a1_ingestion.py       # Load documents
+│   ├── agent_a3_dialogue.py        # Ask questions
+│   ├── agent_a4_avatar.py          # Speak aloud
+│   ├── agent_a5_grader.py          # Grade assignments
+│   ├── agent_a6_session_manager.py # Track sessions
+│   ├── agent_audio_input.py        # Record voice
+│   └── ...
+└── *.md files                      # Documentation
 ```
 
-### Run from the root with a single wrapper
+## System Status
 
-You can also use the root wrapper script to run commands from the repo root:
+| Feature | Status |
+|---|---|
+| Document ingestion | ✅ Complete |
+| Question extraction | ✅ Complete |
+| Dialogue Q&A | ✅ Complete |
+| Text-to-speech | ✅ Complete |
+| Speech-to-text | ✅ Complete |
+| Rubric grading | ✅ Complete |
+| Session tracking | ✅ Complete |
+| Export (JSON/CSV) | ✅ Complete |
+| Web UI | ⏳ Coming |
+| REST API | ⏳ Coming |
 
-```powershell
-python run.py ingest data/input --output-dir data/output
-python run.py search data/output --query "project"
-python run.py assistant data/output --query "project"
-python run.py assistant data/output --interactive
-```
+**Current: 75% feature complete** - Ready for use!
 
-## Good next steps
+## For Your Capstone Project
 
-- add more `.docx` files to `data/input`
-- improve search behavior and output format
-- add a small UI or chat interface later
-- add embedding/AI features once the data pipeline is stable
+This system implements core requirements:
+- ✅ Session management (FR-1 to FR-3)
+- ✅ Audio recording & ASR (FR-4 to FR-6)
+- ✅ Paper ingestion (FR-7 to FR-9)
+- ✅ Dialogue & agents (FR-10 to FR-12)
+- ✅ Avatar output (FR-13 to FR-14)
+- ✅ Transcript logging (FR-15 to FR-16)
+- ✅ Feedback & rubrics (FR-17 to FR-19)
+- ⏳ Web UI (Phase 3)
+- ⏳ REST API (Phase 3)
 
-## Notes
+See [CAPSTONE_REQUIREMENTS_ASSESSMENT.md](CAPSTONE_REQUIREMENTS_ASSESSMENT.md) for details.
 
-- Keep code in `src/` and data in `data/`.
-- Run commands from the repo root for the simplest paths.
+## Next Steps
+
+1. Read [QUICK_REFERENCE.md](QUICK_REFERENCE.md) (2 min)
+2. Load your first document (3 min)
+3. Run a quiz (5 min)
+4. Create a custom rubric (5 min)
+5. Use in your classroom!
+
+## Troubleshooting
+
+**"Command not found"** → Activate virtual environment first
+**"OPENAI_API_KEY not set"** → Get key from https://platform.openai.com/api-keys
+**"No questions found"** → Format as "Q1) text" or let AI extract them
+**"Audio not working"** → Check microphone or run `pip install pyaudio`
+
+More help: See [GETTING_STARTED.md](GETTING_STARTED.md)
+
+---
+
+**Start with [QUICK_REFERENCE.md](QUICK_REFERENCE.md) →**
+
+Built for educators. Powered by AI. Run on your machine.

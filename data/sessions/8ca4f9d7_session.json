@@ -1,0 +1,138 @@
+{
+  "session_id": "8ca4f9d7",
+  "paper_id": "TestMath",
+  "student_id": "test_student_v3",
+  "date_created": "2026-04-03T00:55:49.071101",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-03T00:55:52.153688",
+      "speaker": "avatar",
+      "text": "What is 5 + 3?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-03T00:56:19.467874",
+      "speaker": "student",
+      "text": "8",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-04-03T00:56:20.338636",
+      "speaker": "avatar",
+      "text": "If you have 10 apples and eat 4, how many apples do you have left?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 2
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-04-03T00:56:33.751027",
+      "speaker": "student",
+      "text": "i am left with 6 apples because 10 minus 4",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 2
+      }
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-04-03T00:56:35.680277",
+      "speaker": "avatar",
+      "text": "Put these numbers in order from smallest to largest: 7, 3, 9, 1, 5",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 3
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-04-03T00:58:00.421177",
+      "speaker": "student",
+      "text": "ok i start with smallest 1 , 3, 5 , 7 , 9",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 3
+      }
+    },
+    {
+      "turn_id": 7,
+      "timestamp": "2026-04-03T00:58:01.572307",
+      "speaker": "avatar",
+      "text": "Mary has 4 red pens and 3 blue pens. How many pens does she have altogether?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 4
+      }
+    },
+    {
+      "turn_id": 8,
+      "timestamp": "2026-04-03T00:58:09.757092",
+      "speaker": "student",
+      "text": "left with 8 because 4 + 3",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 4
+      }
+    },
+    {
+      "turn_id": 9,
+      "timestamp": "2026-04-03T00:58:11.593420",
+      "speaker": "avatar",
+      "text": "Which is bigger: 6 or 8?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 5
+      }
+    },
+    {
+      "turn_id": 10,
+      "timestamp": "2026-04-03T00:58:23.699226",
+      "speaker": "student",
+      "text": "8 is 2 numbers larger than 6",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 5
+      }
+    }
+  ],
+  "scores": null,
+  "start_time": "2026-04-03T00:55:49.077358",
+  "end_time": "2026-04-03T00:58:25.186244",
+  "metadata": {
+    "rubric": null,
+    "subject": "TestMath",
+    "audio_input": false,
+    "audio_output": false
+  }
+}

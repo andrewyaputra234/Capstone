@@ -4,18 +4,25 @@ from pathlib import Path
 from langchain_community.document_loaders import UnstructuredWordDocumentLoader, UnstructuredPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from subject_manager import SubjectManager
+from vector_store import VectorStore
 
 
 def load_document(file_path: Path):
-    """Load DOCX or PDF files."""
+    """Load DOCX, PDF, or TXT files."""
     file_ext = file_path.suffix.lower()
     
     if file_ext == ".docx":
         loader = UnstructuredWordDocumentLoader(str(file_path))
     elif file_ext == ".pdf":
         loader = UnstructuredPDFLoader(str(file_path))
+    elif file_ext == ".txt":
+        # Load plain text file
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        from langchain_core.documents import Document
+        return [Document(page_content=content, metadata={"source": file_path.name})]
     else:
-        raise ValueError(f"Unsupported file format: {file_ext}. Supported: .docx, .pdf")
+        raise ValueError(f"Unsupported file format: {file_ext}. Supported: .docx, .pdf, .txt")
     
     return loader.load()
 
@@ -105,6 +112,11 @@ def main():
         default=None,
         help="Subject/topic name for multi-subject organization.",
     )
+    parser.add_argument(
+        "--rubric",
+        default=None,
+        help="Rubric name to associate with this subject (e.g., primary1_math, essay_assignment).",
+    )
     args = parser.parse_args()
 
     input_path = Path(args.path)
@@ -131,6 +143,20 @@ def main():
 
     for file_path in docx_files:
         process_file(file_path, args.chunk_size, args.chunk_overlap, output_dir, args.search)
+    
+    # Add chunks to ChromaDB vector store if subject is specified
+    if args.subject:
+        print(f"Adding chunks to vector store for subject '{args.subject}'...")
+        try:
+            vector_store = VectorStore(rebuild=True, subject=args.subject)
+            print(f"SUCCESS: Vector database updated for subject '{args.subject}'")
+            
+            # Map rubric to subject if specified
+            if args.rubric:
+                subject_manager = SubjectManager()
+                subject_manager.set_subject_rubric(args.subject, args.rubric)
+        except Exception as e:
+            print(f"ERROR: Failed to update vector store: {e}")
 
 
 if __name__ == "__main__":

@@ -69,8 +69,18 @@ class DialogueManager:
         
         # Initialize rubric engine
         self.rubric_engine = RubricEngine()
+        
+        # Load rubric: use provided name, or auto-load default for subject, or none
         if rubric_name:
             self.rubric_engine.load_rubric(rubric_name)
+        elif subject:
+            default_rubric = self.subject_manager.get_default_rubric(subject)
+            if default_rubric:
+                try:
+                    self.rubric_engine.load_rubric(default_rubric)
+                    print(f"ℹ️  Loaded default rubric for '{subject}': {default_rubric}")
+                except:
+                    pass  # Fail silently if default rubric doesn't exist
         
         # Conversation state
         self.questions = []

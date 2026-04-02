@@ -102,6 +102,8 @@ def main() -> int:
             ingest_args += ["--search", args.query]
         if args.subject:
             ingest_args += ["--subject", args.subject]
+        if args.rubric:
+            ingest_args += ["--rubric", args.rubric]
         return run_script("main.py", ingest_args)
 
     if args.command == "search":

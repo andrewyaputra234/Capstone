@@ -1,0 +1,138 @@
+{
+  "session_id": "2ef51568",
+  "paper_id": "TestMath",
+  "student_id": "test_student_001",
+  "date_created": "2026-04-03T00:49:42.866534",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-03T00:49:45.434666",
+      "speaker": "avatar",
+      "text": "What is 5 + 3?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-03T00:49:53.114652",
+      "speaker": "student",
+      "text": "8",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-04-03T00:49:53.115877",
+      "speaker": "avatar",
+      "text": "If you have 10 apples and eat 4, how many apples do you have left?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 2
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-04-03T00:50:11.648036",
+      "speaker": "student",
+      "text": "10 minus 4 i will get 6 apples left",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 2
+      }
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-04-03T00:50:11.649472",
+      "speaker": "avatar",
+      "text": "Put these numbers in order from smallest to largest: 7, 3, 9, 1, 5",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 3
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-04-03T00:50:23.081413",
+      "speaker": "student",
+      "text": "1,3,5,7,9",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 3
+      }
+    },
+    {
+      "turn_id": 7,
+      "timestamp": "2026-04-03T00:50:23.083217",
+      "speaker": "avatar",
+      "text": "Mary has 4 red pens and 3 blue pens. How many pens does she have altogether?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 4
+      }
+    },
+    {
+      "turn_id": 8,
+      "timestamp": "2026-04-03T00:50:34.098265",
+      "speaker": "student",
+      "text": "total 7 pens",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 4
+      }
+    },
+    {
+      "turn_id": 9,
+      "timestamp": "2026-04-03T00:50:34.099751",
+      "speaker": "avatar",
+      "text": "Which is bigger: 6 or 8?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 5
+      }
+    },
+    {
+      "turn_id": 10,
+      "timestamp": "2026-04-03T00:50:38.503307",
+      "speaker": "student",
+      "text": "8",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 5
+      }
+    }
+  ],
+  "scores": null,
+  "start_time": "2026-04-03T00:49:42.872837",
+  "end_time": "2026-04-03T00:50:38.511056",
+  "metadata": {
+    "rubric": null,
+    "subject": "TestMath",
+    "audio_input": false,
+    "audio_output": false
+  }
+}

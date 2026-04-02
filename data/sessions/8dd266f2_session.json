@@ -1,0 +1,54 @@
+{
+  "session_id": "8dd266f2",
+  "paper_id": "PSLE_Math",
+  "student_id": "alice",
+  "date_created": "2026-04-03T00:06:50.979078",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-03T00:06:53.381720",
+      "speaker": "avatar",
+      "text": "A large tank contained 6\u2113 of water. The graph below shows the amount of water left in a tank at the end of each day. What is the total amount of water used on Day 2 and Day 4.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "PSLE_Math",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-03T00:31:30.573447",
+      "speaker": "student",
+      "text": "220 litres",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "PSLE_Math",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-04-03T00:31:30.575464",
+      "speaker": "avatar",
+      "text": "The pie chart below shows the CCAs of 300 students in Hougang High School.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "PSLE_Math",
+        "question_id": 2
+      }
+    }
+  ],
+  "scores": null,
+  "start_time": "2026-04-03T00:06:50.986296",
+  "end_time": null,
+  "metadata": {
+    "rubric": null,
+    "subject": "PSLE_Math",
+    "audio_input": false,
+    "audio_output": false
+  }
+}

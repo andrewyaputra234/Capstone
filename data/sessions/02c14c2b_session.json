@@ -1,0 +1,54 @@
+{
+  "session_id": "02c14c2b",
+  "paper_id": "TestMath",
+  "student_id": "test_student_v2",
+  "date_created": "2026-04-03T00:53:56.676447",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-03T00:54:00.753287",
+      "speaker": "avatar",
+      "text": "What is 5 + 3?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-03T00:54:32.015563",
+      "speaker": "student",
+      "text": "8",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 1
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-04-03T00:54:33.451590",
+      "speaker": "avatar",
+      "text": "If you have 10 apples and eat 4, how many apples do you have left?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "subject": "TestMath",
+        "question_id": 2
+      }
+    }
+  ],
+  "scores": null,
+  "start_time": "2026-04-03T00:53:56.682548",
+  "end_time": null,
+  "metadata": {
+    "rubric": null,
+    "subject": "TestMath",
+    "audio_input": false,
+    "audio_output": false
+  }
+}
