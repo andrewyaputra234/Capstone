@@ -49,6 +49,11 @@ def main() -> int:
         default=None,
         help="Rubric name to use for scoring in dialogue mode.",
     )
+    parser.add_argument(
+        "--audio",
+        action="store_true",
+        help="Generate audio for questions in dialogue mode (requires pyttsx3).",
+    )
     args = parser.parse_args()
 
     if args.command == "list-subjects":
@@ -122,6 +127,8 @@ def main() -> int:
             dialogue_args += ["--subject", args.subject]
         if args.rubric:
             dialogue_args += ["--rubric", args.rubric]
+        if args.audio:
+            dialogue_args += ["--audio"]
         return run_script("agent_a3_dialogue.py", dialogue_args)
 
     print("Unknown command")

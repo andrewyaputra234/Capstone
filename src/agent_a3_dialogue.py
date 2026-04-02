@@ -2,11 +2,14 @@
 Agent A3: Dialogue Manager
 Extracts actual exam questions from ingested documents and manages Q&A dialogue flow.
 Uses rubric-based assessment for scoring student responses.
+Optional: Generate audio for questions/feedback using Agent A4 (TTS).
 """
 
 import os
 import re
 import json
+import subprocess
+import sys
 from typing import List, Dict
 from pathlib import Path
 from dotenv import load_dotenv
@@ -61,6 +64,46 @@ class DialogueManager:
         self.current_question_index = 0
         self.answers = []
         self.scores = []
+    
+    def generate_audio(self, text: str, output_path: str | None = None, enable_audio: bool = True) -> str | None:
+        """
+        Generate audio for text using Agent A4 (TTS).
+        
+        Args:
+            text: Text to convert to speech
+            output_path: Path to save audio file (optional)
+            enable_audio: Whether to generate audio (can disable for testing)
+            
+        Returns:
+            Path to generated audio file, or None if disabled/failed
+        """
+        if not enable_audio or not text:
+            return None
+        
+        try:
+            # Default output path if not specified
+            if not output_path:
+                q_num = self.current_question_index + 1
+                output_path = f"data/output/question_{q_num}_audio.wav"
+            
+            # Call Agent A4 TTS
+            cmd = [
+                sys.executable,
+                "src/agent_a4_avatar.py",
+                "--text", text,
+                "--output", output_path
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+            
+            if result.returncode == 0:
+                return output_path
+            else:
+                print(f"⚠️ TTS failed: {result.stderr}")
+                return None
+        except Exception as e:
+            print(f"⚠️ Audio generation error: {e}")
+            return None
     
     def extract_questions_from_document(self, num_questions: int = 5) -> List[Dict]:
         """
@@ -249,11 +292,19 @@ class DialogueManager:
         return report
 
 
-def interactive_assessment(subject: str | None = None, rubric_name: str | None = None):
-    """Run interactive assessment mode"""
+def interactive_assessment(subject: str | None = None, rubric_name: str | None = None, enable_audio: bool = False):
+    """
+    Run interactive assessment mode
+    
+    Args:
+        subject: Subject/topic name
+        rubric_name: Name of rubric for scoring
+        enable_audio: Whether to generate audio for questions
+    """
     subject_label = f" [{subject}]" if subject else ""
+    audio_label = " [With Audio]" if enable_audio else ""
     print("\n" + "="*60)
-    print(f"🎓 Oral Assessment System - Agent A3 (Dialogue Manager){subject_label}")
+    print(f"🎓 Oral Assessment System - Agent A3 (Dialogue Manager){subject_label}{audio_label}")
     print("="*60 + "\n")
     
     # Initialize
@@ -297,6 +348,13 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         print(f"❓ Question {dialogue.current_question_index + 1}/{len(dialogue.questions)}:")
         print(f"{question['text']}\n")
         
+        # Generate audio for question if enabled
+        if enable_audio:
+            print("🔊 Generating audio...")
+            audio_file = dialogue.generate_audio(question['text'], enable_audio=True)
+            if audio_file:
+                print(f"✅ Audio available: {audio_file}\n")
+        
         answer = input("Your answer: ").strip()
         
         if not answer:
@@ -327,6 +385,7 @@ if __name__ == "__main__":
     parser.add_argument("--interactive", action="store_true", help="Run in interactive mode")
     parser.add_argument("--subject", type=str, default=None, help="Subject/topic name")
     parser.add_argument("--rubric", type=str, default=None, help="Rubric name to use for scoring")
+    parser.add_argument("--audio", action="store_true", help="Generate audio for questions (requires pyttsx3)")
     args = parser.parse_args()
     
-    interactive_assessment(subject=args.subject, rubric_name=args.rubric)
+    interactive_assessment(subject=args.subject, rubric_name=args.rubric, enable_audio=args.audio)
