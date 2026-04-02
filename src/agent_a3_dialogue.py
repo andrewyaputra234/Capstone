@@ -19,21 +19,34 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from subject_manager import SubjectManager
 from rubric_engine import RubricEngine
+from agent_a6_session_manager import SessionManager
+
+try:
+    from agent_audio_input import AudioRecorder, SpeechToText
+    AUDIO_AVAILABLE = True
+except ImportError:
+    AUDIO_AVAILABLE = False
 
 load_dotenv()
 
 class DialogueManager:
     """Manages oral assessment using actual extracted exam questions and rubric-based scoring."""
     
-    def __init__(self, subject: str | None = None, rubric_name: str | None = None):
+    def __init__(self, subject: str | None = None, rubric_name: str | None = None, 
+                 session_id: str | None = None, use_sessions: bool = False):
         """
         Initialize dialogue manager.
         
         Args:
             subject: Subject/topic name for multi-subject organization
             rubric_name: Name of rubric to use for scoring
+            session_id: Session ID (optional, for tracking)
+            use_sessions: Whether to use session manager for tracking
         """
         self.subject = subject
+        self.session_id = session_id
+        self.use_sessions = use_sessions
+        self.session_manager = SessionManager() if use_sessions else None
         self.subject_manager = SubjectManager()
         self.chroma_db_path = str(self.subject_manager.get_subject_chroma_path(subject))
         
@@ -103,6 +116,51 @@ class DialogueManager:
                 return None
         except Exception as e:
             print(f"⚠️ Audio generation error: {e}")
+            return None
+    
+    def record_and_transcribe_answer(self, question_id: int, duration: int = 15) -> str | None:
+        """
+        Record student's oral answer and transcribe it.
+        
+        Args:
+            question_id: ID of the question being answered
+            duration: Maximum recording duration (seconds)
+            
+        Returns:
+            Transcribed answer text, or None if recording/transcription failed
+        """
+        if not AUDIO_AVAILABLE:
+            print("⚠️ Audio module not available. Please install: pip install pyaudio openai")
+            return None
+        
+        try:
+            # Create session directory
+            session_dir = "data/sessions"
+            os.makedirs(session_dir, exist_ok=True)
+            
+            # Record audio
+            recorder = AudioRecorder()
+            audio_path = recorder.record_audio(
+                duration=duration,
+                output_path=f"{session_dir}/q{question_id}_answer.wav"
+            )
+            
+            # Transcribe audio
+            stt = SpeechToText()
+            result = stt.transcribe_audio(audio_path)
+            
+            # Save transcription
+            with open(f"{session_dir}/q{question_id}_transcription.json", 'w') as f:
+                json.dump({
+                    "question_id": question_id,
+                    "audio_file": audio_path,
+                    "transcription": result
+                }, f, indent=2)
+            
+            return result["text"]
+        
+        except Exception as e:
+            print(f"❌ Audio recording/transcription error: {str(e)}")
             return None
     
     def extract_questions_from_document(self, num_questions: int = 5) -> List[Dict]:
@@ -268,6 +326,23 @@ class DialogueManager:
         
         return result
     
+    def log_turn(self, speaker: str, text: str, audio_path: str | None = None) -> None:
+        """
+        Log a dialogue turn to session if sessions are enabled.
+        
+        Args:
+            speaker: "avatar" or "student"
+            text: The utterance text
+            audio_path: Optional path to audio file
+        """
+        if self.use_sessions and self.session_manager and self.session_manager.current_session:
+            self.session_manager.add_turn(
+                speaker=speaker,
+                text=text,
+                audio_path=audio_path,
+                metadata={"subject": self.subject, "question_id": self.current_question_index + 1}
+            )
+    
     def get_assessment_report(self) -> Dict:
         """Generate final assessment report"""
         if not self.questions:
@@ -292,7 +367,7 @@ class DialogueManager:
         return report
 
 
-def interactive_assessment(subject: str | None = None, rubric_name: str | None = None, enable_audio: bool = False):
+def interactive_assessment(subject: str | None = None, rubric_name: str | None = None, enable_audio: bool = False, use_audio_input: bool = False, use_sessions: bool = False, student_id: str = "student_001"):
     """
     Run interactive assessment mode
     
@@ -300,15 +375,36 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         subject: Subject/topic name
         rubric_name: Name of rubric for scoring
         enable_audio: Whether to generate audio for questions
+        use_audio_input: Whether to use audio recording for student answers
+        use_sessions: Whether to track session with persistence
+        student_id: Student ID for session tracking
     """
     subject_label = f" [{subject}]" if subject else ""
-    audio_label = " [With Audio]" if enable_audio else ""
+    audio_label = " [With Audio Output]" if enable_audio else ""
+    audio_input_label = " [Audio Input Mode]" if use_audio_input else ""
+    session_label = " [Session Tracking]" if use_sessions else ""
     print("\n" + "="*60)
-    print(f"🎓 Oral Assessment System - Agent A3 (Dialogue Manager){subject_label}{audio_label}")
+    print(f"🎓 Oral Assessment System - Agent A3 (Dialogue Manager){subject_label}{audio_label}{audio_input_label}{session_label}")
     print("="*60 + "\n")
     
-    # Initialize
-    dialogue = DialogueManager(subject=subject, rubric_name=rubric_name)
+    # Initialize dialogue manager with session support
+    dialogue = DialogueManager(subject=subject, rubric_name=rubric_name, use_sessions=use_sessions)
+    
+    # Create session if tracking is enabled
+    if use_sessions:
+        session_id = dialogue.session_manager.create_session(
+            paper_id=subject or "assessment",
+            student_id=student_id,
+            metadata={
+                "rubric": rubric_name,
+                "subject": subject,
+                "audio_input": use_audio_input,
+                "audio_output": enable_audio
+            }
+        )
+        dialogue.session_id = session_id
+        dialogue.session_manager.start_session(session_id)
+        print(f"\n📋 Session: {session_id}\n")
     
     # Extract questions from document
     questions = dialogue.extract_questions_from_document(num_questions=5)
@@ -330,6 +426,11 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
             print("\n✅ Assessment Complete!\n")
             report = dialogue.get_assessment_report()
             
+            # End session if tracking
+            if use_sessions and dialogue.session_manager:
+                dialogue.session_manager.end_session(dialogue.session_id)
+                print(f"📋 Session saved: {dialogue.session_id}\n")
+            
             print("="*60)
             print("Assessment Report")
             print("="*60)
@@ -348,6 +449,9 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         print(f"❓ Question {dialogue.current_question_index + 1}/{len(dialogue.questions)}:")
         print(f"{question['text']}\n")
         
+        # Log avatar's question to session
+        dialogue.log_turn("avatar", question['text'])
+        
         # Generate audio for question if enabled
         if enable_audio:
             print("🔊 Generating audio...")
@@ -355,11 +459,25 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
             if audio_file:
                 print(f"✅ Audio available: {audio_file}\n")
         
-        answer = input("Your answer: ").strip()
+        # Get answer (either via text input or audio recording)
+        if use_audio_input:
+            print("🎤 Recording audio answer (15 seconds max)...\n")
+            answer = dialogue.record_and_transcribe_answer(question["id"], duration=15)
+            
+            if not answer:
+                print("❌ Failed to record/transcribe audio. Try again.\n")
+                continue
+            
+            print(f"✓ Transcribed answer: {answer}\n")
+        else:
+            answer = input("Your answer: ").strip()
         
         if not answer:
             print("Please provide an answer.\n")
             continue
+        
+        # Log student's answer to session
+        dialogue.log_turn("student", answer)
         
         # Submit and get feedback
         print("\n⏳ Evaluating answer...\n")
@@ -386,6 +504,9 @@ if __name__ == "__main__":
     parser.add_argument("--subject", type=str, default=None, help="Subject/topic name")
     parser.add_argument("--rubric", type=str, default=None, help="Rubric name to use for scoring")
     parser.add_argument("--audio", action="store_true", help="Generate audio for questions (requires pyttsx3)")
+    parser.add_argument("--use-audio-input", action="store_true", help="Use audio recording for student answers (requires pyaudio + openai)")
+    parser.add_argument("--use-sessions", action="store_true", help="Track assessment session with persistence")
+    parser.add_argument("--student-id", type=str, default="student_001", help="Student ID for session tracking")
     args = parser.parse_args()
     
-    interactive_assessment(subject=args.subject, rubric_name=args.rubric, enable_audio=args.audio)
+    interactive_assessment(subject=args.subject, rubric_name=args.rubric, enable_audio=args.audio, use_audio_input=args.use_audio_input, use_sessions=args.use_sessions, student_id=args.student_id)

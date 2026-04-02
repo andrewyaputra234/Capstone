@@ -23,12 +23,13 @@ def main() -> int:
     parser = ArgumentParser(description="Run Capstone project commands from the repo root.")
     parser.add_argument(
         "command",
-        choices=["ingest", "search", "semantic-search", "assistant", "dialogue", "list-subjects"],
+        choices=["ingest", "search", "semantic-search", "assistant", "dialogue", "grade", "list-subjects", "session"],
         help="Command to run.",
     )
     parser.add_argument("path", nargs="?", default=None, help="Path to a DOCX/PDF file or folder containing them.")
     parser.add_argument("--output-dir", default=None, help="Output directory for ingestion.")
     parser.add_argument("--query", default=None, help="Search query or assistant question.")
+    parser.add_argument("--answer", default=None, help="Student answer for grading (used with grade command).")
     parser.add_argument(
         "--interactive",
         action="store_true",
@@ -53,6 +54,22 @@ def main() -> int:
         "--audio",
         action="store_true",
         help="Generate audio for questions in dialogue mode (requires pyttsx3).",
+    )
+    parser.add_argument(
+        "--use-audio-input",
+        action="store_true",
+        help="Use audio recording for student answers in dialogue mode (requires pyaudio + openai).",
+    )
+    parser.add_argument(
+        "--use-sessions",
+        action="store_true",
+        help="Track assessment session with persistence in dialogue mode.",
+    )
+    parser.add_argument(
+        "--student-id",
+        type=str,
+        default="student_001",
+        help="Student ID for session tracking.",
     )
     args = parser.parse_args()
 
@@ -129,7 +146,30 @@ def main() -> int:
             dialogue_args += ["--rubric", args.rubric]
         if args.audio:
             dialogue_args += ["--audio"]
+        if args.use_audio_input:
+            dialogue_args += ["--use-audio-input"]
+        if args.use_sessions:
+            dialogue_args += ["--use-sessions"]
+        dialogue_args += ["--student-id", args.student_id]
         return run_script("agent_a3_dialogue.py", dialogue_args)
+    
+    if args.command == "session":
+        return run_script("agent_a6_session_manager.py", args.path or [])
+    
+    if args.command == "grade":
+        if not args.answer:
+            parser.error("grade command requires --answer for student answer")
+        grade_args = []
+        grade_args += ["--answer", args.answer]
+        if args.path:
+            grade_args += ["--assignment", args.path]
+        else:
+            parser.error("grade command requires path (assignment question)")
+        if args.rubric:
+            grade_args += ["--rubric", args.rubric]
+        else:
+            parser.error("grade command requires --rubric")
+        return run_script("agent_a5_grader.py", grade_args)
 
     print("Unknown command")
     return 1
