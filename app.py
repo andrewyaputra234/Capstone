@@ -242,9 +242,13 @@ elif selected == "Assessment":
         
         st.divider()
         
-        # Initialize DialogueManager for this subject
-        from agent_a3_dialogue import DialogueManager
-        dialogue_manager = DialogueManager(subject=subject)
+        # Initialize DialogueManager for this subject (store in session to preserve images across reruns)
+        if "dialogue_manager" not in st.session_state or st.session_state.get("dialogue_manager_subject") != subject:
+            from agent_a3_dialogue import DialogueManager
+            st.session_state.dialogue_manager = DialogueManager(subject=subject)
+            st.session_state.dialogue_manager_subject = subject
+        
+        dialogue_manager = st.session_state.dialogue_manager
         
         # Start assessment
         if st.button("🎯 Start Assessment", type="primary", use_container_width=True):
@@ -269,6 +273,15 @@ elif selected == "Assessment":
         if st.session_state.assessment_active and st.session_state.current_session_id:
             questions = st.session_state.get("questions", [])
             question_idx = st.session_state.get("current_question_index", 0)
+            session_id = st.session_state.current_session_id
+            
+            # Retrieve dialogue manager from session state
+            dialogue_manager = st.session_state.get("dialogue_manager")
+            
+            # Reload session to ensure current_session is set
+            session_data = session_manager.get_session(session_id)
+            if session_data:
+                session_manager.current_session = session_data
             
             if questions and question_idx < len(questions):
                 current_q = questions[question_idx]
@@ -284,6 +297,23 @@ elif selected == "Assessment":
                 # Display question
                 st.subheader(f"Q{question_idx + 1}: {current_q.get('text', 'Question')}")
                 
+                # Display image if available
+                image_path = current_q.get('image_path')
+                
+                # Try different sources for the image
+                if image_path and os.path.exists(image_path):
+                    try:
+                        st.image(image_path, caption=f"Question reference", use_container_width=True)
+                    except Exception as e:
+                        st.warning(f"Could not display image: {e}")
+                else:
+                    # If question doesn't have an image_path, try to get one from DialogueManager
+                    if dialogue_manager and hasattr(dialogue_manager, 'page_images') and dialogue_manager.page_images:
+                        # Try to get page image - prefer page 1 as default
+                        fallback_img = dialogue_manager.page_images.get(1) or next(iter(dialogue_manager.page_images.values()), None)
+                        if fallback_img and os.path.exists(fallback_img):
+                            st.image(fallback_img, caption="Question reference (paper overview)", use_container_width=True)
+                
                 # Get answer from user
                 answer = st.text_area(
                     "Your Answer:",
@@ -297,9 +327,8 @@ elif selected == "Assessment":
                 with col1:
                     if st.button("✓ Submit Answer", use_container_width=True):
                         if answer.strip():
-                            # Log turn to session
+                            # Log turn to session (no session_id parameter)
                             session_manager.add_turn(
-                                st.session_state.current_session_id,
                                 speaker="student",
                                 text=answer
                             )
@@ -308,16 +337,16 @@ elif selected == "Assessment":
                             rubric_name = subject_manager.get_default_rubric(subject)
                             from agent_a5_grader import RubricGrader
                             grader = RubricGrader(rubric_name)
-                            scores = grader.grade_answer(
-                                question=current_q.get('text', ''),
+                            grading_result = grader.generate_tutoring_feedback(
+                                assignment=current_q.get('text', ''),
                                 answer=answer
                             )
                             
-                            # Save scores to session
-                            session_manager.add_scores(
-                                st.session_state.current_session_id,
-                                {f"Q{question_idx + 1}": scores}
-                            )
+                            # Extract scores from result
+                            scores = grading_result.get('scores', [])
+                            
+                            # Save scores to session (no session_id parameter)
+                            session_manager.add_scores([{f"Q{question_idx + 1}": grading_result}])
                             
                             # Move to next question
                             st.session_state.current_question_index += 1

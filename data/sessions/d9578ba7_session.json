@@ -1,0 +1,55 @@
+{
+  "session_id": "d9578ba7",
+  "paper_id": "psle",
+  "student_id": "student_001",
+  "date_created": "2026-04-04T03:08:53.990718",
+  "state": "INIT",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-04T03:08:59.182563",
+      "speaker": "student",
+      "text": "6",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "A large tank contained 6\u2113 of water. The graph below shows the amount of water left in a tank at the end of each day. What is the total amount of water used on Day 2 and Day 4.",
+        "answer": "6",
+        "scores": [
+          {
+            "criterion": "Correctness",
+            "score": 0,
+            "max_score": 5,
+            "feedback": "Answer is wrong or missing"
+          },
+          {
+            "criterion": "Working/Method",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "Working is shown but has gaps"
+          },
+          {
+            "criterion": "Understanding",
+            "score": 1,
+            "max_score": 2,
+            "feedback": "Basic understanding shown"
+          }
+        ],
+        "tutoring_feedback": "Great job showing your working and reasoning in your response! You correctly identified that the total amount of water used on Day 2 and Day 4 was 6\u2113. However, the answer you provided was not mathematically correct. Let's work on double-checking our calculations to ensure we get the right answer next time. Keep up the good work!",
+        "total_score": 3,
+        "max_score": 10,
+        "percentage": 30.0
+      }
+    }
+  ],
+  "start_time": null,
+  "end_time": null,
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}

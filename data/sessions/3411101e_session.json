@@ -1,0 +1,14 @@
+{
+  "session_id": "3411101e",
+  "paper_id": "psle",
+  "student_id": "student_002",
+  "date_created": "2026-04-04T02:43:43.525844",
+  "state": "INIT",
+  "turns": [],
+  "scores": null,
+  "start_time": null,
+  "end_time": null,
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}

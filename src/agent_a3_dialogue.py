@@ -10,7 +10,7 @@ import re
 import json
 import subprocess
 import sys
-from typing import List, Dict
+from typing import List, Dict, Optional
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -20,6 +20,7 @@ from langchain_core.output_parsers import StrOutputParser
 from subject_manager import SubjectManager
 from rubric_engine import RubricEngine
 from agent_a6_session_manager import SessionManager
+from agent_image_extractor import extract_pdf_pages_as_images, get_page_for_question
 
 try:
     from agent_audio_input import AudioRecorder, SpeechToText
@@ -33,7 +34,7 @@ class DialogueManager:
     """Manages oral assessment using actual extracted exam questions and rubric-based scoring."""
     
     def __init__(self, subject: str | None = None, rubric_name: str | None = None, 
-                 session_id: str | None = None, use_sessions: bool = False):
+                 session_id: str | None = None, use_sessions: bool = False, extract_images: bool = False):
         """
         Initialize dialogue manager.
         
@@ -42,13 +43,27 @@ class DialogueManager:
             rubric_name: Name of rubric to use for scoring
             session_id: Session ID (optional, for tracking)
             use_sessions: Whether to use session manager for tracking
+            extract_images: ONLY set to True during document ingestion (main.py). Don't use in UI!
         """
         self.subject = subject
         self.session_id = session_id
         self.use_sessions = use_sessions
+        self.extract_images_flag = extract_images
         self.session_manager = SessionManager() if use_sessions else None
         self.subject_manager = SubjectManager()
         self.chroma_db_path = str(self.subject_manager.get_subject_chroma_path(subject))
+        
+        # Find and store PDF path for this subject
+        self.pdf_path = self._find_subject_pdf()
+        self.page_images = {}  # Maps page number -> image file path
+        
+        # ONLY extract images if explicitly requested (during ingestion)
+        # DO NOT extract on every DialogueManager creation!
+        if extract_images and self.pdf_path:
+            self._extract_images()
+        else:
+            # Load existing images from disk
+            self._load_existing_images()
         
         self.embedding_function = OpenAIEmbeddings(
             api_key=os.getenv("OPENAI_API_KEY")
@@ -87,6 +102,106 @@ class DialogueManager:
         self.current_question_index = 0
         self.answers = []
         self.scores = []
+    
+    def _find_subject_pdf(self) -> Optional[str]:
+        """Find the PDF file for this subject from input directory."""
+        if not self.subject:
+            return None
+        
+        input_path = self.subject_manager.get_subject_input_path(self.subject)
+        
+        # Look for PDF files in subject directory
+        pdf_files = list(input_path.glob("*.pdf"))
+        if pdf_files:
+            return str(pdf_files[0])  # Return first PDF found
+        
+        # Fallback: check root input directory
+        root_input = self.subject_manager.get_subject_input_path(None)
+        pdf_files = list(root_input.glob("*.pdf"))
+        if pdf_files:
+            return str(pdf_files[0])
+        
+        return None
+    
+    def _extract_images(self):
+        """Extract images from PDF and store page mappings."""
+        if not self.pdf_path or not os.path.exists(self.pdf_path):
+            print(f"⚠️ PDF not found: {self.pdf_path}")
+            return
+        
+        # Create images directory
+        output_dir = os.path.join("data", f"{self.subject}_images")
+        
+        try:
+            print(f"🖼️  Extracting images from PDF...")
+            self.page_images = extract_pdf_pages_as_images(self.pdf_path, output_dir, dpi=150)
+            if self.page_images:
+                print(f"✓ Extracted {len(self.page_images)} pages as images")
+            else:
+                print("⚠️ No images extracted from PDF")
+        except Exception as e:
+            print(f"⚠️ Image extraction error: {e}")
+            self.page_images = {}
+    
+    def _load_existing_images(self):
+        """Load pre-extracted images from disk (from a previous ingestion)."""
+        if not self.subject:
+            return
+        
+        image_dir = os.path.join("data", f"{self.subject}_images")
+        
+        if not os.path.exists(image_dir):
+            # No images directory yet - OK, they'll be extracted during document ingestion
+            return
+        
+        # Scan for PNG files in the image directory
+        self.page_images = {}
+        for filename in os.listdir(image_dir):
+            if filename.startswith("page_") and filename.endswith(".png"):
+                try:
+                    # Extract page number from filename (e.g., "page_1.png" -> 1)
+                    page_num = int(filename.split("_")[1].split(".")[0])
+                    image_path = os.path.join(image_dir, filename)
+                    self.page_images[page_num] = image_path
+                except (ValueError, IndexError):
+                    pass  # Skip files that don't match pattern
+        
+        if self.page_images:
+            print(f"✓ Loaded {len(self.page_images)} pre-extracted images from disk")
+    
+    def get_page_image(self, page_num: int) -> Optional[str]:
+        """Get the image path for a specific page number."""
+        return self.page_images.get(page_num)
+    
+    def get_question_image(self, question_text: str) -> Optional[str]:
+        """
+        Get the image path for a question by finding which page it's on.
+        
+        Args:
+            question_text: The question text
+            
+        Returns:
+            Path to the image file (always returns something if images exist, defaults to page 1)
+        """
+        if not self.pdf_path or not self.page_images:
+            return None
+        
+        # Try to find the page number for this question
+        page_num = get_page_for_question(question_text, self.pdf_path)
+        
+        # Return the page image (defaults to 1 if not found)
+        if page_num and page_num in self.page_images:
+            return self.page_images[page_num]
+        
+        # Fallback: return page 1 if it exists
+        if 1 in self.page_images:
+            return self.page_images[1]
+        
+        # Last fallback: return first available page image
+        if self.page_images:
+            return next(iter(self.page_images.values()))
+        
+        return None
     
     def generate_audio(self, text: str, output_path: str | None = None, enable_audio: bool = True) -> str | None:
         """
@@ -209,14 +324,16 @@ class DialogueManager:
                 # Remove common formatting noise
                 qtext = qtext.replace('www.sgexam.com', '').strip()
                 if qtext:
-                    questions.append({
+                    q_obj = {
                         "id": len(questions) + 1,
                         "text": qtext,
                         "source": f"Question {qid} from document",
                         "answered": False,
                         "answer": None,
-                        "scores": None
-                    })
+                        "scores": None,
+                        "image_path": self.get_question_image(qtext)  # Add image path
+                    }
+                    questions.append(q_obj)
         
         # Pattern 2: Numbered format 1. 2. 3. or 1) 2) 3)
         if len(questions) < num_questions:
@@ -232,14 +349,16 @@ class DialogueManager:
                     if qtext:
                         # Avoid duplicates
                         if not any(q['text'] == qtext for q in questions):
-                            questions.append({
+                            q_obj = {
                                 "id": len(questions) + 1,
                                 "text": qtext,
                                 "source": f"Question {qnum} from document",
                                 "answered": False,
                                 "answer": None,
-                                "scores": None
-                            })
+                                "scores": None,
+                                "image_path": self.get_question_image(qtext)  # Add image path
+                            }
+                            questions.append(q_obj)
         
         # If LLM parsing is needed, try it as fallback
         if len(questions) < 3:
@@ -258,14 +377,16 @@ class DialogueManager:
                 for q_text in data.get("questions", []):
                     if q_text and len(q_text) > 5 and q_text not in seen:
                         seen.add(q_text)
-                        questions.append({
+                        q_obj = {
                             "id": len(questions) + 1,
                             "text": q_text.strip(),
                             "source": "LLM-extracted from document",
                             "answered": False,
                             "answer": None,
-                            "scores": None
-                        })
+                            "scores": None,
+                            "image_path": self.get_question_image(q_text.strip())  # Add image path
+                        }
+                        questions.append(q_obj)
             except:
                 pass  # If LLM fails, use what we already extracted
         

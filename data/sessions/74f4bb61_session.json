@@ -1,0 +1,64 @@
+{
+  "session_id": "74f4bb61",
+  "paper_id": "psle",
+  "student_id": "student_002",
+  "date_created": "2026-04-04T02:45:49.697616",
+  "state": "INIT",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-04T02:45:56.615641",
+      "speaker": "student",
+      "text": "4l",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-04T02:46:54.865769",
+      "speaker": "student",
+      "text": "4l",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "A large tank contained 6\u2113 of water. The graph below shows the amount of water left in a tank at the end of each day. What is the total amount of water used on Day 2 and Day 4.",
+        "answer": "4l",
+        "scores": [
+          {
+            "criterion": "Correctness",
+            "score": 0,
+            "max_score": 5,
+            "feedback": "Answer is wrong or missing"
+          },
+          {
+            "criterion": "Working/Method",
+            "score": 1,
+            "max_score": 3,
+            "feedback": "Working is unclear or incomplete"
+          },
+          {
+            "criterion": "Understanding",
+            "score": 1,
+            "max_score": 2,
+            "feedback": "Basic understanding shown"
+          }
+        ],
+        "tutoring_feedback": "Great effort on attempting to calculate the total amount of water used on Day 2 and Day 4! I appreciate your attempt to find the answer. To improve, let's revisit the graph and carefully analyze the water levels on both Day 2 and Day 4. Remember to pay attention to the units and the changes in water levels each day. Keep up the good work, and I'm here to support you along the way!",
+        "total_score": 2,
+        "max_score": 10,
+        "percentage": 20.0
+      }
+    }
+  ],
+  "start_time": null,
+  "end_time": null,
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}
