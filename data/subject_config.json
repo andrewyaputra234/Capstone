@@ -1,7 +1,10 @@
 {
   "subjects": {
-    "TestMath": {
-      "rubric": "test_simple"
+    "PSLE_Math": {
+      "rubric": "primary1_math"
+    },
+    "psle": {
+      "rubric": "primary1_math"
     }
   }
 }

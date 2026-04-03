@@ -12,7 +12,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from subject_manager import SubjectManager
-from agent_a1_ingestion import DocumentLoader
 from agent_a3_dialogue import DialogueManager
 from agent_a6_session_manager import SessionManager
 import json
@@ -194,15 +193,15 @@ elif selected == "Upload Document":
             
             st.info(f"Processing {uploaded_file.name}...")
             
-            # Run ingestion
+            # Run ingestion using the current Python interpreter (venv)
             import subprocess
+            import sys
             result = subprocess.run(
                 [
-                    "python", "src/main.py",
+                    sys.executable, "src/main.py",
                     str(file_path),
                     "--subject", subject_name,
-                    "--rubric", rubric_name,
-                    "--rebuild"
+                    "--rubric", rubric_name
                 ],
                 capture_output=True,
                 text=True
@@ -243,10 +242,17 @@ elif selected == "Assessment":
         
         st.divider()
         
+        # Initialize DialogueManager for this subject
+        from agent_a3_dialogue import DialogueManager
+        dialogue_manager = DialogueManager(subject=subject)
+        
         # Start assessment
         if st.button("🎯 Start Assessment", type="primary", use_container_width=True):
             st.session_state.assessment_active = True
             st.session_state.current_subject = subject
+            st.session_state.questions = dialogue_manager.extract_questions_from_document(num_questions=5)
+            st.session_state.current_question_index = 0
+            st.session_state.answers = []
             
             # Create session
             session_id = session_manager.create_session(
@@ -257,26 +263,89 @@ elif selected == "Assessment":
             st.session_state.current_session_id = session_id
             
             st.success(f"✓ Assessment started | Session: {session_id}")
-            st.info("Questions will appear below. Answer each question and click 'Next'.")
+            st.success(f"✓ Loaded {len(st.session_state.questions)} questions!")
         
         # Assessment interface
         if st.session_state.assessment_active and st.session_state.current_session_id:
-            st.subheader("Question")
+            questions = st.session_state.get("questions", [])
+            question_idx = st.session_state.get("current_question_index", 0)
             
-            # This is a simplified version - in production, you'd load questions from DialogueManager
-            question = st.text_input("Current Question")
-            answer = st.text_area("Your Answer", height=100)
+            if questions and question_idx < len(questions):
+                current_q = questions[question_idx]
+                
+                # Display progress
+                st.progress(
+                    (question_idx + 1) / len(questions),
+                    text=f"Question {question_idx + 1} of {len(questions)}"
+                )
+                
+                st.divider()
+                
+                # Display question
+                st.subheader(f"Q{question_idx + 1}: {current_q.get('text', 'Question')}")
+                
+                # Get answer from user
+                answer = st.text_area(
+                    "Your Answer:",
+                    height=100,
+                    key=f"answer_{question_idx}"
+                )
+                
+                # Buttons
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    if st.button("✓ Submit Answer", use_container_width=True):
+                        if answer.strip():
+                            # Log turn to session
+                            session_manager.add_turn(
+                                st.session_state.current_session_id,
+                                speaker="student",
+                                text=answer
+                            )
+                            
+                            # Score the answer
+                            rubric_name = subject_manager.get_default_rubric(subject)
+                            from agent_a5_grader import RubricGrader
+                            grader = RubricGrader(rubric_name)
+                            scores = grader.grade_answer(
+                                question=current_q.get('text', ''),
+                                answer=answer
+                            )
+                            
+                            # Save scores to session
+                            session_manager.add_scores(
+                                st.session_state.current_session_id,
+                                {f"Q{question_idx + 1}": scores}
+                            )
+                            
+                            # Move to next question
+                            st.session_state.current_question_index += 1
+                            st.success("✓ Answer recorded! Moving to next question...")
+                            st.rerun()
+                        else:
+                            st.warning("Please enter an answer")
+                
+                with col2:
+                    if st.button("⏭️ Skip Question", use_container_width=True):
+                        st.session_state.current_question_index += 1
+                        st.rerun()
+                
+                with col3:
+                    if st.button("🏁 End Assessment", use_container_width=True):
+                        session_manager.end_session(st.session_state.current_session_id)
+                        st.session_state.assessment_active = False
+                        st.success("✓ Assessment completed!")
+                        st.info("Go to Results tab to view your scores")
+                        st.rerun()
             
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("✓ Submit Answer"):
-                    st.success("Answer recorded!")
-            
-            with col2:
-                if st.button("🏁 End Assessment"):
+            else:
+                # All questions completed
+                st.success("🎉 All questions completed!")
+                if st.button("View Results", type="primary", use_container_width=True):
                     session_manager.end_session(st.session_state.current_session_id)
                     st.session_state.assessment_active = False
-                    st.success("Assessment completed!")
+                    st.rerun()
 
 # ============================================================================
 # PAGE: RESULTS
@@ -299,47 +368,108 @@ elif selected == "Results":
             try:
                 session_data = session_manager.get_session_report(session_id)
                 
-                # Session info
-                col1, col2, col3 = st.columns(3)
+                # ===== SESSION METADATA =====
+                col1, col2, col3, col4 = st.columns(4)
                 with col1:
                     st.metric("Student ID", session_data["student_id"])
                 with col2:
-                    st.metric("Questions", len(session_data["turns"]))
+                    st.metric("Subject", session_data["paper_id"])
                 with col3:
+                    st.metric("Questions", session_data["statistics"]["student_turns"])
+                with col4:
                     st.metric("Status", session_data["state"])
                 
                 st.divider()
                 
-                # Turns (Q&A)
-                st.subheader("Questions & Answers")
-                for i, turn in enumerate(session_data["turns"], 1):
-                    with st.expander(f"Turn {i}: {turn.get('text', 'Question')[:50]}..."):
-                        st.write(f"**Speaker:** {turn.get('speaker')}")
-                        st.write(f"**Text:** {turn.get('text')}")
-                        st.write(f"**Timestamp:** {turn.get('timestamp')}")
+                # ===== SCORES & GRADES =====
+                scores = session_data.get("scores", {})
                 
-                # Export options
+                if scores:
+                    st.subheader("📈 Scores & Grades")
+                    
+                    # Display overall score if available
+                    if isinstance(scores, dict):
+                        cols = st.columns(len(scores))
+                        for idx, (criterion, score) in enumerate(scores.items()):
+                            with cols[idx]:
+                                if isinstance(score, dict):
+                                    # Score with details
+                                    score_value = score.get("score", 0)
+                                    max_score = score.get("max_score", 10)
+                                    percentage = (score_value / max_score * 100) if max_score > 0 else 0
+                                    st.metric(
+                                        criterion.replace("_", " ").title(),
+                                        f"{score_value}/{max_score}",
+                                        f"{percentage:.0f}%"
+                                    )
+                                else:
+                                    # Simple score value
+                                    st.metric(criterion.replace("_", " ").title(), score)
+                    
+                    # Detailed score breakdown
+                    with st.expander("📋 Detailed Score Breakdown"):
+                        st.json(scores)
+                else:
+                    st.info("No scores recorded yet for this session.")
+                
                 st.divider()
-                st.subheader("Export Results")
+                
+                # ===== QUESTIONS & ANSWERS =====
+                st.subheader("💬 Questions & Answers")
+                
+                turns = session_data.get("turns", [])
+                question_num = 0
+                
+                for i, turn in enumerate(turns):
+                    speaker = turn.get('speaker', '').lower()
+                    text = turn.get('text', '').strip()
+                    timestamp = turn.get('timestamp', '')
+                    
+                    if speaker == 'avatar' and text:
+                        question_num += 1
+                        with st.expander(f"**Q{question_num}:** {text[:60]}..." if len(text) > 60 else f"**Q{question_num}:** {text}"):
+                            st.write(f"**Time:** {timestamp}")
+                    
+                    elif speaker == 'student' and text:
+                        with st.expander(f"   └─ **Answer:** {text[:60]}..." if len(text) > 60 else f"   └─ **Answer:** {text}"):
+                            st.write(f"**Time:** {timestamp}")
+                
+                st.divider()
+                
+                # ===== EXPORT OPTIONS =====
+                st.subheader("💾 Export Results")
                 col1, col2, col3 = st.columns(3)
                 
                 with col1:
-                    if st.button("📄 Export as CSV"):
-                        session_manager.export_transcript(session_id, format="csv")
-                        st.success("Exported as CSV")
+                    if st.button("📄 Export as CSV", use_container_width=True):
+                        output_file = session_manager.export_transcript(session_id, format="csv")
+                        if output_file:
+                            st.success(f"✓ Exported: {output_file}")
+                        else:
+                            st.error("Export failed")
                 
                 with col2:
-                    if st.button("📋 Export as JSON"):
-                        session_manager.export_transcript(session_id, format="json")
-                        st.success("Exported as JSON")
+                    if st.button("📋 Export as JSON", use_container_width=True):
+                        output_file = session_manager.export_transcript(session_id, format="json")
+                        if output_file:
+                            st.success(f"✓ Exported: {output_file}")
+                        else:
+                            st.error("Export failed")
                 
                 with col3:
-                    if st.button("📝 Export as Text"):
-                        session_manager.export_transcript(session_id, format="text")
-                        st.success("Exported as Text")
+                    if st.button("📝 Export as Text", use_container_width=True):
+                        output_file = session_manager.export_transcript(session_id, format="text")
+                        if output_file:
+                            st.success(f"✓ Exported: {output_file}")
+                        else:
+                            st.error("Export failed")
                 
             except Exception as e:
                 st.error(f"Error loading session: {e}")
+                st.write("**Debug Info:**")
+                st.write(f"Session ID: {session_id}")
+                import traceback
+                st.code(traceback.format_exc())
 
 # ============================================================================
 # PAGE: SETTINGS
