@@ -5,7 +5,6 @@ from langchain_community.document_loaders import UnstructuredWordDocumentLoader,
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from subject_manager import SubjectManager
 from vector_store import VectorStore
-from agent_image_extractor import extract_pdf_pages_as_images
 
 
 def load_document(file_path: Path):
@@ -156,18 +155,6 @@ def main():
             if args.rubric:
                 subject_manager = SubjectManager()
                 subject_manager.set_subject_rubric(args.subject, args.rubric)
-            
-            # Extract images from PDF for this subject (do this once during ingestion)
-            print(f"\n🖼️  Extracting images from PDF for visual question display...")
-            pdf_files = list(Path(args.path).glob("*.pdf"))
-            if pdf_files:
-                pdf_path = str(pdf_files[0])
-                output_dir = Path("data") / f"{args.subject}_images"
-                page_images = extract_pdf_pages_as_images(pdf_path, str(output_dir), dpi=150)
-                print(f"✓ Images ready for questions in Assessment page\n")
-            else:
-                print(f"⚠️ No PDF found for image extraction\n")
-                
         except Exception as e:
             print(f"ERROR: Failed to update vector store: {e}")
 

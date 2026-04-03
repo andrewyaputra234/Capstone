@@ -53,10 +53,10 @@ def extract_pdf_pages_as_images(
             image_path = os.path.join(output_dir, f"page_{page_num + 1}.png")
             pix.save(image_path)
             page_images[page_num + 1] = image_path
-            print(f"  ✓ Saved page {page_num + 1} -> {image_path}")
+            print(f"  [OK] Saved page {page_num + 1} -> {image_path}")
         
         doc.close()
-        print(f"✓ Extracted {len(page_images)} pages from PDF\n")
+        print(f"[OK] Extracted {len(page_images)} pages from PDF\n")
         return page_images
         
     except Exception as e:
@@ -122,11 +122,11 @@ def extract_pdf_images_only(
                                 
                                 image_paths.append(image_path)
                                 image_count += 1
-                                print(f"  ✓ Extracted image from page {page_num + 1}")
+                                print(f"  [OK] Extracted image from page {page_num + 1}")
                             except Exception as e:
-                                print(f"  ⚠ Could not extract image: {e}")
+                                print(f"  [WARNING] Could not extract image: {e}")
         
-        print(f"✓ Extracted {len(image_paths)} images\n")
+        print(f"[OK] Extracted {len(image_paths)} images\n")
         return image_paths
         
     except Exception as e:
@@ -171,7 +171,7 @@ def get_page_for_question(question_text: str, pdf_path: str) -> Optional[int]:
         return 1  # Default to page 1 if not found
         
     except Exception as e:
-        print(f"⚠️ Could not find question page: {e}")
+        print(f"[WARNING] Could not find question page: {e}")
         return 1  # Default to page 1 on error
 
 

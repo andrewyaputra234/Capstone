@@ -1,0 +1,14 @@
+{
+  "session_id": "77f63e34",
+  "paper_id": "PSLEPT2",
+  "student_id": "student_001",
+  "date_created": "2026-04-04T03:23:12.989437",
+  "state": "INIT",
+  "turns": [],
+  "scores": null,
+  "start_time": null,
+  "end_time": null,
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}

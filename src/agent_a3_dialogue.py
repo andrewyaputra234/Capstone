@@ -34,7 +34,7 @@ class DialogueManager:
     """Manages oral assessment using actual extracted exam questions and rubric-based scoring."""
     
     def __init__(self, subject: str | None = None, rubric_name: str | None = None, 
-                 session_id: str | None = None, use_sessions: bool = False, extract_images: bool = False):
+                 session_id: str | None = None, use_sessions: bool = False, extract_images: bool = True):
         """
         Initialize dialogue manager.
         
@@ -43,7 +43,7 @@ class DialogueManager:
             rubric_name: Name of rubric to use for scoring
             session_id: Session ID (optional, for tracking)
             use_sessions: Whether to use session manager for tracking
-            extract_images: ONLY set to True during document ingestion (main.py). Don't use in UI!
+            extract_images: Whether to extract images from PDF (default: True)
         """
         self.subject = subject
         self.session_id = session_id
@@ -57,13 +57,9 @@ class DialogueManager:
         self.pdf_path = self._find_subject_pdf()
         self.page_images = {}  # Maps page number -> image file path
         
-        # ONLY extract images if explicitly requested (during ingestion)
-        # DO NOT extract on every DialogueManager creation!
+        # Extract images if requested
         if extract_images and self.pdf_path:
             self._extract_images()
-        else:
-            # Load existing images from disk
-            self._load_existing_images()
         
         self.embedding_function = OpenAIEmbeddings(
             api_key=os.getenv("OPENAI_API_KEY")
@@ -93,7 +89,7 @@ class DialogueManager:
             if default_rubric:
                 try:
                     self.rubric_engine.load_rubric(default_rubric)
-                    print(f"ℹ️  Loaded default rubric for '{subject}': {default_rubric}")
+                    print(f"[INFO] Loaded default rubric for '{subject}': {default_rubric}")
                 except:
                     pass  # Fail silently if default rubric doesn't exist
         
@@ -126,48 +122,22 @@ class DialogueManager:
     def _extract_images(self):
         """Extract images from PDF and store page mappings."""
         if not self.pdf_path or not os.path.exists(self.pdf_path):
-            print(f"⚠️ PDF not found: {self.pdf_path}")
+            print(f"[WARNING] PDF not found: {self.pdf_path}")
             return
         
         # Create images directory
         output_dir = os.path.join("data", f"{self.subject}_images")
         
         try:
-            print(f"🖼️  Extracting images from PDF...")
+            print(f"[INFO] Extracting images from PDF...")
             self.page_images = extract_pdf_pages_as_images(self.pdf_path, output_dir, dpi=150)
             if self.page_images:
-                print(f"✓ Extracted {len(self.page_images)} pages as images")
+                print(f"[OK] Extracted {len(self.page_images)} pages as images")
             else:
-                print("⚠️ No images extracted from PDF")
+                print("[WARNING] No images extracted from PDF")
         except Exception as e:
-            print(f"⚠️ Image extraction error: {e}")
+            print(f"[WARNING] Image extraction error: {e}")
             self.page_images = {}
-    
-    def _load_existing_images(self):
-        """Load pre-extracted images from disk (from a previous ingestion)."""
-        if not self.subject:
-            return
-        
-        image_dir = os.path.join("data", f"{self.subject}_images")
-        
-        if not os.path.exists(image_dir):
-            # No images directory yet - OK, they'll be extracted during document ingestion
-            return
-        
-        # Scan for PNG files in the image directory
-        self.page_images = {}
-        for filename in os.listdir(image_dir):
-            if filename.startswith("page_") and filename.endswith(".png"):
-                try:
-                    # Extract page number from filename (e.g., "page_1.png" -> 1)
-                    page_num = int(filename.split("_")[1].split(".")[0])
-                    image_path = os.path.join(image_dir, filename)
-                    self.page_images[page_num] = image_path
-                except (ValueError, IndexError):
-                    pass  # Skip files that don't match pattern
-        
-        if self.page_images:
-            print(f"✓ Loaded {len(self.page_images)} pre-extracted images from disk")
     
     def get_page_image(self, page_num: int) -> Optional[str]:
         """Get the image path for a specific page number."""
@@ -237,10 +207,10 @@ class DialogueManager:
             if result.returncode == 0:
                 return output_path
             else:
-                print(f"⚠️ TTS failed: {result.stderr}")
+                print(f"[WARNING] TTS failed: {result.stderr}")
                 return None
         except Exception as e:
-            print(f"⚠️ Audio generation error: {e}")
+            print(f"[WARNING] Audio generation error: {e}")
             return None
     
     def record_and_transcribe_answer(self, question_id: int, duration: int = 15) -> str | None:
@@ -255,7 +225,7 @@ class DialogueManager:
             Transcribed answer text, or None if recording/transcription failed
         """
         if not AUDIO_AVAILABLE:
-            print("⚠️ Audio module not available. Please install: pip install pyaudio openai")
+            print("[WARNING] Audio module not available. Please install: pip install pyaudio openai")
             return None
         
         try:
@@ -285,7 +255,7 @@ class DialogueManager:
             return result["text"]
         
         except Exception as e:
-            print(f"❌ Audio recording/transcription error: {str(e)}")
+            print(f"[ERROR] Audio recording/transcription error: {str(e)}")
             return None
     
     def extract_questions_from_document(self, num_questions: int = 5) -> List[Dict]:
@@ -299,7 +269,7 @@ class DialogueManager:
         Returns:
             List of question dictionaries with id, text, and context
         """
-        print(f"\n📚 Extracting questions from document...\n")
+        print(f"\n[INFO] Extracting questions from document...\n")
         
         # Get all chunks from the document
         retriever = self.vector_store.as_retriever(search_kwargs={"k": 50})
@@ -592,14 +562,14 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         
         # Get answer (either via text input or audio recording)
         if use_audio_input:
-            print("🎤 Recording audio answer (15 seconds max)...\n")
+            print("[INFO] Recording audio answer (15 seconds max)...\n")
             answer = dialogue.record_and_transcribe_answer(question["id"], duration=15)
             
             if not answer:
-                print("❌ Failed to record/transcribe audio. Try again.\n")
+                print("[ERROR] Failed to record/transcribe audio. Try again.\n")
                 continue
             
-            print(f"✓ Transcribed answer: {answer}\n")
+            print(f"[OK] Transcribed answer: {answer}\n")
         else:
             answer = input("Your answer: ").strip()
         
@@ -621,7 +591,7 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
                 print(f"  {criterion_score['criterion']}: {criterion_score['score']}/{criterion_score['max_score']}")
             print(f"\n📈 Total: {result['scores']['total_score']}/{result['scores']['max_score']} ({result['scores']['percentage']}%)\n")
         elif "note" in result:
-            print(f"ℹ️  {result['note']}\n")
+            print(f"[INFO] {result['note']}\n")
         
         dialogue.current_question_index += 1
         print("-" * 60 + "\n")
