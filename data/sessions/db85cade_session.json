@@ -1,0 +1,14 @@
+{
+  "session_id": "db85cade",
+  "paper_id": "sc312",
+  "student_id": "student_0013",
+  "date_created": "2026-04-05T01:35:06.677940",
+  "state": "INIT",
+  "turns": [],
+  "scores": null,
+  "start_time": null,
+  "end_time": null,
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}

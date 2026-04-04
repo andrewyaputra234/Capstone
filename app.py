@@ -455,13 +455,13 @@ elif selected == "Assessment":
                 # Display question
                 st.subheader(f"Q{question_idx + 1}: {current_q.get('text', 'Question')}")
                 
-                # Display image if available
+                # Display image if available (smaller size for better UI)
                 image_path = current_q.get('image_path')
                 
                 # Try different sources for the image
                 if image_path and os.path.exists(image_path):
                     try:
-                        st.image(image_path, caption=f"Question reference", use_container_width=True)
+                        st.image(image_path, caption=f"Question reference", width=500)
                     except Exception as e:
                         st.warning(f"Could not display image: {e}")
                 else:
@@ -470,7 +470,7 @@ elif selected == "Assessment":
                         # Try to get page image - prefer page 1 as default
                         fallback_img = dialogue_manager.page_images.get(1) or next(iter(dialogue_manager.page_images.values()), None)
                         if fallback_img and os.path.exists(fallback_img):
-                            st.image(fallback_img, caption="Question reference (paper overview)", use_container_width=True)
+                            st.image(fallback_img, caption="Question reference (paper overview)", width=500)
                 
                 # Get answer from user
                 answer = st.text_area(
