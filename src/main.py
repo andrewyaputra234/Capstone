@@ -7,7 +7,7 @@ from langchain_community.document_loaders import UnstructuredWordDocumentLoader,
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from subject_manager import SubjectManager
 from vector_store import VectorStore
-from agent_image_extractor import extract_pdf_pages_as_images
+from agent_image_extractor import extract_pdf_pages_as_images, extract_docx_images, docx_to_pdf_images
 
 
 def load_document(file_path: Path):
@@ -160,13 +160,23 @@ def main():
                 subject_manager.set_subject_rubric(args.subject, args.rubric)
             
             # ============================================================================
-            # EXTRACT IMAGES FROM PDF (NEW FOR THIS INGESTION)
+            # EXTRACT IMAGES FROM PDF OR DOCX (NEW FOR THIS INGESTION)
             # ============================================================================
-            # Get the PDF file that was just ingested
+            # Get the document file that was just ingested (PDF or DOCX)
             pdf_files = list(input_path.glob("*.pdf")) if input_path.is_dir() else [input_path] if input_path.suffix.lower() == ".pdf" else []
+            docx_files = list(input_path.glob("*.docx")) if input_path.is_dir() else [input_path] if input_path.suffix.lower() == ".docx" else []
+            
+            doc_file = None
+            doc_type = None
             
             if pdf_files:
-                pdf_path = str(pdf_files[0])
+                doc_file = str(pdf_files[0])
+                doc_type = "pdf"
+            elif docx_files:
+                doc_file = str(docx_files[0])
+                doc_type = "docx"
+            
+            if doc_file:
                 subject_manager = SubjectManager()
                 
                 # 1. CLEAR OLD IMAGES for this subject
@@ -176,16 +186,32 @@ def main():
                     shutil.rmtree(images_dir)
                     print(f"[OK] Old images deleted")
                 
-                # 2. EXTRACT IMAGES from the new PDF
-                print(f"[INFO] Extracting images from new PDF...")
+                # 2. EXTRACT IMAGES based on document type
+                print(f"[INFO] Extracting images from {doc_type.upper()} document...")
                 output_dir = str(images_dir)
-                page_images = extract_pdf_pages_as_images(pdf_path, output_dir, dpi=150)
-                print(f"[OK] Extracted {len(page_images)} pages as images from new PDF")
                 
-                # 3. STORE PDF PATH in subject config for future reference
-                print(f"[INFO] Storing PDF path in subject config...")
-                subject_manager.set_subject_pdf(args.subject, pdf_path)
-                print(f"[OK] PDF path stored for subject '{args.subject}'")
+                if doc_type == "pdf":
+                    page_images = extract_pdf_pages_as_images(doc_file, output_dir, dpi=150)
+                    print(f"[OK] Extracted {len(page_images)} pages as images from PDF")
+                elif doc_type == "docx":
+                    # Try to convert DOCX to images (requires LibreOffice)
+                    page_images = docx_to_pdf_images(doc_file, output_dir, dpi=150)
+                    if not page_images:
+                        # Fallback: extract embedded images from DOCX
+                        print(f"[INFO] Page-level images not available, extracting embedded images...")
+                        embedded_images = extract_docx_images(doc_file, output_dir)
+                        if embedded_images:
+                            print(f"[OK] Extracted {len(embedded_images)} embedded images from DOCX")
+                        else:
+                            print(f"[INFO] No embedded images found in DOCX (text-based questions will work)")
+                    else:
+                        print(f"[OK] Successfully converted DOCX pages to images")
+                
+                # 3. STORE DOCUMENT PATH in subject config for future reference
+                print(f"[INFO] Storing document path in subject config...")
+                subject_manager.set_subject_pdf(args.subject, doc_file)  # Using set_subject_pdf for both PDF and DOCX
+                print(f"[OK] Document path stored for subject '{args.subject}'")
+            
             
         except Exception as e:
             print(f"ERROR: Failed to update vector store: {e}")

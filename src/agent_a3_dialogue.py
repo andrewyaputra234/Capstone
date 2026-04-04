@@ -20,7 +20,7 @@ from langchain_core.output_parsers import StrOutputParser
 from subject_manager import SubjectManager
 from rubric_engine import RubricEngine
 from agent_a6_session_manager import SessionManager
-from agent_image_extractor import extract_pdf_pages_as_images, get_page_for_question
+from agent_image_extractor import extract_pdf_pages_as_images, docx_to_pdf_images, extract_docx_images, get_page_for_question
 
 try:
     from agent_audio_input import AudioRecorder, SpeechToText
@@ -43,7 +43,7 @@ class DialogueManager:
             rubric_name: Name of rubric to use for scoring
             session_id: Session ID (optional, for tracking)
             use_sessions: Whether to use session manager for tracking
-            extract_images: Whether to extract images from PDF (default: True)
+            extract_images: Whether to extract images from PDF/DOCX (default: True)
         """
         self.subject = subject
         self.session_id = session_id
@@ -100,45 +100,72 @@ class DialogueManager:
         self.scores = []
     
     def _find_subject_pdf(self) -> Optional[str]:
-        """Find the PDF file for this subject from input directory or config."""
+        """Find the document file (PDF or DOCX) for this subject from input directory or config."""
         if not self.subject:
             return None
         
-        # 1. Check if PDF path is stored in subject config (from last ingestion)
-        stored_pdf = self.subject_manager.get_subject_pdf(self.subject)
-        if stored_pdf and os.path.exists(stored_pdf):
-            return stored_pdf
+        # 1. Check if document path is stored in subject config (from last ingestion)
+        stored_doc = self.subject_manager.get_subject_pdf(self.subject)
+        if stored_doc and os.path.exists(stored_doc):
+            return stored_doc
         
-        # 2. Fallback: look for PDF files in subject directory
+        # 2. Fallback: look for PDF or DOCX files in subject directory
         input_path = self.subject_manager.get_subject_input_path(self.subject)
         pdf_files = list(input_path.glob("*.pdf"))
+        docx_files = list(input_path.glob("*.docx"))
+        
+        # Prefer PDF, but accept DOCX
         if pdf_files:
-            return str(pdf_files[0])  # Return first PDF found
+            return str(pdf_files[0])
+        elif docx_files:
+            return str(docx_files[0])
         
         # 3. Final fallback: check root input directory
         root_input = self.subject_manager.get_subject_input_path(None)
         pdf_files = list(root_input.glob("*.pdf"))
+        docx_files = list(root_input.glob("*.docx"))
+        
         if pdf_files:
             return str(pdf_files[0])
+        elif docx_files:
+            return str(docx_files[0])
         
         return None
     
     def _extract_images(self):
-        """Extract images from PDF and store page mappings."""
+        """Extract images from PDF or DOCX document and store page mappings."""
         if not self.pdf_path or not os.path.exists(self.pdf_path):
-            print(f"[WARNING] PDF not found: {self.pdf_path}")
+            print(f"[WARNING] Document not found: {self.pdf_path}")
             return
         
         # Create images directory
         output_dir = os.path.join("data", f"{self.subject}_images")
         
         try:
-            print(f"[INFO] Extracting images from PDF...")
-            self.page_images = extract_pdf_pages_as_images(self.pdf_path, output_dir, dpi=150)
+            file_ext = os.path.splitext(self.pdf_path)[1].lower()
+            
+            if file_ext == ".pdf":
+                print(f"[INFO] Extracting images from PDF...")
+                self.page_images = extract_pdf_pages_as_images(self.pdf_path, output_dir, dpi=150)
+                
+            elif file_ext == ".docx":
+                print(f"[INFO] Extracting images from DOCX...")
+                # Try to convert DOCX to images
+                page_images = docx_to_pdf_images(self.pdf_path, output_dir, dpi=150)
+                if page_images:
+                    self.page_images = page_images
+                else:
+                    # Fallback: extract embedded images
+                    embedded = extract_docx_images(self.pdf_path, output_dir)
+                    if embedded:
+                        # Flatten the dict for consistency
+                        self.page_images = {1: embedded.get(1, [""])[0]} if embedded else {}
+            
             if self.page_images:
-                print(f"[OK] Extracted {len(self.page_images)} pages as images")
+                print(f"[OK] Extracted {len(self.page_images)} image(s)")
             else:
-                print("[WARNING] No images extracted from PDF")
+                print("[WARNING] No page images extracted - using text-based assessment")
+                
         except Exception as e:
             print(f"[WARNING] Image extraction error: {e}")
             self.page_images = {}
