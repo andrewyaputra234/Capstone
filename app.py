@@ -772,7 +772,7 @@ elif selected == "Results":
 elif selected == "Settings":
     st.header("⚙️ Settings")
     
-    tab1, tab2, tab3 = st.tabs(["Rubrics", "Subjects", "System"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Rubrics", "Subjects", "System", "Clear Data"])
     
     with tab1:
         st.subheader("Manage Rubrics")
@@ -827,6 +827,418 @@ elif selected == "Settings":
         if st.button("🔄 Refresh Cache"):
             st.cache_data.clear()
             st.success("Cache cleared!")
+    
+    with tab4:
+        st.subheader("🗑️ Clear Data & Cache")
+        st.warning("⚠️ **WARNING:** Clearing data cannot be undone. Please be careful!")
+        
+        st.divider()
+        
+        # Clear Sessions
+        st.subheader("📋 Clear Sessions")
+        sessions_list = session_manager.list_sessions()
+        sessions_count = len(sessions_list)
+        st.write(f"**{sessions_count} sessions** currently stored")
+        
+        if sessions_count > 0:
+            st.write("**Select sessions to delete:**")
+            sessions_to_delete = []
+            
+            for session_id in sessions_list:
+                if st.checkbox(f"📋 {session_id}", key=f"session_{session_id}"):
+                    sessions_to_delete.append(session_id)
+            
+            if sessions_to_delete:
+                st.info(f"✓ {len(sessions_to_delete)} session(s) selected for deletion")
+                
+                if st.button("🗑️ Delete Selected Sessions", key="delete_selected_sessions"):
+                    for session_id in sessions_to_delete:
+                        session_file = Path("data/sessions") / f"{session_id}_session.json"
+                        if session_file.exists():
+                            session_file.unlink()
+                    st.success(f"✓ {len(sessions_to_delete)} session(s) deleted!")
+                    st.rerun()
+            
+            st.divider()
+            
+            # Clear All Sessions Option
+            if st.button("🗑️ Clear ALL Sessions", key="clear_all_sessions"):
+                st.session_state.confirm_all_sessions_mode = True
+            
+            if st.session_state.get("confirm_all_sessions_mode", False):
+                st.warning("⚠️ This will delete ALL assessment sessions!")
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    if st.checkbox("I understand this will delete ALL sessions", key="confirm_all_sessions_1"):
+                        if st.button("✓ Yes, Delete All Sessions", key="confirm_delete_all_sessions"):
+                            import shutil
+                            sessions_dir = Path("data/sessions")
+                            if sessions_dir.exists():
+                                shutil.rmtree(sessions_dir)
+                                sessions_dir.mkdir(parents=True, exist_ok=True)
+                            st.session_state.confirm_all_sessions_mode = False
+                            st.success("✓ All sessions cleared!")
+                            st.rerun()
+                
+                with col2:
+                    if st.button("✗ Cancel", key="cancel_delete_all_sessions"):
+                        st.session_state.confirm_all_sessions_mode = False
+                        st.rerun()
+        else:
+            st.info("No sessions to clear")
+        
+        st.divider()
+        
+        # Clear Rubrics
+        st.subheader("📋 Clear Rubrics")
+        rubric_path = Path("data/rubrics")
+        rubric_files = list(rubric_path.glob("*.json")) if rubric_path.exists() else []
+        rubric_count = len(rubric_files)
+        st.write(f"**{rubric_count} rubrics** currently stored")
+        
+        if rubric_count > 0:
+            st.write("**Select rubrics to delete:**")
+            rubrics_to_delete = []
+            
+            for rubric_file in rubric_files:
+                # Don't allow deletion of templates by default
+                is_template = any(x in rubric_file.stem for x in ["primary", "secondary", "high_school", "university"])
+                disabled = is_template
+                
+                if st.checkbox(
+                    f"📋 {rubric_file.stem}" + (" (Template)" if is_template else ""),
+                    key=f"rubric_{rubric_file.stem}",
+                    disabled=disabled
+                ):
+                    rubrics_to_delete.append(rubric_file)
+            
+            if rubrics_to_delete:
+                st.info(f"✓ {len(rubrics_to_delete)} rubric(s) selected for deletion")
+                
+                if st.button("🗑️ Delete Selected Rubrics", key="delete_selected_rubrics"):
+                    for rubric_file in rubrics_to_delete:
+                        rubric_file.unlink()
+                    st.success(f"✓ {len(rubrics_to_delete)} rubric(s) deleted!")
+                    st.rerun()
+            
+            st.divider()
+            
+            # Clear All Rubrics Option
+            if st.button("🗑️ Clear ALL Rubrics (except templates)", key="clear_all_rubrics"):
+                st.session_state.confirm_all_rubrics_mode = True
+            
+            if st.session_state.get("confirm_all_rubrics_mode", False):
+                st.warning("⚠️ This will delete ALL custom rubrics!")
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    if st.checkbox("I understand this will delete ALL custom rubrics", key="confirm_all_rubrics_1"):
+                        if st.button("✓ Yes, Delete All Custom Rubrics", key="confirm_delete_all_rubrics"):
+                            for rubric_file in rubric_files:
+                                if not any(x in rubric_file.stem for x in ["primary", "secondary", "high_school", "university"]):
+                                    rubric_file.unlink()
+                            st.session_state.confirm_all_rubrics_mode = False
+                            st.success("✓ Custom rubrics cleared! (Templates preserved)")
+                            st.rerun()
+                
+                with col2:
+                    if st.button("✗ Cancel", key="cancel_delete_all_rubrics"):
+                        st.session_state.confirm_all_rubrics_mode = False
+                        st.rerun()
+        else:
+            st.info("No rubrics to clear")
+        
+        st.divider()
+        
+        # Clear Papers/Uploads
+        st.subheader("📄 Clear Uploaded Papers & Vector Databases")
+        subjects_list = subject_manager.list_subjects()
+        st.write(f"**{len(subjects_list)} subjects** with data currently stored")
+        
+        if len(subjects_list) > 0:
+            st.write("**Select subjects to delete:**")
+            subjects_to_delete = []
+            
+            for subject in subjects_list:
+                if st.checkbox(f"📚 {subject}", key=f"subject_{subject}"):
+                    subjects_to_delete.append(subject)
+            
+            if subjects_to_delete:
+                st.info(f"✓ {len(subjects_to_delete)} subject(s) selected for deletion")
+                
+                if st.button("🗑️ Delete Selected Papers & Databases", key="delete_selected_papers"):
+                    import shutil
+                    import gc
+                    import time
+                    
+                    # Step 0: Close any active DialogueManager instances
+                    if 'dialogue_manager' in st.session_state:
+                        try:
+                            st.session_state.dialogue_manager.cleanup()
+                            del st.session_state.dialogue_manager
+                            st.write("✓ Closed dialogue manager connections")
+                        except Exception as e:
+                            st.warning(f"Could not close dialogue manager: {str(e)}")
+                    
+                    # Step 1: Clear all Streamlit caches to release vector store references
+                    try:
+                        st.cache_data.clear()
+                        st.cache_resource.clear()
+                        st.write("✓ Cleared Streamlit caches")
+                    except:
+                        pass
+                    
+                    # Step 2: Force garbage collection multiple times
+                    for _ in range(3):
+                        gc.collect()
+                        time.sleep(0.3)
+                    st.write("✓ Forced garbage collection")
+                    
+                    deletion_errors = []
+                    deleted_count = 0
+                    
+                    for subject in subjects_to_delete:
+                        try:
+                            st.info(f"🔄 Deleting {subject}...")
+                            
+                            # Delete input files
+                            input_subject_dir = Path("data/input") / subject
+                            if input_subject_dir.exists():
+                                shutil.rmtree(input_subject_dir)
+                                st.write(f"  ✓ Deleted input files")
+                            
+                            # Delete output chunks
+                            output_subject_dir = Path("data/output") / subject
+                            if output_subject_dir.exists():
+                                shutil.rmtree(output_subject_dir)
+                                st.write(f"  ✓ Deleted output chunks")
+                            
+                            # Delete vector database with aggressive retry
+                            db_deleted = False
+                            for chroma_db in Path("data/chroma_db").glob("*_db"):
+                                if subject.lower() in chroma_db.name.lower():
+                                    try:
+                                        # Try immediate deletion first
+                                        shutil.rmtree(chroma_db)
+                                        db_deleted = True
+                                        st.write(f"  ✓ Deleted vector database")
+                                    except PermissionError as e:
+                                        # Database still locked, try harder
+                                        st.write(f"  ⏳ Database locked, retrying...")
+                                        for attempt in range(3):
+                                            try:
+                                                time.sleep(0.5)
+                                                gc.collect()
+                                                
+                                                # Try deleting individual files
+                                                import os
+                                                for root, dirs, files in os.walk(chroma_db, topdown=False):
+                                                    for f in files:
+                                                        try:
+                                                            os.unlink(os.path.join(root, f))
+                                                        except:
+                                                            pass
+                                                    for d in dirs:
+                                                        try:
+                                                            os.rmdir(os.path.join(root, d))
+                                                        except:
+                                                            pass
+                                                
+                                                os.rmdir(chroma_db)
+                                                db_deleted = True
+                                                st.write(f"  ✓ Deleted vector database (attempt {attempt+1})")
+                                                break
+                                            except Exception as retry_error:
+                                                if attempt == 2:
+                                                    deletion_errors.append(f"{subject}: Database is locked - close any open documents and try again")
+                            
+                            # Delete extracted images
+                            images_dir = Path("data") / f"{subject}_images"
+                            if images_dir.exists():
+                                shutil.rmtree(images_dir)
+                                st.write(f"  ✓ Deleted extracted images")
+                            
+                            # Remove from subject config
+                            if subject in subject_manager.config["subjects"]:
+                                del subject_manager.config["subjects"][subject]
+                            
+                            deleted_count += 1
+                            st.success(f"✓ {subject} deleted successfully!")
+                        
+                        except Exception as e:
+                            deletion_errors.append(f"{subject}: {str(e)}")
+                            st.error(f"❌ Error deleting {subject}: {str(e)}")
+                    
+                    subject_manager._save_config()
+                    
+                    if deletion_errors:
+                        st.warning(f"⚠️ Partially completed: {deleted_count}/{len(subjects_to_delete)} subject(s) deleted")
+                        for error in deletion_errors:
+                            st.error(f"❌ {error}")
+                        st.info("💡 **How to fix:**\n1. Navigate away from the Assessment page\n2. Click 'Refresh Cache' in the System tab\n3. Try deleting again")
+                    else:
+                        st.success(f"✓ {deleted_count} subject(s) deleted successfully!")
+                    
+                    st.rerun()
+            
+            st.divider()
+            
+            # Clear All Papers Option
+            if st.button("🗑️ Clear ALL Papers & Databases", key="clear_all_papers"):
+                st.session_state.confirm_all_papers_mode = True
+            
+            if st.session_state.get("confirm_all_papers_mode", False):
+                st.warning("⚠️ This will delete ALL uploaded papers and vector databases!")
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    if st.checkbox("I understand this will delete ALL data", key="confirm_all_papers_1"):
+                        if st.button("✓ Yes, Delete Everything", key="confirm_delete_all_papers"):
+                            import shutil
+                            import gc
+                            import time
+                            
+                            # Step 0: Close any active DialogueManager instances
+                            if 'dialogue_manager' in st.session_state:
+                                try:
+                                    st.session_state.dialogue_manager.cleanup()
+                                    del st.session_state.dialogue_manager
+                                    st.write("✓ Closed dialogue manager connections")
+                                except Exception as e:
+                                    st.warning(f"Could not close dialogue manager: {str(e)}")
+                            
+                            # Step 1: Clear all caches to release handles
+                            try:
+                                st.cache_data.clear()
+                                st.cache_resource.clear()
+                                st.write("✓ Cleared Streamlit caches")
+                            except:
+                                pass
+                            
+                            # Step 2: Force garbage collection multiple times
+                            for _ in range(3):
+                                gc.collect()
+                                time.sleep(0.3)
+                            st.write("✓ Forced garbage collection")
+                            
+                            st.info("🔄 Clearing all papers and databases...")
+                            
+                            errors = []
+                            
+                            try:
+                                # Clear input files
+                                input_dir = Path("data/input")
+                                if input_dir.exists():
+                                    shutil.rmtree(input_dir)
+                                    input_dir.mkdir(parents=True, exist_ok=True)
+                                st.write("✓ Cleared input files")
+                                
+                                # Clear output chunks
+                                output_dir = Path("data/output")
+                                if output_dir.exists():
+                                    shutil.rmtree(output_dir)
+                                    output_dir.mkdir(parents=True, exist_ok=True)
+                                st.write("✓ Cleared output chunks")
+                                
+                                # Clear vector databases with aggressive retry
+                                chroma_dir = Path("data/chroma_db")
+                                if chroma_dir.exists():
+                                    try:
+                                        shutil.rmtree(chroma_dir)
+                                        chroma_dir.mkdir(parents=True, exist_ok=True)
+                                        st.write("✓ Cleared vector databases")
+                                    except PermissionError:
+                                        st.write("⏳ Databases locked, retrying...")
+                                        for attempt in range(3):
+                                            try:
+                                                time.sleep(0.5)
+                                                gc.collect()
+                                                
+                                                # Try file-by-file deletion
+                                                import os
+                                                for root, dirs, files in os.walk(chroma_dir, topdown=False):
+                                                    for f in files:
+                                                        try:
+                                                            os.unlink(os.path.join(root, f))
+                                                        except:
+                                                            pass
+                                                    for d in dirs:
+                                                        try:
+                                                            os.rmdir(os.path.join(root, d))
+                                                        except:
+                                                            pass
+                                                
+                                                os.rmdir(chroma_dir)
+                                                chroma_dir.mkdir(parents=True, exist_ok=True)
+                                                st.write(f"✓ Cleared vector databases (attempt {attempt+1})")
+                                                break
+                                            except Exception as retry_error:
+                                                if attempt == 2:
+                                                    errors.append("Vector databases are locked - couldn't delete")
+                                
+                                # Clear extracted images
+                                for images_dir in Path("data").glob("*_images"):
+                                    try:
+                                        shutil.rmtree(images_dir)
+                                    except:
+                                        pass
+                                st.write("✓ Cleared extracted images")
+                                
+                                # Reset subject config
+                                subject_manager.config["subjects"] = {}
+                                subject_manager._save_config()
+                                st.write("✓ Reset subject configuration")
+                                
+                                st.session_state.confirm_all_papers_mode = False
+                                
+                                if errors:
+                                    st.warning("⚠️ Mostly completed!")
+                                    for error in errors:
+                                        st.error(f"❌ {error}")
+                                    st.info("💡 **How to fix:**\n1. Navigate away from the Assessment page\n2. Click 'Refresh Cache' in the System tab\n3. Try again")
+                                else:
+                                    st.success("✓ All papers, databases, and images cleared!")
+                                
+                                st.rerun()
+                            
+                            except Exception as e:
+                                st.error(f"Error during cleanup: {str(e)}")
+                                st.info("💡 **How to fix:**\n1. Navigate away from the Assessment page\n2. Click 'Refresh Cache' in the System tab\n3. Try again")
+                
+                with col2:
+                    if st.button("✗ Cancel", key="cancel_delete_all_papers"):
+                        st.session_state.confirm_all_papers_mode = False
+                        st.rerun()
+        else:
+            st.info("No papers/uploads to clear")
+        
+        st.divider()
+        
+        # Clear Everything
+        st.subheader("🔴 Clear EVERYTHING")
+        st.error("⛔ **DANGER ZONE:** This will delete EVERYTHING including sessions, rubrics, papers, and databases!")
+        
+        if st.button("🔴 CLEAR ALL DATA", key="clear_all"):
+            if st.checkbox("I understand this will delete EVERYTHING", key="confirm_all_1"):
+                if st.checkbox("I am absolutely sure - this cannot be undone", key="confirm_all_2"):
+                    import shutil
+                    
+                    # Clear everything in data directory except config files
+                    data_dir = Path("data")
+                    if data_dir.exists():
+                        for item in data_dir.iterdir():
+                            if item.is_dir():
+                                shutil.rmtree(item)
+                            elif item.name not in ["subject_config.json"]:
+                                item.unlink()
+                    
+                    # Reset subject config
+                    subject_manager.config["subjects"] = {}
+                    subject_manager._save_config()
+                    
+                    st.success("✓ All data cleared! System reset to fresh state.")
+                    st.rerun()
 
 # Footer
 st.divider()

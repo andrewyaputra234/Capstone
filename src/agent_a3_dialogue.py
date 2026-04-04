@@ -619,6 +619,36 @@ class DialogueManager:
             report["percentage"] = round((total_score / max_possible * 100) if max_possible > 0 else 0, 1)
         
         return report
+    
+    def cleanup(self):
+        """Close database connections and cleanup resources"""
+        try:
+            # Close the Chroma vector store connection
+            if hasattr(self, 'vector_store') and self.vector_store:
+                try:
+                    # Try to delete the client connection
+                    if hasattr(self.vector_store, '_client'):
+                        self.vector_store._client = None
+                    if hasattr(self.vector_store, 'client'):
+                        self.vector_store.client = None
+                    # Try to delete the embedded Chroma
+                    if hasattr(self.vector_store, '_impl'):
+                        self.vector_store._impl = None
+                except:
+                    pass
+                self.vector_store = None
+            
+            # Close embedding function if it exists
+            if hasattr(self, 'embedding_function'):
+                self.embedding_function = None
+            
+            # Close LLM if it exists
+            if hasattr(self, 'llm'):
+                self.llm = None
+                
+            print("[OK] DialogueManager cleanup completed")
+        except Exception as e:
+            print(f"[WARNING] DialogueManager cleanup error: {str(e)}")
 
 
 def interactive_assessment(subject: str | None = None, rubric_name: str | None = None, enable_audio: bool = False, use_audio_input: bool = False, use_sessions: bool = False, student_id: str = "student_001"):

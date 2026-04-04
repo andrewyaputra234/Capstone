@@ -1,17 +1,3 @@
 {
-  "subjects": {
-    "Science": {
-      "rubric": "primary_science",
-      "pdf_path": "data/input/Science/P6_Science_2024_WA2_Anglo Chinese_Exam_Paper.pdf"
-    },
-    "sci2": {
-      "rubric": "primary_science"
-    },
-    "Science123": {
-      "rubric": "primary_science"
-    },
-    "sc312": {
-      "rubric": "high school_math"
-    }
-  }
+  "subjects": {}
 }
