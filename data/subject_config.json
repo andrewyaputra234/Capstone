@@ -1,3 +1,7 @@
 {
-  "subjects": {}
+  "subjects": {
+    "TestScience1": {
+      "rubric": "primary_science"
+    }
+  }
 }

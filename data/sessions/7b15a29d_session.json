@@ -1,0 +1,142 @@
+{
+  "session_id": "7b15a29d",
+  "paper_id": "TestScience1",
+  "student_id": "student_0012",
+  "date_created": "2026-04-05T02:02:02.830332",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-05T02:02:03.023732",
+      "speaker": "avatar",
+      "text": "The diagram shows blood entering and leaving the brain and the small intestine through blood vessels W, X, Y, and Z. Which blood vessels carry blood rich in oxygen and digested food? Fill in the boxes with W, X, Y and/or Z.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-05T02:02:09.094034",
+      "speaker": "student",
+      "text": "X AND Y",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-04-05T02:02:13.013717",
+      "speaker": "avatar",
+      "text": "State how his breathing rate changed due to the infection.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-04-05T02:02:20.487666",
+      "speaker": "student",
+      "text": "SLOW THIS RATE",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-04-05T02:02:23.697669",
+      "speaker": "avatar",
+      "text": "Explain your answer in (b)(i).",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-04-05T02:04:26.815358",
+      "speaker": "avatar",
+      "text": "How is Part P similar in function to Part T?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "The diagram shows blood entering and leaving the brain and the small intestine through blood vessels W, X, Y, and Z. Which blood vessels carry blood rich in oxygen and digested food? Fill in the boxes with W, X, Y and/or Z.",
+        "answer": "X AND Y",
+        "scores": [
+          {
+            "criterion": "Conceptual Understanding",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Good understanding"
+          },
+          {
+            "criterion": "Observation & Description",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Mostly accurate descriptions"
+          },
+          {
+            "criterion": "Scientific Reasoning",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Generally logical explanations"
+          },
+          {
+            "criterion": "Communication",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Generally clear"
+          }
+        ],
+        "tutoring_feedback": "Great job on identifying blood vessels X and Y as carrying blood rich in oxygen and digested food! Your conceptual understanding, observation, and scientific reasoning are all strong. To improve even further, make sure to provide a bit more detail in your communication to fully explain your reasoning behind your choices. Keep up the excellent work!",
+        "total_score": 80,
+        "max_score": 100,
+        "percentage": 80.0
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "State how his breathing rate changed due to the infection.",
+        "answer": "SLOW THIS RATE",
+        "scores": [
+          {
+            "criterion": "Conceptual Understanding",
+            "score": 15,
+            "max_score": 25,
+            "feedback": "Basic understanding"
+          },
+          {
+            "criterion": "Observation & Description",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Mostly accurate descriptions"
+          },
+          {
+            "criterion": "Scientific Reasoning",
+            "score": 15,
+            "max_score": 25,
+            "feedback": "Basic reasoning"
+          },
+          {
+            "criterion": "Communication",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Generally clear"
+          }
+        ],
+        "tutoring_feedback": "Great job on accurately observing and describing the change in breathing rate due to the infection. You did well in communicating your answer clearly. To improve, try to further explain the scientific reasoning behind how the infection specifically caused the breathing rate to slow down. Keep up the good work and continue practicing to strengthen your conceptual understanding in this area!",
+        "total_score": 70,
+        "max_score": 100,
+        "percentage": 70.0
+      }
+    }
+  ],
+  "start_time": null,
+  "end_time": "2026-04-05T02:04:27.948528",
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}

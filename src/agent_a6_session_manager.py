@@ -228,16 +228,18 @@ class SessionManager:
         Args:
             scores: List of score dicts:
                 [{
-                    "criterion": "criterion_name",
-                    "score": 4,
-                    "max_score": 5,
-                    "feedback": "Great job..."
+                    "Q1": grading_result_dict,
+                    ...
                 }, ...]
         """
         if not self.current_session:
             raise ValueError("No active session")
         
-        self.current_session.scores = scores
+        # Append scores instead of replacing (supports multiple questions)
+        if self.current_session.scores is None:
+            self.current_session.scores = []
+        
+        self.current_session.scores.extend(scores)
         self.save_current_session()
     
     def get_session_report(self, session_id: str) -> Optional[Dict]:

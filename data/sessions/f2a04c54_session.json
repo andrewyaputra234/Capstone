@@ -1,0 +1,133 @@
+{
+  "session_id": "f2a04c54",
+  "paper_id": "TestScience1",
+  "student_id": "student_001",
+  "date_created": "2026-04-05T01:56:02.759260",
+  "state": "INIT",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-05T01:56:02.956554",
+      "speaker": "avatar",
+      "text": "Which blood vessels carry blood rich in oxygen and digested food? Fill in the boxes with W, X, Y and/or Z.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-05T01:56:19.627562",
+      "speaker": "student",
+      "text": "X , W, Y ,Z",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-04-05T01:56:23.963188",
+      "speaker": "avatar",
+      "text": "State how his breathing rate changed due to the infection.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-04-05T01:56:35.625990",
+      "speaker": "student",
+      "text": "bREATHING RATE SLOWED DOWN",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-04-05T01:56:39.057223",
+      "speaker": "avatar",
+      "text": "Explain your answer in (b)(i).",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-04-05T01:56:54.152096",
+      "speaker": "student",
+      "text": "because there is no airway",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 7,
+      "timestamp": "2026-04-05T01:56:57.647578",
+      "speaker": "avatar",
+      "text": "How is Part P similar in function to Part T?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 8,
+      "timestamp": "2026-04-05T01:57:00.754683",
+      "speaker": "student",
+      "text": "dk",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 9,
+      "timestamp": "2026-04-05T01:57:04.606029",
+      "speaker": "avatar",
+      "text": "Name part Q and state its function.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q4": {
+        "assignment": "How is Part P similar in function to Part T?",
+        "answer": "dk",
+        "scores": [
+          {
+            "criterion": "Conceptual Understanding",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Limited understanding"
+          },
+          {
+            "criterion": "Observation & Description",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Inaccurate descriptions"
+          },
+          {
+            "criterion": "Scientific Reasoning",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Weak or missing reasoning"
+          },
+          {
+            "criterion": "Communication",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Unclear"
+          }
+        ],
+        "tutoring_feedback": "Hey there! I appreciate your effort in attempting the question. Let's work on building a stronger understanding of how Part P and Part T are similar in function. Try to describe the phenomena more explicitly to show a deeper understanding. Keep practicing, and you'll get there! I believe in your potential to improve. Keep up the good work!",
+        "total_score": 20,
+        "max_score": 100,
+        "percentage": 20.0
+      }
+    }
+  ],
+  "start_time": null,
+  "end_time": null,
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}
