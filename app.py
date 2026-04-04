@@ -422,9 +422,27 @@ elif selected == "Assessment":
             session_data = session_manager.get_session(session_id)
             if session_data:
                 session_manager.current_session = session_data
+                print(f"[DEBUG] Loaded session {session_id}, current_session={'SET' if session_manager.current_session else 'NOT SET'}")
+            else:
+                print(f"[ERROR] Failed to load session {session_id}")
+                st.error(f"Could not load session: {session_id}")
             
             if questions and question_idx < len(questions):
                 current_q = questions[question_idx]
+                
+                # Add question to session transcript if not already added
+                # (Use simple check: if this is our first time on this question, add it)
+                if not st.session_state.get(f"q{question_idx}_added"):
+                    try:
+                        session_manager.add_turn(
+                            speaker="avatar",
+                            text=current_q.get('text', 'Question')
+                        )
+                        st.session_state[f"q{question_idx}_added"] = True
+                        print(f"[OK] Added Q{question_idx + 1} to session transcript")
+                    except Exception as e:
+                        st.warning(f"Could not save question to transcript: {e}")
+                        print(f"[ERROR] Failed to add question: {e}")
                 
                 # Display progress
                 st.progress(
@@ -582,26 +600,134 @@ elif selected == "Results":
                     st.info("No scores recorded yet for this session.")
                 
                 st.divider()
+                st.divider()
                 
-                # ===== QUESTIONS & ANSWERS =====
-                st.subheader("💬 Questions & Answers")
+                # ===== QUESTIONS & ANSWERS WITH FEEDBACK =====
+                st.subheader("💬 Questions, Answers & Feedback")
                 
-                turns = session_data.get("turns", [])
+                # Get turns from transcript (not "turns")
+                transcript = session_data.get("transcript", [])
+                scores_list = session_data.get("scores", [])
+                
+                # DEBUG: Show what we have
+                with st.expander("🔍 Debug Info"):
+                    st.write(f"**Transcript items:** {len(transcript)}")
+                    st.write(f"**Scores items:** {len(scores_list)}")
+                    if transcript:
+                        st.write("**Transcript speakers:**")
+                        for t in transcript:
+                            st.write(f"- {t.get('speaker', 'unknown')}: {t.get('text', '')[:80]}...")
+                    else:
+                        st.warning("❌ No transcript items found!")
+                
+                # Organize turns by question
+                questions = []
+                current_question = None
                 question_num = 0
                 
-                for i, turn in enumerate(turns):
+                for turn in transcript:
                     speaker = turn.get('speaker', '').lower()
                     text = turn.get('text', '').strip()
-                    timestamp = turn.get('timestamp', '')
                     
                     if speaker == 'avatar' and text:
                         question_num += 1
-                        with st.expander(f"**Q{question_num}:** {text[:60]}..." if len(text) > 60 else f"**Q{question_num}:** {text}"):
-                            st.write(f"**Time:** {timestamp}")
-                    
-                    elif speaker == 'student' and text:
-                        with st.expander(f"   └─ **Answer:** {text[:60]}..." if len(text) > 60 else f"   └─ **Answer:** {text}"):
-                            st.write(f"**Time:** {timestamp}")
+                        if current_question:
+                            questions.append(current_question)
+                        current_question = {
+                            "number": question_num,
+                            "question": text,
+                            "answer": None,
+                            "scores": None
+                        }
+                    elif speaker == 'student' and text and current_question:
+                        current_question["answer"] = text
+                
+                if current_question:
+                    questions.append(current_question)
+                
+                # Match scores with questions from the scores list
+                # scores_list is formatted as: [{"Q1": grading_result}, {"Q2": grading_result}, ...]
+                if scores_list:
+                    for score_dict in scores_list:
+                        for key, value in score_dict.items():
+                            # Extract question number from key like "Q1", "Q2", etc.
+                            if key.startswith("Q"):
+                                try:
+                                    q_num = int(key[1:])
+                                    if q_num <= len(questions):
+                                        questions[q_num - 1]["scores"] = value
+                                except (ValueError, IndexError):
+                                    pass
+                
+                # Display questions with answers and feedback
+                if questions:
+                    for q_info in questions:
+                        q_num = q_info["number"]
+                        q_text = q_info["question"]
+                        answer = q_info["answer"]
+                        q_scores = q_info["scores"]
+                        
+                        with st.container(border=True):
+                            # Question header
+                            st.markdown(f"## Q{q_num}: {q_text[:100]}{'...' if len(q_text) > 100 else ''}")
+                            
+                            # Student answer
+                            if answer:
+                                with st.expander(f"📝 Student Answer", expanded=False):
+                                    st.write(answer)
+                            else:
+                                st.warning("No answer provided for this question")
+                            
+                            # Scores and feedback
+                            if q_scores:
+                                if isinstance(q_scores, dict) and "tutoring_feedback" in q_scores:
+                                    # This is a grading result with feedback
+                                    st.markdown("### 📊 Score & Feedback")
+                                    
+                                    # Score summary
+                                    total = q_scores.get("total_score", 0)
+                                    max_score = q_scores.get("max_score", 100)
+                                    percentage = q_scores.get("percentage", 0)
+                                    
+                                    col1, col2, col3 = st.columns(3)
+                                    with col1:
+                                        st.metric("Score", f"{total}/{max_score}")
+                                    with col2:
+                                        st.metric("Percentage", f"{percentage}%")
+                                    with col3:
+                                        status = "Excellent" if percentage >= 80 else "Good" if percentage >= 70 else "Fair" if percentage >= 60 else "Needs Improvement"
+                                        st.metric("Status", status)
+                                    
+                                    # Criteria breakdown
+                                    criteria_scores = q_scores.get("scores", [])
+                                    if criteria_scores:
+                                        st.markdown("**Criteria Breakdown:**")
+                                        for criterion in criteria_scores:
+                                            if isinstance(criterion, dict):
+                                                criterion_name = criterion.get("criterion", "Unknown")
+                                                score = criterion.get("score", 0)
+                                                max_s = criterion.get("max_score", 10)
+                                                feedback = criterion.get("feedback", "")
+                                                
+                                                col_name, col_score = st.columns([3, 1])
+                                                with col_name:
+                                                    st.write(f"**{criterion_name}**")
+                                                    if feedback:
+                                                        st.caption(f"_{feedback}_")
+                                                with col_score:
+                                                    st.metric("", f"{score}/{max_s}", label_visibility="collapsed")
+                                    
+                                    # Tutoring feedback
+                                    tutoring = q_scores.get("tutoring_feedback", "")
+                                    if tutoring:
+                                        st.markdown("### 🎓 Tutor Feedback")
+                                        st.info(tutoring)
+                            else:
+                                st.info("No scoring data available for this question")
+                            
+                            st.divider()
+                else:
+                    st.info("No questions found in this session.")
                 
                 st.divider()
                 

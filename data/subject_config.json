@@ -9,6 +9,9 @@
     },
     "Science123": {
       "rubric": "primary_science"
+    },
+    "sc312": {
+      "rubric": "high school_math"
     }
   }
 }
