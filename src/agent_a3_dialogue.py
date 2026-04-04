@@ -292,7 +292,7 @@ class DialogueManager:
     def extract_questions_from_document(self, num_questions: int = 5) -> List[Dict]:
         """
         Extract actual questions from the ingested document.
-        Uses semantic search and pattern matching to identify questions.
+        Uses semantic search, pattern matching, and vision-based extraction for scanned PDFs.
         
         Args:
             num_questions: Number of questions to extract
@@ -310,11 +310,11 @@ class DialogueManager:
         combined_text = "\n".join([doc.page_content for doc in doc_samples])
         
         questions = []
+        seen = set()
         
         # Pattern 1: Q1) Q2) Q3) format
         q_pattern = r'Q(\d+)\)\s*([^\n]+?)(?:\n|$)'
         matches = re.finditer(q_pattern, combined_text)
-        seen = set()
         for match in matches:
             qid = int(match.group(1))
             qtext = match.group(2).strip()
@@ -332,7 +332,7 @@ class DialogueManager:
                         "answered": False,
                         "answer": None,
                         "scores": None,
-                        "image_path": self.get_question_image(qtext)  # Add image path
+                        "image_path": self.get_question_image(qtext)
                     }
                     questions.append(q_obj)
         
@@ -347,21 +347,19 @@ class DialogueManager:
                 if qtext and len(qtext) > 10 and qtext not in seen and len(questions) < num_questions * 2:
                     seen.add(qtext)
                     qtext = qtext.replace('www.sgexam.com', '').strip()
-                    if qtext:
-                        # Avoid duplicates
-                        if not any(q['text'] == qtext for q in questions):
-                            q_obj = {
-                                "id": len(questions) + 1,
-                                "text": qtext,
-                                "source": f"Question {qnum} from document",
-                                "answered": False,
-                                "answer": None,
-                                "scores": None,
-                                "image_path": self.get_question_image(qtext)  # Add image path
-                            }
-                            questions.append(q_obj)
+                    if qtext and not any(q['text'] == qtext for q in questions):
+                        q_obj = {
+                            "id": len(questions) + 1,
+                            "text": qtext,
+                            "source": f"Question {qnum} from document",
+                            "answered": False,
+                            "answer": None,
+                            "scores": None,
+                            "image_path": self.get_question_image(qtext)
+                        }
+                        questions.append(q_obj)
         
-        # If LLM parsing is needed, try it as fallback
+        # Fallback 1: LLM text-based extraction (for PDFs with extractable text)
         if len(questions) < 3:
             prompt = ChatPromptTemplate.from_template(
                 """Extract all exam questions from this text.
@@ -385,14 +383,138 @@ class DialogueManager:
                             "answered": False,
                             "answer": None,
                             "scores": None,
-                            "image_path": self.get_question_image(q_text.strip())  # Add image path
+                            "image_path": self.get_question_image(q_text.strip())
                         }
                         questions.append(q_obj)
             except:
-                pass  # If LLM fails, use what we already extracted
+                pass
+        
+        # Fallback 2: Vision-based extraction from page images (for scanned PDFs)
+        if len(questions) < 3 and self.page_images:
+            print(f"[INFO] Text extraction found minimal questions. Attempting vision-based extraction from {len(self.page_images)} page images...")
+            questions.extend(self._extract_questions_from_images(num_questions - len(questions)))
         
         self.questions = questions[:num_questions]
         return self.questions
+    
+    def _extract_questions_from_images(self, num_questions: int = 5) -> List[Dict]:
+        """
+        Extract questions from page images using GPT-4V vision capability.
+        Useful for scanned/image-based PDFs.
+        
+        Args:
+            num_questions: Number of questions to extract
+            
+        Returns:
+            List of question dictionaries extracted from images
+        """
+        import base64
+        from pathlib import Path
+        
+        questions = []
+        seen = set()
+        
+        # Get the first few pages that likely contain questions
+        sorted_pages = sorted(self.page_images.items())[:10]  # Check first 10 pages
+        
+        for page_num, image_path in sorted_pages:
+            if len(questions) >= num_questions:
+                break
+            
+            if not os.path.exists(image_path):
+                continue
+            
+            try:
+                # Read image and encode to base64
+                with open(image_path, "rb") as img_file:
+                    image_data = base64.standard_b64encode(img_file.read()).decode("utf-8")
+                
+                # Use gpt-4o for vision-based extraction from images
+                # Create message with vision
+                from langchain_openai import ChatOpenAI
+                vision_llm = ChatOpenAI(model="gpt-4o", max_tokens=1200)
+                
+                # Format image for vision
+                from langchain_core.messages import HumanMessage
+                message = HumanMessage(
+                    content=[
+                        {"type": "text", "text": "Extract all exam questions from this page image. Return only JSON with format: {\"questions\": [\"Q1 text\", \"Q2 text\", ...]}"},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/png;base64,{image_data}"
+                            }
+                        }
+                    ]
+                )
+                
+                response = vision_llm.invoke([message])
+                response_text = response.content
+                
+                # Parse JSON from response
+                try:
+                    # Try to extract JSON from the response
+                    import re
+                    json_match = re.search(r'\{.*?"questions".*?\[.*?\].*?\}', response_text, re.DOTALL)
+                    if json_match:
+                        json_str = json_match.group(0)
+                        data = json.loads(json_str)
+                        for q_text in data.get("questions", []):
+                            if q_text and len(q_text) > 15 and q_text not in seen:
+                                # Clean up the text
+                                q_text = q_text.strip(' "\'')
+                                seen.add(q_text)
+                                q_obj = {
+                                    "id": len(questions) + 1,
+                                    "text": q_text.strip(),
+                                    "source": f"Vision-extracted from page {page_num}",
+                                    "answered": False,
+                                    "answer": None,
+                                    "scores": None,
+                                    "image_path": image_path
+                                }
+                                questions.append(q_obj)
+                    else:
+                        # If no JSON found in regex, try plain parsing
+                        data = json.loads(response_text)
+                        for q_text in data.get("questions", []):
+                            if q_text and len(q_text) > 15 and q_text not in seen:
+                                q_text = q_text.strip(' "\'')
+                                seen.add(q_text)
+                                q_obj = {
+                                    "id": len(questions) + 1,
+                                    "text": q_text.strip(),
+                                    "source": f"Vision-extracted from page {page_num}",
+                                    "answered": False,
+                                    "answer": None,
+                                    "scores": None,
+                                    "image_path": image_path
+                                }
+                                questions.append(q_obj)
+                except (json.JSONDecodeError, AttributeError):
+                    # If JSON parsing fails, try to extract sentences manually
+                    sentences = re.split(r'[?\n]', response_text)
+                    for sentence in sentences:
+                        sentence = sentence.strip()
+                        if sentence and len(sentence) > 15 and any(word in sentence.lower() for word in ['what', 'which', 'how', 'why', 'describe', 'state', 'explain', 'calculate', 'list', 'write', 'find', 'determine']):
+                            if sentence not in seen and len(questions) < num_questions:
+                                seen.add(sentence)
+                                q_obj = {
+                                    "id": len(questions) + 1,
+                                    "text": sentence[:200],
+                                    "source": f"Page {page_num}",
+                                    "answered": False,
+                                    "answer": None,
+                                    "scores": None,
+                                    "image_path": image_path
+                                }
+                                questions.append(q_obj)
+            
+            except Exception as e:
+                print(f"[WARN] Failed to extract from page {page_num}: {e}")
+                continue
+        
+        return questions
     
     def get_current_question(self) -> Dict | None:
         """Get the current unanswered question"""

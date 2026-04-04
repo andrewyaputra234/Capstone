@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 from subject_manager import SubjectManager
 from agent_a3_dialogue import DialogueManager
 from agent_a6_session_manager import SessionManager
+from rubric_generator import get_or_create_rubric, list_available_rubrics
 import json
 import os
 
@@ -32,6 +33,10 @@ if "current_session_id" not in st.session_state:
     st.session_state.current_session_id = None
 if "assessment_active" not in st.session_state:
     st.session_state.assessment_active = False
+if "selected_rubric" not in st.session_state:
+    st.session_state.selected_rubric = None
+if "rubric_mode" not in st.session_state:
+    st.session_state.rubric_mode = "generated"
 
 # Custom CSS
 st.markdown("""
@@ -144,10 +149,10 @@ if selected == "Dashboard":
 elif selected == "Upload Document":
     st.header("📤 Upload Document")
     
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.subheader("Step 1: Upload File")
+        st.subheader("Step 1: Upload Document")
         uploaded_file = st.file_uploader(
             "Choose a document (PDF, DOCX, or TXT)",
             type=["pdf", "docx", "txt"]
@@ -157,32 +162,133 @@ elif selected == "Upload Document":
             st.success(f"✓ File selected: {uploaded_file.name}")
     
     with col2:
-        st.subheader("Step 2: Configure Subject")
+        st.subheader("Step 2: Subject Name")
+        
         subject_name = st.text_input(
-            "Enter subject name",
-            placeholder="e.g., PSLE_Math, Grade5_English"
+            "Subject name",
+            placeholder="e.g., Math, English, Biology"
+        )
+    
+    with col3:
+        st.subheader("Step 3: Rubric Setup")
+        
+        rubric_choice = st.radio(
+            "How would you like to set up the rubric?",
+            options=["Auto-Generate", "Upload Custom"],
+            help="Choose between auto-generating a rubric or providing your own template"
         )
         
-        st.subheader("Step 3: Select Rubric")
-        rubric_path = Path("data/rubrics")
-        rubric_files = list(rubric_path.glob("*.json")) if rubric_path.exists() else []
-        rubric_names = [f.stem for f in rubric_files]
+        rubric_name = None
         
-        if rubric_names:
-            rubric_name = st.selectbox("Choose rubric", rubric_names)
-        else:
-            st.warning("No rubrics found. Please create one first.")
-            rubric_name = None
+        if rubric_choice == "Auto-Generate":
+            st.markdown("**Auto-Generate by Education Level**")
+            
+            education_level = st.selectbox(
+                "Select education level",
+                options=["Primary", "Secondary", "High School", "University"],
+                key="edu_level_select"
+            )
+            
+            # Extract subject type for rubric generation
+            subject_type = "math"
+            if subject_name:
+                subject_lower = subject_name.lower()
+                if any(word in subject_lower for word in ["eng", "english", "literature"]):
+                    subject_type = "english"
+                elif any(word in subject_lower for word in ["sci", "science", "bio", "chem", "physics"]):
+                    subject_type = "science"
+                elif any(word in subject_lower for word in ["math", "maths", "calc"]):
+                    subject_type = "math"
+            
+            if st.button("🔄 Generate Rubric", type="secondary", use_container_width=True):
+                if not subject_name:
+                    st.error("Please enter a subject name first")
+                else:
+                    with st.spinner(f"Generating {education_level} {subject_name} rubric..."):
+                        try:
+                            rubric_name, rubric_path = get_or_create_rubric(
+                                subject=subject_type,
+                                education_level=education_level
+                            )
+                            st.success(f"✅ Rubric ready: {rubric_name}")
+                            st.session_state.selected_rubric = rubric_name
+                            st.session_state.rubric_mode = "generated"
+                        except Exception as e:
+                            st.error(f"Error generating rubric: {e}")
+            
+            # Show available rubrics
+            rubric_path = Path("data/rubrics")
+            rubric_files = list(rubric_path.glob("*.json")) if rubric_path.exists() else []
+            rubric_names = [f.stem for f in rubric_files]
+            
+            if rubric_names:
+                default_idx = 0
+                if "selected_rubric" in st.session_state and st.session_state.selected_rubric in rubric_names:
+                    default_idx = rubric_names.index(st.session_state.selected_rubric)
+                
+                rubric_name = st.selectbox(
+                    "Select rubric to use",
+                    options=rubric_names,
+                    index=default_idx,
+                    key="generated_rubric_select"
+                )
+            else:
+                st.warning("⚠️ No rubrics available yet. Generate one first.")
+        
+        else:  # Upload Custom
+            st.markdown("**Upload Custom Rubric Template**")
+            st.info("📋 Upload a JSON rubric template to use with this document")
+            
+            custom_rubric_file = st.file_uploader(
+                "Choose a JSON rubric template",
+                type=["json"],
+                key="custom_rubric_upload"
+            )
+            
+            if custom_rubric_file:
+                try:
+                    # Validate JSON format
+                    import json
+                    rubric_data = json.load(custom_rubric_file)
+                    
+                    # Basic validation
+                    if "criteria" not in rubric_data:
+                        st.error("❌ Invalid rubric format. Must have 'criteria' field.")
+                    else:
+                        # Save the custom rubric to data/rubrics/
+                        rubric_name = custom_rubric_file.name.replace(".json", "")
+                        rubric_save_path = Path("data/rubrics") / f"{rubric_name}.json"
+                        
+                        with open(rubric_save_path, "w") as f:
+                            json.dump(rubric_data, f, indent=2)
+                        
+                        st.success(f"✅ Rubric loaded: {rubric_name}")
+                        st.session_state.selected_rubric = rubric_name
+                        st.session_state.rubric_mode = "custom"
+                        
+                except json.JSONDecodeError:
+                    st.error("❌ Invalid JSON file. Please check the format.")
+                except Exception as e:
+                    st.error(f"❌ Error processing rubric: {e}")
+    
+    st.divider()
     
     # Process upload
-    if st.button("📤 Upload & Process", type="primary", use_container_width=True):
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        process_btn = st.button("📤 Upload & Process", type="primary", use_container_width=True)
+    
+    if process_btn:
         if not uploaded_file:
-            st.error("Please select a file")
+            st.error("❌ Please select a document")
         elif not subject_name:
-            st.error("Please enter a subject name")
-        elif not rubric_name:
-            st.error("Please select a rubric")
+            st.error("❌ Please enter a subject name")
+        elif not st.session_state.get("selected_rubric"):
+            st.error("❌ Please generate or upload a rubric first")
         else:
+            rubric_name = st.session_state.selected_rubric
+            
             # Save file to SUBJECT-SPECIFIC directory
             input_dir = subject_manager.get_subject_input_path(subject_name)
             input_dir.mkdir(parents=True, exist_ok=True)
@@ -209,19 +315,24 @@ elif selected == "Upload Document":
             )
             
             if result.returncode == 0:
+                mode = st.session_state.get("rubric_mode", "generated")
+                mode_label = "Auto-Generated" if mode == "generated" else "Custom"
+                
                 st.markdown("""
                 <div class="success-box">
                 <h3>✅ Document Uploaded Successfully!</h3>
                 <p><strong>Subject:</strong> {}</p>
-                <p><strong>Rubric:</strong> {}</p>
+                <p><strong>Rubric:</strong> {} ({})</p>
                 <p><strong>Status:</strong> Ready for assessment</p>
-                <p><strong>Important:</strong> Go to Assessment and click Refresh to load the new document</p>
+                <p><strong style="color: #856404;">📌 Next Step:</strong> Go to <strong>Assessment</strong> tab and select this subject to start</p>
                 </div>
-                """.format(subject_name, rubric_name), unsafe_allow_html=True)
+                """.format(subject_name, rubric_name, mode_label), unsafe_allow_html=True)
                 
                 st.session_state.current_subject = subject_name
+                st.balloons()
             else:
-                st.error(f"Error: {result.stderr}")
+                st.error(f"❌ Processing Error:\n{result.stderr}")
+                st.info("Please try again or check that the PDF/DOCX format is valid")
 
 # ============================================================================
 # PAGE: ASSESSMENT

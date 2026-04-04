@@ -110,7 +110,17 @@ Scoring Rubric:
 """
         
         for criterion in rubric.get("criteria", []):
-            rubric_context += f"\n- {criterion['name']}: {criterion.get('description', '')} (Max {criterion['max_score']} points)"
+            # Handle both 'max_points' (from auto-generated) and 'max_score' (from old format)
+            max_pts = criterion.get('max_points', criterion.get('max_score', 0))
+            # Get rubric_levels array and convert to readable format
+            rubric_levels = criterion.get('rubric_levels', [])
+            if rubric_levels and isinstance(rubric_levels, list):
+                levels_text = ", ".join([f"{item.get('level', 'Level')}: {item.get('points', 0)} pts" for item in rubric_levels])
+            else:
+                levels_text = "See rubric levels"
+            rubric_context += f"\n- {criterion['name']}: {criterion.get('description', '')} (Max {max_pts} points)"
+            if levels_text:
+                rubric_context += f"\n  Levels: {levels_text}"
         
         rubric_context += "\n\nStudent's Scores:"
         for score in scores:

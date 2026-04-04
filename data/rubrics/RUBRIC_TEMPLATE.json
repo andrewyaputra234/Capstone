@@ -1,0 +1,116 @@
+{
+  "name": "Custom Assessment Rubric",
+  "level": "Custom",
+  "subject": "Your Subject",
+  "description": "A customizable rubric template for oral assessments",
+  "criteria": [
+    {
+      "name": "Criterion 1",
+      "description": "Description of what this criterion measures",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "What excellent performance looks like for this criterion"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "What good performance looks like for this criterion"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "What fair performance looks like for this criterion"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "What poor performance looks like for this criterion"
+        }
+      ]
+    },
+    {
+      "name": "Criterion 2",
+      "description": "Description of what this criterion measures",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "What excellent performance looks like for this criterion"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "What good performance looks like for this criterion"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "What fair performance looks like for this criterion"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "What poor performance looks like for this criterion"
+        }
+      ]
+    },
+    {
+      "name": "Criterion 3",
+      "description": "Description of what this criterion measures",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "What excellent performance looks like for this criterion"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "What good performance looks like for this criterion"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "What fair performance looks like for this criterion"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "What poor performance looks like for this criterion"
+        }
+      ]
+    },
+    {
+      "name": "Criterion 4",
+      "description": "Description of what this criterion measures",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "What excellent performance looks like for this criterion"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "What good performance looks like for this criterion"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "What fair performance looks like for this criterion"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "What poor performance looks like for this criterion"
+        }
+      ]
+    }
+  ]
+}

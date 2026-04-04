@@ -1,0 +1,142 @@
+{
+  "name": "Secondary English",
+  "level": "Secondary",
+  "subject": "english",
+  "criteria": [
+    {
+      "name": "Textual Analysis",
+      "description": "Analyzes literary texts and devices effectively",
+      "max_points": 20,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 20,
+          "description": "Insightful analysis of text and techniques"
+        },
+        {
+          "level": "Good",
+          "points": 16,
+          "description": "Good understanding of text and devices"
+        },
+        {
+          "level": "Fair",
+          "points": 10,
+          "description": "Basic analysis"
+        },
+        {
+          "level": "Poor",
+          "points": 4,
+          "description": "Limited analysis"
+        }
+      ]
+    },
+    {
+      "name": "Vocabulary & Language Use",
+      "description": "Sophisticated and contextual vocabulary",
+      "max_points": 20,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 20,
+          "description": "Sophisticated, varied vocabulary"
+        },
+        {
+          "level": "Good",
+          "points": 16,
+          "description": "Good range of vocabulary"
+        },
+        {
+          "level": "Fair",
+          "points": 10,
+          "description": "Adequate vocabulary"
+        },
+        {
+          "level": "Poor",
+          "points": 4,
+          "description": "Limited vocabulary"
+        }
+      ]
+    },
+    {
+      "name": "Argumentation & Evidence",
+      "description": "Supports claims with relevant evidence",
+      "max_points": 20,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 20,
+          "description": "Well-developed arguments with strong evidence"
+        },
+        {
+          "level": "Good",
+          "points": 16,
+          "description": "Reasonable arguments with evidence"
+        },
+        {
+          "level": "Fair",
+          "points": 10,
+          "description": "Attempts arguments with some evidence"
+        },
+        {
+          "level": "Poor",
+          "points": 4,
+          "description": "Weak or missing arguments"
+        }
+      ]
+    },
+    {
+      "name": "Grammar & Style",
+      "description": "Correct grammar, syntax, and writing style",
+      "max_points": 20,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 20,
+          "description": "Excellent grammar and sophisticated style"
+        },
+        {
+          "level": "Good",
+          "points": 16,
+          "description": "Correct grammar with good style"
+        },
+        {
+          "level": "Fair",
+          "points": 10,
+          "description": "Generally correct with minor errors"
+        },
+        {
+          "level": "Poor",
+          "points": 4,
+          "description": "Frequent errors"
+        }
+      ]
+    },
+    {
+      "name": "Organization & Coherence",
+      "description": "Well-structured and logically organized",
+      "max_points": 20,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 20,
+          "description": "Excellent structure and flow"
+        },
+        {
+          "level": "Good",
+          "points": 16,
+          "description": "Clear organization"
+        },
+        {
+          "level": "Fair",
+          "points": 10,
+          "description": "Basic organization"
+        },
+        {
+          "level": "Poor",
+          "points": 4,
+          "description": "Poorly organized"
+        }
+      ]
+    }
+  ]
+}

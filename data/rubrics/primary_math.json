@@ -1,0 +1,115 @@
+{
+  "name": "Primary Mathematics",
+  "level": "Primary",
+  "subject": "math",
+  "criteria": [
+    {
+      "name": "Conceptual Understanding",
+      "description": "Student demonstrates understanding of basic mathematical concepts",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Clearly explains concepts with examples"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Explains concepts with minor gaps"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Basic understanding shown"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Limited understanding"
+        }
+      ]
+    },
+    {
+      "name": "Problem Solving",
+      "description": "Student can solve mathematical problems using correct methods",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Solves problems accurately with steps shown"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Mostly correct solutions with steps"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Some correct solutions"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Incorrect solutions"
+        }
+      ]
+    },
+    {
+      "name": "Calculation Accuracy",
+      "description": "Student performs arithmetic operations correctly",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "All calculations correct"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Most calculations correct (1-2 minor errors)"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Several correct calculations"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Most calculations incorrect"
+        }
+      ]
+    },
+    {
+      "name": "Communication",
+      "description": "Student communicates mathematical thinking clearly",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Clear and organized explanation"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Generally clear explanation"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Somewhat unclear"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Unclear or confusing"
+        }
+      ]
+    }
+  ]
+}

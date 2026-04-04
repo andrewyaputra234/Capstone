@@ -1,0 +1,115 @@
+{
+  "name": "Primary Science",
+  "level": "Primary",
+  "subject": "science",
+  "criteria": [
+    {
+      "name": "Conceptual Understanding",
+      "description": "Student understands scientific concepts",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Clear understanding with examples"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Good understanding"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Basic understanding"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Limited understanding"
+        }
+      ]
+    },
+    {
+      "name": "Observation & Description",
+      "description": "Student observes and describes phenomena accurately",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Detailed and accurate descriptions"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Mostly accurate descriptions"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Some accurate details"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Inaccurate descriptions"
+        }
+      ]
+    },
+    {
+      "name": "Scientific Reasoning",
+      "description": "Student explains cause and effect",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Clear cause-effect explanations"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Generally logical explanations"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Basic reasoning"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Weak or missing reasoning"
+        }
+      ]
+    },
+    {
+      "name": "Communication",
+      "description": "Student communicates scientific ideas clearly",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Clear and well-organized"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Generally clear"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Somewhat unclear"
+        },
+        {
+          "level": "Poor",
+          "points": 5,
+          "description": "Unclear"
+        }
+      ]
+    }
+  ]
+}

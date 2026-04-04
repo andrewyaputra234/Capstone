@@ -136,6 +136,21 @@ class VectorStore:
         
         return documents
     
+    def as_retriever(self, search_kwargs: dict | None = None):
+        """
+        Return a LangChain retriever interface for the vector store.
+        This allows compatibility with LangChain chains that expect a retriever.
+        
+        Args:
+            search_kwargs: Optional kwargs for search (e.g., {"k": 5})
+        
+        Returns:
+            A LangChain retriever object
+        """
+        if search_kwargs is None:
+            search_kwargs = {"k": 5}
+        return self.vector_store.as_retriever(search_kwargs=search_kwargs)
+    
     def semantic_search(self, query: str, top_k: int = 5) -> List[Tuple[str, float, str]]:
         """
         Search documents semantically using the query.

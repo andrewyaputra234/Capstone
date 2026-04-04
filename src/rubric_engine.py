@@ -120,12 +120,25 @@ class RubricEngine:
             
             name = criterion.get("name", "Unknown")
             description = criterion.get("description", "")
-            max_score = criterion.get("max_score", 10)
-            levels = criterion.get("levels", {})
+            # Handle both 'max_points' (from auto-generated) and 'max_score' (from old format)
+            max_score = criterion.get("max_points", criterion.get("max_score", 10))
+            # Handle both 'rubric_levels' and 'levels' keys
+            levels = criterion.get("rubric_levels", criterion.get("levels", {}))
             
             # Score using LLM with question context
             score = self._score_criterion(question, answer, description, levels, max_score)
-            feedback = levels.get(str(score), f"Score: {score}/{max_score}")
+            
+            # Generate feedback - handle both list and dict formats for levels
+            if isinstance(levels, list):
+                # List format - find matching level description
+                feedback = f"Score: {score}/{max_score}"
+                for level_item in levels:
+                    if isinstance(level_item, dict) and level_item.get("points") == score:
+                        feedback = level_item.get("description", feedback)
+                        break
+            else:
+                # Dict format - use the dict
+                feedback = levels.get(str(score), f"Score: {score}/{max_score}") if levels else f"Score: {score}/{max_score}"
             
             scores.append(RubricScore(
                 criterion_name=name,
@@ -142,9 +155,24 @@ class RubricEngine:
         """
         Score based on criterion using LLM semantic evaluation.
         Evaluates if the answer meets the criterion, not just length.
+        Handles both dict format {score: description} and array format [{"points": x, "description": "..."}]
         """
         if not answer or len(answer.strip()) == 0:
             return 0
+        
+        # Normalize levels to dict format if it's an array
+        if isinstance(levels, list):
+            # Convert array format to dict: {points: description}
+            normalized_levels = {}
+            for item in levels:
+                if isinstance(item, dict):
+                    points = item.get("points", 0)
+                    desc = item.get("description", "")
+                    if points > 0:
+                        normalized_levels[points] = desc
+            levels_dict = normalized_levels if normalized_levels else {max_score: "Excellent"}
+        else:
+            levels_dict = levels if levels else {max_score: "Excellent"}
         
         # Use LLM to evaluate answer quality based on criterion
         try:
@@ -162,8 +190,8 @@ class RubricEngine:
                 temperature=0.2
             )
             
-            # Build level descriptions
-            level_descriptions = "\n".join([f"  {k}: {v}" for k, v in sorted(levels.items())])
+            # Build level descriptions from normalized dict
+            level_descriptions = "\n".join([f"  {k}: {v}" for k, v in sorted(levels_dict.items())])
             
             evaluation_prompt = ChatPromptTemplate.from_template("""
 Evaluate this student answer.
