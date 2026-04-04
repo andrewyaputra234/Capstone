@@ -1,10 +1,13 @@
 from argparse import ArgumentParser
 from pathlib import Path
+import shutil
+import os
 
 from langchain_community.document_loaders import UnstructuredWordDocumentLoader, UnstructuredPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from subject_manager import SubjectManager
 from vector_store import VectorStore
+from agent_image_extractor import extract_pdf_pages_as_images
 
 
 def load_document(file_path: Path):
@@ -155,6 +158,35 @@ def main():
             if args.rubric:
                 subject_manager = SubjectManager()
                 subject_manager.set_subject_rubric(args.subject, args.rubric)
+            
+            # ============================================================================
+            # EXTRACT IMAGES FROM PDF (NEW FOR THIS INGESTION)
+            # ============================================================================
+            # Get the PDF file that was just ingested
+            pdf_files = list(input_path.glob("*.pdf")) if input_path.is_dir() else [input_path] if input_path.suffix.lower() == ".pdf" else []
+            
+            if pdf_files:
+                pdf_path = str(pdf_files[0])
+                subject_manager = SubjectManager()
+                
+                # 1. CLEAR OLD IMAGES for this subject
+                images_dir = Path("data") / f"{args.subject}_images"
+                if images_dir.exists():
+                    print(f"[INFO] Clearing old images for subject '{args.subject}'...")
+                    shutil.rmtree(images_dir)
+                    print(f"[OK] Old images deleted")
+                
+                # 2. EXTRACT IMAGES from the new PDF
+                print(f"[INFO] Extracting images from new PDF...")
+                output_dir = str(images_dir)
+                page_images = extract_pdf_pages_as_images(pdf_path, output_dir, dpi=150)
+                print(f"[OK] Extracted {len(page_images)} pages as images from new PDF")
+                
+                # 3. STORE PDF PATH in subject config for future reference
+                print(f"[INFO] Storing PDF path in subject config...")
+                subject_manager.set_subject_pdf(args.subject, pdf_path)
+                print(f"[OK] PDF path stored for subject '{args.subject}'")
+            
         except Exception as e:
             print(f"ERROR: Failed to update vector store: {e}")
 

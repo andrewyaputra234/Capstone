@@ -110,3 +110,18 @@ class SubjectManager:
     def get_default_rubric(self, subject: str) -> str | None:
         """Get the mapped rubric for a subject from config."""
         return self.config.get("subjects", {}).get(subject, {}).get("rubric")
+    
+    def set_subject_pdf(self, subject: str, pdf_path: str):
+        """Store which PDF file is used for a subject."""
+        if "subjects" not in self.config:
+            self.config["subjects"] = {}
+        if subject not in self.config["subjects"]:
+            self.config["subjects"][subject] = {}
+        
+        self.config["subjects"][subject]["pdf_path"] = pdf_path
+        self._save_config()
+        print(f"[OK] Stored PDF path for subject '{subject}': {pdf_path}")
+    
+    def get_subject_pdf(self, subject: str) -> str | None:
+        """Retrieve the PDF path stored for a subject."""
+        return self.config.get("subjects", {}).get(subject, {}).get("pdf_path")

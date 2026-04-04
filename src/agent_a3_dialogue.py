@@ -100,18 +100,22 @@ class DialogueManager:
         self.scores = []
     
     def _find_subject_pdf(self) -> Optional[str]:
-        """Find the PDF file for this subject from input directory."""
+        """Find the PDF file for this subject from input directory or config."""
         if not self.subject:
             return None
         
-        input_path = self.subject_manager.get_subject_input_path(self.subject)
+        # 1. Check if PDF path is stored in subject config (from last ingestion)
+        stored_pdf = self.subject_manager.get_subject_pdf(self.subject)
+        if stored_pdf and os.path.exists(stored_pdf):
+            return stored_pdf
         
-        # Look for PDF files in subject directory
+        # 2. Fallback: look for PDF files in subject directory
+        input_path = self.subject_manager.get_subject_input_path(self.subject)
         pdf_files = list(input_path.glob("*.pdf"))
         if pdf_files:
             return str(pdf_files[0])  # Return first PDF found
         
-        # Fallback: check root input directory
+        # 3. Final fallback: check root input directory
         root_input = self.subject_manager.get_subject_input_path(None)
         pdf_files = list(root_input.glob("*.pdf"))
         if pdf_files:

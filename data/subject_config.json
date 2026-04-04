@@ -1,13 +1,3 @@
 {
-  "subjects": {
-    "PSLE_Math": {
-      "rubric": "primary1_math"
-    },
-    "psle": {
-      "rubric": "primary1_math"
-    },
-    "PSLEPT2": {
-      "rubric": "primary1_math"
-    }
-  }
+  "subjects": {}
 }

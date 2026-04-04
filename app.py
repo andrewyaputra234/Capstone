@@ -183,8 +183,8 @@ elif selected == "Upload Document":
         elif not rubric_name:
             st.error("Please select a rubric")
         else:
-            # Save file
-            input_dir = Path("data/input")
+            # Save file to SUBJECT-SPECIFIC directory
+            input_dir = subject_manager.get_subject_input_path(subject_name)
             input_dir.mkdir(parents=True, exist_ok=True)
             file_path = input_dir / uploaded_file.name
             
@@ -204,7 +204,8 @@ elif selected == "Upload Document":
                     "--rubric", rubric_name
                 ],
                 capture_output=True,
-                text=True
+                text=True,
+                timeout=120  # 2 minute timeout
             )
             
             if result.returncode == 0:
@@ -214,6 +215,7 @@ elif selected == "Upload Document":
                 <p><strong>Subject:</strong> {}</p>
                 <p><strong>Rubric:</strong> {}</p>
                 <p><strong>Status:</strong> Ready for assessment</p>
+                <p><strong>Important:</strong> Go to Assessment and click Refresh to load the new document</p>
                 </div>
                 """.format(subject_name, rubric_name), unsafe_allow_html=True)
                 
@@ -242,21 +244,47 @@ elif selected == "Assessment":
         
         st.divider()
         
+        # If user selected a different subject, reset assessment state
+        if st.session_state.assessment_active and st.session_state.get("current_subject") != subject:
+            st.session_state.assessment_active = False
+            st.session_state.questions = []
+            st.session_state.current_question_index = 0
+            st.info("Subject changed. Previous assessment cleared.")
+        
         # Initialize DialogueManager for this subject (store in session to preserve images across reruns)
         if "dialogue_manager" not in st.session_state or st.session_state.get("dialogue_manager_subject") != subject:
             from agent_a3_dialogue import DialogueManager
-            st.session_state.dialogue_manager = DialogueManager(subject=subject)
+            st.session_state.dialogue_manager = DialogueManager(subject=subject, extract_images=True)
             st.session_state.dialogue_manager_subject = subject
         
         dialogue_manager = st.session_state.dialogue_manager
         
+        # Refresh button to reload DialogueManager with fresh images
+        col_refresh = st.columns([1, 9])
+        with col_refresh[0]:
+            if st.button("Refresh", help="Reload questions and images from latest document", use_container_width=True):
+                # Force recreate DialogueManager with fresh image extraction
+                st.session_state.dialogue_manager = None
+                st.session_state.dialogue_manager_subject = None
+                from agent_a3_dialogue import DialogueManager
+                st.session_state.dialogue_manager = DialogueManager(subject=subject, extract_images=True)
+                st.session_state.dialogue_manager_subject = subject
+                st.rerun()
+        
         # Start assessment
         if st.button("🎯 Start Assessment", type="primary", use_container_width=True):
+            # CRITICAL: Create a FRESH DialogueManager to load latest document and images
+            from agent_a3_dialogue import DialogueManager
+            fresh_dialogue_manager = DialogueManager(subject=subject, extract_images=True)
+            
             st.session_state.assessment_active = True
             st.session_state.current_subject = subject
-            st.session_state.questions = dialogue_manager.extract_questions_from_document(num_questions=5)
+            # Use the fresh DialogueManager to extract questions
+            st.session_state.questions = fresh_dialogue_manager.extract_questions_from_document(num_questions=5)
             st.session_state.current_question_index = 0
             st.session_state.answers = []
+            # Store the fresh DialogueManager for use during assessment
+            st.session_state.assessment_dialogue_manager = fresh_dialogue_manager
             
             # Create session
             session_id = session_manager.create_session(
@@ -268,6 +296,7 @@ elif selected == "Assessment":
             
             st.success(f"✓ Assessment started | Session: {session_id}")
             st.success(f"✓ Loaded {len(st.session_state.questions)} questions!")
+            st.rerun()  # Rerun to display the questions immediately
         
         # Assessment interface
         if st.session_state.assessment_active and st.session_state.current_session_id:
@@ -275,8 +304,8 @@ elif selected == "Assessment":
             question_idx = st.session_state.get("current_question_index", 0)
             session_id = st.session_state.current_session_id
             
-            # Retrieve dialogue manager from session state
-            dialogue_manager = st.session_state.get("dialogue_manager")
+            # Use the fresh DialogueManager from assessment start
+            dialogue_manager = st.session_state.get("assessment_dialogue_manager")
             
             # Reload session to ensure current_session is set
             session_data = session_manager.get_session(session_id)
