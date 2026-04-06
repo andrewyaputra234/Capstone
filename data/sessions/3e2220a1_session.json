@@ -1,0 +1,24 @@
+{
+  "session_id": "3e2220a1",
+  "paper_id": "TestScience1",
+  "student_id": "student_0012",
+  "date_created": "2026-04-07T00:35:39.311957",
+  "state": "INIT",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-07T00:35:39.519355",
+      "speaker": "avatar",
+      "text": "The diagram shows blood entering and leaving the brain and the small intestine through blood vessels W, X, Y and Z. Which blood vessels carry blood rich in oxygen and digested food? Fill in the boxes with W, X, Y and/or Z.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": null,
+  "start_time": null,
+  "end_time": null,
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}

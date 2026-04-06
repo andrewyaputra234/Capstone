@@ -553,12 +553,16 @@ elif selected == "Assessment":
                         if fallback_img and os.path.exists(fallback_img):
                             st.image(fallback_img, caption="Question reference (paper overview)", width=500)
                 
-                # Get answer from user
-                answer = st.text_area(
-                    "Your Answer:",
-                    height=100,
-                    key=f"answer_{question_idx}"
+                # Get answer from user via audio or text
+                from audio_recorder_streamlit import SimpleAudioInput
+                
+                audio_input = SimpleAudioInput()
+                audio_result = audio_input.audio_input_ui(
+                    label="Your Answer (Voice or Text):",
+                    key_suffix=f"q{question_idx}"
                 )
+                
+                answer = audio_result.get("text", "").strip() if audio_result.get("success") else ""
                 
                 # Buttons
                 col1, col2, col3 = st.columns(3)

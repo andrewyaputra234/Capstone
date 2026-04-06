@@ -1,0 +1,187 @@
+{
+  "session_id": "b14a7f93",
+  "paper_id": "TestScience1",
+  "student_id": "student_001",
+  "date_created": "2026-04-07T00:42:56.604894",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-04-07T00:42:56.799095",
+      "speaker": "avatar",
+      "text": "I'm unable to extract text or questions from this image. However, if you have any text content or summaries you'd like help with, feel free to share!",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-04-07T00:43:22.268098",
+      "speaker": "student",
+      "text": "We are falling in love.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-04-07T00:43:26.192378",
+      "speaker": "avatar",
+      "text": "Which blood vessels carry blood rich in oxygen and digested food? Fill in the boxes with W, X, Y and/or Z.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-04-07T00:43:40.920863",
+      "speaker": "student",
+      "text": "X, Y, and Z.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-04-07T00:43:44.918788",
+      "speaker": "avatar",
+      "text": "State how his breathing rate changed due to the infection.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-04-07T00:43:58.276569",
+      "speaker": "student",
+      "text": "I'll be with you from dusk till dawn.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 7,
+      "timestamp": "2026-04-07T00:44:01.463242",
+      "speaker": "avatar",
+      "text": "Explain your answer in (b)(i).",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "I'm unable to extract text or questions from this image. However, if you have any text content or summaries you'd like help with, feel free to share!",
+        "answer": "We are falling in love.",
+        "scores": [
+          {
+            "criterion": "Conceptual Understanding",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Limited understanding"
+          },
+          {
+            "criterion": "Observation & Description",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Inaccurate descriptions"
+          },
+          {
+            "criterion": "Scientific Reasoning",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Weak or missing reasoning"
+          },
+          {
+            "criterion": "Communication",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Unclear"
+          }
+        ],
+        "tutoring_feedback": "You did a great job sharing your thoughts, but let's work on connecting them to scientific concepts. Try to incorporate more scientific reasoning and observations to enhance your understanding. Keep practicing, and you'll see improvement in no time! Keep up the good work!",
+        "total_score": 20,
+        "max_score": 100,
+        "percentage": 20.0
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Which blood vessels carry blood rich in oxygen and digested food? Fill in the boxes with W, X, Y and/or Z.",
+        "answer": "X, Y, and Z.",
+        "scores": [
+          {
+            "criterion": "Conceptual Understanding",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Good understanding"
+          },
+          {
+            "criterion": "Observation & Description",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Mostly accurate descriptions"
+          },
+          {
+            "criterion": "Scientific Reasoning",
+            "score": 15,
+            "max_score": 25,
+            "feedback": "Basic reasoning"
+          },
+          {
+            "criterion": "Communication",
+            "score": 20,
+            "max_score": 25,
+            "feedback": "Generally clear"
+          }
+        ],
+        "tutoring_feedback": "Great job on correctly identifying that blood vessels X, Y, and Z carry blood rich in oxygen and digested food! You showed a good understanding of the concepts and communicated your answer clearly. To improve, try to provide a bit more scientific reasoning behind your choices next time. Keep up the good work!",
+        "total_score": 75,
+        "max_score": 100,
+        "percentage": 75.0
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "State how his breathing rate changed due to the infection.",
+        "answer": "I'll be with you from dusk till dawn.",
+        "scores": [
+          {
+            "criterion": "Conceptual Understanding",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Limited understanding"
+          },
+          {
+            "criterion": "Observation & Description",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Inaccurate descriptions"
+          },
+          {
+            "criterion": "Scientific Reasoning",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Weak or missing reasoning"
+          },
+          {
+            "criterion": "Communication",
+            "score": 5,
+            "max_score": 25,
+            "feedback": "Unclear"
+          }
+        ],
+        "tutoring_feedback": "Great job on expressing yourself in your response! I appreciate your creativity in using a song lyric to convey your thoughts. Moving forward, let's focus on connecting that creativity to the scientific concepts we're learning about, such as how infections can impact breathing rates. Keep up the good work, and let's work together to strengthen your understanding and explanation of these important ideas.",
+        "total_score": 20,
+        "max_score": 100,
+        "percentage": 20.0
+      }
+    }
+  ],
+  "start_time": null,
+  "end_time": "2026-04-07T00:44:03.580831",
+  "metadata": {
+    "started_from": "streamlit_ui"
+  }
+}
