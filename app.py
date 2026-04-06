@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 from subject_manager import SubjectManager
 from agent_a3_dialogue import DialogueManager
 from agent_a6_session_manager import SessionManager
-from rubric_generator import get_or_create_rubric, list_available_rubrics
+from rubric_generator import get_or_create_rubric, list_available_rubrics, generate_rubric_from_document
 import json
 import os
 
@@ -172,45 +172,126 @@ elif selected == "Upload Document":
     with col3:
         st.subheader("Step 3: Rubric Setup")
         
+        education_level = st.selectbox(
+            "Select education level",
+            options=["Primary", "Secondary", "High School", "University"],
+            key="edu_level_select"
+        )
+        
         rubric_choice = st.radio(
-            "How would you like to set up the rubric?",
-            options=["Auto-Generate", "Upload Custom"],
-            help="Choose between auto-generating a rubric or providing your own template"
+            "Rubric generation method:",
+            options=["AI Auto-Detect Topic", "Manual Selection", "Upload Custom"],
+            help="AI Auto-Detect reads your paper and creates a focused rubric; Manual lets you choose a pre-built rubric"
         )
         
         rubric_name = None
+        detected_topic = None
         
-        if rubric_choice == "Auto-Generate":
-            st.markdown("**Auto-Generate by Education Level**")
+        if rubric_choice == "AI Auto-Detect Topic":
+            st.markdown("**AI will analyze your document and create a topic-specific rubric**")
             
-            education_level = st.selectbox(
-                "Select education level",
-                options=["Primary", "Secondary", "High School", "University"],
-                key="edu_level_select"
-            )
+            if st.button("🤖 Analyze Document & Generate Rubric", type="primary", use_container_width=True):
+                if not uploaded_file:
+                    st.error("Please upload a document first")
+                elif not subject_name:
+                    st.error("Please enter a subject name first")
+                else:
+                    with st.spinner("Analyzing document and generating topic-specific rubric..."):
+                        try:
+                            import tempfile
+                            import shutil
+                            
+                            # Extract document content using DocumentIngestionAgent
+                            from agent_a1_ingestion import DocumentIngestionAgent
+                            ingestion_agent = DocumentIngestionAgent()
+                            
+                            # Save uploaded file to Windows temp directory
+                            temp_dir = tempfile.mkdtemp()
+                            temp_path = Path(temp_dir) / uploaded_file.name
+                            
+                            with open(temp_path, "wb") as f:
+                                f.write(uploaded_file.getbuffer())
+                            
+                            st.info(f"📄 Analyzing: {uploaded_file.name}")
+                            
+                            # Extract content from the actual uploaded file
+                            doc_content = ingestion_agent.extract_text(str(temp_path))
+                            
+                            if not doc_content or len(doc_content.strip()) < 100:
+                                st.warning("⚠️ Document appears to be empty or unreadable. Please try another file.")
+                            else:
+                                # Determine subject type
+                                subject_lower = subject_name.lower()
+                                if any(word in subject_lower for word in ["eng", "english", "literature"]):
+                                    subject_type = "english"
+                                elif any(word in subject_lower for word in ["sci", "science", "bio", "chem", "physics"]):
+                                    subject_type = "science"
+                                else:
+                                    subject_type = "math"
+                                
+                                # AI detect topic and generate rubric
+                                st.info("🤖 Detecting topic and generating criteria...")
+                                detected_topic, rubric_dict = generate_rubric_from_document(
+                                    document_content=doc_content,
+                                    subject_type=subject_type,
+                                    education_level=education_level
+                                )
+                                
+                                # Save generated rubric
+                                rubric_dir = Path("data/rubrics")
+                                rubric_dir.mkdir(parents=True, exist_ok=True)
+                                
+                                rubric_filename = f"{education_level.lower()}_{detected_topic.replace(' ', '_').lower()}.json"
+                                rubric_path = rubric_dir / rubric_filename
+                                
+                                with open(rubric_path, "w") as f:
+                                    json.dump(rubric_dict, f, indent=2)
+                                
+                                st.session_state.selected_rubric = rubric_filename.replace('.json', '')
+                                st.session_state.detected_topic = detected_topic
+                                st.session_state.topic_rubric = rubric_dict
+                                st.success(f"✅ Topic detected: **{detected_topic}**")
+                                st.info(f"Generated {education_level} rubric with {len(rubric_dict.get('criteria', []))} custom criteria for this topic.")
+                                
+                                # Show rubric criteria preview
+                                with st.expander("📋 View Generated Rubric Criteria"):
+                                    for criterion in rubric_dict.get('criteria', []):
+                                        st.write(f"**{criterion['name']}** (Max {criterion['max_points']} points)")
+                                        st.write(f"*{criterion['description']}*")
+                            
+                            # Clean up temp directory
+                            try:
+                                shutil.rmtree(temp_dir)
+                            except:
+                                pass
+                        except Exception as e:
+                            st.error(f"Error during analysis: {str(e)}")
+                            import traceback
+                            print(traceback.format_exc())
+        
+        elif rubric_choice == "Manual Selection":
+            st.markdown("**Select from Pre-built Rubric Templates**")
             
-            # Extract subject type for rubric generation
-            subject_type = "math"
-            if subject_name:
-                subject_lower = subject_name.lower()
-                if any(word in subject_lower for word in ["eng", "english", "literature"]):
-                    subject_type = "english"
-                elif any(word in subject_lower for word in ["sci", "science", "bio", "chem", "physics"]):
-                    subject_type = "science"
-                elif any(word in subject_lower for word in ["math", "maths", "calc"]):
-                    subject_type = "math"
-            
-            if st.button("🔄 Generate Rubric", type="secondary", use_container_width=True):
+            if st.button("📚 Load Pre-built Rubric", type="secondary", use_container_width=True):
                 if not subject_name:
                     st.error("Please enter a subject name first")
                 else:
                     with st.spinner(f"Generating {education_level} {subject_name} rubric..."):
                         try:
+                            # Extract subject type
+                            subject_lower = subject_name.lower()
+                            if any(word in subject_lower for word in ["eng", "english", "literature"]):
+                                subject_type = "english"
+                            elif any(word in subject_lower for word in ["sci", "science", "bio", "chem", "physics"]):
+                                subject_type = "science"
+                            else:
+                                subject_type = "math"
+                            
                             rubric_name, rubric_path = get_or_create_rubric(
                                 subject=subject_type,
                                 education_level=education_level
                             )
-                            st.success(f"✅ Rubric ready: {rubric_name}")
+                            st.success(f"✅ Loaded: {rubric_name}")
                             st.session_state.selected_rubric = rubric_name
                             st.session_state.rubric_mode = "generated"
                         except Exception as e:
@@ -227,13 +308,13 @@ elif selected == "Upload Document":
                     default_idx = rubric_names.index(st.session_state.selected_rubric)
                 
                 rubric_name = st.selectbox(
-                    "Select rubric to use",
+                    "Or select from available rubrics",
                     options=rubric_names,
                     index=default_idx,
                     key="generated_rubric_select"
                 )
             else:
-                st.warning("⚠️ No rubrics available yet. Generate one first.")
+                st.warning("⚠️ No pre-built rubrics available yet. Use AI Auto-Detect or generate one first.")
         
         else:  # Upload Custom
             st.markdown("**Upload Custom Rubric Template**")
@@ -491,10 +572,20 @@ elif selected == "Assessment":
                                 text=answer
                             )
                             
-                            # Score the answer
-                            rubric_name = subject_manager.get_default_rubric(subject)
+                            # Score the answer using the appropriate rubric
+                            # Prefer AI-generated topic-specific rubric if available
                             from agent_a5_grader import RubricGrader
-                            grader = RubricGrader(rubric_name)
+                            
+                            if "topic_rubric" in st.session_state and st.session_state.topic_rubric:
+                                # Use the AI-generated topic-specific rubric
+                                grader = RubricGrader(rubric_dict=st.session_state.topic_rubric)
+                                detected_topic = st.session_state.get("detected_topic", "Custom Topic")
+                                st.info(f"📍 Using AI-generated rubric for: {detected_topic}")
+                            else:
+                                # Fall back to default rubric
+                                rubric_name = subject_manager.get_default_rubric(subject)
+                                grader = RubricGrader(rubric_name)
+                            
                             grading_result = grader.generate_tutoring_feedback(
                                 assignment=current_q.get('text', ''),
                                 answer=answer

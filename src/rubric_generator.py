@@ -1,11 +1,14 @@
 """
 Rubric Generator: Auto-generate assessment rubrics based on education level and subject.
 Supports Primary School, Secondary School, High School, and University levels.
+Includes AI-powered topic detection from document content.
 """
 
 import json
 from pathlib import Path
 from typing import Dict, Any, Optional
+import os
+from openai import OpenAI
 
 
 # Rubric templates by education level and subject
@@ -830,6 +833,187 @@ def list_available_rubrics() -> Dict[str, list]:
         "University": ["math", "english", "science"]
     }
     return available
+
+
+def detect_topic_from_content(content: str, subject_type: str) -> str:
+    """
+    Use GPT to analyze document content and detect the specific topic.
+    
+    Args:
+        content: Extracted text content from the document
+        subject_type: Subject category (math, english, science)
+    
+    Returns:
+        Detected topic name (e.g., "Photosynthesis", "Fractions", "Romeo and Juliet")
+    """
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    
+    prompt = f"""Analyze the following document content and identify the main topic/subject being taught.
+    
+Subject Area: {subject_type.upper()}
+Document Content (first 2000 chars):
+{content[:2000]}
+
+Based on this content, what is the specific topic being covered? 
+Return ONLY the topic name in a few words (e.g., "Photosynthesis", "Fractions", "Shakespeare").
+Do not include explanations, just the topic name."""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            max_tokens=50
+        )
+        topic = response.choices[0].message.content.strip()
+        return topic
+    except Exception as e:
+        print(f"[WARN] Error detecting topic: {e}")
+        return f"Custom {subject_type.title()}"
+
+
+def generate_topic_specific_rubric(
+    topic: str,
+    subject_type: str,
+    education_level: str,
+    document_content: str = ""
+) -> Dict[str, Any]:
+    """
+    Generate a topic-specific rubric using GPT based on the document content and education level.
+    
+    Args:
+        topic: The specific topic (e.g., "Photosynthesis", "Fractions")
+        subject_type: Subject category (math, english, science)
+        education_level: Education level (Primary, Secondary, High School, University)
+        document_content: The actual document content for context
+    
+    Returns:
+        A detailed rubric dictionary with topic-specific criteria
+    """
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    
+    # Define expectations by education level
+    level_expectations = {
+        "Primary": """- Focus on basic understanding and vocabulary
+- 4 criteria maximum
+- Simple, clear descriptions (5-10 words each level)
+- Emphasis on conceptual identification and observation
+- Max 25 points per criterion""",
+        "Secondary": """- Foundational reasoning and application
+- 5 criteria
+- Balance between memorization and application
+- Emphasis on evidence-based reasoning
+- Max 20 points per criterion""",
+        "High School": """- Critical thinking and analysis required
+- 5-6 criteria
+- Emphasis on methodology and reasoning
+- Include evaluation of sources and evidence
+- Max 20 points per criterion""",
+        "University": """- Advanced analysis and evaluation
+- 6 criteria
+- Emphasis on scholarly rigor and original thinking
+- Critical evaluation and research methodology
+- Max 15-17 points per criterion"""
+    }
+    
+    prompt = f"""You are an expert educator. Create a detailed rubric for assessing student answers on the topic: "{topic}" in {subject_type.upper()}.
+
+Education Level: {education_level}
+Context (document excerpt): 
+{document_content[:1500]}
+
+Requirements for this level:
+{level_expectations.get(education_level, level_expectations["Secondary"])}
+
+Generate a JSON rubric with this exact structure:
+{{
+  "name": "{{topic}} - {{education_level}}",
+  "level": "{{education_level}}",
+  "subject": "{{subject_type}}",
+  "topic": "{{topic}}",
+  "max_score": {{total_points}},
+  "criteria": [
+    {{
+      "name": "criterion name",
+      "description": "what this criterion assesses",
+      "max_points": {{points_for_criterion}},
+      "rubric_levels": [
+        {{"level": "Excellent", "points": {{excellent_points}}, "description": "specific excellent performance"}},
+        {{"level": "Good", "points": {{good_points}}, "description": "specific good performance"}},
+        {{"level": "Fair", "points": {{fair_points}}, "description": "specific fair performance"}},
+        {{"level": "Poor", "points": {{poor_points}}, "description": "specific poor performance"}}
+      ]
+    }}
+  ]
+}}
+
+IMPORTANT: Return ONLY valid JSON, no markdown, no code blocks, no explanations."""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+            max_tokens=2000
+        )
+        
+        response_text = response.choices[0].message.content.strip()
+        
+        # Remove markdown code blocks if present
+        if response_text.startswith("```json"):
+            response_text = response_text[7:]
+        if response_text.startswith("```"):
+            response_text = response_text[3:]
+        if response_text.endswith("```"):
+            response_text = response_text[:-3]
+        
+        rubric = json.loads(response_text.strip())
+        return rubric
+    except json.JSONDecodeError as e:
+        print(f"[WARN] JSON parse error: {e}")
+        # Return a fallback generic rubric
+        return generate_rubric(subject_type, education_level, custom_subject=topic)
+    except Exception as e:
+        print(f"[WARN] Error generating topic-specific rubric: {e}")
+        return generate_rubric(subject_type, education_level, custom_subject=topic)
+
+
+def generate_rubric_from_document(
+    document_content: str,
+    subject_type: str,
+    education_level: str
+) -> tuple[str, Dict[str, Any]]:
+    """
+    Complete pipeline: Extract topic from document, then generate topic-specific rubric.
+    
+    Args:
+        document_content: Extracted text content from the document
+        subject_type: Subject category (math, english, science)
+        education_level: Education level (Primary, Secondary, High School, University)
+    
+    Returns:
+        Tuple of (detected_topic, rubric_dict)
+    """
+    # Step 1: Detect the topic from document content
+    print(f"[INFO] Analyzing document to detect topic...")
+    detected_topic = detect_topic_from_content(document_content, subject_type)
+    print(f"[OK] Detected topic: {detected_topic}")
+    
+    # Step 2: Generate topic-specific rubric
+    print(f"[INFO] Generating {education_level} rubric for {detected_topic}...")
+    rubric = generate_topic_specific_rubric(
+        topic=detected_topic,
+        subject_type=subject_type,
+        education_level=education_level,
+        document_content=document_content
+    )
+    print(f"[OK] Generated rubric with {len(rubric.get('criteria', []))} criteria")
+    
+    return detected_topic, rubric
 
 
 if __name__ == "__main__":

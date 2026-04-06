@@ -1,0 +1,117 @@
+{
+  "name": "No specific topic can be identified from the given content - Primary",
+  "level": "Primary",
+  "subject": "Science",
+  "topic": "No specific topic can be identified from the given content",
+  "max_score": 100,
+  "criteria": [
+    {
+      "name": "Conceptual Understanding",
+      "description": "Understanding of basic science concepts",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Clearly demonstrates understanding"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Shows understanding with minor gaps"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Limited understanding with significant gaps"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Little to no understanding"
+        }
+      ]
+    },
+    {
+      "name": "Vocabulary",
+      "description": "Use of appropriate science vocabulary",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Accurate and varied use of vocabulary"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Mostly accurate use of vocabulary"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Limited or inaccurate use of vocabulary"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Little to no use of appropriate vocabulary"
+        }
+      ]
+    },
+    {
+      "name": "Observation Skills",
+      "description": "Ability to observe and describe scientific content",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Detailed and accurate observations"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Most observations are accurate"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Limited or inaccurate observations"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Little to no observation skills demonstrated"
+        }
+      ]
+    },
+    {
+      "name": "Concept Identification",
+      "description": "Ability to identify key concepts in science content",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Consistently identifies key concepts"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Identifies most key concepts"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Struggles to identify key concepts"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Unable to identify key concepts"
+        }
+      ]
+    }
+  ]
+}

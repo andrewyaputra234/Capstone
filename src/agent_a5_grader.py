@@ -21,18 +21,27 @@ load_dotenv()
 class RubricGrader:
     """Generates tutoring feedback based on rubric criteria."""
     
-    def __init__(self, rubric_name: str):
+    def __init__(self, rubric_name: str = None, rubric_dict: Dict = None):
         """
         Initialize grader with a specific rubric.
         
         Args:
-            rubric_name: Name of the rubric file to use
+            rubric_name: Name of the rubric file to use (string path/name)
+            rubric_dict: Direct rubric dictionary (for AI-generated rubrics)
         """
-        self.rubric_name = rubric_name
         self.rubric_engine = RubricEngine()
         
-        if not self.rubric_engine.load_rubric(rubric_name):
-            raise ValueError(f"Could not load rubric: {rubric_name}")
+        if rubric_dict:
+            # Use provided rubric dictionary directly (AI-generated)
+            self.rubric_name = rubric_dict.get("name", "custom_rubric")
+            self.rubric_engine.current_rubric = rubric_dict
+        elif rubric_name:
+            # Load rubric from file
+            self.rubric_name = rubric_name
+            if not self.rubric_engine.load_rubric(rubric_name):
+                raise ValueError(f"Could not load rubric: {rubric_name}")
+        else:
+            raise ValueError("Either rubric_name or rubric_dict must be provided")
         
         self.llm = ChatOpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
