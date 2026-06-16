@@ -1,0 +1,117 @@
+{
+  "name": "No specific topic identified - Primary",
+  "level": "Primary",
+  "subject": "Science",
+  "topic": "No specific topic identified",
+  "max_score": 100,
+  "criteria": [
+    {
+      "name": "Conceptual Understanding",
+      "description": "Understanding of basic science concepts",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Clearly demonstrates understanding"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Shows solid understanding"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Some understanding shown"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Lacks understanding"
+        }
+      ]
+    },
+    {
+      "name": "Vocabulary",
+      "description": "Use of appropriate science vocabulary",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Accurate and varied vocabulary used"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Appropriate vocabulary used"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Limited vocabulary used"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Inaccurate or no use of vocabulary"
+        }
+      ]
+    },
+    {
+      "name": "Observation Skills",
+      "description": "Ability to observe and describe scientific phenomena",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Detailed and accurate observations"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Clear observations provided"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Some observations made"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Lacks observation skills"
+        }
+      ]
+    },
+    {
+      "name": "Critical Thinking",
+      "description": "Ability to analyze and evaluate information",
+      "max_points": 25,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 25,
+          "description": "Consistently demonstrates critical thinking"
+        },
+        {
+          "level": "Good",
+          "points": 20,
+          "description": "Shows some critical thinking skills"
+        },
+        {
+          "level": "Fair",
+          "points": 15,
+          "description": "Limited critical thinking shown"
+        },
+        {
+          "level": "Poor",
+          "points": 10,
+          "description": "Lacks critical thinking abilities"
+        }
+      ]
+    }
+  ]
+}
