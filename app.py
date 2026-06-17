@@ -517,7 +517,12 @@ elif selected == "Assessment":
                     try:
                         session_manager.add_turn(
                             speaker="avatar",
-                            text=current_q.get('text', 'Question')
+                            text=current_q.get('text', 'Question'),
+                            metadata=(
+                                {"visual_context": current_q.get("visual_context")}
+                                if current_q.get("visual_context")
+                                else None
+                            )
                         )
                         st.session_state[f"q{question_idx}_added"] = True
                         print(f"[OK] Added Q{question_idx + 1} to session transcript")
@@ -592,7 +597,8 @@ elif selected == "Assessment":
                             
                             grading_result = grader.generate_tutoring_feedback(
                                 assignment=current_q.get('text', ''),
-                                answer=answer
+                                answer=answer,
+                                visual_context=current_q.get("visual_context")
                             )
                             
                             # Extract scores from result
@@ -809,6 +815,9 @@ elif selected == "Results":
                                                     st.write(f"**{criterion_name}**")
                                                     if feedback:
                                                         st.caption(f"_{feedback}_")
+                                                    evidence = criterion.get("evidence", "")
+                                                    if evidence:
+                                                        st.caption(f"Evidence: {evidence}")
                                                 with col_score:
                                                     st.metric("", f"{score}/{max_s}", label_visibility="collapsed")
                                     

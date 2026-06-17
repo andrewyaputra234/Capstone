@@ -4,9 +4,10 @@ Handles rubric-based assessment with flexible criteria
 """
 
 import json
+import re
 import yaml
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Any, Dict, List, Tuple, Optional
 from dataclasses import dataclass
 
 
@@ -91,8 +92,13 @@ class RubricEngine:
             rubrics.add(file.stem)
         return sorted(list(rubrics))
     
-    def score_answer(self, question: str, answer: str, 
-                    criterion_name: Optional[str] = None) -> List[RubricScore]:
+    def score_answer(
+        self,
+        question: str,
+        answer: str,
+        criterion_name: Optional[str] = None,
+        visual_context: Optional[str] = None,
+    ) -> List[RubricScore]:
         """
         Score an answer against the loaded rubric.
         
@@ -100,6 +106,7 @@ class RubricEngine:
             question: The question asked
             answer: Student's answer
             criterion_name: Optional specific criterion to score (if None, score all)
+            visual_context: Optional factual description of the visual stimulus
             
         Returns:
             List of RubricScore objects
@@ -125,54 +132,101 @@ class RubricEngine:
             # Handle both 'rubric_levels' and 'levels' keys
             levels = criterion.get("rubric_levels", criterion.get("levels", {}))
             
-            # Score using LLM with question context
-            score = self._score_criterion(question, answer, description, levels, max_score)
+            if self._should_skip_reading_aloud(name, description, question, visual_context):
+                scores.append(RubricScore(
+                    criterion_name=name,
+                    score=0,
+                    max_score=0,
+                    feedback=(
+                        "Not assessed for this stimulus-based response because no "
+                        "reading-aloud or audio delivery evidence was provided."
+                    ),
+                    evidence=None
+                ))
+                continue
+            
+            evaluation = self._evaluate_criterion(
+                question=question,
+                answer=answer,
+                criterion_name=name,
+                description=description,
+                levels=levels,
+                max_score=max_score,
+                visual_context=visual_context,
+            )
+            score = evaluation["score"]
+            visual_mismatch = self._detect_visual_color_mismatch(
+                answer=answer,
+                visual_context=visual_context or question,
+            )
+            if visual_mismatch and self._is_visual_accuracy_criterion(name, description):
+                score_cap = self._score_at_or_below(max_score // 2, levels, max_score)
+                if score > score_cap:
+                    score = score_cap
+                evaluation["feedback"] = (
+                    f"{visual_mismatch}. This makes the response only partly relevant; "
+                    "check the picture carefully and correct that detail."
+                )
+                evaluation["evidence"] = visual_mismatch
             
             # Generate feedback - handle both list and dict formats for levels
-            if isinstance(levels, list):
-                # List format - find matching level description
-                feedback = f"Score: {score}/{max_score}"
-                for level_item in levels:
-                    if isinstance(level_item, dict) and level_item.get("points") == score:
-                        feedback = level_item.get("description", feedback)
-                        break
-            else:
-                # Dict format - use the dict
-                feedback = levels.get(str(score), f"Score: {score}/{max_score}") if levels else f"Score: {score}/{max_score}"
+            feedback = evaluation.get("feedback") or self._level_feedback(levels, score, max_score)
             
             scores.append(RubricScore(
                 criterion_name=name,
                 score=score,
                 max_score=max_score,
                 feedback=feedback,
-                evidence=answer[:100]  # First 100 chars as evidence
+                evidence=evaluation.get("evidence") or answer[:100]
             ))
         
         return scores
     
-    def _score_criterion(self, question: str, answer: str, description: str, 
-                        levels: Dict, max_score: int) -> int:
+    def _score_criterion(
+        self,
+        question: str,
+        answer: str,
+        description: str,
+        levels: Dict,
+        max_score: int,
+        criterion_name: str = "Criterion",
+        visual_context: Optional[str] = None,
+    ) -> int:
         """
         Score based on criterion using LLM semantic evaluation.
         Evaluates if the answer meets the criterion, not just length.
         Handles both dict format {score: description} and array format [{"points": x, "description": "..."}]
         """
+        return self._evaluate_criterion(
+            question=question,
+            answer=answer,
+            criterion_name=criterion_name,
+            description=description,
+            levels=levels,
+            max_score=max_score,
+            visual_context=visual_context,
+        )["score"]
+    
+    def _evaluate_criterion(
+        self,
+        question: str,
+        answer: str,
+        criterion_name: str,
+        description: str,
+        levels: Dict,
+        max_score: int,
+        visual_context: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """Evaluate a criterion and return a score with evidence-based feedback."""
         if not answer or len(answer.strip()) == 0:
-            return 0
+            return {
+                "score": 0,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": None,
+            }
         
-        # Normalize levels to dict format if it's an array
-        if isinstance(levels, list):
-            # Convert array format to dict: {points: description}
-            normalized_levels = {}
-            for item in levels:
-                if isinstance(item, dict):
-                    points = item.get("points", 0)
-                    desc = item.get("description", "")
-                    if points > 0:
-                        normalized_levels[points] = desc
-            levels_dict = normalized_levels if normalized_levels else {max_score: "Excellent"}
-        else:
-            levels_dict = levels if levels else {max_score: "Excellent"}
+        levels_dict = self._normalize_levels(levels, max_score)
+        allowed_scores = sorted(levels_dict.keys())
         
         # Use LLM to evaluate answer quality based on criterion
         try:
@@ -192,19 +246,39 @@ class RubricEngine:
             
             # Build level descriptions from normalized dict
             level_descriptions = "\n".join([f"  {k}: {v}" for k, v in sorted(levels_dict.items())])
+            allowed_text = ", ".join(str(score) for score in allowed_scores)
+            visual_text = visual_context.strip() if visual_context else "Not provided."
             
             evaluation_prompt = ChatPromptTemplate.from_template("""
-Evaluate this student answer.
+Evaluate one rubric criterion for this student answer.
 
-Question: {question}
-Student's answer: {answer}
+Assessment question/context:
+{question}
 
+Visual stimulus facts, if any:
+{visual_context}
+
+Student's answer:
+{answer}
+
+Criterion name: {criterion_name}
 Evaluation criterion: {criterion}
 
 Score levels:
 {levels}
 
-Choose the score that best matches how well the answer addresses this criterion. Reply with ONLY the score number.
+Allowed score numbers: {allowed_scores}
+
+Important:
+- Choose only one of the allowed score numbers.
+- Base the score on observable evidence in the student's answer.
+- For visual stimulus questions, compare the answer to the visual facts. If the answer directly contradicts a visible fact, lower the relevant score and mention the mismatch.
+- Do not invent visual facts. If no visual facts are provided, say the answer needs more detail rather than claiming it is visually wrong.
+- Do not reward reading-aloud delivery, pronunciation, fluency, or expression unless actual audio/delivery evidence is provided.
+- Feedback must be one specific sentence that explains why this score was chosen and names one concrete next step when useful.
+
+Return ONLY valid JSON with this shape:
+{{"score": 0, "feedback": "specific criterion feedback", "evidence": "short evidence from the answer"}}
 """)
             
             chain = evaluation_prompt | llm | StrOutputParser()
@@ -212,28 +286,194 @@ Choose the score that best matches how well the answer addresses this criterion.
             result = chain.invoke({
                 "question": question,
                 "answer": answer,
+                "criterion_name": criterion_name,
                 "criterion": description,
-                "levels": level_descriptions
+                "levels": level_descriptions,
+                "allowed_scores": allowed_text,
+                "visual_context": visual_text,
             })
             
-            # Extract the number from result
-            import re
-            result_clean = result.strip()
-            
-            # Try to find a number in the response
-            numbers = re.findall(r'\b(\d+)\b', result_clean)
-            
-            if numbers:
-                score = int(numbers[0])  # Take first number found
-                return min(score, max_score)
-            else:
-                # If no number found, fallback to 50%
-                return max_score // 2
+            parsed = self._parse_json_object(result)
+            raw_score = int(parsed.get("score", max_score // 2))
+            score = self._nearest_allowed_score(raw_score, allowed_scores, max_score)
+            feedback = str(parsed.get("feedback") or "").strip()
+            evidence = str(parsed.get("evidence") or "").strip()
+
+            return {
+                "score": score,
+                "feedback": feedback or self._level_feedback(levels, score, max_score),
+                "evidence": evidence or answer[:100],
+            }
                 
         except Exception as e:
             print(f"LLM evaluation error: {e}")
-            # Fallback: If answer exists, give 50% score
-            return max_score // 2
+            score = self._nearest_allowed_score(max_score // 2, allowed_scores, max_score)
+            return {
+                "score": score,
+                "feedback": self._level_feedback(levels, score, max_score),
+                "evidence": answer[:100],
+            }
+    
+    def _normalize_levels(self, levels: Dict, max_score: int) -> Dict[int, str]:
+        """Normalize supported rubric level formats to {points: description}."""
+        if isinstance(levels, list):
+            normalized = {}
+            for item in levels:
+                if isinstance(item, dict):
+                    try:
+                        points = int(item.get("points", 0))
+                    except (TypeError, ValueError):
+                        continue
+                    normalized[points] = str(item.get("description", "")).strip()
+            return normalized if normalized else {0: "No evidence", max_score: "Excellent"}
+
+        if isinstance(levels, dict):
+            normalized = {}
+            for points, desc in levels.items():
+                try:
+                    normalized[int(points)] = str(desc).strip()
+                except (TypeError, ValueError):
+                    continue
+            return normalized if normalized else {0: "No evidence", max_score: "Excellent"}
+
+        return {0: "No evidence", max_score: "Excellent"}
+    
+    def _nearest_allowed_score(self, score: int, allowed_scores: List[int], max_score: int) -> int:
+        """Clamp a model score to the closest rubric-supported point value."""
+        if not allowed_scores:
+            return max(0, min(score, max_score))
+        clamped = max(0, min(score, max_score))
+        return min(allowed_scores, key=lambda allowed: (abs(allowed - clamped), allowed))
+    
+    def _level_feedback(self, levels: Dict, score: int, max_score: int) -> str:
+        """Find the rubric-level description for a selected score."""
+        levels_dict = self._normalize_levels(levels, max_score)
+        return levels_dict.get(score, f"Score: {score}/{max_score}")
+    
+    def _score_at_or_below(self, target: int, levels: Dict, max_score: int) -> int:
+        """Pick the highest allowed rubric score that is no higher than target."""
+        allowed_scores = sorted(self._normalize_levels(levels, max_score).keys())
+        lower_or_equal = [score for score in allowed_scores if score <= target]
+        if lower_or_equal:
+            return max(lower_or_equal)
+        return min(allowed_scores) if allowed_scores else max(0, min(target, max_score))
+    
+    def _is_visual_accuracy_criterion(self, name: str, description: str) -> bool:
+        criterion_text = f"{name} {description}".lower()
+        return any(
+            marker in criterion_text
+            for marker in ["stimulus", "relevance", "visual", "detail", "directly"]
+        )
+    
+    def _detect_visual_color_mismatch(self, answer: str, visual_context: Optional[str]) -> Optional[str]:
+        """Detect simple object-color contradictions such as blue vs orange rollercoaster."""
+        if not answer or not visual_context:
+            return None
+
+        object_terms = [
+            "rollercoaster",
+            "roller coaster",
+            "coaster",
+            "ride",
+            "track",
+            "train",
+            "car",
+            "seat",
+            "shirt",
+            "bottle",
+            "water bottle",
+            "sky",
+            "helmet",
+            "bag",
+            "sign",
+        ]
+        visual_colours = self._object_colours(visual_context, object_terms)
+        answer_colours = self._object_colours(answer, object_terms)
+
+        for obj, student_colours in answer_colours.items():
+            expected_colours = visual_colours.get(obj)
+            if not expected_colours:
+                continue
+            wrong_colours = student_colours - expected_colours
+            if wrong_colours:
+                student_colour = sorted(wrong_colours)[0]
+                expected_colour = sorted(expected_colours)[0]
+                display_obj = obj.replace("rollercoaster", "rollercoaster")
+                return (
+                    f"The answer says the {display_obj} is {student_colour}, "
+                    f"but the visual context describes it as {expected_colour}"
+                )
+        return None
+    
+    def _object_colours(self, text: str, object_terms: List[str]) -> Dict[str, set]:
+        colours = [
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "purple",
+            "pink",
+            "black",
+            "white",
+            "brown",
+            "grey",
+            "gray",
+            "silver",
+            "gold",
+        ]
+        colour_pattern = "|".join(colours)
+        lowered = text.lower()
+        found: Dict[str, set] = {}
+
+        for obj in object_terms:
+            canonical_obj = obj.replace(" ", "")
+            obj_pattern = re.escape(obj).replace(r"\ ", r"\s+")
+            before_pattern = rf"\b({colour_pattern})\b(?:[-\s]+\w+){{0,3}}\s+{obj_pattern}s?\b"
+            after_pattern = rf"\b{obj_pattern}s?\b(?:\s+\w+){{0,4}}\s+\b({colour_pattern})\b"
+
+            for match in re.finditer(before_pattern, lowered):
+                found.setdefault(canonical_obj, set()).add(match.group(1))
+            for match in re.finditer(after_pattern, lowered):
+                found.setdefault(canonical_obj, set()).add(match.group(1))
+
+        return found
+    
+    def _parse_json_object(self, text: str) -> Dict[str, Any]:
+        """Parse a JSON object even if the model wraps it in extra text."""
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError:
+            match = re.search(r"\{.*\}", text, re.DOTALL)
+            if match:
+                return json.loads(match.group(0))
+            raise
+    
+    def _should_skip_reading_aloud(
+        self,
+        name: str,
+        description: str,
+        question: str,
+        visual_context: Optional[str],
+    ) -> bool:
+        """Reading-aloud delivery needs delivery/audio evidence; stimulus chat does not provide it."""
+        criterion_text = f"{name} {description}".lower()
+        if "reading aloud" not in criterion_text and "pronunciation" not in criterion_text:
+            return False
+
+        context = f"{question}\n{visual_context or ''}".lower()
+        delivery_evidence_markers = [
+            "audio evidence",
+            "delivery evidence",
+            "pronunciation evidence",
+            "fluency evidence",
+            "pace evidence",
+            "expression evidence",
+            "recording analysis",
+            "reading-aloud recording",
+            "oral delivery notes",
+        ]
+        return not any(marker in context for marker in delivery_evidence_markers)
     
     def generate_rubric_template(self, rubric_name: str, 
                                 criteria_count: int = 3) -> Dict:

@@ -1,3 +1,16 @@
 {
-  "subjects": {}
+  "subjects": {
+    "crew_test_math": {
+      "rubric": "primary_math",
+      "pdf_path": "data\\input\\crew_test_math\\sample_exam.txt"
+    },
+    "crew_live_test": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\crew_live_test\\freepik__excited-asian-children-on-a-rollercoaster__22021-merged.pdf"
+    },
+    "psle_oral_english": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\psle_oral_english\\freepik__excited-asian-children-on-a-rollercoaster__22021-merged.pdf"
+    }
+  }
 }

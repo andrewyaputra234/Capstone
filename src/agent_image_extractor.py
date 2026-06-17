@@ -6,8 +6,54 @@ Extracts embedded images from DOCX files.
 """
 
 import os
+import shutil
 from pathlib import Path
 from typing import List, Dict, Optional, Union
+
+
+def detect_image_type(file_path: str) -> Optional[str]:
+    """Detect common image formats by file signature, independent of extension."""
+    try:
+        with open(file_path, "rb") as f:
+            header = f.read(16)
+    except OSError:
+        return None
+
+    if header.startswith(b"\xff\xd8\xff"):
+        return "jpg"
+    if header.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "png"
+    if header.startswith(b"RIFF") and header[8:12] == b"WEBP":
+        return "webp"
+    return None
+
+
+def is_supported_image_file(file_path: str) -> bool:
+    """Return True for supported image files, including files with wrong extensions."""
+    suffix = Path(file_path).suffix.lower().lstrip(".")
+    return suffix in {"jpg", "jpeg", "png", "webp"} or detect_image_type(file_path) is not None
+
+
+def get_image_mime_type(file_path: str) -> str:
+    """Return a MIME type suitable for vision-model image URLs."""
+    image_type = detect_image_type(file_path) or Path(file_path).suffix.lower().lstrip(".")
+    if image_type == "jpg":
+        image_type = "jpeg"
+    if image_type in {"jpeg", "png", "webp"}:
+        return f"image/{image_type}"
+    return "image/png"
+
+
+def extract_single_image_as_page(image_path: str, output_dir: str) -> Dict[int, str]:
+    """Copy an image file into the page-image directory as page 1."""
+    image_type = detect_image_type(image_path) or Path(image_path).suffix.lower().lstrip(".") or "png"
+    if image_type == "jpeg":
+        image_type = "jpg"
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    dest = Path(output_dir) / f"page_1.{image_type}"
+    shutil.copy2(image_path, dest)
+    print(f"[OK] Stored image stimulus as page 1 -> {dest}")
+    return {1: str(dest)}
 
 
 def extract_pdf_pages_as_images(

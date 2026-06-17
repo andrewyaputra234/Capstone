@@ -20,7 +20,15 @@ from langchain_core.output_parsers import StrOutputParser
 from subject_manager import SubjectManager
 from rubric_engine import RubricEngine
 from agent_a6_session_manager import SessionManager
-from agent_image_extractor import extract_pdf_pages_as_images, docx_to_pdf_images, extract_docx_images, get_page_for_question
+from agent_image_extractor import (
+    extract_docx_images,
+    extract_pdf_pages_as_images,
+    extract_single_image_as_page,
+    get_image_mime_type,
+    get_page_for_question,
+    is_supported_image_file,
+    docx_to_pdf_images,
+)
 
 try:
     from agent_audio_input import AudioRecorder, SpeechToText
@@ -56,6 +64,7 @@ class DialogueManager:
         # Find and store PDF path for this subject
         self.pdf_path = self._find_subject_pdf()
         self.page_images = {}  # Maps page number -> image file path
+        self.visual_context_cache = {}  # Maps image path -> factual visual description
         
         # Extract images if requested
         if extract_images and self.pdf_path:
@@ -113,22 +122,38 @@ class DialogueManager:
         input_path = self.subject_manager.get_subject_input_path(self.subject)
         pdf_files = list(input_path.glob("*.pdf"))
         docx_files = list(input_path.glob("*.docx"))
+        image_files = (
+            list(input_path.glob("*.png"))
+            + list(input_path.glob("*.jpg"))
+            + list(input_path.glob("*.jpeg"))
+            + list(input_path.glob("*.webp"))
+        )
         
         # Prefer PDF, but accept DOCX
         if pdf_files:
             return str(pdf_files[0])
         elif docx_files:
             return str(docx_files[0])
+        elif image_files:
+            return str(image_files[0])
         
         # 3. Final fallback: check root input directory
         root_input = self.subject_manager.get_subject_input_path(None)
         pdf_files = list(root_input.glob("*.pdf"))
         docx_files = list(root_input.glob("*.docx"))
+        image_files = (
+            list(root_input.glob("*.png"))
+            + list(root_input.glob("*.jpg"))
+            + list(root_input.glob("*.jpeg"))
+            + list(root_input.glob("*.webp"))
+        )
         
         if pdf_files:
             return str(pdf_files[0])
         elif docx_files:
             return str(docx_files[0])
+        elif image_files:
+            return str(image_files[0])
         
         return None
     
@@ -144,7 +169,11 @@ class DialogueManager:
         try:
             file_ext = os.path.splitext(self.pdf_path)[1].lower()
             
-            if file_ext == ".pdf":
+            if is_supported_image_file(self.pdf_path):
+                print(f"[INFO] Using image stimulus as page image...")
+                self.page_images = extract_single_image_as_page(self.pdf_path, output_dir)
+
+            elif file_ext == ".pdf":
                 print(f"[INFO] Extracting images from PDF...")
                 self.page_images = extract_pdf_pages_as_images(self.pdf_path, output_dir, dpi=150)
                 
@@ -304,7 +333,9 @@ class DialogueManager:
         
         # Get all chunks from the document
         retriever = self.vector_store.as_retriever(search_kwargs={"k": 50})
-        doc_samples = retriever.invoke("question Q problem exercise")
+        doc_samples = retriever.invoke(
+            "PSLE English oral reading aloud passage preamble stimulus-based conversation prompt picture photograph"
+        )
         
         # Combine all chunks for analysis
         combined_text = "\n".join([doc.page_content for doc in doc_samples])
@@ -358,12 +389,50 @@ class DialogueManager:
                             "image_path": self.get_question_image(qtext)
                         }
                         questions.append(q_obj)
+
+        # Pattern 3: Oral prompt labels such as "Prompt 1:", "Question:", or "Follow-up:"
+        if len(questions) < num_questions:
+            prompt_pattern = (
+                r'^\s*(?:prompt|question|main prompt|follow[- ]?up|sbc prompt)'
+                r'\s*(\d+)?\s*[:.)-]\s+([^\n]+?)(?:\n|$)'
+            )
+            matches = re.finditer(prompt_pattern, combined_text, re.IGNORECASE | re.MULTILINE)
+            for match in matches:
+                label = match.group(1) or len(questions) + 1
+                qtext = match.group(2).strip()
+
+                if qtext and len(qtext) > 10 and qtext not in seen:
+                    seen.add(qtext)
+                    qtext = qtext.replace('www.sgexam.com', '').strip()
+                    if qtext and not any(q['text'] == qtext for q in questions):
+                        q_obj = {
+                            "id": len(questions) + 1,
+                            "text": qtext,
+                            "source": f"Oral prompt {label} from document",
+                            "answered": False,
+                            "answer": None,
+                            "scores": None,
+                            "image_path": self.get_question_image(qtext)
+                        }
+                        questions.append(q_obj)
         
-        # Fallback 1: LLM text-based extraction (for PDFs with extractable text)
-        if len(questions) < 3:
+        image_only_stimulus = (
+            self.page_images
+            and "Visual stimulus image for PSLE English oral practice" in combined_text
+        )
+
+        # Fallback 1: Vision extraction first for image-only visual stimuli.
+        if len(questions) < 3 and image_only_stimulus:
+            print(f"[INFO] Image stimulus detected. Extracting PSLE oral prompts from {len(self.page_images)} image(s)...")
+            questions.extend(self._extract_questions_from_images(num_questions - len(questions)))
+
+        # Fallback 2: LLM text-based extraction (for PDFs with extractable text)
+        if len(questions) < 3 and not image_only_stimulus:
             prompt = ChatPromptTemplate.from_template(
-                """Extract all exam questions from this text.
-                Return ONLY a JSON list: {{"questions": ["Q1 text", "Q2 text", ...]}}
+                """Extract PSLE English oral prompts from this text.
+                Include stimulus-based conversation questions, follow-up prompts,
+                and reading-aloud task instructions if they require a student response.
+                Return ONLY a JSON list: {{"questions": ["Prompt 1 text", "Prompt 2 text", ...]}}
                 
                 Text:
                 {content}"""
@@ -389,11 +458,12 @@ class DialogueManager:
             except:
                 pass
         
-        # Fallback 2: Vision-based extraction from page images (for scanned PDFs)
-        if len(questions) < 3 and self.page_images:
+        # Fallback 3: Vision-based extraction from page images (for scanned PDFs)
+        if len(questions) < 3 and self.page_images and not image_only_stimulus:
             print(f"[INFO] Text extraction found minimal questions. Attempting vision-based extraction from {len(self.page_images)} page images...")
             questions.extend(self._extract_questions_from_images(num_questions - len(questions)))
         
+        self._attach_visual_context_to_questions(questions)
         self.questions = questions[:num_questions]
         return self.questions
     
@@ -436,13 +506,24 @@ class DialogueManager:
                 
                 # Format image for vision
                 from langchain_core.messages import HumanMessage
+                image_mime = get_image_mime_type(image_path)
                 message = HumanMessage(
                     content=[
-                        {"type": "text", "text": "Extract all exam questions from this page image. Return only JSON with format: {\"questions\": [\"Q1 text\", \"Q2 text\", ...]}"},
+                        {
+                            "type": "text",
+                            "text": (
+                                "Analyse this PSLE English oral visual stimulus accurately. "
+                                "First describe the actual image in concrete detail. Then create "
+                                "three stimulus-based conversation prompts that are grounded only "
+                                "in what is visible. Return only JSON with format: "
+                                "{\"visual_description\": \"accurate description\", "
+                                "\"questions\": [\"Prompt 1 text\", \"Prompt 2 text\", \"Prompt 3 text\"]}"
+                            ),
+                        },
                         {
                             "type": "image_url",
                             "image_url": {
-                                "url": f"data:image/png;base64,{image_data}"
+                                "url": f"data:{image_mime};base64,{image_data}"
                             }
                         }
                     ]
@@ -459,44 +540,37 @@ class DialogueManager:
                     if json_match:
                         json_str = json_match.group(0)
                         data = json.loads(json_str)
-                        for q_text in data.get("questions", []):
-                            if q_text and len(q_text) > 15 and q_text not in seen:
-                                # Clean up the text
-                                q_text = q_text.strip(' "\'')
-                                seen.add(q_text)
-                                q_obj = {
-                                    "id": len(questions) + 1,
-                                    "text": q_text.strip(),
-                                    "source": f"Vision-extracted from page {page_num}",
-                                    "answered": False,
-                                    "answer": None,
-                                    "scores": None,
-                                    "image_path": image_path
-                                }
-                                questions.append(q_obj)
+                        self._append_vision_questions(
+                            data=data,
+                            questions=questions,
+                            seen=seen,
+                            image_path=image_path,
+                            page_num=page_num,
+                            limit=num_questions,
+                        )
                     else:
                         # If no JSON found in regex, try plain parsing
                         data = json.loads(response_text)
-                        for q_text in data.get("questions", []):
-                            if q_text and len(q_text) > 15 and q_text not in seen:
-                                q_text = q_text.strip(' "\'')
-                                seen.add(q_text)
-                                q_obj = {
-                                    "id": len(questions) + 1,
-                                    "text": q_text.strip(),
-                                    "source": f"Vision-extracted from page {page_num}",
-                                    "answered": False,
-                                    "answer": None,
-                                    "scores": None,
-                                    "image_path": image_path
-                                }
-                                questions.append(q_obj)
+                        self._append_vision_questions(
+                            data=data,
+                            questions=questions,
+                            seen=seen,
+                            image_path=image_path,
+                            page_num=page_num,
+                            limit=num_questions,
+                        )
                 except (json.JSONDecodeError, AttributeError):
                     # If JSON parsing fails, try to extract sentences manually
                     sentences = re.split(r'[?\n]', response_text)
                     for sentence in sentences:
                         sentence = sentence.strip()
-                        if sentence and len(sentence) > 15 and any(word in sentence.lower() for word in ['what', 'which', 'how', 'why', 'describe', 'state', 'explain', 'calculate', 'list', 'write', 'find', 'determine']):
+                        oral_keywords = [
+                            'what', 'which', 'how', 'why', 'describe', 'tell',
+                            'would', 'do you think', 'have you', 'share',
+                            'explain', 'feel', 'opinion', 'picture',
+                            'photograph', 'stimulus', 'conversation'
+                        ]
+                        if sentence and len(sentence) > 15 and any(word in sentence.lower() for word in oral_keywords):
                             if sentence not in seen and len(questions) < num_questions:
                                 seen.add(sentence)
                                 q_obj = {
@@ -515,6 +589,106 @@ class DialogueManager:
                 continue
         
         return questions
+
+    def _append_vision_questions(
+        self,
+        data: Dict,
+        questions: List[Dict],
+        seen: set,
+        image_path: str,
+        page_num: int,
+        limit: int,
+    ) -> None:
+        """Append vision-extracted prompts with visual context for grading."""
+        visual_description = str(data.get("visual_description", "")).strip()
+        if not visual_description:
+            visual_description = "Visual stimulus details are available in the displayed image."
+        self.visual_context_cache[image_path] = visual_description
+
+        for item in data.get("questions", []):
+            if len(questions) >= limit:
+                break
+
+            if isinstance(item, dict):
+                q_text = str(item.get("text") or item.get("question") or item.get("prompt") or "").strip()
+            else:
+                q_text = str(item).strip()
+
+            if q_text and len(q_text) > 15 and q_text not in seen:
+                q_text = q_text.strip(' "\'')
+                seen.add(q_text)
+                q_obj = {
+                    "id": len(questions) + 1,
+                    "text": q_text,
+                    "source": f"Vision-extracted from page {page_num}",
+                    "answered": False,
+                    "answer": None,
+                    "scores": None,
+                    "image_path": image_path,
+                    "visual_context": visual_description,
+                }
+                questions.append(q_obj)
+    
+    def _attach_visual_context_to_questions(self, questions: List[Dict]) -> None:
+        """Ensure image-backed oral prompts include factual visual context for grading."""
+        if not self.page_images:
+            return
+
+        for question in questions:
+            if question.get("visual_context"):
+                continue
+
+            image_path = question.get("image_path")
+            if not image_path:
+                continue
+
+            visual_context = self.visual_context_cache.get(image_path)
+            if not visual_context:
+                visual_context = self._describe_image_for_assessment(image_path)
+                if visual_context:
+                    self.visual_context_cache[image_path] = visual_context
+
+            if visual_context:
+                question["visual_context"] = visual_context
+    
+    def _describe_image_for_assessment(self, image_path: str) -> str:
+        """Describe a visual stimulus with concrete facts used by grading."""
+        if not image_path or not os.path.exists(image_path):
+            return ""
+
+        try:
+            import base64
+            from langchain_core.messages import HumanMessage
+
+            with open(image_path, "rb") as img_file:
+                image_data = base64.standard_b64encode(img_file.read()).decode("utf-8")
+
+            vision_llm = ChatOpenAI(model="gpt-4o", max_tokens=700)
+            image_mime = get_image_mime_type(image_path)
+            message = HumanMessage(
+                content=[
+                    {
+                        "type": "text",
+                        "text": (
+                            "Describe this PSLE English oral visual stimulus in concrete, "
+                            "grade-relevant facts. Mention visible people, actions, objects, "
+                            "setting, and important colours. Be precise enough to check a "
+                            "student's spoken description. Return plain text only."
+                        ),
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:{image_mime};base64,{image_data}"
+                        },
+                    },
+                ]
+            )
+            response = vision_llm.invoke([message])
+            return str(response.content).strip()
+        except Exception as e:
+            print(f"[WARN] Failed to describe visual stimulus for grading: {e}")
+            return ""
     
     def get_current_question(self) -> Dict | None:
         """Get the current unanswered question"""
@@ -552,7 +726,8 @@ class DialogueManager:
         if self.rubric_engine.current_rubric:
             scores = self.rubric_engine.score_answer(
                 question["text"], 
-                answer
+                answer,
+                visual_context=question.get("visual_context")
             )
             
             question["scores"] = scores

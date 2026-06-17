@@ -7,17 +7,42 @@ from langchain_community.document_loaders import UnstructuredWordDocumentLoader,
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from subject_manager import SubjectManager
 from vector_store import VectorStore
-from agent_image_extractor import extract_pdf_pages_as_images, extract_docx_images, docx_to_pdf_images
+from agent_image_extractor import (
+    extract_docx_images,
+    extract_pdf_pages_as_images,
+    extract_single_image_as_page,
+    is_supported_image_file,
+    docx_to_pdf_images,
+)
 
 
 def load_document(file_path: Path):
     """Load DOCX, PDF, or TXT files."""
     file_ext = file_path.suffix.lower()
     
+    if is_supported_image_file(str(file_path)):
+        from langchain_core.documents import Document
+        return [
+            Document(
+                page_content=(
+                    "Visual stimulus image for PSLE English oral practice. "
+                    "Use the associated page image to extract prompts and conduct "
+                    "stimulus-based conversation."
+                ),
+                metadata={"source": file_path.name, "content_type": "image_stimulus"},
+            )
+        ]
+    
     if file_ext == ".docx":
         loader = UnstructuredWordDocumentLoader(str(file_path))
     elif file_ext == ".pdf":
-        loader = UnstructuredPDFLoader(str(file_path))
+        try:
+            loader = UnstructuredPDFLoader(str(file_path))
+            return loader.load()
+        except Exception as e:
+            print(f"[WARNING] PDF loader failed: {e}")
+            print("[INFO] Falling back to PyMuPDF text extraction; page images will still be attempted separately.")
+            return _load_pdf_with_pymupdf(file_path)
     elif file_ext == ".txt":
         # Load plain text file
         with open(file_path, "r", encoding="utf-8") as f:
@@ -25,9 +50,43 @@ def load_document(file_path: Path):
         from langchain_core.documents import Document
         return [Document(page_content=content, metadata={"source": file_path.name})]
     else:
-        raise ValueError(f"Unsupported file format: {file_ext}. Supported: .docx, .pdf, .txt")
+        raise ValueError(f"Unsupported file format: {file_ext}. Supported: .docx, .pdf, .txt, .png, .jpg, .jpeg, .webp")
     
     return loader.load()
+
+
+def _load_pdf_with_pymupdf(file_path: Path):
+    """Load PDF text without Poppler so ingestion can continue on Windows."""
+    try:
+        import fitz
+        from langchain_core.documents import Document
+    except ImportError as e:
+        raise RuntimeError("PyMuPDF is required for PDF fallback loading. Install with: pip install PyMuPDF") from e
+
+    documents = []
+    with fitz.open(str(file_path)) as doc:
+        for page_index, page in enumerate(doc, start=1):
+            text = page.get_text("text").strip()
+            if text:
+                documents.append(
+                    Document(
+                        page_content=text,
+                        metadata={"source": file_path.name, "page": page_index},
+                    )
+                )
+
+    if documents:
+        return documents
+
+    return [
+        Document(
+            page_content=(
+                "This PDF did not contain extractable text. Use extracted page images "
+                "as visual stimulus context for PSLE oral English practice."
+            ),
+            metadata={"source": file_path.name, "page": 1, "text_extraction": "empty"},
+        )
+    ]
 
 
 def split_document(documents, chunk_size: int = 1000, chunk_overlap: int = 100):
@@ -55,14 +114,95 @@ def search_chunks(chunks, query: str):
     return results
 
 
-def get_docx_files(input_path: Path):
-    """Get all DOCX and PDF files from input path."""
+def get_document_files(input_path: Path) -> list[Path]:
+    """Get all supported document files from input path."""
     if input_path.is_file():
         return [input_path]
-    
-    # Get both DOCX and PDF files
-    files = sorted(input_path.glob("*.docx")) + sorted(input_path.glob("*.pdf"))
+    files = (
+        sorted(input_path.glob("*.docx"))
+        + sorted(input_path.glob("*.pdf"))
+        + sorted(input_path.glob("*.txt"))
+        + sorted(input_path.glob("*.png"))
+        + sorted(input_path.glob("*.jpg"))
+        + sorted(input_path.glob("*.jpeg"))
+        + sorted(input_path.glob("*.webp"))
+    )
     return files
+
+
+def get_docx_files(input_path: Path):
+    """Backward-compatible alias for get_document_files."""
+    return get_document_files(input_path)
+
+
+def _extract_document_images(doc_file: str, doc_type: str, subject: str) -> int:
+    """Extract page/embedded images for a subject document. Returns image count."""
+    images_dir = Path("data") / f"{subject}_images"
+    if images_dir.exists():
+        shutil.rmtree(images_dir)
+    images_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = str(images_dir)
+    count = 0
+    if is_supported_image_file(doc_file):
+        page_images = extract_single_image_as_page(doc_file, output_dir)
+        count = len(page_images)
+    elif doc_type == "pdf":
+        page_images = extract_pdf_pages_as_images(doc_file, output_dir, dpi=150)
+        count = len(page_images)
+    elif doc_type == "docx":
+        page_images = docx_to_pdf_images(doc_file, output_dir, dpi=150)
+        if page_images:
+            count = len(page_images)
+        else:
+            embedded_images = extract_docx_images(doc_file, output_dir)
+            count = len(embedded_images) if embedded_images else 0
+    return count
+
+
+def ingest_document(
+    file_path: str | Path,
+    subject: str,
+    rubric: str | None = None,
+    chunk_size: int = 1000,
+    chunk_overlap: int = 100,
+) -> dict:
+    """
+    Full ingestion pipeline: copy to subject input, chunk, embed, extract images.
+
+    Returns a summary dict used by CLI, Streamlit, and CrewAI workflows.
+    """
+    src = Path(file_path)
+    if not src.exists():
+        raise FileNotFoundError(f"Document not found: {src}")
+
+    subject_manager = SubjectManager()
+    input_dir = subject_manager.get_subject_input_path(subject)
+    dest = input_dir / src.name
+    if src.resolve() != dest.resolve():
+        shutil.copy2(src, dest)
+
+    output_dir = subject_manager.get_subject_output_path(subject)
+    process_file(dest, chunk_size, chunk_overlap, output_dir)
+
+    VectorStore(rebuild=True, subject=subject)
+    if rubric:
+        subject_manager.set_subject_rubric(subject, rubric)
+
+    doc_type = dest.suffix.lower().lstrip(".")
+    image_count = 0
+    if doc_type in ("pdf", "docx", "png", "jpg", "jpeg", "webp") or is_supported_image_file(str(dest)):
+        image_count = _extract_document_images(str(dest), doc_type, subject)
+    subject_manager.set_subject_pdf(subject, str(dest))
+
+    chunk_files = list(output_dir.glob("*.txt"))
+    return {
+        "subject": subject,
+        "file_path": str(dest),
+        "chunk_count": len(chunk_files),
+        "db_path": str(subject_manager.get_subject_chroma_path(subject)),
+        "image_count": image_count,
+        "rubric": rubric,
+    }
 
 
 def process_file(file_path: Path, chunk_size: int, chunk_overlap: int, output_dir: Path | None, search_query: str | None = None):
@@ -139,82 +279,38 @@ def main():
         if output_dir:
             output_dir.mkdir(parents=True, exist_ok=True)
 
-    docx_files = get_docx_files(input_path)
-    if not docx_files:
-        print(f"No .docx files found in: {input_path}")
+    doc_files = get_document_files(input_path)
+    if not doc_files:
+        print(f"No supported documents found in: {input_path}")
         return
 
-    for file_path in docx_files:
-        process_file(file_path, args.chunk_size, args.chunk_overlap, output_dir, args.search)
-    
-    # Add chunks to ChromaDB vector store if subject is specified
     if args.subject:
-        print(f"Adding chunks to vector store for subject '{args.subject}'...")
-        try:
-            vector_store = VectorStore(rebuild=True, subject=args.subject)
-            print(f"SUCCESS: Vector database updated for subject '{args.subject}'")
-            
-            # Map rubric to subject if specified
-            if args.rubric:
-                subject_manager = SubjectManager()
-                subject_manager.set_subject_rubric(args.subject, args.rubric)
-            
-            # ============================================================================
-            # EXTRACT IMAGES FROM PDF OR DOCX (NEW FOR THIS INGESTION)
-            # ============================================================================
-            # Get the document file that was just ingested (PDF or DOCX)
-            pdf_files = list(input_path.glob("*.pdf")) if input_path.is_dir() else [input_path] if input_path.suffix.lower() == ".pdf" else []
-            docx_files = list(input_path.glob("*.docx")) if input_path.is_dir() else [input_path] if input_path.suffix.lower() == ".docx" else []
-            
-            doc_file = None
-            doc_type = None
-            
-            if pdf_files:
-                doc_file = str(pdf_files[0])
-                doc_type = "pdf"
-            elif docx_files:
-                doc_file = str(docx_files[0])
-                doc_type = "docx"
-            
-            if doc_file:
-                subject_manager = SubjectManager()
-                
-                # 1. CLEAR OLD IMAGES for this subject
-                images_dir = Path("data") / f"{args.subject}_images"
-                if images_dir.exists():
-                    print(f"[INFO] Clearing old images for subject '{args.subject}'...")
-                    shutil.rmtree(images_dir)
-                    print(f"[OK] Old images deleted")
-                
-                # 2. EXTRACT IMAGES based on document type
-                print(f"[INFO] Extracting images from {doc_type.upper()} document...")
-                output_dir = str(images_dir)
-                
-                if doc_type == "pdf":
-                    page_images = extract_pdf_pages_as_images(doc_file, output_dir, dpi=150)
-                    print(f"[OK] Extracted {len(page_images)} pages as images from PDF")
-                elif doc_type == "docx":
-                    # Try to convert DOCX to images (requires LibreOffice)
-                    page_images = docx_to_pdf_images(doc_file, output_dir, dpi=150)
-                    if not page_images:
-                        # Fallback: extract embedded images from DOCX
-                        print(f"[INFO] Page-level images not available, extracting embedded images...")
-                        embedded_images = extract_docx_images(doc_file, output_dir)
-                        if embedded_images:
-                            print(f"[OK] Extracted {len(embedded_images)} embedded images from DOCX")
-                        else:
-                            print(f"[INFO] No embedded images found in DOCX (text-based questions will work)")
+        for file_path in doc_files:
+            try:
+                result = ingest_document(
+                    file_path,
+                    subject=args.subject,
+                    rubric=args.rubric,
+                    chunk_size=args.chunk_size,
+                    chunk_overlap=args.chunk_overlap,
+                )
+                print(f"SUCCESS: Ingested '{file_path.name}' for subject '{args.subject}'")
+                print(f"  Chunks: {result['chunk_count']}, Images: {result['image_count']}")
+                if args.search:
+                    documents = load_document(result["file_path"])
+                    chunks = split_document(documents, args.chunk_size, args.chunk_overlap)
+                    results = search_chunks(chunks, args.search)
+                    print(f"Search results for '{args.search}':")
+                    if results:
+                        for index, snippet in results:
+                            print(f"- Chunk {index}: {snippet}")
                     else:
-                        print(f"[OK] Successfully converted DOCX pages to images")
-                
-                # 3. STORE DOCUMENT PATH in subject config for future reference
-                print(f"[INFO] Storing document path in subject config...")
-                subject_manager.set_subject_pdf(args.subject, doc_file)  # Using set_subject_pdf for both PDF and DOCX
-                print(f"[OK] Document path stored for subject '{args.subject}'")
-            
-            
-        except Exception as e:
-            print(f"ERROR: Failed to update vector store: {e}")
+                        print("No matches found.")
+            except Exception as e:
+                print(f"ERROR: Failed to ingest {file_path}: {e}")
+    else:
+        for file_path in doc_files:
+            process_file(file_path, args.chunk_size, args.chunk_overlap, output_dir, args.search)
 
 
 if __name__ == "__main__":

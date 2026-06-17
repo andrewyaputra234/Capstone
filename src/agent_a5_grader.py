@@ -6,7 +6,7 @@ Provides evidence-based, constructive feedback as if a tutor is speaking to the 
 
 import os
 import json
-from typing import List, Dict
+from typing import List, Dict, Optional
 from pathlib import Path
 from argparse import ArgumentParser
 from dotenv import load_dotenv
@@ -51,48 +51,73 @@ class RubricGrader:
         
         self.rubric_data = self.rubric_engine.current_rubric
     
-    def generate_tutoring_feedback(self, assignment: str, answer: str) -> Dict:
+    def generate_tutoring_feedback(
+        self,
+        assignment: str,
+        answer: str,
+        visual_context: Optional[str] = None,
+        conversation_history: Optional[List[Dict]] = None,
+    ) -> Dict:
         """
         Generate tutoring feedback as if a teacher/tutor is speaking to the student.
         
         Args:
             assignment: The assignment question or prompt
             answer: The student's response/answer
+            visual_context: Optional factual description of the visual stimulus
+            conversation_history: Optional oral-practice turns that led to the final answer
             
         Returns:
             Dictionary with tutoring feedback and scores
         """
         # Score against rubric
-        scores = self.rubric_engine.score_answer(assignment, answer)
+        scores = self.rubric_engine.score_answer(
+            assignment,
+            answer,
+            visual_context=visual_context,
+        )
         
         # Generate natural tutoring feedback
         tutoring_feedback = self._generate_tutoring_speech(
             assignment=assignment,
             answer=answer,
             scores=scores,
-            rubric=self.rubric_data
+            rubric=self.rubric_data,
+            visual_context=visual_context,
+            conversation_history=conversation_history,
         )
+        total_score = sum(s.score for s in scores)
+        max_score = sum(s.max_score for s in scores)
         
         return {
             "assignment": assignment,
             "answer": answer,
+            "visual_context": visual_context,
             "scores": [
                 {
                     "criterion": s.criterion_name,
                     "score": s.score,
                     "max_score": s.max_score,
-                    "feedback": s.feedback
+                    "feedback": s.feedback,
+                    "evidence": s.evidence,
                 }
                 for s in scores
             ],
             "tutoring_feedback": tutoring_feedback,
-            "total_score": sum(s.score for s in scores),
-            "max_score": sum(s.max_score for s in scores),
-            "percentage": round((sum(s.score for s in scores) / sum(s.max_score for s in scores) * 100) 
-                              if sum(s.max_score for s in scores) > 0 else 0, 1)
+            "total_score": total_score,
+            "max_score": max_score,
+            "percentage": round((total_score / max_score * 100) if max_score > 0 else 0, 1)
         }
     
-    def _generate_tutoring_speech(self, assignment: str, answer: str, scores: List, rubric: Dict) -> str:
+    def _generate_tutoring_speech(
+        self,
+        assignment: str,
+        answer: str,
+        scores: List,
+        rubric: Dict,
+        visual_context: Optional[str] = None,
+        conversation_history: Optional[List[Dict]] = None,
+    ) -> str:
         """
         Generate natural language tutoring feedback as if a tutor is speaking.
         
@@ -101,22 +126,41 @@ class RubricGrader:
             answer: Student's answer
             scores: List of RubricScore objects
             rubric: The rubric data
+            visual_context: Optional factual description of the visual stimulus
+            conversation_history: Optional oral-practice turns that led to the final answer
             
         Returns:
             Natural language tutoring feedback
         """
         # Build rubric context
+        visual_text = visual_context.strip() if visual_context else (
+            "No separate visual description was provided. Use only visual facts "
+            "that appear in the assignment text."
+        )
+        history_text = ""
+        if conversation_history:
+            history_text = json.dumps(conversation_history[-6:], indent=2)
+
         rubric_context = f"""
-You are an encouraging and constructive tutor providing feedback to a student.
-Speak directly to the student as if you are having a conversation.
-Be warm, supportive, and help them understand what they did well and how to improve.
+Tutor profile:
+You are Ms Tan, a warm but precise Primary 6 English oral coach.
+You have a calm examiner style: friendly, specific, and honest about what needs fixing.
+You do not give empty praise, and you never praise a visual detail that conflicts with the stimulus facts.
 
-Assignment/Question: {assignment}
+Assessment/Question:
+{assignment}
 
-Student's Answer: {answer}
+Visual stimulus facts:
+{visual_text}
 
-Scoring Rubric:
+Student's final answer:
+{answer}
 """
+
+        if history_text:
+            rubric_context += f"\nRecent oral turns before grading:\n{history_text}\n"
+
+        rubric_context += "\nScoring rubric:\n"
         
         for criterion in rubric.get("criteria", []):
             # Handle both 'max_points' (from auto-generated) and 'max_score' (from old format)
@@ -131,19 +175,31 @@ Scoring Rubric:
             if levels_text:
                 rubric_context += f"\n  Levels: {levels_text}"
         
-        rubric_context += "\n\nStudent's Scores:"
+        rubric_context += "\n\nStudent's criterion results:"
         for score in scores:
-            rubric_context += f"\n- {score.criterion_name}: {score.score}/{score.max_score}"
+            if score.max_score == 0:
+                score_text = "Not assessed"
+            else:
+                score_text = f"{score.score}/{score.max_score}"
+            evidence_text = f" Evidence: {score.evidence}" if score.evidence else ""
+            rubric_context += (
+                f"\n- {score.criterion_name}: {score_text}. "
+                f"Feedback: {score.feedback}.{evidence_text}"
+            )
         
         prompt = ChatPromptTemplate.from_template("""
 {rubric_context}
 
-Now, generate a warm, encouraging tutoring feedback as if you are speaking directly to the student.
-Start with what they did well, then gently explain areas for improvement.
-Be specific and reference their answer.
-Keep it conversational and supportive - like a real tutor would speak.
-Make it suitable for being read aloud by an avatar/TTS system.
-Aim for 3-4 sentences.
+Now generate detailed PSLE English oral practice feedback as if Ms Tan is speaking directly to the student.
+Requirements:
+- Start with one real strength that is supported by the student's answer.
+- If the answer conflicts with the visual stimulus facts, clearly and gently name the mismatch.
+- Explain the biggest improvement area using the criterion results.
+- Give one improved sentence starter or model phrase the student can use next time.
+- Mention reading aloud only if it was actually assessed.
+- Keep it suitable for an avatar/TTS system: plain text, 5-7 short sentences, no markdown bullets.
+- Avoid generic lines like "great job" or "keep up the good work" unless they are tied to specific evidence.
+- Do not claim this is an official PSLE score; treat it as practice feedback.
 
 Tutoring Feedback (spoken to student):""")
         

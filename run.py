@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 from argparse import ArgumentParser
@@ -23,7 +24,7 @@ def main() -> int:
     parser = ArgumentParser(description="Run Capstone project commands from the repo root.")
     parser.add_argument(
         "command",
-        choices=["ingest", "search", "semantic-search", "assistant", "dialogue", "grade", "list-subjects", "session"],
+        choices=["ingest", "search", "semantic-search", "assistant", "dialogue", "grade", "list-subjects", "session", "crew"],
         help="Command to run.",
     )
     parser.add_argument("path", nargs="?", default=None, help="Path to a DOCX/PDF file or folder containing them.")
@@ -64,6 +65,12 @@ def main() -> int:
         "--use-sessions",
         action="store_true",
         help="Track assessment session with persistence in dialogue mode.",
+    )
+    parser.add_argument(
+        "--crew-action",
+        choices=["ingest", "assess", "oral", "init"],
+        default=None,
+        help="CrewAI workflow action (used with crew command).",
     )
     parser.add_argument(
         "--student-id",
@@ -173,7 +180,80 @@ def main() -> int:
             parser.error("grade command requires --rubric")
         return run_script("agent_a5_grader.py", grade_args)
 
+    if args.command == "crew":
+        return _run_crew_command(args)
+
     print("Unknown command")
+    return 1
+
+
+def _run_crew_command(args) -> int:
+    """Run CrewAI-integrated workflows from the CLI."""
+    if not args.subject:
+        print("Error: --subject is required for crew command")
+        return 1
+    if not args.rubric:
+        print("Error: --rubric is required for crew command")
+        return 1
+
+    sys.path.insert(0, str(ROOT / "src"))
+    from env_fix import apply_runtime_fixes
+    apply_runtime_fixes()
+    from crew_orchestrator import EducationCrew
+
+    action = args.crew_action or "init"
+    crew = EducationCrew(
+        subject=args.subject,
+        rubric_name=args.rubric,
+        verbose=True,
+        student_id=args.student_id,
+    )
+
+    if action == "init":
+        print(f"Crew initialized for subject '{args.subject}' with rubric '{args.rubric}'")
+        return 0
+
+    if action == "ingest":
+        if not args.path:
+            print("Error: path required for crew ingest")
+            return 1
+        result = crew.run_ingestion_workflow(args.path)
+        print(json.dumps({
+            "ingest_result": result["ingest_result"],
+            "question_count": len(result.get("questions", [])),
+            "questions": [q["text"] for q in result.get("questions", [])[:5]],
+        }, indent=2))
+        return 0
+
+    if action == "assess":
+        if not args.query or not args.answer:
+            print("Error: --query (question) and --answer required for crew assess")
+            return 1
+        crew.start_session()
+        result = crew.run_assessment_workflow(
+            question=args.query,
+            student_response=args.answer,
+            save_to_session=True,
+        )
+        crew.end_session()
+        print(json.dumps({
+            "session_id": result.get("session_id"),
+            "grading_result": result["grading_result"],
+            "crew_analysis": result.get("crew_analysis", "")[:500],
+        }, indent=2, default=str))
+        return 0
+
+    if action == "oral":
+        crew.start_session()
+        oral = crew.run_oral_assessment(num_questions=5)
+        print(json.dumps({
+            "session_id": oral["session_id"],
+            "questions": [q["text"] for q in oral.get("questions", [])],
+        }, indent=2))
+        crew.end_session()
+        return 0
+
+    print(f"Unknown crew action: {action}")
     return 1
 
 

@@ -1,0 +1,164 @@
+{
+  "name": "PSLE Oral English Practice",
+  "level": "Primary 6",
+  "subject": "english",
+  "assessment_type": "PSLE oral English practice",
+  "description": "Training rubric for PSLE-style English oral practice. This is not an official SEAB marking scheme.",
+  "criteria": [
+    {
+      "name": "Reading Aloud Delivery",
+      "description": "Assesses oral reading clarity, pronunciation, fluency, pacing, expression, and awareness of purpose, audience, and context when reading aloud. If only a transcript is available, score conservatively and focus on observable evidence.",
+      "max_points": 20,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 20,
+          "description": "Clear, confident reading with accurate pronunciation, smooth pace, expressive tone, and strong awareness of purpose and audience"
+        },
+        {
+          "level": "Good",
+          "points": 15,
+          "description": "Mostly clear and fluent reading with minor pronunciation, pacing, or expression lapses"
+        },
+        {
+          "level": "Developing",
+          "points": 10,
+          "description": "Understandable reading with uneven pace, limited expression, or several pronunciation issues"
+        },
+        {
+          "level": "Needs Support",
+          "points": 5,
+          "description": "Halting or unclear reading with frequent pronunciation, fluency, or expression difficulties"
+        },
+        {
+          "level": "No Evidence",
+          "points": 0,
+          "description": "No reading attempt or no usable evidence for this component"
+        }
+      ]
+    },
+    {
+      "name": "Stimulus Response Relevance",
+      "description": "Assesses whether the student answers the oral prompt directly, uses relevant details from the stimulus or passage, and gives a clear personal response.",
+      "max_points": 8,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 8,
+          "description": "Direct, focused response with relevant stimulus details and a clear personal viewpoint"
+        },
+        {
+          "level": "Good",
+          "points": 6,
+          "description": "Mostly relevant response with some stimulus reference and personal response"
+        },
+        {
+          "level": "Developing",
+          "points": 4,
+          "description": "Partly relevant response, but stimulus details or personal viewpoint are thin"
+        },
+        {
+          "level": "Needs Support",
+          "points": 2,
+          "description": "Limited relevance or mostly generic response"
+        },
+        {
+          "level": "No Evidence",
+          "points": 0,
+          "description": "No meaningful answer to the prompt"
+        }
+      ]
+    },
+    {
+      "name": "Idea Development",
+      "description": "Assesses elaboration, examples, reasons, opinions, and ability to extend answers beyond one-word or one-sentence responses.",
+      "max_points": 8,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 8,
+          "description": "Well-developed ideas with reasons, examples, and thoughtful extension"
+        },
+        {
+          "level": "Good",
+          "points": 6,
+          "description": "Clear ideas with some useful reasons or examples"
+        },
+        {
+          "level": "Developing",
+          "points": 4,
+          "description": "Basic ideas with limited elaboration"
+        },
+        {
+          "level": "Needs Support",
+          "points": 2,
+          "description": "Very brief or underdeveloped answer"
+        },
+        {
+          "level": "No Evidence",
+          "points": 0,
+          "description": "No developed idea"
+        }
+      ]
+    },
+    {
+      "name": "Spoken Language Use",
+      "description": "Assesses grammar, sentence control, vocabulary range, and suitability of spoken English for a Primary 6 oral response.",
+      "max_points": 6,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 6,
+          "description": "Accurate, varied language with precise vocabulary and natural spoken expression"
+        },
+        {
+          "level": "Good",
+          "points": 4,
+          "description": "Generally accurate language with appropriate vocabulary and minor errors"
+        },
+        {
+          "level": "Developing",
+          "points": 3,
+          "description": "Understandable language with simple vocabulary and noticeable errors"
+        },
+        {
+          "level": "Needs Support",
+          "points": 1,
+          "description": "Frequent language errors or very limited vocabulary affect clarity"
+        },
+        {
+          "level": "No Evidence",
+          "points": 0,
+          "description": "No usable spoken language evidence"
+        }
+      ]
+    },
+    {
+      "name": "Interaction And Confidence",
+      "description": "Assesses responsiveness to the assessor, willingness to continue speaking, turn-taking, confidence, and ability to build on prompts or guidance.",
+      "max_points": 3,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 3,
+          "description": "Responds confidently, stays engaged, and builds naturally on prompts"
+        },
+        {
+          "level": "Developing",
+          "points": 2,
+          "description": "Responds adequately with some confidence or occasional prompting"
+        },
+        {
+          "level": "Needs Support",
+          "points": 1,
+          "description": "Needs repeated support to continue or respond"
+        },
+        {
+          "level": "No Evidence",
+          "points": 0,
+          "description": "No meaningful interaction"
+        }
+      ]
+    }
+  ]
+}

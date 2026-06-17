@@ -1,0 +1,73 @@
+{
+  "session_id": "916972dc",
+  "paper_id": "crew_test_math",
+  "student_id": "student_001",
+  "date_created": "2026-06-17T15:12:33.261536",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-17T15:12:42.718766",
+      "speaker": "avatar",
+      "text": "What is 5 + 3?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-17T15:12:42.721459",
+      "speaker": "student",
+      "text": "Eight, because five plus three equals eight.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What is 5 + 3?",
+        "answer": "Eight, because five plus three equals eight.",
+        "scores": [
+          {
+            "criterion": "Conceptual Understanding",
+            "score": 15,
+            "max_score": 25,
+            "feedback": "Basic understanding shown"
+          },
+          {
+            "criterion": "Problem Solving",
+            "score": 25,
+            "max_score": 25,
+            "feedback": "Solves problems accurately with steps shown"
+          },
+          {
+            "criterion": "Calculation Accuracy",
+            "score": 25,
+            "max_score": 25,
+            "feedback": "All calculations correct"
+          },
+          {
+            "criterion": "Communication",
+            "score": 25,
+            "max_score": 25,
+            "feedback": "Clear and organized explanation"
+          }
+        ],
+        "tutoring_feedback": "Great job on your response! You correctly solved the problem by adding 5 and 3 to get 8, showing excellent problem-solving skills and calculation accuracy. Your communication was clear and concise, earning you full points in that category. To improve your score in conceptual understanding, remember that 5 + 3 equals 8, not 9. Keep up the good work, and you'll continue to excel in math!",
+        "total_score": 90,
+        "max_score": 100,
+        "percentage": 90.0
+      }
+    }
+  ],
+  "start_time": "2026-06-17T15:12:33.272556",
+  "end_time": "2026-06-17T15:13:37.571151",
+  "metadata": {
+    "test": true,
+    "subject": "crew_test_math",
+    "rubric": "primary_math",
+    "engine": "crewai"
+  }
+}
