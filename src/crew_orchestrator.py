@@ -9,9 +9,14 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+SRC_DIR = Path(__file__).resolve().parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
 from env_fix import apply_runtime_fixes
 
@@ -567,7 +572,7 @@ class EducationCrew:
         max_attempts: int = 3,
     ) -> Dict[str, Any]:
         """
-        Decide whether a PSLE oral answer is sufficient or needs examiner prompting.
+        Decide whether an oral answer is sufficient to grade or needs prompting.
 
         Returns a structured decision used by the real-time Streamlit oral flow.
         """
@@ -592,23 +597,33 @@ class EducationCrew:
 
         prompt = (
             f"{PSLE_ORAL_CONTEXT}\n\n"
-            "You are a real-time PSLE English oral examiner. Judge whether the latest "
-            "student response is sufficient to accept for this prompt, or whether the "
-            "student needs one more oral prompt. Accepted means there is enough to grade; "
-            "it does not mean the answer is fully correct.\n\n"
+            "You are a real-time PSLE oral examiner. Judge whether the latest "
+            "student response is sufficient to pass and move to the next question, "
+            "or whether the student is at risk of failing this prompt and needs one "
+            "brief hint. Accepted means the answer is passable enough to grade and "
+            "continue; it does not mean the answer is excellent.\n\n"
             f"QUESTION: {question}\n"
             f"LATEST STUDENT RESPONSE: {response}\n"
             f"ATTEMPT: {attempt_number} of {max_attempts}\n\n"
             f"DOCUMENT CONTEXT:\n{context}\n\n"
             f"CONVERSATION HISTORY:\n{json.dumps(history, indent=2)}\n\n"
             f"TRAINING RUBRIC:\n{rubric_summary}\n\n"
-            "Accept the answer if it directly addresses the prompt, gives at least one "
-            "relevant idea, has enough detail to grade, and does not directly contradict "
-            "known visual facts. Prompt again if it is too short, generic, off-topic, "
-            "unclear, visually inaccurate, or shows the student is struggling. If a "
-            "student gives a wrong visible detail, ask them to look again and correct or "
-            "add one concrete detail. If this is the final attempt, accept unless there "
-            "is no meaningful answer.\n\n"
+            "Default to accepting and moving on when the answer is sufficient enough "
+            "to pass: it addresses the prompt, contains at least one relevant idea, "
+            "and has some connection to the image or oral topic, even if it is brief "
+            "or could be improved. Do not ask for extra detail merely to make a fair "
+            "answer stronger.\n\n"
+            "Only prompt again with a hint when the answer is almost a fail: empty, "
+            "very short with no clear idea, unrelated to the image/topic, badly "
+            "off-topic, impossible to understand, or directly contradicts important "
+            "visual facts. If a student gives a wrong visible detail, ask them to "
+            "look again and correct that detail. If this is the final attempt, accept "
+            "unless there is no meaningful answer.\n\n"
+            "If accepted, the examiner_reply should be a short transition such as "
+            "'Thank you, let's move on to the next question.' Do not include hints, "
+            "sentence starters, or improvement advice when accepted.\n"
+            "If not accepted, give exactly one brief hint or one focused look-again "
+            "prompt, then invite the student to try once more.\n\n"
             "Return ONLY valid JSON with this exact shape:\n"
             "{\n"
             '  "accepted": true,\n'
@@ -627,12 +642,10 @@ class EducationCrew:
                 accepted = True
 
             examiner_reply = str(decision.get("examiner_reply", "")).strip()
-            if not examiner_reply:
-                examiner_reply = (
-                    "Thank you. I have enough to assess that answer."
-                    if accepted
-                    else "Can you add one reason or example to explain your answer?"
-                )
+            if accepted:
+                examiner_reply = "Thank you, let's move on to the next question."
+            elif not examiner_reply:
+                examiner_reply = "Look at the picture again and add one detail that answers the question."
 
             return {
                 "accepted": accepted,
@@ -669,14 +682,13 @@ class EducationCrew:
         error: str,
     ) -> Dict[str, Any]:
         word_count = len(response.split())
-        accepted = word_count >= 18 or (attempt_number >= max_attempts and word_count >= 6)
+        accepted = word_count >= 6 or (attempt_number >= max_attempts and word_count >= 4)
         if accepted:
-            reply = "Thank you. That gives me enough to assess your answer. Let's move on."
+            reply = "Thank you, let's move on to the next question."
             status = "accepted"
         else:
             reply = (
-                "Can you add one reason or example? Try starting with, "
-                "'I feel this way because...'"
+                "Look at the picture again and add one detail that answers the question."
             )
             status = "needs_prompt"
         return {
