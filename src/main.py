@@ -183,6 +183,9 @@ def ingest_document(
         shutil.copy2(src, dest)
 
     output_dir = subject_manager.get_subject_output_path(subject)
+    if material_type == "visual":
+        for old_chunk in output_dir.glob("*.txt"):
+            old_chunk.unlink()
     process_file(dest, chunk_size, chunk_overlap, output_dir)
 
     vector_rebuilt = False

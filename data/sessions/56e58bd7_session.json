@@ -1,0 +1,248 @@
+{
+  "session_id": "56e58bd7",
+  "paper_id": "psle_oral_english",
+  "student_id": "student_001",
+  "date_created": "2026-06-18T16:40:59.142912",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-18T16:42:48.578972",
+      "speaker": "avatar",
+      "text": "Please read the passage aloud.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "component": "reading_aloud",
+        "source": "data\\input\\psle_oral_english\\Good morning, students. I hope you.txt"
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-18T16:42:48.588452",
+      "speaker": "student",
+      "text": "Reading aloud completed. Audio capture is not enabled yet.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "component": "reading_aloud",
+        "source": "data\\input\\psle_oral_english\\Good morning, students. I hope you.txt",
+        "speech_enabled": false
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-06-18T16:43:45.745152",
+      "speaker": "avatar",
+      "text": "Can you describe a time when you felt as excited as the children in the picture?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The picture shows a group of children on an amusement park ride. They are sitting in an orange roller coaster car. The children look very excited and happy, with big smiles on their faces. One child in the front is wearing a yellow shirt, and another in the front is wearing a pink and white striped shirt. In the background, other children can be seen holding onto the safety bar, and one has raised their arms in the air. The surroundings are blurred, indicating movement, and there are green trees in the background."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-06-18T16:43:45.758522",
+      "speaker": "student",
+      "text": "I like ice cream oh yes i felt this moment when i went zoo with my family",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-06-18T16:45:38.747696",
+      "speaker": "avatar",
+      "text": "Why do you think the children are enjoying the ride so much?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The picture shows a group of children on an amusement park ride. They are sitting in an orange roller coaster car. The children look very excited and happy, with big smiles on their faces. One child in the front is wearing a yellow shirt, and another in the front is wearing a pink and white striped shirt. In the background, other children can be seen holding onto the safety bar, and one has raised their arms in the air. The surroundings are blurred, indicating movement, and there are green trees in the background."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-06-18T16:45:38.762682",
+      "speaker": "student",
+      "text": "i think because to them is a special moment. to be in this ride having fun",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    },
+    {
+      "turn_id": 7,
+      "timestamp": "2026-06-18T16:54:17.407900",
+      "speaker": "avatar",
+      "text": "How do you feel about amusement park rides? Do you enjoy them like the children in the image seem to?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The picture shows a group of children on an amusement park ride. They are sitting in an orange roller coaster car. The children look very excited and happy, with big smiles on their faces. One child in the front is wearing a yellow shirt, and another in the front is wearing a pink and white striped shirt. In the background, other children can be seen holding onto the safety bar, and one has raised their arms in the air. The surroundings are blurred, indicating movement, and there are green trees in the background."
+      }
+    },
+    {
+      "turn_id": 8,
+      "timestamp": "2026-06-18T16:54:17.423776",
+      "speaker": "student",
+      "text": "i feel very scared because myself im scared and afraid of heights and rides i was with my family and they encourage me to face my fears",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Can you describe a time when you felt as excited as the children in the picture?",
+        "answer": "I like ice cream oh yes i felt this moment when i went zoo with my family",
+        "visual_context": "The picture shows a group of children on an amusement park ride. They are sitting in an orange roller coaster car. The children look very excited and happy, with big smiles on their faces. One child in the front is wearing a yellow shirt, and another in the front is wearing a pink and white striped shirt. In the background, other children can be seen holding onto the safety bar, and one has raised their arms in the air. The surroundings are blurred, indicating movement, and there are green trees in the background.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The response is only loosely related to the prompt and lacks specific details from the stimulus.",
+            "evidence": "The student mentions liking ice cream and going to the zoo with their family, which does not directly address the excitement felt by the children in the picture."
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The answer is very brief and underdeveloped, lacking elaboration or examples.",
+            "evidence": "The student's answer only briefly mentions liking ice cream and going to the zoo with their family."
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 1,
+            "max_score": 6,
+            "feedback": "Frequent language errors affect clarity and vocabulary range.",
+            "evidence": "The answer contains multiple language errors and lacks detail related to the visual stimulus."
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 1,
+            "max_score": 3,
+            "feedback": "The student's answer lacks meaningful interaction and does not directly address the prompt or visual stimulus.",
+            "evidence": "The student's response is unrelated to the prompt and does not show engagement with the question or visual stimulus."
+          }
+        ],
+        "tutoring_feedback": "Well done for sharing your experience of going to the zoo with your family. However, the question asked you to describe a time when you felt as excited as the children in the picture on the amusement park ride. It seems like there was a mismatch in your response. Next time, try to connect your personal experience more closely to the visual stimulus provided. To improve, you can start by saying, \"I remember a time when I felt just as excited as the children in the picture...\" Remember to use specific details from the image to support your response. Keep practicing, and you'll get even better at connecting your experiences to the prompt.",
+        "total_score": 6,
+        "max_score": 25,
+        "percentage": 24.0
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Why do you think the children are enjoying the ride so much?",
+        "answer": "i think because to them is a special moment. to be in this ride having fun",
+        "visual_context": "The picture shows a group of children on an amusement park ride. They are sitting in an orange roller coaster car. The children look very excited and happy, with big smiles on their faces. One child in the front is wearing a yellow shirt, and another in the front is wearing a pink and white striped shirt. In the background, other children can be seen holding onto the safety bar, and one has raised their arms in the air. The surroundings are blurred, indicating movement, and there are green trees in the background.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant as they mention that the children are enjoying the ride because it is a special moment. However, they could provide more specific details from the stimulus to strengthen their answer.",
+            "evidence": "The student mentions that the children are enjoying the ride because it is a special moment."
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student's answer provides a basic idea that the children are enjoying the ride because it is a special moment, but lacks elaboration or specific examples.",
+            "evidence": "i think because to them is a special moment. to be in this ride having fun"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's answer demonstrates understandable language with simple vocabulary, but there are noticeable errors in grammar and sentence structure.",
+            "evidence": "i think because to them is a special moment. to be in this ride having fun"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence, but could benefit from providing more specific details or explanations.",
+            "evidence": "i think because to them is a special moment. to be in this ride having fun"
+          }
+        ],
+        "tutoring_feedback": "You did well in providing a relevant response by mentioning that the children are enjoying the ride because it's a special moment. However, you could have included more details from the picture to strengthen your answer. Remember to use specific examples to support your ideas next time. Try starting your response with a sentence like, \"The children are having fun on the ride because...\" Work on improving your grammar and sentence structure to communicate your ideas more clearly. Keep practicing and pay attention to the details in the visual stimulus to enhance your responses.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "How do you feel about amusement park rides? Do you enjoy them like the children in the image seem to?",
+        "answer": "i feel very scared because myself im scared and afraid of heights and rides i was with my family and they encourage me to face my fears",
+        "visual_context": "The picture shows a group of children on an amusement park ride. They are sitting in an orange roller coaster car. The children look very excited and happy, with big smiles on their faces. One child in the front is wearing a yellow shirt, and another in the front is wearing a pink and white striped shirt. In the background, other children can be seen holding onto the safety bar, and one has raised their arms in the air. The surroundings are blurred, indicating movement, and there are green trees in the background.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant as they mention feeling scared of rides and facing their fears, which connects to the amusement park ride stimulus. However, more specific details from the image could enhance the response.",
+            "evidence": "The student mentions feeling scared of heights and rides, which aligns with the excitement shown by the children in the image."
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student provides a basic idea about feeling scared of rides and heights, but there is limited elaboration or examples to support their answer.",
+            "evidence": "i feel very scared because myself im scared and afraid of heights and rides i was with my family and they encourage me to face my fears"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+            "evidence": "The student's answer contains some language errors and lacks complexity in vocabulary use."
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence, mentioning their fear of heights and rides and how their family encouraged them to face their fears.",
+            "evidence": "i feel very scared because myself im scared and afraid of heights and rides i was with my family and they encourage me to face my fears"
+          }
+        ],
+        "tutoring_feedback": "Well done for sharing your fear of heights and rides, which shows honesty and self-awareness. However, the image shows excited children on a roller coaster, so there's a slight mismatch in your response. To improve, try adding more specific details from the picture to make your answer more connected to the stimulus. For example, you could describe the children's expressions or the colors of their clothes. Next time, you could start your response with \"While I may feel scared of rides, the children in the picture look really excited because...\" Keep practicing to include more details and examples in your answers.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0
+      }
+    }
+  ],
+  "start_time": "2026-06-18T16:40:59.153819",
+  "end_time": "2026-06-18T16:54:29.878767",
+  "metadata": {
+    "subject": "psle_oral_english",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

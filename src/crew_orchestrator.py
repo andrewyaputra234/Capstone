@@ -145,8 +145,15 @@ def extract_exam_questions(num_questions: int = 5) -> str:
                 extract_images=True,
             )
 
+        visual_only = bool(
+            _ctx.dialogue_manager.subject_manager.get_subject_material_path(
+                _ctx.subject,
+                "visual",
+            )
+        )
         questions = _ctx.dialogue_manager.extract_questions_from_document(
-            num_questions=num_questions
+            num_questions=num_questions,
+            visual_only=visual_only,
         )
         return json.dumps(
             [{"id": q["id"], "text": q["text"], "source": q.get("source", "")} for q in questions],
@@ -367,7 +374,10 @@ class EducationCrew:
         questions = []
         if extract_questions:
             dialogue = self._get_dialogue_manager()
-            questions = dialogue.extract_questions_from_document(num_questions=10)
+            questions = dialogue.extract_questions_from_document(
+                num_questions=10,
+                visual_only=(material_type == "visual"),
+            )
         else:
             return {
                 "workflow": "ingestion",
@@ -553,7 +563,11 @@ class EducationCrew:
             self.start_session()
 
         dialogue = self._get_dialogue_manager()
-        questions = dialogue.extract_questions_from_document(num_questions=num_questions)
+        visual_only = bool(self.subject_manager.get_subject_material_path(self.subject, "visual"))
+        questions = dialogue.extract_questions_from_document(
+            num_questions=num_questions,
+            visual_only=visual_only,
+        )
 
         return {
             "session_id": self.session_id,

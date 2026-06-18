@@ -330,7 +330,11 @@ class DialogueManager:
             print(f"[ERROR] Audio recording/transcription error: {str(e)}")
             return None
     
-    def extract_questions_from_document(self, num_questions: int = 5) -> List[Dict]:
+    def extract_questions_from_document(
+        self,
+        num_questions: int = 5,
+        visual_only: bool = False,
+    ) -> List[Dict]:
         """
         Extract actual questions from the ingested document.
         Uses semantic search, pattern matching, and vision-based extraction for scanned PDFs.
@@ -342,6 +346,17 @@ class DialogueManager:
             List of question dictionaries with id, text, and context
         """
         print(f"\n[INFO] Extracting questions from document...\n")
+
+        if visual_only and self.page_images:
+            print(f"[INFO] Visual-only mode enabled. Extracting prompts directly from {len(self.page_images)} image(s)...")
+            questions = self._extract_questions_from_images(num_questions)
+            self._attach_visual_context_to_questions(questions)
+            self.questions = questions[:num_questions]
+            return self.questions
+        if visual_only:
+            print("[WARNING] Visual-only mode requested, but no visual stimulus image was available.")
+            self.questions = []
+            return self.questions
         
         # Get all chunks from the document
         retriever = self.vector_store.as_retriever(search_kwargs={"k": 50})
@@ -597,6 +612,8 @@ class DialogueManager:
                             if sentence not in seen and len(questions) < num_questions:
                                 seen.add(sentence)
                                 q_text = self._clean_visual_prompt_text(sentence[:200], page_num)
+                                if self._looks_like_reading_passage_prompt(q_text):
+                                    continue
                                 q_obj = {
                                     "id": len(questions) + 1,
                                     "text": q_text,
@@ -641,6 +658,8 @@ class DialogueManager:
             if q_text and len(q_text) > 15 and q_text not in seen:
                 q_text = q_text.strip(' "\'')
                 q_text = self._clean_visual_prompt_text(q_text, page_num)
+                if self._looks_like_reading_passage_prompt(q_text):
+                    continue
                 seen.add(q_text)
                 q_obj = {
                     "id": len(questions) + 1,
@@ -654,6 +673,40 @@ class DialogueManager:
                 }
                 questions.append(q_obj)
     
+    def _looks_like_reading_passage_prompt(self, prompt_text: str) -> bool:
+        """Reject reading-passage style prompts from visual-stimulus extraction."""
+        text = (prompt_text or "").lower()
+        reading_markers = [
+            "reading passage",
+            "passage",
+            "paragraph",
+            "announcement",
+            "notice",
+            "text you read",
+            "read aloud",
+            "the speaker",
+            "the writer",
+        ]
+        visual_markers = [
+            "picture",
+            "image",
+            "photo",
+            "photograph",
+            "scene",
+            "see",
+            "shown",
+            "visible",
+            "children",
+            "people",
+            "person",
+            "objects",
+            "colours",
+            "colors",
+        ]
+        return any(marker in text for marker in reading_markers) and not any(
+            marker in text for marker in visual_markers
+        )
+
     def _clean_visual_prompt_text(self, prompt_text: str, page_num: int | None = None) -> str:
         """Remove page references that do not make sense for a single-image stimulus."""
         text = str(prompt_text or "").strip()
