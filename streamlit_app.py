@@ -212,12 +212,13 @@ with st.sidebar:
 st.markdown("# PSLE English Oral Practice")
 st.caption("CrewAI assessor-coach | PSLE-style reading aloud and stimulus-based conversation")
 
-tab_ingest, tab_oral, tab_manual, tab_dialogue, tab_results = st.tabs([
+tab_ingest, tab_oral, tab_manual, tab_dialogue, tab_results, tab_manage = st.tabs([
     "📁 Ingest Document",
     "🎤 Oral Assessment",
     "📝 Grade Response",
     "💬 Q&A Dialogue",
     "📊 Results",
+    "Manage Data",
 ])
 
 # ---- Ingest ----
@@ -509,3 +510,139 @@ with tab_results:
                 st.json(report)
     else:
         st.info("No persisted sessions yet.")
+
+# ---- Manage data ----
+with tab_manage:
+    st.markdown("## Manage Stored Data")
+
+    notice = st.session_state.get("manage_data_notice")
+    if notice:
+        st.success(notice)
+        del st.session_state["manage_data_notice"]
+
+    st.markdown("### Ingested Documents")
+    st.caption("Deletes copied uploads, generated chunks, vector databases, extracted images, and subject metadata.")
+    ingested_subjects = subject_manager.list_ingested_subjects()
+
+    if ingested_subjects:
+        selected_subjects = st.multiselect(
+            "Subjects to delete",
+            ingested_subjects,
+            help="This removes the ingested document data for each selected subject. Sessions are not deleted here.",
+        )
+        confirm_docs = st.checkbox(
+            "I understand this will delete the selected ingested documents and vector databases.",
+            key="confirm_delete_ingested_docs",
+        )
+
+        if st.button(
+            "Delete Selected Documents",
+            type="primary",
+            disabled=not selected_subjects or not confirm_docs,
+            use_container_width=True,
+        ):
+            deleted = []
+            failed = []
+            for subject_name in selected_subjects:
+                try:
+                    subject_manager.delete_subject_data(subject_name)
+                    deleted.append(subject_name)
+                except Exception as e:
+                    failed.append(f"{subject_name}: {e}")
+
+            if any(s in selected_subjects for s in [st.session_state.get("crew_subject"), subject]):
+                st.session_state.crew = None
+                st.session_state.crew_subject = None
+                st.session_state.crew_rubric = None
+                st.session_state.session_id = None
+                st.session_state.ingest_result = None
+                reset_oral_state(clear_questions=True)
+
+            if failed:
+                st.error("Some subjects could not be deleted:")
+                st.write(failed)
+            if deleted:
+                st.session_state.manage_data_notice = (
+                    f"Deleted ingested data for {len(deleted)} subject(s): {', '.join(deleted)}"
+                )
+                st.rerun()
+
+        if st.checkbox("Show stored subject details", key="show_subject_storage_details"):
+            for subject_name in ingested_subjects:
+                with st.expander(subject_name):
+                    st.json(subject_manager.get_subject_info(subject_name))
+    else:
+        st.info("No ingested documents found.")
+
+    st.divider()
+
+    st.markdown("### Sessions")
+    st.caption("Deletes persisted Agent A6 session files. Ingested documents are not deleted here.")
+    persisted_sessions = session_manager.list_sessions()
+
+    if persisted_sessions:
+        selected_sessions = st.multiselect(
+            "Sessions to delete",
+            persisted_sessions,
+            help="Select one or more persisted sessions to remove.",
+        )
+        confirm_sessions = st.checkbox(
+            "I understand this will permanently delete the selected sessions.",
+            key="confirm_delete_sessions",
+        )
+
+        if st.button(
+            "Delete Selected Sessions",
+            type="primary",
+            disabled=not selected_sessions or not confirm_sessions,
+            use_container_width=True,
+        ):
+            deleted = []
+            failed = []
+            for session_id in selected_sessions:
+                try:
+                    if session_manager.delete_session(session_id):
+                        deleted.append(session_id)
+                    else:
+                        failed.append(f"{session_id}: not found")
+                except Exception as e:
+                    failed.append(f"{session_id}: {e}")
+
+            if st.session_state.session_id in deleted:
+                st.session_state.session_id = None
+                if st.session_state.crew:
+                    st.session_state.crew.session_id = None
+
+            if failed:
+                st.error("Some sessions could not be deleted:")
+                st.write(failed)
+            if deleted:
+                st.session_state.manage_data_notice = (
+                    f"Deleted {len(deleted)} session(s): {', '.join(deleted)}"
+                )
+                st.rerun()
+
+        with st.expander("Delete all sessions"):
+            confirm_all_sessions = st.checkbox(
+                "I understand this will delete every persisted session.",
+                key="confirm_delete_all_sessions",
+            )
+            if st.button(
+                "Delete All Sessions",
+                disabled=not confirm_all_sessions,
+                use_container_width=True,
+            ):
+                result = session_manager.delete_all_sessions()
+                if result["failed"]:
+                    st.error("Some sessions could not be deleted:")
+                    st.write(result["failed"])
+                if result["deleted"]:
+                    st.session_state.session_id = None
+                    if st.session_state.crew:
+                        st.session_state.crew.session_id = None
+                    st.session_state.manage_data_notice = (
+                        f"Deleted {len(result['deleted'])} persisted session(s)."
+                    )
+                    st.rerun()
+    else:
+        st.info("No persisted sessions found.")

@@ -344,15 +344,43 @@ class SessionManager:
                 sessions.append(data['session_id'])
         return sessions
     
-    def delete_session(self, session_id: str) -> bool:
-        """Delete a session"""
+    def delete_session(self, session_id: str, include_artifacts: bool = True) -> bool:
+        """Delete a session and optional files referenced by the session."""
         session_path = self._get_session_path(session_id)
         try:
+            session_data = None
+            if session_path.exists():
+                with open(session_path, 'r') as f:
+                    session_data = json.load(f)
+
+            if include_artifacts and session_data:
+                self._delete_session_artifacts(session_id, session_data)
+
             session_path.unlink()
+            if self.current_session and self.current_session.session_id == session_id:
+                self.current_session = None
             print(f"✓ Deleted session: {session_id}")
             return True
         except FileNotFoundError:
             return False
+    
+    def delete_all_sessions(self, include_artifacts: bool = True) -> Dict:
+        """Delete all persisted sessions."""
+        deleted = []
+        failed = []
+        for session_id in self.list_sessions():
+            try:
+                if self.delete_session(session_id, include_artifacts=include_artifacts):
+                    deleted.append(session_id)
+                else:
+                    failed.append({"session_id": session_id, "error": "not found"})
+            except Exception as e:
+                failed.append({"session_id": session_id, "error": str(e)})
+
+        return {
+            "deleted": deleted,
+            "failed": failed,
+        }
     
     # Helper methods
     
@@ -360,6 +388,29 @@ class SessionManager:
     def _get_session_path(session_id: str, base_dir: str = SESSION_DIR) -> Path:
         """Get file path for session"""
         return Path(base_dir) / f"{session_id}_session.json"
+    
+    def _delete_session_artifacts(self, session_id: str, session_data: Dict) -> None:
+        """Delete transcript exports and turn-level artifacts safely inside session_dir."""
+        session_dir = Path(self.session_dir).resolve()
+        candidates = []
+
+        for turn in session_data.get("turns", []):
+            for key in ["audio_path", "transcription_path"]:
+                value = turn.get(key)
+                if value:
+                    candidates.append(Path(value))
+
+        candidates.extend(Path(self.session_dir).glob(f"{session_id}_transcript.*"))
+
+        for path in candidates:
+            try:
+                resolved = path.resolve()
+                resolved.relative_to(session_dir)
+            except (OSError, ValueError):
+                continue
+
+            if resolved.exists() and resolved.is_file():
+                resolved.unlink()
     
     @staticmethod
     def _calculate_duration(session: Session) -> Optional[float]:
