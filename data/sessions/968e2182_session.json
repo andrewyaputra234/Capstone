@@ -1,0 +1,17 @@
+{
+  "session_id": "968e2182",
+  "paper_id": "psle_oral_english",
+  "student_id": "student_001",
+  "date_created": "2026-06-18T11:07:11.747055",
+  "state": "ACTIVE",
+  "turns": [],
+  "scores": null,
+  "start_time": "2026-06-18T11:07:11.756462",
+  "end_time": null,
+  "metadata": {
+    "subject": "psle_oral_english",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

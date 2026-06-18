@@ -107,8 +107,13 @@ def _retrieve_vector_context(query: str, num_results: int = 5) -> str:
 
         from vector_store import VectorStore
 
-        store = VectorStore(rebuild=False, subject=_ctx.subject)
-        results = store.semantic_search(query, top_k=num_results)
+        store = None
+        try:
+            store = VectorStore(rebuild=False, subject=_ctx.subject)
+            results = store.semantic_search(query, top_k=num_results)
+        finally:
+            if store is not None:
+                store.close()
         if not results:
             return f"No vector results for query: {query}"
 
@@ -329,21 +334,49 @@ class EducationCrew:
             return False
         return self.session_manager.end_session(self.session_id)
 
-    def ingest_document(self, file_path: str) -> Dict[str, Any]:
+    def ingest_document(self, file_path: str, material_type: Optional[str] = None) -> Dict[str, Any]:
         """Run the real ingestion pipeline (main.py) without CrewAI."""
         from main import ingest_document
 
-        return ingest_document(file_path, subject=self.subject, rubric=self.rubric_name)
+        return ingest_document(
+            file_path,
+            subject=self.subject,
+            rubric=self.rubric_name,
+            material_type=material_type,
+        )
 
-    def run_ingestion_workflow(self, file_path: str) -> Dict[str, Any]:
+    def run_ingestion_workflow(
+        self,
+        file_path: str,
+        material_type: Optional[str] = None,
+        extract_questions: bool = True,
+    ) -> Dict[str, Any]:
         """
         Full ingestion: real pipeline + question extraction + CrewAI analysis.
         """
         _set_runtime_context(self)
 
-        ingest_result = self.ingest_document(file_path)
-        dialogue = self._get_dialogue_manager()
-        questions = dialogue.extract_questions_from_document(num_questions=10)
+        if self.dialogue_manager is not None:
+            try:
+                self.dialogue_manager.cleanup()
+            except Exception:
+                pass
+            self.dialogue_manager = None
+
+        ingest_result = self.ingest_document(file_path, material_type=material_type)
+        questions = []
+        if extract_questions:
+            dialogue = self._get_dialogue_manager()
+            questions = dialogue.extract_questions_from_document(num_questions=10)
+        else:
+            return {
+                "workflow": "ingestion",
+                "subject": self.subject,
+                "file_path": file_path,
+                "ingest_result": ingest_result,
+                "questions": questions,
+                "crew_analysis": "Material ingested. Question extraction was skipped for this upload.",
+            }
 
         preview = _retrieve_vector_context(
             "PSLE English oral reading aloud stimulus-based conversation prompt picture photograph",
@@ -355,6 +388,7 @@ class EducationCrew:
                 f"{PSLE_ORAL_CONTEXT}\n\n"
                 f"Analyze the ingested PSLE English oral document for subject '{self.subject}'.\n"
                 f"File: {ingest_result['file_path']}\n"
+                f"Material type: {material_type or 'general'}\n"
                 f"Chunks: {ingest_result['chunk_count']}, Images: {ingest_result['image_count']}\n\n"
                 f"Vector context sample:\n{preview}\n\n"
                 f"Extracted questions ({len(questions)}):\n"

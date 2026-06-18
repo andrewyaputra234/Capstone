@@ -49,6 +49,9 @@ for key, default in [
     ("oral_attempts", {}),
     ("oral_accepted_answers", {}),
     ("ingest_result", None),
+    ("reading_passage", ""),
+    ("reading_source", None),
+    ("reading_completed", False),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -85,6 +88,12 @@ def reset_oral_state(clear_questions: bool = True) -> None:
     st.session_state.oral_accepted_answers = {}
 
 
+def reset_reading_state() -> None:
+    st.session_state.reading_passage = ""
+    st.session_state.reading_source = None
+    st.session_state.reading_completed = False
+
+
 def ensure_psle_crew(subject: str, rubric: str, student_id: str) -> EducationCrew:
     crew = st.session_state.get("crew")
     if (
@@ -98,6 +107,7 @@ def ensure_psle_crew(subject: str, rubric: str, student_id: str) -> EducationCre
         st.session_state.crew_rubric = rubric
         st.session_state.session_id = None
         reset_oral_state(clear_questions=True)
+        reset_reading_state()
     return crew
 
 
@@ -145,6 +155,31 @@ def render_grading_result(grading: dict) -> None:
         st.info(grading["tutoring_feedback"])
 
 
+def save_uploaded_file(uploaded_file) -> Path:
+    tmp = Path(tempfile.mkdtemp()) / uploaded_file.name
+    tmp.write_bytes(uploaded_file.getbuffer())
+    return tmp
+
+
+def extract_reading_passage(file_path: str | Path, max_chars: int = 6000) -> str:
+    """Extract display text for the reading-aloud passage area."""
+    from main import load_document
+
+    documents = load_document(Path(file_path))
+    text = "\n\n".join(doc.page_content.strip() for doc in documents if doc.page_content.strip())
+    return text.strip()[:max_chars]
+
+
+def load_reading_passage_from_subject(subject_name: str) -> bool:
+    reading_path = subject_manager.get_subject_material_path(subject_name, "reading")
+    if reading_path and os.path.exists(reading_path):
+        st.session_state.reading_passage = extract_reading_passage(reading_path)
+        st.session_state.reading_source = reading_path
+        st.session_state.reading_completed = False
+        return True
+    return False
+
+
 # ---------------------------------------------------------------------------
 # Sidebar
 # ---------------------------------------------------------------------------
@@ -181,6 +216,7 @@ with st.sidebar:
         st.session_state.crew_subject = subject
         st.session_state.crew_rubric = rubric
         reset_oral_state(clear_questions=True)
+        reset_reading_state()
         st.success("Crew ready")
 
     st.divider()
@@ -223,51 +259,106 @@ tab_ingest, tab_oral, tab_manual, tab_dialogue, tab_results, tab_manage = st.tab
 
 # ---- Ingest ----
 with tab_ingest:
-    st.markdown("## PSLE Oral Document Ingestion")
+    st.markdown("## PSLE Oral Material Ingestion")
     st.markdown(
-        "Upload a PSLE-style English oral document for reading-aloud passages, visual stimuli, "
-        "and stimulus-based conversation prompts."
+        "Upload a picture stimulus, a reading-aloud passage, or both. The picture stimulus "
+        "is used to generate the three conversation questions; the reading passage is kept "
+        "for a separate reading-aloud section."
     )
 
-    uploaded = st.file_uploader(
-        "PDF, DOCX, TXT, or image",
-        type=["pdf", "docx", "txt", "png", "jpg", "jpeg", "webp"],
-    )
+    col_visual, col_reading = st.columns(2)
+    with col_visual:
+        visual_upload = st.file_uploader(
+            "Picture stimulus",
+            type=["pdf", "png", "jpg", "jpeg", "webp"],
+            help="Use this for the visual stimulus. The examiner will create three image-based questions.",
+            key="visual_upload",
+        )
+    with col_reading:
+        reading_upload = st.file_uploader(
+            "Reading passage",
+            type=["pdf", "docx", "txt"],
+            help="Use this for the reading-aloud passage. Pronunciation scoring will be added later with speech.",
+            key="reading_upload",
+        )
 
-    st.caption(f"Uploads will be analysed under subject `{subject}` with rubric `{rubric}`.")
+    st.caption(f"Uploads will be stored under subject `{subject}` with rubric `{rubric}`.")
 
-    if uploaded:
-        if st.button("🚀 Ingest with Crew", type="primary"):
+    if visual_upload or reading_upload:
+        if st.button("Ingest Selected Materials", type="primary"):
             with st.spinner("Running ingestion pipeline and CrewAI analysis..."):
                 try:
                     crew = ensure_psle_crew(subject, rubric, student_id)
-                    tmp = Path(tempfile.mkdtemp()) / uploaded.name
-                    tmp.write_bytes(uploaded.getbuffer())
+                    materials = []
 
-                    result = crew.run_ingestion_workflow(str(tmp))
-                    st.session_state.ingest_result = result
-                    st.session_state.questions = result.get("questions", [])[:3]
-                    reset_oral_state(clear_questions=False)
+                    if visual_upload:
+                        visual_tmp = save_uploaded_file(visual_upload)
+                        visual_result = crew.run_ingestion_workflow(
+                            str(visual_tmp),
+                            material_type="visual",
+                            extract_questions=True,
+                        )
+                        st.session_state.questions = visual_result.get("questions", [])[:3]
+                        reset_oral_state(clear_questions=False)
+                        materials.append({
+                            "type": "visual",
+                            "name": visual_upload.name,
+                            **visual_result,
+                        })
 
-                    st.success("Ingestion complete")
-                    ir = result["ingest_result"]
-                    c1, c2, c3 = st.columns(3)
-                    c1.metric("Chunks", ir.get("chunk_count", 0))
-                    c2.metric("Images", ir.get("image_count", 0))
-                    c3.metric("Questions", len(result.get("questions", [])))
+                    if reading_upload:
+                        reading_tmp = save_uploaded_file(reading_upload)
+                        reading_result = crew.run_ingestion_workflow(
+                            str(reading_tmp),
+                            material_type="reading",
+                            extract_questions=False,
+                        )
+                        reading_file = reading_result.get("ingest_result", {}).get(
+                            "file_path",
+                            str(reading_tmp),
+                        )
+                        st.session_state.reading_passage = extract_reading_passage(reading_file)
+                        st.session_state.reading_source = reading_file
+                        st.session_state.reading_completed = False
+                        materials.append({
+                            "type": "reading",
+                            "name": reading_upload.name,
+                            **reading_result,
+                        })
 
-                    with st.expander("Extracted questions", expanded=True):
-                        for q in result.get("questions", []):
-                            st.write(f"**Q{q['id']}:** {q['text']}")
+                    st.session_state.ingest_result = {
+                        "materials": materials,
+                        "ingest_result": materials[-1].get("ingest_result", {}) if materials else {},
+                    }
 
-                    with st.expander("CrewAI analysis"):
-                        st.markdown(result.get("crew_analysis", ""))
+                    st.success("Materials ingested")
+                    c1, c2, c3, c4 = st.columns(4)
+                    c1.metric("Materials", len(materials))
+                    c2.metric("Image Questions", len(st.session_state.questions))
+                    c3.metric("Reading Passage", "Yes" if st.session_state.reading_passage else "No")
+                    c4.metric(
+                        "Images",
+                        sum(m.get("ingest_result", {}).get("image_count", 0) for m in materials),
+                    )
 
-                    existing_subjects  # refresh sidebar on next rerun
+                    if st.session_state.questions:
+                        with st.expander("Extracted image questions", expanded=True):
+                            for q in st.session_state.questions:
+                                st.write(f"**Q{q['id']}:** {q['text']}")
+
+                    if st.session_state.reading_passage:
+                        with st.expander("Reading passage preview", expanded=True):
+                            st.write(st.session_state.reading_passage[:1500])
+
+                    for material in materials:
+                        with st.expander(f"CrewAI analysis - {material['type']}"):
+                            st.markdown(material.get("crew_analysis", ""))
                 except Exception as e:
                     st.error(f"Ingestion failed: {e}")
                     import traceback
                     st.code(traceback.format_exc())
+    else:
+        st.info("Choose a picture stimulus, a reading passage, or both.")
     if st.session_state.ingest_result:
         st.divider()
         st.json(st.session_state.ingest_result.get("ingest_result", {}))
@@ -275,29 +366,103 @@ with tab_ingest:
 # ---- Oral assessment from document ----
 with tab_oral:
     st.markdown("## PSLE Oral Assessment")
-    st.markdown("Prompts are extracted from the ingested oral document, then assessed and coached interactively.")
+    st.markdown("Use the reading passage once, then answer up to three stimulus-based conversation questions.")
 
     if not st.session_state.crew:
         st.warning("Initialize the crew first.")
-    elif not st.session_state.questions:
-        if st.button("Load questions from subject"):
-            with st.spinner("Extracting questions..."):
-                oral = st.session_state.crew.run_oral_assessment(num_questions=3)
-                st.session_state.questions = oral.get("questions", [])
-                st.session_state.oral_guidance = {}
-                st.session_state.oral_turns = {}
-                st.session_state.oral_attempts = {}
-                st.session_state.oral_accepted_answers = {}
-                st.rerun()
-        else:
-            st.info("Ingest a document first, or click **Load questions from subject**.")
     else:
         if not st.session_state.session_id:
             st.info("Tip: click **New Session** in the sidebar to persist results.")
 
-        if st.button("🎯 Start Assessment", type="primary") and not st.session_state.assessment_active:
+        st.markdown("### Reading Aloud")
+        if not st.session_state.reading_passage:
+            if st.button("Load reading passage from subject", use_container_width=True):
+                try:
+                    if load_reading_passage_from_subject(subject):
+                        st.success("Reading passage loaded.")
+                        st.rerun()
+                    else:
+                        st.info("No reading passage has been ingested for this subject yet.")
+                except Exception as e:
+                    st.error(f"Could not load reading passage: {e}")
+            else:
+                st.caption("Optional. Ingest a reading passage to enable this section.")
+        else:
+            source_name = Path(st.session_state.reading_source).name if st.session_state.reading_source else "reading passage"
+            st.caption(f"Source: {source_name}")
+            st.text_area(
+                "Passage",
+                value=st.session_state.reading_passage,
+                height=240,
+                disabled=True,
+                key="reading_passage_display",
+            )
+
+            if st.session_state.reading_completed:
+                st.success("Reading passage completed once.")
+            elif st.button("Mark Reading Completed", type="primary", use_container_width=True):
+                if not st.session_state.session_id:
+                    sid = st.session_state.crew.start_session(metadata={"component": "psle_oral"})
+                    st.session_state.session_id = sid
+                if st.session_state.crew.session_manager.current_session:
+                    st.session_state.crew.session_manager.add_turn(
+                        speaker="avatar",
+                        text="Please read the passage aloud.",
+                        metadata={
+                            "component": "reading_aloud",
+                            "source": st.session_state.reading_source,
+                        },
+                    )
+                    st.session_state.crew.session_manager.add_turn(
+                        speaker="student",
+                        text="Reading aloud completed. Audio capture is not enabled yet.",
+                        metadata={
+                            "component": "reading_aloud",
+                            "source": st.session_state.reading_source,
+                            "speech_enabled": False,
+                        },
+                    )
+
+                st.session_state.reading_completed = True
+                st.session_state.assessment_results.append({
+                    "workflow": "reading_aloud_placeholder",
+                    "subject": subject,
+                    "session_id": st.session_state.session_id,
+                    "question": "Reading aloud passage",
+                    "student_response": "Reading aloud completed. Audio capture is not enabled yet.",
+                    "reading_source": st.session_state.reading_source,
+                    "grading_result": {
+                        "scores": [],
+                        "tutoring_feedback": (
+                            "Reading aloud was marked complete. Pronunciation, fluency, "
+                            "and expressive delivery can be assessed after speech-to-text "
+                            "and audio scoring are integrated."
+                        ),
+                        "total_score": 0,
+                        "max_score": 0,
+                        "percentage": 0,
+                    },
+                    "crew_analysis": "Reading aloud completed without audio capture.",
+                })
+                st.success("Reading passage recorded as completed.")
+                st.rerun()
+
+        st.divider()
+        st.markdown("### Stimulus-Based Conversation")
+
+        if not st.session_state.questions:
+            if st.button("Load image questions from subject", use_container_width=True):
+                with st.spinner("Extracting questions..."):
+                    oral = st.session_state.crew.run_oral_assessment(num_questions=3)
+                    st.session_state.questions = oral.get("questions", [])[:3]
+                    reset_oral_state(clear_questions=False)
+                    st.rerun()
+            else:
+                st.info("Ingest a picture stimulus first, or click **Load image questions from subject**.")
+    if st.session_state.crew and st.session_state.questions:
+        if st.button("Start Image Questions", type="primary") and not st.session_state.assessment_active:
             if not st.session_state.session_id:
-                sid = st.session_state.crew.start_session()
+                sid = st.session_state.crew.start_session(metadata={"component": "psle_oral"})
                 st.session_state.session_id = sid
             st.session_state.questions = st.session_state.questions[:3]
             st.session_state.assessment_active = True
@@ -405,7 +570,7 @@ with tab_oral:
                         st.session_state.crew.end_session()
                     st.rerun()
             else:
-                st.success("All three questions completed!")
+                st.success("All three image questions completed!")
                 st.session_state.assessment_active = False
                 if st.session_state.session_id:
                     st.session_state.crew.end_session()
@@ -543,20 +708,26 @@ with tab_manage:
         ):
             deleted = []
             failed = []
-            for subject_name in selected_subjects:
-                try:
-                    subject_manager.delete_subject_data(subject_name)
-                    deleted.append(subject_name)
-                except Exception as e:
-                    failed.append(f"{subject_name}: {e}")
-
             if any(s in selected_subjects for s in [st.session_state.get("crew_subject"), subject]):
+                if st.session_state.crew:
+                    try:
+                        st.session_state.crew.cleanup()
+                    except Exception:
+                        pass
                 st.session_state.crew = None
                 st.session_state.crew_subject = None
                 st.session_state.crew_rubric = None
                 st.session_state.session_id = None
                 st.session_state.ingest_result = None
                 reset_oral_state(clear_questions=True)
+                reset_reading_state()
+
+            for subject_name in selected_subjects:
+                try:
+                    subject_manager.delete_subject_data(subject_name)
+                    deleted.append(subject_name)
+                except Exception as e:
+                    failed.append(f"{subject_name}: {e}")
 
             if failed:
                 st.error("Some subjects could not be deleted:")

@@ -13,6 +13,7 @@ import json
 import os
 import sys
 import tempfile
+import uuid
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -29,6 +30,40 @@ Q3) If you have 12 apples and share them equally among 4 friends, how many does 
 Q4) What is the difference between addition and subtraction?
 Q5) Draw or describe a rectangle and name its properties.
 """
+
+
+class TestContext:
+    def __init__(self, live: bool):
+        suffix = uuid.uuid4().hex[:8]
+        self.live = live
+        self.ingest_subject = f"crew_test_math_{suffix}"
+        self.workflow_subject = f"crew_live_test_{suffix}"
+        self.session_ids: list[str] = []
+
+    def remember_session(self, session_id: str | None) -> None:
+        if session_id:
+            self.session_ids.append(session_id)
+
+    def cleanup(self) -> None:
+        if not self.live:
+            return
+
+        from agent_a6_session_manager import SessionManager
+        from subject_manager import SubjectManager
+
+        sessions = SessionManager()
+        for session_id in self.session_ids:
+            try:
+                sessions.delete_session(session_id)
+            except Exception as e:
+                print(f"  WARN  could not delete session {session_id}: {e}")
+
+        subjects = SubjectManager()
+        for subject in [self.ingest_subject, self.workflow_subject]:
+            try:
+                subjects.delete_subject_data(subject)
+            except Exception as e:
+                print(f"  WARN  could not delete subject {subject}: {e}")
 
 
 def ok(msg: str) -> None:
@@ -53,7 +88,7 @@ def test_imports() -> bool:
         return False
 
 
-def test_ingest_pipeline(live: bool) -> bool:
+def test_ingest_pipeline(live: bool, ctx: TestContext) -> bool:
     print("\n[2] Ingest pipeline (main.ingest_document)")
     if not live:
         print("  SKIP  (use --live to run API-dependent ingest)")
@@ -69,7 +104,7 @@ def test_ingest_pipeline(live: bool) -> bool:
         with tempfile.TemporaryDirectory() as tmp:
             doc = Path(tmp) / "sample_exam.txt"
             doc.write_text(SAMPLE_DOC, encoding="utf-8")
-            subject = "crew_test_math"
+            subject = ctx.ingest_subject
             result = ingest_document(str(doc), subject=subject, rubric="primary_math")
 
         assert result["chunk_count"] >= 1, "expected at least one chunk"
@@ -96,7 +131,7 @@ def test_crew_init() -> bool:
         return False
 
 
-def test_question_extraction(live: bool) -> bool:
+def test_question_extraction(live: bool, ctx: TestContext) -> bool:
     print("\n[4] Question extraction (Agent A3 via crew)")
     if not live:
         print("  SKIP  (use --live)")
@@ -105,7 +140,7 @@ def test_question_extraction(live: bool) -> bool:
     try:
         from crew_orchestrator import EducationCrew
 
-        crew = EducationCrew(subject="crew_test_math", rubric_name="primary_math", verbose=False)
+        crew = EducationCrew(subject=ctx.ingest_subject, rubric_name="primary_math", verbose=False)
         oral = crew.run_oral_assessment(num_questions=3, auto_start_session=False)
         questions = oral.get("questions", [])
         if len(questions) < 1:
@@ -118,7 +153,7 @@ def test_question_extraction(live: bool) -> bool:
         return False
 
 
-def test_hybrid_assessment(live: bool) -> bool:
+def test_hybrid_assessment(live: bool, ctx: TestContext) -> bool:
     print("\n[5] Hybrid assessment (A5 + CrewAI)")
     if not live:
         print("  SKIP  (use --live)")
@@ -127,8 +162,9 @@ def test_hybrid_assessment(live: bool) -> bool:
     try:
         from crew_orchestrator import EducationCrew
 
-        crew = EducationCrew(subject="crew_test_math", rubric_name="primary_math", verbose=False)
+        crew = EducationCrew(subject=ctx.ingest_subject, rubric_name="primary_math", verbose=False)
         crew.start_session(metadata={"test": True})
+        ctx.remember_session(crew.session_id)
 
         result = crew.run_assessment_workflow(
             question="What is 5 + 3?",
@@ -152,7 +188,7 @@ def test_hybrid_assessment(live: bool) -> bool:
         return False
 
 
-def test_crew_ingest_workflow(live: bool) -> bool:
+def test_crew_ingest_workflow(live: bool, ctx: TestContext) -> bool:
     print("\n[6] Full crew ingest workflow")
     if not live:
         print("  SKIP  (use --live)")
@@ -165,7 +201,7 @@ def test_crew_ingest_workflow(live: bool) -> bool:
             doc = Path(tmp) / "crew_sample.txt"
             doc.write_text(SAMPLE_DOC, encoding="utf-8")
 
-            crew = EducationCrew(subject="crew_live_test", rubric_name="primary_math", verbose=False)
+            crew = EducationCrew(subject=ctx.workflow_subject, rubric_name="primary_math", verbose=False)
             result = crew.run_ingestion_workflow(str(doc))
 
         assert result["ingest_result"]["chunk_count"] >= 1
@@ -190,14 +226,18 @@ def main() -> int:
     print("CREWAI INTEGRATION TESTS")
     print("=" * 55)
 
-    results = [
-        test_imports(),
-        test_crew_init(),
-        test_ingest_pipeline(args.live),
-        test_question_extraction(args.live),
-        test_hybrid_assessment(args.live),
-        test_crew_ingest_workflow(args.live),
-    ]
+    ctx = TestContext(live=args.live)
+    try:
+        results = [
+            test_imports(),
+            test_crew_init(),
+            test_ingest_pipeline(args.live, ctx),
+            test_question_extraction(args.live, ctx),
+            test_hybrid_assessment(args.live, ctx),
+            test_crew_ingest_workflow(args.live, ctx),
+        ]
+    finally:
+        ctx.cleanup()
 
     passed = sum(results)
     total = len(results)

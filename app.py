@@ -73,6 +73,12 @@ st.markdown("""
 <p style="text-align: center; color: gray;">AI-Powered Assessment with Rubric-Based Feedback</p>
 """, unsafe_allow_html=True)
 
+st.warning(
+    "This is the legacy general assessment UI. For the current PSLE English oral "
+    "workflow with separate picture stimulus and reading passage uploads, run "
+    "`streamlit run streamlit_app.py`."
+)
+
 # Initialize managers
 subject_manager = SubjectManager()
 session_manager = SessionManager()

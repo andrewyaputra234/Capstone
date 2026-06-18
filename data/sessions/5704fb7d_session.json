@@ -1,0 +1,16 @@
+{
+  "session_id": "5704fb7d",
+  "paper_id": "psle_oral_english",
+  "student_id": "student_001",
+  "date_created": "2026-06-18T10:07:23.000686",
+  "state": "ACTIVE",
+  "turns": [],
+  "scores": null,
+  "start_time": "2026-06-18T10:07:23.010323",
+  "end_time": null,
+  "metadata": {
+    "subject": "psle_oral_english",
+    "rubric": "psle_oral_english",
+    "engine": "crewai"
+  }
+}

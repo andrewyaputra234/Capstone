@@ -4,7 +4,7 @@
 
 ### 1. Run the Streamlit App
 ```powershell
-streamlit run app.py
+streamlit run streamlit_app.py
 ```
 
 The app will open at: **http://localhost:8501**
@@ -15,17 +15,16 @@ The app will open at: **http://localhost:8501**
 - Overview of subjects, sessions, and rubrics
 - Quick start instructions
 
-#### Upload Document
-- Upload PDF/DOCX/TXT files
+#### Ingest Oral Materials
+- Upload a picture stimulus, a reading passage, or both
 - Configure subject name
 - Select and map rubric
-- Automatic processing and encoding
+- Generate image-based oral questions separately from reading-aloud text
 
-#### Assessment
-- Select subject
-- Enter student ID
-- Interactive Q&A interface (coming soon - full integration)
-- Real-time scoring
+#### Oral Assessment
+- Reading aloud section for one-time passage completion
+- Stimulus-based conversation with three image questions
+- Interactive examiner prompts and rubric-based scoring
 
 #### Results
 - View all assessment sessions
@@ -67,7 +66,7 @@ The assessment page currently has a simplified interface. To add full integratio
 
 **Port already in use?**
 ```powershell
-streamlit run app.py --server.port 8502
+streamlit run streamlit_app.py --server.port 8502
 ```
 
 **Need to rebuild?**

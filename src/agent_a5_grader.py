@@ -251,7 +251,7 @@ def main():
     
     print("SCORE BREAKDOWN:")
     for score in result['scores']:
-        print(f"  • {score['criterion']}: {score['score']}/{score['max_score']}")
+        print(f"  - {score['criterion']}: {score['score']}/{score['max_score']}")
     
     print(f"\nTotal: {result['total_score']}/{result['max_score']} ({result['percentage']}%)\n")
     

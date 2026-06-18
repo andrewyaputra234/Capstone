@@ -163,6 +163,7 @@ def ingest_document(
     file_path: str | Path,
     subject: str,
     rubric: str | None = None,
+    material_type: str | None = None,
     chunk_size: int = 1000,
     chunk_overlap: int = 100,
 ) -> dict:
@@ -184,24 +185,36 @@ def ingest_document(
     output_dir = subject_manager.get_subject_output_path(subject)
     process_file(dest, chunk_size, chunk_overlap, output_dir)
 
-    VectorStore(rebuild=True, subject=subject)
+    vector_rebuilt = False
+    if material_type != "reading":
+        VectorStore(rebuild=True, subject=subject)
+        vector_rebuilt = True
     if rubric:
         subject_manager.set_subject_rubric(subject, rubric)
 
     doc_type = dest.suffix.lower().lstrip(".")
     image_count = 0
-    if doc_type in ("pdf", "docx", "png", "jpg", "jpeg", "webp") or is_supported_image_file(str(dest)):
+    if material_type != "reading" and (
+        doc_type in ("pdf", "docx", "png", "jpg", "jpeg", "webp")
+        or is_supported_image_file(str(dest))
+    ):
         image_count = _extract_document_images(str(dest), doc_type, subject)
-    subject_manager.set_subject_pdf(subject, str(dest))
+
+    if material_type != "reading":
+        subject_manager.set_subject_pdf(subject, str(dest))
+    if material_type in {"visual", "reading"}:
+        subject_manager.set_subject_material_path(subject, material_type, str(dest))
 
     chunk_files = list(output_dir.glob("*.txt"))
     return {
         "subject": subject,
         "file_path": str(dest),
         "chunk_count": len(chunk_files),
-        "db_path": str(subject_manager.get_subject_chroma_path(subject)),
+        "db_path": str(subject_manager.get_subject_chroma_path(subject, create=vector_rebuilt)),
         "image_count": image_count,
         "rubric": rubric,
+        "material_type": material_type,
+        "vector_rebuilt": vector_rebuilt,
     }
 
 

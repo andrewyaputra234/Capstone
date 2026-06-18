@@ -107,7 +107,7 @@ class SessionManager:
         self.current_session = session
         self.save_session(session)
         
-        print(f"✅ Created session: {session_id}")
+        print(f"[OK] Created session: {session_id}")
         print(f"   Paper: {paper_id}")
         print(f"   Student: {student_id}")
         
@@ -118,7 +118,7 @@ class SessionManager:
         session_path = self._get_session_path(session_id)
         
         if not session_path.exists():
-            print(f"❌ Session not found: {session_id}")
+            print(f"[ERROR] Session not found: {session_id}")
             return None
         
         with open(session_path, 'r') as f:
@@ -160,7 +160,7 @@ class SessionManager:
             return False
         
         if session.state == SessionState.ACTIVE.value:
-            print(f"⚠️  Session already active: {session_id}")
+            print(f"[WARN] Session already active: {session_id}")
             return False
         
         session.state = SessionState.ACTIVE.value
@@ -168,7 +168,7 @@ class SessionManager:
         self.save_session(session)
         self.current_session = session
         
-        print(f"▶️  Started session: {session_id}")
+        print(f"[OK] Started session: {session_id}")
         return True
     
     def end_session(self, session_id: str) -> bool:
@@ -182,7 +182,7 @@ class SessionManager:
         self.save_session(session)
         self.current_session = session
         
-        print(f"✓ Completed session: {session_id}")
+        print(f"[OK] Completed session: {session_id}")
         return True
     
     def add_turn(self, speaker: str, text: str, audio_path: Optional[str] = None,
@@ -332,7 +332,7 @@ class SessionManager:
                     timestamp = turn['timestamp']
                     f.write(f"[{timestamp}] {speaker}:\n{text}\n\n")
         
-        print(f"✅ Exported transcript: {output_path}")
+        print(f"[OK] Exported transcript: {output_path}")
         return output_path
     
     def list_sessions(self) -> List[str]:
@@ -359,7 +359,7 @@ class SessionManager:
             session_path.unlink()
             if self.current_session and self.current_session.session_id == session_id:
                 self.current_session = None
-            print(f"✓ Deleted session: {session_id}")
+            print(f"[OK] Deleted session: {session_id}")
             return True
         except FileNotFoundError:
             return False
@@ -484,7 +484,7 @@ def main():
             for sid in sessions:
                 session = manager.get_session(sid)
                 if session:
-                    print(f"  • {sid} ({session.student_id}) - {session.state}")
+                    print(f"  - {sid} ({session.student_id}) - {session.state}")
     
     elif args.action == 'view':
         report = manager.get_session_report(args.session)

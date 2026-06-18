@@ -24,17 +24,17 @@ def main() -> int:
     parser = ArgumentParser(description="Run Capstone project commands from the repo root.")
     parser.add_argument(
         "command",
-        choices=["ingest", "search", "semantic-search", "assistant", "dialogue", "grade", "list-subjects", "session", "crew"],
+        choices=["ingest", "search", "semantic-search", "dialogue", "grade", "list-subjects", "session", "crew"],
         help="Command to run.",
     )
     parser.add_argument("path", nargs="?", default=None, help="Path to a DOCX/PDF file or folder containing them.")
     parser.add_argument("--output-dir", default=None, help="Output directory for ingestion.")
-    parser.add_argument("--query", default=None, help="Search query or assistant question.")
+    parser.add_argument("--query", default=None, help="Search query or assessment question.")
     parser.add_argument("--answer", default=None, help="Student answer for grading (used with grade command).")
     parser.add_argument(
         "--interactive",
         action="store_true",
-        help="Run in interactive mode for search or assistant.",
+        help="Run in interactive mode where supported.",
     )
     parser.add_argument(
         "--rebuild",
@@ -89,11 +89,11 @@ def main() -> int:
             print("No subjects found. Ingest your first document using:")
             print("  python run.py ingest <path> --subject <topic>")
         else:
-            print("\n📚 Available Subjects:")
+            print("\nAvailable Subjects:")
             print("-" * 50)
             for subject in subjects:
                 info = subject_manager.get_subject_info(subject)
-                print(f"  • {subject}")
+                print(f"  - {subject}")
                 print(f"    Chunks: {info['chunk_count']}")
                 print(f"    DB: {info['db_path']}")
             print()
@@ -116,12 +116,18 @@ def main() -> int:
     if args.command == "search":
         if not args.path:
             parser.error("search command requires a path argument")
-        search_args = [args.path]
-        if args.query:
-            search_args += ["--query", args.query]
         if args.interactive:
-            search_args += ["--interactive"]
-        return run_script("qa.py", search_args)
+            parser.error("search command does not support --interactive; use semantic-search --interactive")
+        if not args.query:
+            parser.error("search command requires --query")
+        search_args = [args.path, "--search", args.query]
+        if args.output_dir:
+            search_args += ["--output-dir", args.output_dir]
+        if args.subject:
+            search_args += ["--subject", args.subject]
+        if args.rubric:
+            search_args += ["--rubric", args.rubric]
+        return run_script("main.py", search_args)
 
     if args.command == "semantic-search":
         vs_args = []
@@ -134,16 +140,6 @@ def main() -> int:
         if args.subject:
             vs_args += ["--subject", args.subject]
         return run_script("vector_store.py", vs_args)
-
-    if args.command == "assistant":
-        if not args.path:
-            parser.error("assistant command requires a path argument")
-        assistant_args = [args.path]
-        if args.query:
-            assistant_args += ["--query", args.query]
-        if args.interactive:
-            assistant_args += ["--interactive"]
-        return run_script("assistant.py", assistant_args)
 
     if args.command == "dialogue":
         dialogue_args = []
@@ -163,7 +159,8 @@ def main() -> int:
         return run_script("agent_a3_dialogue.py", dialogue_args)
     
     if args.command == "session":
-        return run_script("agent_a6_session_manager.py", args.path or [])
+        session_args = [args.path] if args.path else []
+        return run_script("agent_a6_session_manager.py", session_args)
     
     if args.command == "grade":
         if not args.answer:

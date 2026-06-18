@@ -14,6 +14,14 @@ An AI-powered system for giving oral assessments to students with automatic grad
 
 ## Quick Start (2 minutes)
 
+### Web UI For Current PSLE Oral Flow
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Use this app for the current split oral workflow: optional picture stimulus upload, optional reading passage upload, reading aloud section, and three stimulus-based conversation questions.
+
 ### 1. Load a Document
 
 ```bash

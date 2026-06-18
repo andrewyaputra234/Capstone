@@ -1025,6 +1025,6 @@ if __name__ == "__main__":
             print(f"\nGenerating {level} {subject}...")
             rubric = generate_rubric(subject, level)
             rubric_name, path = get_or_create_rubric(subject, level)
-            print(f"✓ Created: {rubric_name}")
+            print(f"[OK] Created: {rubric_name}")
     
     print("\n[OK] All rubrics generated successfully!")

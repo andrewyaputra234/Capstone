@@ -113,47 +113,59 @@ class DialogueManager:
         if not self.subject:
             return None
         
+        # Prefer the explicitly marked visual material when the subject has both
+        # a reading passage and a picture stimulus.
+        visual_doc = self.subject_manager.get_subject_material_path(self.subject, "visual")
+        if visual_doc and os.path.exists(visual_doc):
+            return visual_doc
+
         # 1. Check if document path is stored in subject config (from last ingestion)
         stored_doc = self.subject_manager.get_subject_pdf(self.subject)
         if stored_doc and os.path.exists(stored_doc):
-            return stored_doc
+            stored_suffix = Path(stored_doc).suffix.lower()
+            if stored_suffix == ".txt":
+                stored_doc = None
+            else:
+                return stored_doc
         
-        # 2. Fallback: look for PDF or DOCX files in subject directory
+        # 2. Fallback: look for visual files in subject directory.
         input_path = self.subject_manager.get_subject_input_path(self.subject)
-        pdf_files = list(input_path.glob("*.pdf"))
-        docx_files = list(input_path.glob("*.docx"))
         image_files = (
             list(input_path.glob("*.png"))
             + list(input_path.glob("*.jpg"))
             + list(input_path.glob("*.jpeg"))
             + list(input_path.glob("*.webp"))
         )
+        if image_files:
+            return str(image_files[0])
         
-        # Prefer PDF, but accept DOCX
+        pdf_files = list(input_path.glob("*.pdf"))
+        docx_files = list(input_path.glob("*.docx"))
         if pdf_files:
             return str(pdf_files[0])
         elif docx_files:
             return str(docx_files[0])
-        elif image_files:
-            return str(image_files[0])
+        
+        if stored_doc and os.path.exists(stored_doc):
+            return stored_doc
         
         # 3. Final fallback: check root input directory
         root_input = self.subject_manager.get_subject_input_path(None)
-        pdf_files = list(root_input.glob("*.pdf"))
-        docx_files = list(root_input.glob("*.docx"))
         image_files = (
             list(root_input.glob("*.png"))
             + list(root_input.glob("*.jpg"))
             + list(root_input.glob("*.jpeg"))
             + list(root_input.glob("*.webp"))
         )
-        
+        if image_files:
+            return str(image_files[0])
+
+        pdf_files = list(root_input.glob("*.pdf"))
+        docx_files = list(root_input.glob("*.docx"))
         if pdf_files:
             return str(pdf_files[0])
         elif docx_files:
             return str(docx_files[0])
-        elif image_files:
-            return str(image_files[0])
         
         return None
     
@@ -507,15 +519,26 @@ class DialogueManager:
                 # Format image for vision
                 from langchain_core.messages import HumanMessage
                 image_mime = get_image_mime_type(image_path)
+                page_instruction = (
+                    "This upload is a single standalone image, not a multi-page document. "
+                    "Do not mention page numbers. Refer to it as 'the picture' or 'the image'. "
+                    if len(self.page_images) == 1
+                    else (
+                        f"This is page {page_num} of a multi-page document. Only mention a page "
+                        "number if the prompt truly needs it."
+                    )
+                )
                 message = HumanMessage(
                     content=[
                         {
                             "type": "text",
                             "text": (
                                 "Analyse this PSLE English oral visual stimulus accurately. "
+                                f"{page_instruction} "
                                 "First describe the actual image in concrete detail. Then create "
                                 "three stimulus-based conversation prompts that are grounded only "
-                                "in what is visible. Return only JSON with format: "
+                                "in what is visible. The prompts should sound like a real oral "
+                                "examiner speaking to a student. Return only JSON with format: "
                                 "{\"visual_description\": \"accurate description\", "
                                 "\"questions\": [\"Prompt 1 text\", \"Prompt 2 text\", \"Prompt 3 text\"]}"
                             ),
@@ -573,9 +596,10 @@ class DialogueManager:
                         if sentence and len(sentence) > 15 and any(word in sentence.lower() for word in oral_keywords):
                             if sentence not in seen and len(questions) < num_questions:
                                 seen.add(sentence)
+                                q_text = self._clean_visual_prompt_text(sentence[:200], page_num)
                                 q_obj = {
                                     "id": len(questions) + 1,
-                                    "text": sentence[:200],
+                                    "text": q_text,
                                     "source": f"Page {page_num}",
                                     "answered": False,
                                     "answer": None,
@@ -616,6 +640,7 @@ class DialogueManager:
 
             if q_text and len(q_text) > 15 and q_text not in seen:
                 q_text = q_text.strip(' "\'')
+                q_text = self._clean_visual_prompt_text(q_text, page_num)
                 seen.add(q_text)
                 q_obj = {
                     "id": len(questions) + 1,
@@ -629,12 +654,43 @@ class DialogueManager:
                 }
                 questions.append(q_obj)
     
+    def _clean_visual_prompt_text(self, prompt_text: str, page_num: int | None = None) -> str:
+        """Remove page references that do not make sense for a single-image stimulus."""
+        text = str(prompt_text or "").strip()
+        if not text:
+            return text
+
+        single_visual = len(self.page_images) <= 1
+        if single_visual:
+            text = re.sub(r"\s+on\s+page\s+\d+\b", "", text, flags=re.IGNORECASE)
+            text = re.sub(r"\s+from\s+page\s+\d+\b", "", text, flags=re.IGNORECASE)
+            text = re.sub(r"\bthe\s+image\s+on\s+page\s+\d+\b", "the image", text, flags=re.IGNORECASE)
+            text = re.sub(r"\bthe\s+picture\s+on\s+page\s+\d+\b", "the picture", text, flags=re.IGNORECASE)
+            text = re.sub(r"\bpage\s+\d+\b", "the picture", text, flags=re.IGNORECASE)
+        elif page_num is not None:
+            # Keep page references accurate for real multi-page documents.
+            text = re.sub(
+                r"\bpage\s+\d+\b",
+                f"page {page_num}",
+                text,
+                flags=re.IGNORECASE,
+            )
+
+        text = re.sub(r"\s{2,}", " ", text)
+        text = re.sub(r"\s+([?.!,])", r"\1", text)
+        return text.strip()
+    
     def _attach_visual_context_to_questions(self, questions: List[Dict]) -> None:
         """Ensure image-backed oral prompts include factual visual context for grading."""
         if not self.page_images:
             return
 
         for question in questions:
+            question["text"] = self._clean_visual_prompt_text(
+                question.get("text", ""),
+                page_num=1 if len(self.page_images) == 1 else None,
+            )
+
             if question.get("visual_context"):
                 continue
 
@@ -843,7 +899,7 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
     audio_input_label = " [Audio Input Mode]" if use_audio_input else ""
     session_label = " [Session Tracking]" if use_sessions else ""
     print("\n" + "="*60)
-    print(f"🎓 Oral Assessment System - Agent A3 (Dialogue Manager){subject_label}{audio_label}{audio_input_label}{session_label}")
+    print(f"Oral Assessment System - Agent A3 (Dialogue Manager){subject_label}{audio_label}{audio_input_label}{session_label}")
     print("="*60 + "\n")
     
     # Initialize dialogue manager with session support
@@ -863,16 +919,16 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         )
         dialogue.session_id = session_id
         dialogue.session_manager.start_session(session_id)
-        print(f"\n📋 Session: {session_id}\n")
+        print(f"\nSession: {session_id}\n")
     
     # Extract questions from document
     questions = dialogue.extract_questions_from_document(num_questions=5)
     
     if not questions:
-        print("❌ Could not extract questions from document")
+        print("[ERROR] Could not extract questions from document")
         return
     
-    print(f"✅ Extracted {len(questions)} questions:\n")
+    print(f"[OK] Extracted {len(questions)} questions:\n")
     for q in questions:
         print(f"  {q['id']}. {q['text']}\n")
     
@@ -882,13 +938,13 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         
         if not question:
             # All questions answered - show report
-            print("\n✅ Assessment Complete!\n")
+            print("\n[OK] Assessment Complete!\n")
             report = dialogue.get_assessment_report()
             
             # End session if tracking
             if use_sessions and dialogue.session_manager:
                 dialogue.session_manager.end_session(dialogue.session_id)
-                print(f"📋 Session saved: {dialogue.session_id}\n")
+                print(f"Session saved: {dialogue.session_id}\n")
             
             print("="*60)
             print("Assessment Report")
@@ -905,7 +961,7 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
             break
         
         # Ask question
-        print(f"❓ Question {dialogue.current_question_index + 1}/{len(dialogue.questions)}:")
+        print(f"Question {dialogue.current_question_index + 1}/{len(dialogue.questions)}:")
         print(f"{question['text']}\n")
         
         # Log avatar's question to session
@@ -913,10 +969,10 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         
         # Generate audio for question if enabled
         if enable_audio:
-            print("🔊 Generating audio...")
+            print("Generating audio...")
             audio_file = dialogue.generate_audio(question['text'], enable_audio=True)
             if audio_file:
-                print(f"✅ Audio available: {audio_file}\n")
+                print(f"[OK] Audio available: {audio_file}\n")
         
         # Get answer (either via text input or audio recording)
         if use_audio_input:
@@ -939,15 +995,15 @@ def interactive_assessment(subject: str | None = None, rubric_name: str | None =
         dialogue.log_turn("student", answer)
         
         # Submit and get feedback
-        print("\n⏳ Evaluating answer...\n")
+        print("\nEvaluating answer...\n")
         result = dialogue.submit_answer(answer)
         
         # Show feedback
         if "scores" in result:
-            print("📊 Scores by Criterion:")
+            print("Scores by Criterion:")
             for criterion_score in result["scores"]["criterion_scores"]:
                 print(f"  {criterion_score['criterion']}: {criterion_score['score']}/{criterion_score['max_score']}")
-            print(f"\n📈 Total: {result['scores']['total_score']}/{result['scores']['max_score']} ({result['scores']['percentage']}%)\n")
+            print(f"\nTotal: {result['scores']['total_score']}/{result['scores']['max_score']} ({result['scores']['percentage']}%)\n")
         elif "note" in result:
             print(f"[INFO] {result['note']}\n")
         

@@ -7,6 +7,9 @@ Supports multi-subject database organization.
 import os
 from pathlib import Path
 import shutil
+import gc
+import time
+import uuid
 from typing import List, Tuple
 from argparse import ArgumentParser
 from dotenv import load_dotenv
@@ -46,25 +49,28 @@ class VectorStore:
         self.subject = subject
         self.chunks_path = self.subject_manager.get_subject_output_path(subject)
         self.chroma_path = self.subject_manager.get_subject_chroma_path(subject)
+        self.vector_store = None
         
         # Rebuild database if requested or if it doesn't exist
         if rebuild or not self.chroma_path.exists():
             self._build_vector_db()
         
-        # Load existing vector store
-        self.vector_store = Chroma(
-            persist_directory=str(self.chroma_path),
-            embedding_function=self.embeddings
-        )
+        # Load existing vector store when it was not already created during rebuild.
+        if self.vector_store is None:
+            self.vector_store = Chroma(
+                persist_directory=str(self.chroma_path),
+                embedding_function=self.embeddings
+            )
     
     def _build_vector_db(self):
         """Build vector database from chunk files."""
         subject_label = f" for subject '{self.subject}'" if self.subject else ""
         print(f"Building vector database from chunks in {self.chunks_path}{subject_label}...")
         
-        # Clear existing database if it exists
+        # Clear existing database if it exists. On Windows, Chroma files can remain
+        # locked by an open client; if so, move this subject to a fresh DB folder.
         if self.chroma_path.exists():
-            shutil.rmtree(self.chroma_path)
+            self._remove_or_rotate_locked_db()
         
         # Load all chunk files
         documents = self._load_chunks()
@@ -81,6 +87,56 @@ class VectorStore:
             persist_directory=str(self.chroma_path)
         )
         print(f"Vector database created at {self.chroma_path}")
+
+    def _remove_or_rotate_locked_db(self) -> None:
+        """Remove the current DB path, or switch to a fresh path if files are locked."""
+        self._release_chroma_client()
+        last_error = None
+        for _ in range(3):
+            try:
+                shutil.rmtree(self.chroma_path)
+                return
+            except FileNotFoundError:
+                return
+            except PermissionError as exc:
+                last_error = exc
+                gc.collect()
+                time.sleep(0.25)
+            except OSError as exc:
+                if getattr(exc, "winerror", None) != 32:
+                    raise
+                last_error = exc
+                gc.collect()
+                time.sleep(0.25)
+
+        if not self.subject:
+            raise last_error
+
+        rotated_path = self.subject_manager.chroma_base_path / f"{self.subject}_db_{uuid.uuid4().hex[:8]}"
+        rotated_path.mkdir(parents=True, exist_ok=True)
+        self.subject_manager.set_subject_chroma_path(self.subject, str(rotated_path))
+        self.chroma_path = rotated_path
+        print(
+            "[WARNING] Existing Chroma DB is locked; "
+            f"building a fresh DB at {self.chroma_path}"
+        )
+
+    def _release_chroma_client(self) -> None:
+        """Best-effort release of Chroma client resources before deleting files."""
+        if not self.vector_store:
+            gc.collect()
+            return
+
+        try:
+            if hasattr(self.vector_store, "_client"):
+                self.vector_store._client = None
+            if hasattr(self.vector_store, "client"):
+                self.vector_store.client = None
+        except Exception:
+            pass
+
+        self.vector_store = None
+        gc.collect()
     
     def _load_chunks(self) -> List[Document]:
         """Load all chunk files and convert to LangChain Documents."""
@@ -179,6 +235,10 @@ class VectorStore:
         """Add new documents to the vector store."""
         self.vector_store.add_documents(documents)
         print(f"Added {len(documents)} documents to vector store")
+
+    def close(self) -> None:
+        """Release Chroma resources held by this wrapper."""
+        self._release_chroma_client()
 
 
 def main():

@@ -57,7 +57,7 @@ class AudioRecorder:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             output_path = f"{output_dir}/audio_{timestamp}.wav"
         
-        print(f"\n🎤 Recording for {duration} seconds...")
+        print(f"\nRecording for {duration} seconds...")
         print("Press Ctrl+C to stop early.\n")
         
         try:
@@ -84,7 +84,7 @@ class AudioRecorder:
                         print(f"  Recording... {elapsed}s / {duration}s")
             
             except KeyboardInterrupt:
-                print("\n✓ Recording stopped by user")
+                print("\n[OK] Recording stopped by user")
             
             stream.stop_stream()
             stream.close()
@@ -100,7 +100,7 @@ class AudioRecorder:
                 wf.writeframes(b''.join(frames))
             
             file_size_mb = os.path.getsize(output_path) / (1024 * 1024)
-            print(f"✓ Audio saved: {output_path} ({file_size_mb:.2f} MB)")
+            print(f"[OK] Audio saved: {output_path} ({file_size_mb:.2f} MB)")
             
             return output_path
         
@@ -140,7 +140,7 @@ class SpeechToText:
             raise FileNotFoundError(f"Audio file not found: {audio_path}")
         
         try:
-            print(f"\n🔄 Transcribing audio: {os.path.basename(audio_path)}")
+            print(f"\nTranscribing audio: {os.path.basename(audio_path)}")
             
             with open(audio_path, 'rb') as audio_file:
                 transcript = self.client.audio.transcriptions.create(
@@ -156,7 +156,7 @@ class SpeechToText:
                 "model": "whisper-1"
             }
             
-            print(f"✓ Transcribed: {result['text'][:60]}..." if len(result['text']) > 60 else f"✓ Transcribed: {result['text']}")
+            print(f"[OK] Transcribed: {result['text'][:60]}..." if len(result['text']) > 60 else f"[OK] Transcribed: {result['text']}")
             
             return result
         
@@ -188,7 +188,7 @@ class SpeechToText:
                 "transcription": result
             }, f, indent=2)
         
-        print(f"✓ Saved transcription: {output_path}")
+        print(f"[OK] Saved transcription: {output_path}")
         
         return result['text']
 
@@ -270,7 +270,7 @@ def main():
                 output_path=f"{session_dir}/transcription.json"
             )
             
-            print(f"\n✓ Session complete: {session_dir}")
+            print(f"\n[OK] Session complete: {session_dir}")
             print(f"Transcription: {text}")
         
         except Exception as e:

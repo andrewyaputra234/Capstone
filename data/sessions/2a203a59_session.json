@@ -1,0 +1,87 @@
+{
+  "session_id": "2a203a59",
+  "paper_id": "psle_oral_english",
+  "student_id": "student_001",
+  "date_created": "2026-06-18T10:32:17.591731",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-18T10:33:38.258341",
+      "speaker": "avatar",
+      "text": "Describe what you see in the image on page 1. What do you think is happening in the picture?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of four children, two boys and two girls, on a roller coaster ride. They are seated in an orange car and appear to be enjoying the ride, as they have wide smiles and bright expressions. The child in front on the left is wearing a yellow shirt, while the one on the right is wearing a pink and white striped shirt. The background is blurred, indicating motion, and there are green trees visible, suggesting an outdoor amusement park setting. The car has silver handrails in front of the children, which they are holding onto."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-18T10:33:38.269692",
+      "speaker": "student",
+      "text": "The image shows a group of four children on a roller coaster ride. They look like they are having fun. The scene is full of greenery, which might indiciate they are in a forest or outdoor setting",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Describe what you see in the image on page 1. What do you think is happening in the picture?",
+        "answer": "The image shows a group of four children on a roller coaster ride. They look like they are having fun. The scene is full of greenery, which might indiciate they are in a forest or outdoor setting",
+        "visual_context": "The image shows a group of four children, two boys and two girls, on a roller coaster ride. They are seated in an orange car and appear to be enjoying the ride, as they have wide smiles and bright expressions. The child in front on the left is wearing a yellow shirt, while the one on the right is wearing a pink and white striped shirt. The background is blurred, indicating motion, and there are green trees visible, suggesting an outdoor amusement park setting. The car has silver handrails in front of the children, which they are holding onto.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant to the prompt and includes some stimulus details. However, the personal viewpoint could be clearer.",
+            "evidence": "The student accurately describes the children on a roller coaster ride and mentions the outdoor setting, which aligns with the stimulus. However, the personal response could be more developed."
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student provides a clear idea that the children are on a roller coaster ride and having fun. They also mention the greenery in the background, indicating some level of observation and interpretation.",
+            "evidence": "The image shows a group of four children on a roller coaster ride. They look like they are having fun. The scene is full of greenery, which might indicate they are in a forest or outdoor setting."
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 4,
+            "max_score": 6,
+            "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+            "evidence": "The student's use of language is clear and the vocabulary is suitable for a Primary 6 oral response. However, there are some minor errors in grammar and sentence structure."
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence by describing the scene and indicating that the children look like they are having fun.",
+            "evidence": "The image shows a group of four children on a roller coaster ride. They look like they are having fun."
+          }
+        ],
+        "tutoring_feedback": "Great job accurately describing the children on the roller coaster ride and mentioning the outdoor setting. However, the personal viewpoint could be clearer. To improve, try adding more details about how you feel or what you think about the scene. For example, you could start your response with \"I believe that...\" Keep up the good work and continue to develop your responses with more personal insights.",
+        "total_score": 18,
+        "max_score": 25,
+        "percentage": 72.0
+      }
+    }
+  ],
+  "start_time": "2026-06-18T10:32:17.600623",
+  "end_time": null,
+  "metadata": {
+    "subject": "psle_oral_english",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

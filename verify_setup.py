@@ -7,6 +7,17 @@ import sys
 import os
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent
+SRC_DIR = ROOT / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 # Color codes for terminal output
 GREEN = '\033[92m'
 RED = '\033[91m'
@@ -21,11 +32,11 @@ def check_python_version():
     print(f"\n{BLUE}Checking Python version...{RESET}")
     print(f"Current: Python {version.major}.{version.minor}.{version.micro}")
     
-    if 10 <= version.major == 3 and version.minor <= 13:
-        print(f"{GREEN}✅ Python version OK{RESET}")
+    if version.major == 3 and 10 <= version.minor <= 13:
+        print(f"{GREEN}[OK] Python version OK{RESET}")
         return True
     else:
-        print(f"{RED}❌ Python 3.10-3.13 required (found {version.major}.{version.minor}){RESET}")
+        print(f"{RED}[ERROR] Python 3.10-3.13 required (found {version.major}.{version.minor}){RESET}")
         return False
 
 
@@ -46,9 +57,9 @@ def check_imports():
     for package, name in required_packages.items():
         try:
             __import__(package)
-            print(f"{GREEN}✅ {name}{RESET}")
+            print(f"{GREEN}[OK] {name}{RESET}")
         except ImportError:
-            print(f"{RED}❌ {name} not installed{RESET}")
+            print(f"{RED}[ERROR] {name} not installed{RESET}")
             all_ok = False
     
     return all_ok
@@ -61,18 +72,18 @@ def check_env_file():
     env_path = Path(".env")
     
     if env_path.exists():
-        print(f"{GREEN}✅ .env file found{RESET}")
+        print(f"{GREEN}[OK] .env file found{RESET}")
         
         with open(env_path, "r") as f:
             content = f.read()
             if "OPENAI_API_KEY" in content:
-                print(f"{GREEN}✅ OPENAI_API_KEY configured{RESET}")
+                print(f"{GREEN}[OK] OPENAI_API_KEY configured{RESET}")
                 return True
             else:
-                print(f"{RED}❌ OPENAI_API_KEY not found in .env{RESET}")
+                print(f"{RED}[ERROR] OPENAI_API_KEY not found in .env{RESET}")
                 return False
     else:
-        print(f"{YELLOW}⚠️  .env file not found{RESET}")
+        print(f"{YELLOW}[WARN] .env file not found{RESET}")
         print("Create a .env file with: OPENAI_API_KEY=your_key_here")
         return False
 
@@ -90,9 +101,9 @@ def check_crew_files():
     all_ok = True
     for filepath, name in files_to_check.items():
         if Path(filepath).exists():
-            print(f"{GREEN}✅ {name}{RESET}")
+            print(f"{GREEN}[OK] {name}{RESET}")
         else:
-            print(f"{RED}❌ {name} missing{RESET}")
+            print(f"{RED}[ERROR] {name} missing{RESET}")
             all_ok = False
     
     return all_ok
@@ -103,18 +114,20 @@ def test_crew_initialization():
     print(f"\n{BLUE}Testing CrewAI initialization...{RESET}")
     
     try:
-        from src.crew_orchestrator import EducationCrew
+        from env_fix import apply_runtime_fixes
+        apply_runtime_fixes()
+        from crew_orchestrator import EducationCrew
         
         # This will attempt to initialize (may fail if API key invalid)
         crew = EducationCrew(subject="math", rubric_name="primary_math", verbose=False)
-        print(f"{GREEN}✅ Crew initialized successfully{RESET}")
+        print(f"{GREEN}[OK] Crew initialized successfully{RESET}")
         print(f"   - Subject: math")
         print(f"   - Rubric: primary_math")
         print(f"   - Agents: 5 (Ingestion, Questions, Dialogue, Grading, Feedback)")
         return True
         
     except Exception as e:
-        print(f"{YELLOW}⚠️  Crew initialization test skipped{RESET}")
+        print(f"{YELLOW}[WARN] Crew initialization test skipped{RESET}")
         print(f"   Reason: {str(e)[:100]}")
         print(f"   This is normal if OpenAI API key is invalid or unreachable")
         return False
@@ -138,19 +151,19 @@ def print_summary(results):
     total = len(checks)
     
     for check_name, result in checks:
-        status = f"{GREEN}✅ PASS{RESET}" if result else f"{YELLOW}⚠️  WARN{RESET}"
+        status = f"{GREEN}[OK] PASS{RESET}" if result else f"{YELLOW}[WARN] WARN{RESET}"
         print(f"{check_name:.<30} {status}")
     
     print(f"\n{BLUE}Overall: {passed}/{total} checks passed{RESET}")
     
     if passed == total:
-        print(f"\n{GREEN}🎉 All systems ready! You can now use CrewAI.{RESET}")
+        print(f"\n{GREEN}All systems ready! You can now use CrewAI.{RESET}")
         print(f"\n{YELLOW}Next steps:{RESET}")
         print("1. Review CREWAI_SETUP_GUIDE.md for detailed instructions")
         print("2. Start the Streamlit app: streamlit run streamlit_app.py")
         print("3. Upload a document to test the ingestion workflow")
     else:
-        print(f"\n{YELLOW}⚠️  Some checks did not pass. See above for details.{RESET}")
+        print(f"\n{YELLOW}Some checks did not pass. See above for details.{RESET}")
 
 
 def main():
