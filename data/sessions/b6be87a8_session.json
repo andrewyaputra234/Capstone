@@ -1,0 +1,112 @@
+{
+  "session_id": "b6be87a8",
+  "paper_id": "psle_oral_english",
+  "student_id": "student_0012",
+  "date_created": "2026-06-19T12:00:24.920172",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-19T12:01:35.870717",
+      "speaker": "avatar",
+      "text": "Please read the passage aloud.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "component": "reading_aloud",
+        "source": "data\\input\\psle_oral_english\\Good morning, students. I hope you.txt"
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-19T12:01:35.876394",
+      "speaker": "student",
+      "text": "Reading aloud completed. Audio capture is not enabled yet.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "component": "reading_aloud",
+        "source": "data\\input\\psle_oral_english\\Good morning, students. I hope you.txt",
+        "speech_enabled": false
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-06-19T12:02:48.718670",
+      "speaker": "avatar",
+      "text": "Why do you think having healthy food options like these is important for young people?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The picture shows a young boy sitting at a table, looking at a lunchbox filled with various fresh vegetables including sliced cucumbers, cherry tomatoes, red bell pepper slices, and what appears to be sliced avocado. There is a bottle of orange juice and a soda bottle on the table, along with a banana and an orange. The boy is wearing glasses, a light blue shirt, and a vest. Another person is partially visible in the image, seated next to the boy."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-06-19T12:02:48.729167",
+      "speaker": "student",
+      "text": "yes i think it keeps us healthy and happy and live long",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Why do you think having healthy food options like these is important for young people?",
+        "answer": "yes i think it keeps us healthy and happy and live long",
+        "visual_context": "The picture shows a young boy sitting at a table, looking at a lunchbox filled with various fresh vegetables including sliced cucumbers, cherry tomatoes, red bell pepper slices, and what appears to be sliced avocado. There is a bottle of orange juice and a soda bottle on the table, along with a banana and an orange. The boy is wearing glasses, a light blue shirt, and a vest. Another person is partially visible in the image, seated next to the boy.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response acknowledges the importance of healthy food options for young people, but lacks specific details from the visual stimulus. More detailed reference to the vegetables in the lunchbox would strengthen the response.",
+            "evidence": "The student mentions that healthy food keeps us healthy and happy, which aligns with the importance of healthy food options for young people."
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student provides a basic idea that healthy food keeps us healthy and happy, but the answer lacks elaboration or examples.",
+            "evidence": "The student mentions that healthy food keeps us healthy and happy."
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's answer is understandable but contains noticeable errors in grammar and sentence structure.",
+            "evidence": "The student's response includes some language errors like missing punctuation and lack of clarity in the sentence structure."
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence to the question about the importance of healthy food options.",
+            "evidence": "The student states that having healthy food options keeps us healthy and happy, indicating some understanding of the importance."
+          }
+        ],
+        "tutoring_feedback": "Hello, I appreciate your understanding of the importance of healthy food for keeping us healthy and happy. One strength I see in your response is that you recognize the value of nutritious options. However, I noticed a mismatch with the visual stimulus facts as there were no unhealthy soda bottles on the table. The biggest area for improvement is providing more specific details and examples to support your ideas. Next time, you could start by saying, \"Having a variety of fresh vegetables like the ones in the picture can help us stay healthy because...\" Keep up the effort in expanding your responses with more details and examples to enhance your oral communication skills.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0
+      }
+    }
+  ],
+  "start_time": "2026-06-19T12:00:24.927018",
+  "end_time": "2026-06-19T12:02:58.774526",
+  "metadata": {
+    "subject": "psle_oral_english",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

@@ -481,6 +481,9 @@ elif selected == "Assessment":
             st.session_state.questions = fresh_dialogue_manager.extract_questions_from_document(num_questions=5)
             st.session_state.current_question_index = 0
             st.session_state.answers = []
+            for state_key in list(st.session_state.keys()):
+                if str(state_key).startswith("q") and str(state_key).endswith("_added"):
+                    del st.session_state[state_key]
             # Store the fresh DialogueManager for use during assessment
             st.session_state.assessment_dialogue_manager = fresh_dialogue_manager
             
@@ -622,7 +625,29 @@ elif selected == "Assessment":
                 
                 with col2:
                     if st.button("⏭️ Skip Question", use_container_width=True):
+                        from agent_a5_grader import RubricGrader
+
+                        skipped_answer = "[Skipped question]"
+                        session_manager.add_turn(
+                            speaker="student",
+                            text=skipped_answer,
+                            metadata={"status": "skipped"}
+                        )
+
+                        if "topic_rubric" in st.session_state and st.session_state.topic_rubric:
+                            grader = RubricGrader(rubric_dict=st.session_state.topic_rubric)
+                        else:
+                            rubric_name = subject_manager.get_default_rubric(subject)
+                            grader = RubricGrader(rubric_name)
+
+                        grading_result = grader.generate_skipped_feedback(
+                            assignment=current_q.get('text', ''),
+                            answer=skipped_answer,
+                            visual_context=current_q.get("visual_context")
+                        )
+                        session_manager.add_scores([{f"Q{question_idx + 1}": grading_result}])
                         st.session_state.current_question_index += 1
+                        st.warning("Question skipped and recorded as 0.")
                         st.rerun()
                 
                 with col3:
@@ -669,7 +694,7 @@ elif selected == "Results":
                 with col2:
                     st.metric("Subject", session_data["paper_id"])
                 with col3:
-                    st.metric("Questions", session_data["statistics"]["student_turns"])
+                    st.metric("Questions Asked", session_data["statistics"]["avatar_turns"])
                 with col4:
                     st.metric("Status", session_data["state"])
                 
@@ -744,10 +769,15 @@ elif selected == "Results":
                             "number": question_num,
                             "question": text,
                             "answer": None,
-                            "scores": None
+                            "scores": None,
+                            "skipped": False
                         }
                     elif speaker == 'student' and text and current_question:
                         current_question["answer"] = text
+                        current_question["skipped"] = (
+                            (turn.get("metadata") or {}).get("status") == "skipped"
+                            or text.strip().lower() in {"[skipped]", "[skipped question]", "skipped"}
+                        )
                 
                 if current_question:
                     questions.append(current_question)
@@ -773,13 +803,18 @@ elif selected == "Results":
                         q_text = q_info["question"]
                         answer = q_info["answer"]
                         q_scores = q_info["scores"]
+                        skipped = q_info.get("skipped") or (
+                            isinstance(q_scores, dict) and q_scores.get("skipped")
+                        )
                         
                         with st.container(border=True):
                             # Question header
                             st.markdown(f"## Q{q_num}: {q_text[:100]}{'...' if len(q_text) > 100 else ''}")
                             
                             # Student answer
-                            if answer:
+                            if skipped:
+                                st.warning("Question skipped by student.")
+                            elif answer:
                                 with st.expander(f"📝 Student Answer", expanded=False):
                                     st.write(answer)
                             else:
@@ -791,6 +826,9 @@ elif selected == "Results":
                                     # This is a grading result with feedback
                                     st.markdown("### 📊 Score & Feedback")
                                     
+                                    if q_scores.get("skipped"):
+                                        st.warning("Skipped question: assessed criteria were recorded as 0.")
+
                                     # Score summary
                                     total = q_scores.get("total_score", 0)
                                     max_score = q_scores.get("max_score", 100)

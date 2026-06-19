@@ -126,6 +126,9 @@ def question_with_visual_context(question: dict) -> str:
 
 
 def render_grading_result(grading: dict) -> None:
+    if grading.get("skipped"):
+        st.warning("Question skipped. Assessed criteria were recorded as 0.")
+
     col1, col2, col3 = st.columns(3)
     with col1:
         st.metric("Score", f"{grading.get('total_score', 0)}/{grading.get('max_score', 0)}")
@@ -215,6 +218,7 @@ with st.sidebar:
         st.session_state.crew = init_crew(subject, rubric, student_id)
         st.session_state.crew_subject = subject
         st.session_state.crew_rubric = rubric
+        st.session_state.assessment_results = []
         reset_oral_state(clear_questions=True)
         reset_reading_state()
         st.success("Crew ready")
@@ -230,6 +234,7 @@ with st.sidebar:
         if st.session_state.crew:
             sid = st.session_state.crew.start_session()
             st.session_state.session_id = sid
+            st.session_state.assessment_results = []
             reset_oral_state(clear_questions=True)
             st.rerun()
         else:
@@ -464,6 +469,7 @@ with tab_oral:
             if not st.session_state.session_id:
                 sid = st.session_state.crew.start_session(metadata={"component": "psle_oral"})
                 st.session_state.session_id = sid
+                st.session_state.assessment_results = []
             st.session_state.questions = st.session_state.questions[:3]
             st.session_state.assessment_active = True
             st.session_state.question_index = 0
@@ -556,11 +562,29 @@ with tab_oral:
                         st.rerun()
 
                 if skip:
+                    skipped_answer = "[Skipped question]"
+                    turns.append({"role": "user", "content": skipped_answer})
                     turns.append({
                         "role": "assistant",
-                        "content": "Let's move to the next question.",
+                        "content": "Question skipped. This will be recorded as 0.",
                         "decision": {"accepted": False, "status": "skipped"},
                     })
+                    with st.spinner("Recording skipped question as 0..."):
+                        result = st.session_state.crew.run_assessment_workflow(
+                            question=q["text"],
+                            student_response=skipped_answer,
+                            context=json.dumps(turns, indent=2),
+                            visual_context=q.get("visual_context"),
+                            save_to_session=bool(st.session_state.session_id),
+                            skipped=True,
+                        )
+                    result["interactive_turns"] = turns
+                    result["examiner_decision"] = {
+                        "accepted": False,
+                        "status": "skipped",
+                        "reason": "Student skipped the question.",
+                    }
+                    st.session_state.assessment_results.append(result)
                     st.session_state.question_index += 1
                     st.rerun()
 
@@ -644,7 +668,12 @@ with tab_results:
     if st.session_state.assessment_results:
         st.subheader(f"This session: {len(st.session_state.assessment_results)} assessment(s)")
         for i, result in enumerate(reversed(st.session_state.assessment_results), 1):
-            with st.expander(f"Assessment {i} – {result.get('subject', '')}", expanded=(i == 1)):
+            status_label = (
+                " (Skipped)"
+                if result.get("skipped") or result.get("grading_result", {}).get("skipped")
+                else ""
+            )
+            with st.expander(f"Assessment {i} - {result.get('subject', '')}{status_label}", expanded=(i == 1)):
                 st.write("**Q:**", result["question"][:200])
                 st.write("**A:**", result["student_response"][:200])
                 render_grading_result(result["grading_result"])

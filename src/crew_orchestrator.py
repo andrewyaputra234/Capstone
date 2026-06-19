@@ -458,6 +458,16 @@ class EducationCrew:
             visual_context=visual_context,
         )
 
+    @staticmethod
+    def _is_skipped_response(student_response: str) -> bool:
+        return (student_response or "").strip().lower() in {
+            "",
+            "[skipped]",
+            "[skipped question]",
+            "skipped",
+            "skip",
+        }
+
     def run_assessment_workflow(
         self,
         question: str,
@@ -465,17 +475,33 @@ class EducationCrew:
         context: Optional[str] = None,
         visual_context: Optional[str] = None,
         save_to_session: bool = True,
+        skipped: bool = False,
     ) -> Dict[str, Any]:
         """
         Hybrid assessment: Agent A5 rubric grading + CrewAI enrichment.
         """
         _set_runtime_context(self)
 
-        grading_result = self.grade_response(
-            question,
-            student_response,
-            visual_context=visual_context,
-        )
+        is_skipped = skipped or self._is_skipped_response(student_response)
+        if is_skipped:
+            from agent_a5_grader import RubricGrader
+
+            if not self.rubric_name:
+                raise ValueError("rubric_name is required for grading")
+
+            student_response = (student_response or "").strip() or "[Skipped question]"
+            grader = RubricGrader(rubric_name=self.rubric_name)
+            grading_result = grader.generate_skipped_feedback(
+                assignment=question,
+                answer=student_response,
+                visual_context=visual_context,
+            )
+        else:
+            grading_result = self.grade_response(
+                question,
+                student_response,
+                visual_context=visual_context,
+            )
 
         if save_to_session and self.session_manager.current_session:
             self.session_manager.add_turn(
@@ -487,9 +513,30 @@ class EducationCrew:
                     else None
                 ),
             )
-            self.session_manager.add_turn(speaker="student", text=student_response)
+            self.session_manager.add_turn(
+                speaker="student",
+                text=student_response,
+                metadata={"status": "skipped"} if is_skipped else None,
+            )
             q_num = len(self.session_manager.current_session.scores or []) + 1
             self.session_manager.add_scores([{f"Q{q_num}": grading_result}])
+
+        if is_skipped:
+            return {
+                "workflow": "assessment",
+                "subject": self.subject,
+                "rubric": self.rubric_name,
+                "session_id": self.session_id,
+                "question": question,
+                "visual_context": visual_context,
+                "student_response": student_response,
+                "skipped": True,
+                "grading_result": grading_result,
+                "crew_analysis": (
+                    "Question skipped. No oral response evidence was provided, "
+                    "so assessed criteria were recorded as 0."
+                ),
+            }
 
         grading_summary = json.dumps(
             {
@@ -546,6 +593,7 @@ class EducationCrew:
             "question": question,
             "visual_context": visual_context,
             "student_response": student_response,
+            "skipped": False,
             "grading_result": grading_result,
             "crew_analysis": crew_output,
         }

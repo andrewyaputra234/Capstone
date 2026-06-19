@@ -43,13 +43,28 @@ class RubricGrader:
         else:
             raise ValueError("Either rubric_name or rubric_dict must be provided")
         
-        self.llm = ChatOpenAI(
-            api_key=os.getenv("OPENAI_API_KEY"),
-            model="gpt-3.5-turbo",
-            temperature=0.7
-        )
-        
+        self.llm = None
         self.rubric_data = self.rubric_engine.current_rubric
+
+    def _get_llm(self) -> ChatOpenAI:
+        if self.llm is None:
+            self.llm = ChatOpenAI(
+                api_key=os.getenv("OPENAI_API_KEY"),
+                model="gpt-3.5-turbo",
+                temperature=0.7
+            )
+        return self.llm
+
+    @staticmethod
+    def _is_skipped_or_blank_answer(answer: str) -> bool:
+        normalized = (answer or "").strip().lower()
+        return normalized in {
+            "",
+            "[skipped]",
+            "[skipped question]",
+            "skipped",
+            "skip",
+        }
     
     def generate_tutoring_feedback(
         self,
@@ -70,6 +85,13 @@ class RubricGrader:
         Returns:
             Dictionary with tutoring feedback and scores
         """
+        if self._is_skipped_or_blank_answer(answer):
+            return self.generate_skipped_feedback(
+                assignment=assignment,
+                answer=answer,
+                visual_context=visual_context,
+            )
+
         # Score against rubric
         scores = self.rubric_engine.score_answer(
             assignment,
@@ -107,6 +129,47 @@ class RubricGrader:
             "total_score": total_score,
             "max_score": max_score,
             "percentage": round((total_score / max_score * 100) if max_score > 0 else 0, 1)
+        }
+
+    def generate_skipped_feedback(
+        self,
+        assignment: str,
+        answer: str = "[Skipped question]",
+        visual_context: Optional[str] = None,
+    ) -> Dict:
+        """Return deterministic zero scoring when a question is skipped."""
+        display_answer = (answer or "").strip() or "[Skipped question]"
+        scores = self.rubric_engine.score_answer(
+            assignment,
+            "",
+            visual_context=visual_context,
+        )
+        total_score = sum(s.score for s in scores)
+        max_score = sum(s.max_score for s in scores)
+
+        return {
+            "assignment": assignment,
+            "answer": display_answer,
+            "visual_context": visual_context,
+            "skipped": True,
+            "scores": [
+                {
+                    "criterion": s.criterion_name,
+                    "score": s.score,
+                    "max_score": s.max_score,
+                    "feedback": s.feedback,
+                    "evidence": s.evidence,
+                }
+                for s in scores
+            ],
+            "tutoring_feedback": (
+                "This question was skipped, so there was no answer to assess and "
+                "the assessed criteria receive 0. Next time, try giving even one "
+                "simple observation or reason before moving on."
+            ),
+            "total_score": total_score,
+            "max_score": max_score,
+            "percentage": round((total_score / max_score * 100) if max_score > 0 else 0, 1),
         }
     
     def _generate_tutoring_speech(
@@ -203,7 +266,7 @@ Requirements:
 
 Tutoring Feedback (spoken to student):""")
         
-        chain = prompt | self.llm | StrOutputParser()
+        chain = prompt | self._get_llm() | StrOutputParser()
         feedback = chain.invoke({"rubric_context": rubric_context})
         
         return feedback.strip()
