@@ -1,0 +1,190 @@
+{
+  "version": 2,
+  "assignments": {
+    "legacy-001": {
+      "assignment_id": "legacy-001",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "psle_oral_english",
+      "subject": "psle_oral_english",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": null,
+      "updated_at": null,
+      "visual": {},
+      "reading": null,
+      "questions": [],
+      "reading_completed_at": null,
+      "results": []
+    },
+    "ba81b2721637": {
+      "assignment_id": "ba81b2721637",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_001_13dc03dc",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-20T05:42:52.427206+00:00",
+      "updated_at": "2026-06-20T05:44:22.952091+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "image-45-1024x683.webp",
+        "path": "data\\input\\assignment_001_13dc03dc\\image-45-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what kinds of food you see in the lunchbox? Do you like them?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_13dc03dc_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest."
+        },
+        {
+          "id": 2,
+          "text": "Why do you think it’s important to have a variety of fruits and vegetables in a meal?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_13dc03dc_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest."
+        },
+        {
+          "id": 3,
+          "text": "What do you think about the drinks available on the table? Which one would you choose and why?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_13dc03dc_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest."
+        }
+      ],
+      "reading_completed_at": null,
+      "results": [
+        {
+          "result_id": "fed7ee8bed6a",
+          "question_id": 1,
+          "question": "Can you describe what kinds of food you see in the lunchbox? Do you like them?",
+          "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+          "student_response": "dinosaur",
+          "session_id": "348bfafc",
+          "created_at": "2026-06-20T05:44:22.949563+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe what kinds of food you see in the lunchbox? Do you like them?",
+            "answer": "dinosaur",
+            "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The answer provided does not address the prompt or show any relevance to the visual stimulus.",
+                "evidence": "The student's response of 'dinosaur' does not relate to the types of food in the lunchbox or express any personal opinion.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and does not address the question about the food in the lunchbox.",
+                "evidence": "dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "The student's answer does not provide any usable spoken language evidence related to the lunchbox contents.",
+                "evidence": "dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's answer does not demonstrate any meaningful interaction or engagement with the question prompt.",
+                "evidence": "The student simply responds with 'dinosaur' which does not address the question about the types of food in the lunchbox or whether they like them.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for confidently sharing your thoughts with me. However, I noticed that your answer of 'dinosaur' doesn't match the types of food in the lunchbox. Remember, it's important to pay attention to the details in the picture. In the future, try to describe the food you see and share whether you like them. For example, you could start with \"I see fresh vegetables and fruits in the lunchbox, and I enjoy eating...\" Keep up the effort in paying attention to details and expressing your opinions clearly.",
+            "total_score": 2,
+            "max_score": 25,
+            "percentage": 8.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what kinds of food you see in the lunchbox? Do you like them?",
+            "answer": "dinosaur",
+            "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The answer provided does not address the prompt or show any relevance to the visual stimulus.",
+                "evidence": "The student's response of 'dinosaur' does not relate to the types of food in the lunchbox or express any personal opinion.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and does not address the question about the food in the lunchbox.",
+                "evidence": "dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "The student's answer does not provide any usable spoken language evidence related to the lunchbox contents.",
+                "evidence": "dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's answer does not demonstrate any meaningful interaction or engagement with the question prompt.",
+                "evidence": "The student simply responds with 'dinosaur' which does not address the question about the types of food in the lunchbox or whether they like them.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for confidently sharing your thoughts with me. However, I noticed that your answer of 'dinosaur' doesn't match the types of food in the lunchbox. Remember, it's important to pay attention to the details in the picture. In the future, try to describe the food you see and share whether you like them. For example, you could start with \"I see fresh vegetables and fruits in the lunchbox, and I enjoy eating...\" Keep up the effort in paying attention to details and expressing your opinions clearly.",
+            "total_score": 2,
+            "max_score": 25,
+            "percentage": 8.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for confidently sharing your thoughts with me. However, I noticed that your answer of 'dinosaur' doesn't match the types of food in the lunchbox. Remember, it's important to pay attention to the details in the picture. In the future, try to describe the food you see and share whether you like them. For example, you could start with \"I see fresh vegetables and fruits in the lunchbox, and I enjoy eating...\" Keep up the effort in paying attention to details and expressing your opinions clearly. Can you tell me more about the different types of food you see in the lunchbox? You could start by describing some of the fruits and vegetables. Well done for sharing your thoughts with me! Let's try to pay closer attention to the details in the picture next time and describe the food you see. Keep up the effort in expressing your opinions clearly and elaborating on your ideas."
+        }
+      ]
+    }
+  }
+}

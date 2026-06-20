@@ -28,6 +28,7 @@ class RubricScore:
     max_score: int
     feedback: str
     evidence: Optional[str] = None
+    source: str = "ai"
 
 
 class RubricEngine:
@@ -141,7 +142,8 @@ class RubricEngine:
                         "Not assessed for this stimulus-based response because no "
                         "reading-aloud or audio delivery evidence was provided."
                     ),
-                    evidence=None
+                    evidence=None,
+                    source="not_assessed",
                 ))
                 continue
             
@@ -177,7 +179,8 @@ class RubricEngine:
                 score=score,
                 max_score=max_score,
                 feedback=feedback,
-                evidence=evaluation.get("evidence") or answer[:100]
+                evidence=evaluation.get("evidence") or answer[:100],
+                source=evaluation.get("source", "ai"),
             ))
         
         return scores
@@ -303,6 +306,7 @@ Return ONLY valid JSON with this shape:
                 "score": score,
                 "feedback": feedback or self._level_feedback(levels, score, max_score),
                 "evidence": evidence or answer[:100],
+                "source": "ai",
             }
                 
         except Exception as e:
@@ -312,6 +316,7 @@ Return ONLY valid JSON with this shape:
                 "score": score,
                 "feedback": self._level_feedback(levels, score, max_score),
                 "evidence": answer[:100],
+                "source": "fallback",
             }
     
     def _normalize_levels(self, levels: Dict, max_score: int) -> Dict[int, str]:

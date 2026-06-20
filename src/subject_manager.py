@@ -8,6 +8,7 @@ import json
 import shutil
 import gc
 import time
+import tempfile
 from pathlib import Path
 from typing import Dict, List
 
@@ -116,15 +117,37 @@ class SubjectManager:
     def _load_config(self):
         """Load subject configuration from JSON file."""
         if self.config_file.exists():
-            with open(self.config_file, "r") as f:
-                self.config = json.load(f)
+            try:
+                with open(self.config_file, "r", encoding="utf-8") as f:
+                    config = json.load(f)
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ValueError(
+                    f"Could not read subject configuration at {self.config_file}. "
+                    "The file was not changed."
+                ) from exc
+            if not isinstance(config, dict):
+                raise ValueError(f"Subject configuration at {self.config_file} must be a JSON object.")
+            self.config = config
         else:
             self.config = {"subjects": {}}
     
     def _save_config(self):
-        """Save subject configuration to JSON file."""
-        with open(self.config_file, "w") as f:
-            json.dump(self.config, f, indent=2)
+        """Atomically save subject configuration to avoid partial JSON writes."""
+        self.config_file.parent.mkdir(parents=True, exist_ok=True)
+        fd, temporary_name = tempfile.mkstemp(
+            prefix=f".{self.config_file.stem}-",
+            suffix=".tmp",
+            dir=self.config_file.parent,
+        )
+        temporary_path = Path(temporary_name)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                json.dump(self.config, f, indent=2)
+                f.write("\n")
+            os.replace(temporary_path, self.config_file)
+        finally:
+            if temporary_path.exists():
+                temporary_path.unlink(missing_ok=True)
     
     def set_subject_rubric(self, subject: str, rubric_name: str):
         """Map a rubric to a subject."""

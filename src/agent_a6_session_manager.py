@@ -13,6 +13,7 @@ Features:
 import os
 import json
 import uuid
+import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -121,8 +122,11 @@ class SessionManager:
             print(f"[ERROR] Session not found: {session_id}")
             return None
         
-        with open(session_path, 'r') as f:
-            data = json.load(f)
+        try:
+            with open(session_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ValueError(f"Could not read session {session_id}; the file was not changed.") from exc
         
         session = Session(
             session_id=data['session_id'],
@@ -141,12 +145,23 @@ class SessionManager:
         return session
     
     def save_session(self, session: Session) -> None:
-        """Save session to disk"""
+        """Atomically save a session to disk."""
         session_path = self._get_session_path(session.session_id)
         session_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        with open(session_path, 'w') as f:
-            json.dump(session.to_dict(), f, indent=2)
+        fd, temporary_name = tempfile.mkstemp(
+            prefix=f".{session_path.stem}-",
+            suffix=".tmp",
+            dir=session_path.parent,
+        )
+        temporary_path = Path(temporary_name)
+        try:
+            with os.fdopen(fd, 'w', encoding='utf-8') as f:
+                json.dump(session.to_dict(), f, indent=2)
+                f.write("\n")
+            os.replace(temporary_path, session_path)
+        finally:
+            if temporary_path.exists():
+                temporary_path.unlink(missing_ok=True)
     
     def save_current_session(self) -> None:
         """Save the current session"""
@@ -336,13 +351,18 @@ class SessionManager:
         return output_path
     
     def list_sessions(self) -> List[str]:
-        """List all session IDs"""
+        """List readable session IDs, ignoring an individual corrupt session file."""
         sessions = []
         for file in Path(self.session_dir).glob("*_session.json"):
-            with open(file, 'r') as f:
-                data = json.load(f)
-                sessions.append(data['session_id'])
-        return sessions
+            try:
+                with open(file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                session_id = data.get('session_id')
+                if session_id:
+                    sessions.append(session_id)
+            except (OSError, json.JSONDecodeError, AttributeError):
+                print(f"[WARN] Skipping unreadable session file: {file}")
+        return sorted(sessions)
     
     def delete_session(self, session_id: str, include_artifacts: bool = True) -> bool:
         """Delete a session and optional files referenced by the session."""
@@ -384,10 +404,9 @@ class SessionManager:
     
     # Helper methods
     
-    @staticmethod
-    def _get_session_path(session_id: str, base_dir: str = SESSION_DIR) -> Path:
-        """Get file path for session"""
-        return Path(base_dir) / f"{session_id}_session.json"
+    def _get_session_path(self, session_id: str) -> Path:
+        """Get a session path within this manager's configured storage directory."""
+        return Path(self.session_dir) / f"{session_id}_session.json"
     
     def _delete_session_artifacts(self, session_id: str, session_data: Dict) -> None:
         """Delete transcript exports and turn-level artifacts safely inside session_dir."""
@@ -422,7 +441,7 @@ class SessionManager:
             start = datetime.fromisoformat(session.start_time)
             end = datetime.fromisoformat(session.end_time)
             return (end - start).total_seconds()
-        except:
+        except (TypeError, ValueError):
             return None
 
 

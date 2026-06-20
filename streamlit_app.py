@@ -1,15 +1,16 @@
-"""
-CrewAI Educational Assessment – fully integrated with the core agent stack.
+"""Local Streamlit portal for assigning and reviewing oral assessments.
 
-Run:  streamlit run streamlit_app.py
+Run with: ``streamlit run streamlit_app.py``
 """
 
 from __future__ import annotations
 
 import json
-import os
+import re
+import shutil
 import sys
 import tempfile
+import uuid
 from pathlib import Path
 
 import streamlit as st
@@ -18,40 +19,44 @@ from dotenv import load_dotenv
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from env_fix import apply_runtime_fixes
+
 apply_runtime_fixes()
 
-from agent_a6_session_manager import SessionManager
-from crew_orchestrator import DEFAULT_PSLE_RUBRIC, DEFAULT_PSLE_SUBJECT, EducationCrew
+from crew_orchestrator import DEFAULT_PSLE_RUBRIC, EducationCrew
+from exam_portal_store import (
+    add_assessment_result,
+    apply_examiner_review,
+    authenticate,
+    create_assignment,
+    get_active_assignment,
+    list_assignments,
+    list_students,
+    mark_assignment_status,
+    mark_reading_completed,
+)
 from subject_manager import SubjectManager
 
 load_dotenv()
 
 st.set_page_config(
-    page_title="CrewAI Oral Assessment",
+    page_title="Examination Portal",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Session state defaults
+
 for key, default in [
+    ("authenticated", False),
+    ("user_role", None),
+    ("user_id", ""),
+    ("user_name", ""),
     ("crew", None),
     ("crew_subject", None),
     ("crew_rubric", None),
+    ("crew_student_id", None),
     ("session_id", None),
-    ("questions", []),
-    ("question_index", 0),
-    ("assessment_active", False),
-    ("assessment_results", []),
-    ("conversation_history", []),
-    ("oral_guidance", {}),
-    ("oral_turns", {}),
-    ("oral_attempts", {}),
-    ("oral_accepted_answers", {}),
-    ("ingest_result", None),
-    ("reading_passage", ""),
-    ("reading_source", None),
-    ("reading_completed", False),
+    ("active_assignment_id", None),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -59,96 +64,81 @@ for key, default in [
 
 def list_rubrics() -> list[str]:
     rubric_dir = Path("data/rubrics")
-    if not rubric_dir.exists():
-        return []
-    return sorted(f.stem for f in rubric_dir.glob("*.json"))
+    return sorted(file.stem for file in rubric_dir.glob("*.json")) if rubric_dir.exists() else []
+
+
+def reset_runtime_state() -> None:
+    st.session_state.crew = None
+    st.session_state.crew_subject = None
+    st.session_state.crew_rubric = None
+    st.session_state.crew_student_id = None
+    st.session_state.session_id = None
+    st.session_state.active_assignment_id = None
+
+
+def logout() -> None:
+    reset_runtime_state()
+    st.session_state.authenticated = False
+    st.session_state.user_role = None
+    st.session_state.user_id = ""
+    st.session_state.user_name = ""
+    st.rerun()
 
 
 def init_crew(subject: str, rubric: str, student_id: str) -> EducationCrew:
-    crew = EducationCrew(
+    return EducationCrew(
         subject=subject,
         rubric_name=rubric,
         verbose=False,
         student_id=student_id,
     )
-    if st.session_state.session_id:
-        crew.session_id = st.session_state.session_id
-        crew.session_manager.get_session(st.session_state.session_id)
-    return crew
 
 
-def reset_oral_state(clear_questions: bool = True) -> None:
-    if clear_questions:
-        st.session_state.questions = []
-    st.session_state.question_index = 0
-    st.session_state.assessment_active = False
-    st.session_state.oral_guidance = {}
-    st.session_state.oral_turns = {}
-    st.session_state.oral_attempts = {}
-    st.session_state.oral_accepted_answers = {}
-
-
-def reset_reading_state() -> None:
-    st.session_state.reading_passage = ""
-    st.session_state.reading_source = None
-    st.session_state.reading_completed = False
-
-
-def ensure_psle_crew(subject: str, rubric: str, student_id: str) -> EducationCrew:
-    crew = st.session_state.get("crew")
+def ensure_assignment_crew(assignment: dict) -> EducationCrew:
     if (
-        crew is None
-        or st.session_state.get("crew_subject") != subject
-        or st.session_state.get("crew_rubric") != rubric
+        st.session_state.crew is None
+        or st.session_state.crew_subject != assignment["subject"]
+        or st.session_state.crew_rubric != assignment["rubric"]
+        or st.session_state.crew_student_id != assignment["student_id"]
     ):
-        crew = init_crew(subject, rubric, student_id)
-        st.session_state.crew = crew
-        st.session_state.crew_subject = subject
-        st.session_state.crew_rubric = rubric
-        st.session_state.session_id = None
-        reset_oral_state(clear_questions=True)
-        reset_reading_state()
-    return crew
-
-
-def question_with_visual_context(question: dict) -> str:
-    """Combine oral prompt text with the visual facts used for assessment."""
-    visual_context = question.get("visual_context")
-    if visual_context:
-        return (
-            "Assessment component: stimulus-based conversation. Do not assess "
-            "reading-aloud delivery unless an actual reading-aloud passage or audio "
-            "evidence is provided.\n\n"
-            f"Visual stimulus description: {visual_context}\n\n"
-            f"Oral prompt: {question.get('text', '')}"
+        st.session_state.crew = init_crew(
+            assignment["subject"], assignment["rubric"], assignment["student_id"]
         )
-    return question.get("text", "")
+        st.session_state.crew_subject = assignment["subject"]
+        st.session_state.crew_rubric = assignment["rubric"]
+        st.session_state.crew_student_id = assignment["student_id"]
+        st.session_state.session_id = None
+    return st.session_state.crew
 
 
-def render_grading_result(grading: dict) -> None:
+def render_grading_result(grading: dict, *, heading: str | None = None) -> None:
+    if heading:
+        st.markdown(f"#### {heading}")
     if grading.get("skipped"):
         st.warning("Question skipped. Assessed criteria were recorded as 0.")
+    if grading.get("scoring_source") == "fallback":
+        st.warning("AI scoring was unavailable for part of this result. Verify the provisional rubric scores before relying on them.")
 
+    total, maximum, percentage = (
+        grading.get("total_score", 0),
+        grading.get("max_score", 0),
+        grading.get("percentage", 0),
+    )
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Score", f"{grading.get('total_score', 0)}/{grading.get('max_score', 0)}")
-    with col2:
-        st.metric("Percentage", f"{grading.get('percentage', 0)}%")
-    with col3:
-        pct = grading.get("percentage", 0)
-        status = (
-            "Excellent" if pct >= 80
-            else "Good" if pct >= 70
-            else "Fair" if pct >= 60
-            else "Needs Improvement"
-        )
-        st.metric("Status", status)
+    col1.metric("Score", f"{total}/{maximum}")
+    col2.metric("Percentage", f"{percentage}%")
+    col3.metric(
+        "Status",
+        "Excellent" if percentage >= 80 else "Good" if percentage >= 70 else "Fair" if percentage >= 60 else "Needs improvement",
+    )
 
     for criterion in grading.get("scores", []):
-        st.write(
-            f"**{criterion.get('criterion', 'Criterion')}**: "
-            f"{criterion.get('score', 0)}/{criterion.get('max_score', 0)}"
-        )
+        label = criterion.get("criterion", "Criterion")
+        max_score = criterion.get("max_score", 0)
+        if max_score:
+            st.write(f"**{label}:** {criterion.get('score', 0)}/{max_score}")
+        else:
+            st.write(f"**{label}:** not assessed")
         if criterion.get("feedback"):
             st.caption(criterion["feedback"])
         if criterion.get("evidence"):
@@ -158,691 +148,436 @@ def render_grading_result(grading: dict) -> None:
         st.info(grading["tutoring_feedback"])
 
 
-def save_uploaded_file(uploaded_file) -> Path:
-    tmp = Path(tempfile.mkdtemp()) / uploaded_file.name
-    tmp.write_bytes(uploaded_file.getbuffer())
-    return tmp
+def save_uploaded_file(uploaded_file, directory: Path) -> Path:
+    """Save an upload under a controlled temporary directory."""
+    safe_name = Path(uploaded_file.name).name
+    path = directory / safe_name
+    path.write_bytes(uploaded_file.getbuffer())
+    return path
 
 
 def extract_reading_passage(file_path: str | Path, max_chars: int = 6000) -> str:
-    """Extract display text for the reading-aloud passage area."""
     from main import load_document
 
     documents = load_document(Path(file_path))
-    text = "\n\n".join(doc.page_content.strip() for doc in documents if doc.page_content.strip())
+    text = "\n\n".join(document.page_content.strip() for document in documents if document.page_content.strip())
     return text.strip()[:max_chars]
 
 
-def load_reading_passage_from_subject(subject_name: str) -> bool:
-    reading_path = subject_manager.get_subject_material_path(subject_name, "reading")
-    if reading_path and os.path.exists(reading_path):
-        st.session_state.reading_passage = extract_reading_passage(reading_path)
-        st.session_state.reading_source = reading_path
-        st.session_state.reading_completed = False
+def assignment_subject(student_id: str) -> str:
+    clean_id = re.sub(r"[^a-zA-Z0-9_-]+", "-", student_id).strip("-") or "student"
+    return f"assignment_{clean_id}_{uuid.uuid4().hex[:8]}"
+
+
+def visual_path(assignment: dict) -> str | None:
+    path = assignment.get("visual", {}).get("path")
+    return path if path and Path(path).exists() else None
+
+
+def render_login() -> None:
+    st.title("Examination Portal")
+    st.caption("A local prototype for assigning PSLE-style oral practice and reviewing AI grades.")
+    role = st.radio("Login as", ["Student", "Examiner"], horizontal=True)
+    with st.form("login_form"):
+        user_id = st.text_input("Student ID" if role == "Student" else "Examiner ID")
+        submitted = st.form_submit_button(f"Enter {role} portal", type="primary", use_container_width=True)
+    if submitted:
+        user = authenticate(role, user_id)
+        if not user:
+            st.error("That ID is not in the local user register.")
+            return
+        st.session_state.authenticated = True
+        st.session_state.user_role = role.lower()
+        st.session_state.user_id = user["id"]
+        st.session_state.user_name = user["name"]
+        st.rerun()
+
+    with st.expander("Where do registered students come from?"):
+        st.write("This prototype reads registered student and examiner IDs from `data/users.json`.")
+
+
+def render_account_sidebar(role: str) -> None:
+    with st.sidebar:
+        st.title("Account")
+        st.caption(f"{role}: {st.session_state.user_name} ({st.session_state.user_id})")
+        if st.button("Logout", use_container_width=True):
+            logout()
+
+
+def render_create_assignment() -> None:
+    students = list_students()
+    rubrics = list_rubrics() or [DEFAULT_PSLE_RUBRIC]
+    st.subheader("Create an assessment")
+    st.caption("A picture stimulus is required. The reading-aloud passage is optional.")
+    if not students:
+        st.warning("No registered students are available. Add students to `data/users.json` first.")
+        return
+
+    student_by_label = {f"{student['name']} ({student['id']})": student for student in students}
+    with st.form("create_assignment"):
+        selected_label = st.selectbox("Assign to registered student", list(student_by_label))
+        title = st.text_input("Assessment title", value="PSLE English Oral Practice")
+        rubric = st.selectbox("Rubric", rubrics, index=0)
+        visual_upload = st.file_uploader(
+            "Picture stimulus (required)",
+            type=["png", "jpg", "jpeg", "webp"],
+            help="This image is used to generate up to three stimulus-based conversation questions.",
+        )
+        reading_upload = st.file_uploader(
+            "Reading passage (optional)",
+            type=["pdf", "docx", "txt"],
+            help="Students can view this before the image questions. Reading delivery is not automatically scored.",
+        )
+        submitted = st.form_submit_button("Upload and assign", type="primary", use_container_width=True)
+
+    if not submitted:
+        return
+    if not visual_upload:
+        st.error("Upload a picture stimulus before assigning the assessment.")
+        return
+
+    student = student_by_label[selected_label]
+    subject = assignment_subject(student["id"])
+    temporary_directory = Path(tempfile.mkdtemp(prefix="exam-upload-"))
+    try:
+        with st.spinner("Saving the materials and generating image questions..."):
+            crew = init_crew(subject, rubric, student["id"])
+            visual_file = save_uploaded_file(visual_upload, temporary_directory)
+            visual_result = crew.run_ingestion_workflow(
+                str(visual_file), material_type="visual", extract_questions=True
+            )
+            questions = visual_result.get("questions", [])[:3]
+            if not questions:
+                raise RuntimeError(
+                    "No image questions were generated. Try a clearer image or check the AI service configuration."
+                )
+
+            visual_info = {
+                "name": visual_upload.name,
+                "path": visual_result.get("ingest_result", {}).get("file_path"),
+                "image_count": visual_result.get("ingest_result", {}).get("image_count", 0),
+            }
+            reading_info = None
+            if reading_upload:
+                reading_file = save_uploaded_file(reading_upload, temporary_directory)
+                reading_result = crew.run_ingestion_workflow(
+                    str(reading_file), material_type="reading", extract_questions=False
+                )
+                stored_path = reading_result.get("ingest_result", {}).get("file_path")
+                reading_info = {
+                    "name": reading_upload.name,
+                    "path": stored_path,
+                    "text": extract_reading_passage(stored_path) if stored_path else "",
+                }
+
+            record = create_assignment(
+                student=student,
+                title=title,
+                subject=subject,
+                rubric=rubric,
+                visual=visual_info,
+                questions=questions,
+                reading=reading_info,
+                examiner_id=st.session_state.user_id,
+            )
+    except Exception as error:
+        # Ingestion creates subject folders before the JSON assignment is saved.
+        # Remove those orphaned artifacts when the assignment cannot be completed.
+        try:
+            SubjectManager().delete_subject_data(subject)
+        except Exception:
+            pass
+        st.error(f"The assessment was not assigned: {error}")
+        return
+    finally:
+        shutil.rmtree(temporary_directory, ignore_errors=True)
+
+    st.success(f"Assigned '{record['title']}' to {student['name']}.")
+    st.caption(f"Created {len(record['questions'])} image question(s).")
+    with st.expander("Generated questions"):
+        for number, question in enumerate(record["questions"], 1):
+            st.write(f"**Q{number}.** {question.get('text', '')}")
+
+
+def _assignment_label(assignment: dict) -> str:
+    return f"{assignment.get('student_name', assignment.get('student_id'))} — {assignment.get('title')} ({assignment.get('status')})"
+
+
+def render_examiner_review() -> None:
+    assignments = list_assignments()
+    st.subheader("Review AI results")
+    if not assignments:
+        st.info("No assessments have been assigned yet.")
+        return
+
+    assignment = st.selectbox(
+        "Student assessment",
+        assignments,
+        format_func=_assignment_label,
+        key="review_assignment",
+    )
+    results = assignment.get("results", [])
+    completed = len(results)
+    reviewed = sum(1 for result in results if result.get("examiner_review"))
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Student", assignment.get("student_name", assignment.get("student_id")))
+    col2.metric("AI responses", completed)
+    col3.metric("Reviewed", reviewed)
+
+    if assignment.get("reading"):
+        reading_status = "completed" if assignment.get("reading_completed_at") else "not marked complete"
+        st.caption(f"Reading passage: {reading_status} (reading delivery is not AI-scored).")
+    if not results:
+        st.info("The student has not submitted an image-question response yet.")
+        return
+
+    for number, result in enumerate(results, 1):
+        final_grading = result.get("final_grading") or result.get("ai_grading") or {}
+        ai_grading = result.get("ai_grading") or {}
+        reviewed_at = (result.get("examiner_review") or {}).get("reviewed_at")
+        title = f"Q{number}: {result.get('question', 'Question')[:80]}"
+        with st.expander(title, expanded=(number == 1)):
+            st.write("**Student response:**", result.get("student_response", ""))
+            left, right = st.columns(2)
+            with left:
+                render_grading_result(ai_grading, heading="AI grade")
+            with right:
+                render_grading_result(final_grading, heading="Final grade")
+            if result.get("crew_analysis"):
+                with st.expander("AI coaching analysis"):
+                    st.write(result["crew_analysis"])
+
+            st.markdown("#### Verify or adjust")
+            previous_note = (result.get("examiner_review") or {}).get("note", "")
+            with st.form(f"review_{result['result_id']}"):
+                changes: dict[str, int] = {}
+                for criterion in final_grading.get("scores", []):
+                    label = str(criterion.get("criterion", "Criterion"))
+                    maximum = int(criterion.get("max_score", 0))
+                    if maximum <= 0:
+                        st.caption(f"{label}: not assessed by this workflow")
+                        continue
+                    changes[label] = int(
+                        st.number_input(
+                            label,
+                            min_value=0,
+                            max_value=maximum,
+                            value=int(criterion.get("score", 0)),
+                            step=1,
+                            key=f"score_{result['result_id']}_{label}",
+                        )
+                    )
+                note = st.text_area(
+                    "Examiner note (optional)",
+                    value=previous_note,
+                    key=f"note_{result['result_id']}",
+                )
+                saved = st.form_submit_button("Save verified grade", use_container_width=True)
+            if saved:
+                apply_examiner_review(
+                    assignment["assignment_id"],
+                    result["result_id"],
+                    changes,
+                    note,
+                    st.session_state.user_id,
+                )
+                st.success("Verified grade saved. The original AI grade remains in the record.")
+                st.rerun()
+            if reviewed_at:
+                st.caption(f"Last reviewed: {reviewed_at}")
+
+
+def render_assignment_overview() -> None:
+    assignments = list_assignments()
+    st.subheader("Assignment overview")
+    if not assignments:
+        st.info("Create an assessment to see it here.")
+        return
+    for assignment in assignments:
+        results = assignment.get("results", [])
+        score = sum((result.get("final_grading") or {}).get("total_score", 0) for result in results)
+        maximum = sum((result.get("final_grading") or {}).get("max_score", 0) for result in results)
+        with st.expander(_assignment_label(assignment)):
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Questions graded", f"{len(results)}/{len(assignment.get('questions', []))}")
+            col2.metric("Current score", f"{score}/{maximum}")
+            col3.metric("Reading", "done" if assignment.get("reading_completed_at") else "not required" if not assignment.get("reading") else "pending")
+            st.caption(f"Assigned: {assignment.get('created_at') or 'legacy record'} | Rubric: {assignment.get('rubric', '')}")
+
+
+def render_examiner_portal() -> None:
+    render_account_sidebar("Examiner")
+    st.title("Examiner Dashboard")
+    st.caption("Upload one image, optionally add a reading passage, assign it to a registered student, then verify AI grading.")
+    create_tab, review_tab, overview_tab = st.tabs(["Assign assessment", "Results and review", "Overview"])
+    with create_tab:
+        render_create_assignment()
+    with review_tab:
+        render_examiner_review()
+    with overview_tab:
+        render_assignment_overview()
+
+
+def render_student_materials(assignment: dict) -> None:
+    st.subheader("Your materials")
+    st.write(f"**Assessment:** {assignment.get('title')}")
+    image = visual_path(assignment)
+    if image:
+        st.image(image, caption="Picture stimulus", use_container_width=True)
+    else:
+        st.warning("The picture stimulus is unavailable. Ask your examiner to upload the assessment again.")
+
+    reading = assignment.get("reading")
+    if reading:
+        st.markdown("#### Reading aloud (optional)")
+        st.text_area(
+            "Passage",
+            value=reading.get("text", ""),
+            height=220,
+            disabled=True,
+            key=f"reading_{assignment['assignment_id']}",
+        )
+        if assignment.get("reading_completed_at"):
+            st.success("Reading passage marked complete.")
+        elif st.button("Mark reading passage complete", use_container_width=True):
+            mark_reading_completed(assignment["assignment_id"])
+            st.rerun()
+    else:
+        st.caption("No reading-aloud passage was assigned for this assessment.")
+
+
+def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
+    question_ids = {question.get("id") for question in assignment.get("questions", [])}
+    answered_ids = {result.get("question_id") for result in assignment.get("results", [])}
+    if question_ids and question_ids.issubset(answered_ids):
+        if assignment.get("status") != "completed":
+            mark_assignment_status(assignment["assignment_id"], "completed")
+        if st.session_state.session_id:
+            crew.end_session()
         return True
     return False
 
 
-# ---------------------------------------------------------------------------
-# Sidebar
-# ---------------------------------------------------------------------------
-subject_manager = SubjectManager()
-session_manager = SessionManager()
-existing_subjects = subject_manager.list_subjects()
-rubrics = list_rubrics()
+def render_student_assessment(assignment: dict) -> None:
+    st.subheader("Image questions")
+    questions = assignment.get("questions", [])
+    if not questions:
+        st.warning("This legacy assignment has no saved questions. Ask the examiner to upload a new assessment.")
+        return
 
-with st.sidebar:
-    st.title("⚙️ Configuration")
+    crew = ensure_assignment_crew(assignment)
+    if _finish_if_complete(assignment, crew):
+        st.success("Assessment complete. Your results are ready in the Results tab.")
+        return
 
-    subject_mode = st.radio("Subject", ["Existing", "New"], horizontal=True, index=1)
-    if subject_mode == "Existing" and existing_subjects:
-        subject = st.selectbox("Select subject", existing_subjects)
-    else:
-        subject = st.text_input(
-            "Subject name",
-            value=DEFAULT_PSLE_SUBJECT,
-            placeholder="e.g. psle_oral_english",
-        )
+    answered_ids = {result.get("question_id") for result in assignment.get("results", [])}
+    question = next((item for item in questions if item.get("id") not in answered_ids), None)
+    if not question:
+        st.info("No further questions are available.")
+        return
 
-    rubric_options = rubrics if rubrics else [DEFAULT_PSLE_RUBRIC]
-    rubric_index = rubric_options.index(DEFAULT_PSLE_RUBRIC) if DEFAULT_PSLE_RUBRIC in rubric_options else 0
-    rubric = st.selectbox(
-        "Rubric",
-        rubric_options,
-        index=rubric_index,
-    )
-
-    student_id = st.text_input("Student ID", value="student_001")
-
-    if st.button("Initialize Crew", type="primary", use_container_width=True):
-        st.session_state.crew = init_crew(subject, rubric, student_id)
-        st.session_state.crew_subject = subject
-        st.session_state.crew_rubric = rubric
-        st.session_state.assessment_results = []
-        reset_oral_state(clear_questions=True)
-        reset_reading_state()
-        st.success("Crew ready")
-
-    st.divider()
-    st.markdown("### Session")
-    if st.session_state.session_id:
-        st.code(st.session_state.session_id)
-    else:
-        st.caption("No active session")
-
-    if st.button("New Session", use_container_width=True):
-        if st.session_state.crew:
-            sid = st.session_state.crew.start_session()
-            st.session_state.session_id = sid
-            st.session_state.assessment_results = []
-            reset_oral_state(clear_questions=True)
+    if not st.session_state.session_id:
+        if st.button("Begin assessment", type="primary", use_container_width=True):
+            st.session_state.session_id = crew.start_session(
+                metadata={"assignment_id": assignment["assignment_id"], "component": "student_assessment"}
+            )
+            mark_assignment_status(assignment["assignment_id"], "in_progress")
             st.rerun()
-        else:
-            st.warning("Initialize crew first")
+        st.caption("Your examiner will be able to review the AI score after each submitted answer.")
+        return
 
-    st.divider()
-    st.caption(
-        f"Subjects: {len(existing_subjects)} · "
-        f"Rubrics: {len(rubrics)} · "
-        f"Crew: {'✅' if st.session_state.crew else '⏳'}"
-    )
+    current_number = len(answered_ids) + 1
+    st.progress(current_number / len(questions), text=f"Question {current_number} of {len(questions)}")
+    st.write(f"### {question.get('text', '')}")
+    image = visual_path(assignment)
+    if image:
+        st.image(image, width=550)
 
-# ---------------------------------------------------------------------------
-# Main tabs
-# ---------------------------------------------------------------------------
-st.markdown("# PSLE English Oral Practice")
-st.caption("CrewAI assessor-coach | PSLE-style reading aloud and stimulus-based conversation")
-
-tab_ingest, tab_oral, tab_manual, tab_dialogue, tab_results, tab_manage = st.tabs([
-    "📁 Ingest Document",
-    "🎤 Oral Assessment",
-    "📝 Grade Response",
-    "💬 Q&A Dialogue",
-    "📊 Results",
-    "Manage Data",
-])
-
-# ---- Ingest ----
-with tab_ingest:
-    st.markdown("## PSLE Oral Material Ingestion")
-    st.markdown(
-        "Upload a picture stimulus, a reading-aloud passage, or both. The picture stimulus "
-        "is used to generate the three conversation questions; the reading passage is kept "
-        "for a separate reading-aloud section."
-    )
-
-    col_visual, col_reading = st.columns(2)
-    with col_visual:
-        visual_upload = st.file_uploader(
-            "Picture stimulus",
-            type=["pdf", "png", "jpg", "jpeg", "webp"],
-            help="Use this for the visual stimulus. The examiner will create three image-based questions.",
-            key="visual_upload",
+    with st.form(f"response_{assignment['assignment_id']}_{question.get('id')}"):
+        response = st.text_area(
+            "Your response",
+            height=140,
+            placeholder="Type what you would say to the examiner.",
         )
-    with col_reading:
-        reading_upload = st.file_uploader(
-            "Reading passage",
-            type=["pdf", "docx", "txt"],
-            help="Use this for the reading-aloud passage. Pronunciation scoring will be added later with speech.",
-            key="reading_upload",
-        )
+        submit_col, skip_col = st.columns(2)
+        submitted = submit_col.form_submit_button("Submit response", type="primary", use_container_width=True)
+        skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
 
-    st.caption(f"Uploads will be stored under subject `{subject}` with rubric `{rubric}`.")
+    if not submitted and not skipped:
+        return
+    if submitted and not response.strip():
+        st.warning("Please enter a response, or choose Skip question.")
+        return
 
-    if visual_upload or reading_upload:
-        if st.button("Ingest Selected Materials", type="primary"):
-            with st.spinner("Running ingestion pipeline and CrewAI analysis..."):
-                try:
-                    crew = ensure_psle_crew(subject, rubric, student_id)
-                    materials = []
-
-                    if visual_upload:
-                        visual_tmp = save_uploaded_file(visual_upload)
-                        visual_result = crew.run_ingestion_workflow(
-                            str(visual_tmp),
-                            material_type="visual",
-                            extract_questions=True,
-                        )
-                        st.session_state.questions = visual_result.get("questions", [])[:3]
-                        reset_oral_state(clear_questions=False)
-                        materials.append({
-                            "type": "visual",
-                            "name": visual_upload.name,
-                            **visual_result,
-                        })
-
-                    if reading_upload:
-                        reading_tmp = save_uploaded_file(reading_upload)
-                        reading_result = crew.run_ingestion_workflow(
-                            str(reading_tmp),
-                            material_type="reading",
-                            extract_questions=False,
-                        )
-                        reading_file = reading_result.get("ingest_result", {}).get(
-                            "file_path",
-                            str(reading_tmp),
-                        )
-                        st.session_state.reading_passage = extract_reading_passage(reading_file)
-                        st.session_state.reading_source = reading_file
-                        st.session_state.reading_completed = False
-                        materials.append({
-                            "type": "reading",
-                            "name": reading_upload.name,
-                            **reading_result,
-                        })
-
-                    st.session_state.ingest_result = {
-                        "materials": materials,
-                        "ingest_result": materials[-1].get("ingest_result", {}) if materials else {},
-                    }
-
-                    st.success("Materials ingested")
-                    c1, c2, c3, c4 = st.columns(4)
-                    c1.metric("Materials", len(materials))
-                    c2.metric("Image Questions", len(st.session_state.questions))
-                    c3.metric("Reading Passage", "Yes" if st.session_state.reading_passage else "No")
-                    c4.metric(
-                        "Images",
-                        sum(m.get("ingest_result", {}).get("image_count", 0) for m in materials),
-                    )
-
-                    if st.session_state.questions:
-                        with st.expander("Extracted image questions", expanded=True):
-                            for q in st.session_state.questions:
-                                st.write(f"**Q{q['id']}:** {q['text']}")
-
-                    if st.session_state.reading_passage:
-                        with st.expander("Reading passage preview", expanded=True):
-                            st.write(st.session_state.reading_passage[:1500])
-
-                    for material in materials:
-                        with st.expander(f"CrewAI analysis - {material['type']}"):
-                            st.markdown(material.get("crew_analysis", ""))
-                except Exception as e:
-                    st.error(f"Ingestion failed: {e}")
-                    import traceback
-                    st.code(traceback.format_exc())
-    else:
-        st.info("Choose a picture stimulus, a reading passage, or both.")
-    if st.session_state.ingest_result:
-        st.divider()
-        st.json(st.session_state.ingest_result.get("ingest_result", {}))
-
-# ---- Oral assessment from document ----
-with tab_oral:
-    st.markdown("## PSLE Oral Assessment")
-    st.markdown("Use the reading passage once, then answer up to three stimulus-based conversation questions.")
-
-    if not st.session_state.crew:
-        st.warning("Initialize the crew first.")
-    else:
-        if not st.session_state.session_id:
-            st.info("Tip: click **New Session** in the sidebar to persist results.")
-
-        st.markdown("### Reading Aloud")
-        if not st.session_state.reading_passage:
-            if st.button("Load reading passage from subject", use_container_width=True):
-                try:
-                    if load_reading_passage_from_subject(subject):
-                        st.success("Reading passage loaded.")
-                        st.rerun()
-                    else:
-                        st.info("No reading passage has been ingested for this subject yet.")
-                except Exception as e:
-                    st.error(f"Could not load reading passage: {e}")
-            else:
-                st.caption("Optional. Ingest a reading passage to enable this section.")
-        else:
-            source_name = Path(st.session_state.reading_source).name if st.session_state.reading_source else "reading passage"
-            st.caption(f"Source: {source_name}")
-            st.text_area(
-                "Passage",
-                value=st.session_state.reading_passage,
-                height=240,
-                disabled=True,
-                key="reading_passage_display",
+    answer = response.strip() if submitted else "[Skipped question]"
+    with st.spinner("AI is grading your response..."):
+        try:
+            workflow = crew.run_assessment_workflow(
+                question=question.get("text", ""),
+                student_response=answer,
+                visual_context=question.get("visual_context"),
+                save_to_session=True,
+                skipped=skipped,
             )
-
-            if st.session_state.reading_completed:
-                st.success("Reading passage completed once.")
-            elif st.button("Mark Reading Completed", type="primary", use_container_width=True):
-                if not st.session_state.session_id:
-                    sid = st.session_state.crew.start_session(metadata={"component": "psle_oral"})
-                    st.session_state.session_id = sid
-                if st.session_state.crew.session_manager.current_session:
-                    st.session_state.crew.session_manager.add_turn(
-                        speaker="avatar",
-                        text="Please read the passage aloud.",
-                        metadata={
-                            "component": "reading_aloud",
-                            "source": st.session_state.reading_source,
-                        },
-                    )
-                    st.session_state.crew.session_manager.add_turn(
-                        speaker="student",
-                        text="Reading aloud completed. Audio capture is not enabled yet.",
-                        metadata={
-                            "component": "reading_aloud",
-                            "source": st.session_state.reading_source,
-                            "speech_enabled": False,
-                        },
-                    )
-
-                st.session_state.reading_completed = True
-                st.session_state.assessment_results.append({
-                    "workflow": "reading_aloud_placeholder",
-                    "subject": subject,
-                    "session_id": st.session_state.session_id,
-                    "question": "Reading aloud passage",
-                    "student_response": "Reading aloud completed. Audio capture is not enabled yet.",
-                    "reading_source": st.session_state.reading_source,
-                    "grading_result": {
-                        "scores": [],
-                        "tutoring_feedback": (
-                            "Reading aloud was marked complete. Pronunciation, fluency, "
-                            "and expressive delivery can be assessed after speech-to-text "
-                            "and audio scoring are integrated."
-                        ),
-                        "total_score": 0,
-                        "max_score": 0,
-                        "percentage": 0,
-                    },
-                    "crew_analysis": "Reading aloud completed without audio capture.",
-                })
-                st.success("Reading passage recorded as completed.")
-                st.rerun()
-
-        st.divider()
-        st.markdown("### Stimulus-Based Conversation")
-
-        if not st.session_state.questions:
-            if st.button("Load image questions from subject", use_container_width=True):
-                with st.spinner("Extracting questions..."):
-                    oral = st.session_state.crew.run_oral_assessment(num_questions=3)
-                    st.session_state.questions = oral.get("questions", [])[:3]
-                    reset_oral_state(clear_questions=False)
-                    st.rerun()
-            else:
-                st.info("Ingest a picture stimulus first, or click **Load image questions from subject**.")
-    if st.session_state.crew and st.session_state.questions:
-        if st.button("Start Image Questions", type="primary") and not st.session_state.assessment_active:
-            if not st.session_state.session_id:
-                sid = st.session_state.crew.start_session(metadata={"component": "psle_oral"})
-                st.session_state.session_id = sid
-                st.session_state.assessment_results = []
-            st.session_state.questions = st.session_state.questions[:3]
-            st.session_state.assessment_active = True
-            st.session_state.question_index = 0
-            st.session_state.oral_guidance = {}
-            st.session_state.oral_turns = {}
-            st.session_state.oral_attempts = {}
-            st.session_state.oral_accepted_answers = {}
-            st.rerun()
-
-        if st.session_state.assessment_active:
-            idx = st.session_state.question_index
-            questions = st.session_state.questions
-
-            if idx < len(questions):
-                q = questions[idx]
-                st.progress((idx + 1) / len(questions), text=f"Question {idx + 1} of {len(questions)}")
-                st.subheader(f"Q{idx + 1}: {q['text']}")
-
-                if q.get("image_path") and os.path.exists(q["image_path"]):
-                    st.image(q["image_path"], width=500)
-                if q.get("visual_context"):
-                    with st.expander("Visual context used by examiner"):
-                        st.write(q["visual_context"])
-
-                qid = str(q.get("id", idx + 1))
-                assessment_question = question_with_visual_context(q)
-                turns = st.session_state.oral_turns.setdefault(
-                    qid,
-                    [{"role": "assistant", "content": q["text"]}],
-                )
-                attempt_count = st.session_state.oral_attempts.get(qid, 0)
-
-                for turn in turns:
-                    role = "assistant" if turn["role"] == "assistant" else "user"
-                    st.chat_message(role).write(turn["content"])
-
-                answer = st.text_area(
-                    "Your response",
-                    key=f"oral_answer_{idx}_{len(turns)}",
-                    height=120,
-                    placeholder="Speak or type your answer here. The examiner will decide whether to prompt you or move on.",
-                )
-
-                c1, c2, c3 = st.columns(3)
-                with c1:
-                    respond = st.button("Respond", type="primary", use_container_width=True)
-                with c2:
-                    skip = st.button("Skip", use_container_width=True)
-                with c3:
-                    end = st.button("End", use_container_width=True)
-
-                if respond:
-                    if not answer.strip():
-                        st.warning("Please give an answer, even if it is just what you notice first.")
-                    else:
-                        attempt_number = attempt_count + 1
-                        turns.append({"role": "user", "content": answer.strip()})
-                        with st.spinner("Examiner is listening..."):
-                            decision = st.session_state.crew.evaluate_oral_turn(
-                                question=assessment_question,
-                                student_response=answer.strip(),
-                                conversation_history=turns,
-                                attempt_number=attempt_number,
-                                max_attempts=3,
-                            )
-                        turns.append({
-                            "role": "assistant",
-                            "content": decision["examiner_reply"],
-                            "decision": decision,
-                        })
-                        st.session_state.oral_attempts[qid] = attempt_number
-
-                        if decision.get("accepted"):
-                            final_answer = " ".join(
-                                turn["content"] for turn in turns if turn["role"] == "user"
-                            )
-                            st.session_state.oral_accepted_answers[qid] = final_answer
-                            with st.spinner("Recording and grading the accepted answer..."):
-                                result = st.session_state.crew.run_assessment_workflow(
-                                    question=q["text"],
-                                    student_response=final_answer,
-                                    context=json.dumps(turns, indent=2),
-                                    visual_context=q.get("visual_context"),
-                                    save_to_session=bool(st.session_state.session_id),
-                                )
-                            result["interactive_turns"] = turns
-                            result["examiner_decision"] = decision
-                            st.session_state.assessment_results.append(result)
-                            st.session_state.question_index += 1
-                        st.rerun()
-
-                if skip:
-                    skipped_answer = "[Skipped question]"
-                    turns.append({"role": "user", "content": skipped_answer})
-                    turns.append({
-                        "role": "assistant",
-                        "content": "Question skipped. This will be recorded as 0.",
-                        "decision": {"accepted": False, "status": "skipped"},
-                    })
-                    with st.spinner("Recording skipped question as 0..."):
-                        result = st.session_state.crew.run_assessment_workflow(
-                            question=q["text"],
-                            student_response=skipped_answer,
-                            context=json.dumps(turns, indent=2),
-                            visual_context=q.get("visual_context"),
-                            save_to_session=bool(st.session_state.session_id),
-                            skipped=True,
-                        )
-                    result["interactive_turns"] = turns
-                    result["examiner_decision"] = {
-                        "accepted": False,
-                        "status": "skipped",
-                        "reason": "Student skipped the question.",
-                    }
-                    st.session_state.assessment_results.append(result)
-                    st.session_state.question_index += 1
-                    st.rerun()
-
-                if end:
-                    st.session_state.assessment_active = False
-                    if st.session_state.session_id:
-                        st.session_state.crew.end_session()
-                    st.rerun()
-            else:
-                st.success("All three image questions completed!")
-                st.session_state.assessment_active = False
-                if st.session_state.session_id:
-                    st.session_state.crew.end_session()
-
-# ---- Manual single response grading ----
-with tab_manual:
-    st.markdown("## Grade a Single Response")
-    col1, col2 = st.columns(2)
-    with col1:
-        question = st.text_area("Question", height=100, key="manual_q")
-    with col2:
-        response = st.text_area("Student response", height=100, key="manual_r")
-
-    if st.button("📊 Evaluate", type="primary"):
-        if not st.session_state.crew:
-            st.error("Initialize crew first.")
-        elif not question or not response:
-            st.error("Enter question and response.")
-        else:
-            with st.spinner("A5 rubric grading + CrewAI analysis..."):
-                try:
-                    if not st.session_state.session_id:
-                        sid = st.session_state.crew.start_session()
-                        st.session_state.session_id = sid
-
-                    result = st.session_state.crew.run_assessment_workflow(
-                        question=question,
-                        student_response=response,
-                        save_to_session=True,
-                    )
-                    st.session_state.assessment_results.append(result)
-                    st.success("Assessment complete")
-
-                    st.markdown("### Rubric scores (Agent A5)")
-                    render_grading_result(result["grading_result"])
-
-                    with st.expander("CrewAI analysis"):
-                        st.markdown(result.get("crew_analysis", ""))
-                except Exception as e:
-                    st.error(str(e))
-
-# ---- Dialogue ----
-with tab_dialogue:
-    st.markdown("## Interactive Q&A Dialogue")
-    main_q = st.text_input("Topic / main question", placeholder="What is photosynthesis?")
-
-    for msg in st.session_state.conversation_history:
-        role = "user" if msg["role"] == "user" else "assistant"
-        st.chat_message(role).write(msg["content"])
-
-    user_input = st.chat_input("Your message")
-    if user_input and st.session_state.crew and main_q:
-        st.session_state.conversation_history.append({"role": "user", "content": user_input})
-        with st.spinner("Tutor thinking..."):
-            reply = st.session_state.crew.run_interactive_dialogue(
-                question=main_q,
-                conversation_history=st.session_state.conversation_history,
+            add_assessment_result(
+                assignment["assignment_id"],
+                question=question,
+                student_response=answer,
+                grading_result=workflow["grading_result"],
+                session_id=st.session_state.session_id,
+                crew_analysis=workflow.get("crew_analysis", ""),
+                skipped=skipped,
             )
-            st.session_state.conversation_history.append({"role": "assistant", "content": reply})
-            st.rerun()
+        except Exception as error:
+            st.error(f"Your response was not saved: {error}")
+            return
+    st.rerun()
 
-    if st.button("Clear conversation"):
-        st.session_state.conversation_history = []
-        st.rerun()
 
-# ---- Results ----
-with tab_results:
-    st.markdown("## Assessment Results")
+def render_student_results(assignment: dict) -> None:
+    st.subheader("Your results")
+    results = assignment.get("results", [])
+    if not results:
+        st.info("Submit an image-question response to see its AI grade here.")
+        return
+    for number, result in enumerate(results, 1):
+        with st.expander(f"Question {number}", expanded=(number == len(results))):
+            st.write("**Question:**", result.get("question", ""))
+            st.write("**Your response:**", result.get("student_response", ""))
+            render_grading_result(result.get("final_grading") or result.get("ai_grading") or {})
+            if result.get("examiner_review"):
+                st.caption("An examiner has verified or adjusted this grade.")
 
-    # In-memory results from this Streamlit session
-    if st.session_state.assessment_results:
-        st.subheader(f"This session: {len(st.session_state.assessment_results)} assessment(s)")
-        for i, result in enumerate(reversed(st.session_state.assessment_results), 1):
-            status_label = (
-                " (Skipped)"
-                if result.get("skipped") or result.get("grading_result", {}).get("skipped")
-                else ""
-            )
-            with st.expander(f"Assessment {i} - {result.get('subject', '')}{status_label}", expanded=(i == 1)):
-                st.write("**Q:**", result["question"][:200])
-                st.write("**A:**", result["student_response"][:200])
-                render_grading_result(result["grading_result"])
-                with st.expander("CrewAI analysis"):
-                    st.markdown(result.get("crew_analysis", ""))
 
-        st.download_button(
-            "Download JSON",
-            data=json.dumps(st.session_state.assessment_results, indent=2, default=str),
-            file_name="crew_assessment_results.json",
-            mime="application/json",
-        )
+def render_student_portal() -> None:
+    render_account_sidebar("Student")
+    st.title("Student Assessment")
+    assignment = get_active_assignment(st.session_state.user_id)
+    if not assignment:
+        past_assignments = list_assignments(st.session_state.user_id)
+        assignment = past_assignments[0] if past_assignments else None
+    if not assignment:
+        st.info("No assessment has been assigned to your student ID yet.")
+        return
 
-    st.divider()
+    if st.session_state.active_assignment_id != assignment["assignment_id"]:
+        reset_runtime_state()
+        st.session_state.active_assignment_id = assignment["assignment_id"]
+    st.caption(f"Status: {assignment.get('status', 'assigned').replace('_', ' ').title()}")
+    materials_tab, assessment_tab, results_tab = st.tabs(["Materials", "Take assessment", "Results"])
+    with materials_tab:
+        render_student_materials(assignment)
+    with assessment_tab:
+        render_student_assessment(assignment)
+    with results_tab:
+        render_student_results(assignment)
 
-    # Persisted sessions from Agent A6
-    st.subheader("Persisted sessions (Agent A6)")
-    sessions = session_manager.list_sessions()
-    if sessions:
-        selected = st.selectbox("Session", sessions)
-        if selected:
-            report = session_manager.get_session_report(selected)
-            if report:
-                c1, c2, c3 = st.columns(3)
-                c1.metric("Student", report["student_id"])
-                c2.metric("Subject", report["paper_id"])
-                c3.metric("State", report["state"])
-                st.json(report)
-    else:
-        st.info("No persisted sessions yet.")
 
-# ---- Manage data ----
-with tab_manage:
-    st.markdown("## Manage Stored Data")
+if not st.session_state.authenticated:
+    render_login()
+    st.stop()
 
-    notice = st.session_state.get("manage_data_notice")
-    if notice:
-        st.success(notice)
-        del st.session_state["manage_data_notice"]
-
-    st.markdown("### Ingested Documents")
-    st.caption("Deletes copied uploads, generated chunks, vector databases, extracted images, and subject metadata.")
-    ingested_subjects = subject_manager.list_ingested_subjects()
-
-    if ingested_subjects:
-        selected_subjects = st.multiselect(
-            "Subjects to delete",
-            ingested_subjects,
-            help="This removes the ingested document data for each selected subject. Sessions are not deleted here.",
-        )
-        confirm_docs = st.checkbox(
-            "I understand this will delete the selected ingested documents and vector databases.",
-            key="confirm_delete_ingested_docs",
-        )
-
-        if st.button(
-            "Delete Selected Documents",
-            type="primary",
-            disabled=not selected_subjects or not confirm_docs,
-            use_container_width=True,
-        ):
-            deleted = []
-            failed = []
-            if any(s in selected_subjects for s in [st.session_state.get("crew_subject"), subject]):
-                if st.session_state.crew:
-                    try:
-                        st.session_state.crew.cleanup()
-                    except Exception:
-                        pass
-                st.session_state.crew = None
-                st.session_state.crew_subject = None
-                st.session_state.crew_rubric = None
-                st.session_state.session_id = None
-                st.session_state.ingest_result = None
-                reset_oral_state(clear_questions=True)
-                reset_reading_state()
-
-            for subject_name in selected_subjects:
-                try:
-                    subject_manager.delete_subject_data(subject_name)
-                    deleted.append(subject_name)
-                except Exception as e:
-                    failed.append(f"{subject_name}: {e}")
-
-            if failed:
-                st.error("Some subjects could not be deleted:")
-                st.write(failed)
-            if deleted:
-                st.session_state.manage_data_notice = (
-                    f"Deleted ingested data for {len(deleted)} subject(s): {', '.join(deleted)}"
-                )
-                st.rerun()
-
-        if st.checkbox("Show stored subject details", key="show_subject_storage_details"):
-            for subject_name in ingested_subjects:
-                with st.expander(subject_name):
-                    st.json(subject_manager.get_subject_info(subject_name))
-    else:
-        st.info("No ingested documents found.")
-
-    st.divider()
-
-    st.markdown("### Sessions")
-    st.caption("Deletes persisted Agent A6 session files. Ingested documents are not deleted here.")
-    persisted_sessions = session_manager.list_sessions()
-
-    if persisted_sessions:
-        selected_sessions = st.multiselect(
-            "Sessions to delete",
-            persisted_sessions,
-            help="Select one or more persisted sessions to remove.",
-        )
-        confirm_sessions = st.checkbox(
-            "I understand this will permanently delete the selected sessions.",
-            key="confirm_delete_sessions",
-        )
-
-        if st.button(
-            "Delete Selected Sessions",
-            type="primary",
-            disabled=not selected_sessions or not confirm_sessions,
-            use_container_width=True,
-        ):
-            deleted = []
-            failed = []
-            for session_id in selected_sessions:
-                try:
-                    if session_manager.delete_session(session_id):
-                        deleted.append(session_id)
-                    else:
-                        failed.append(f"{session_id}: not found")
-                except Exception as e:
-                    failed.append(f"{session_id}: {e}")
-
-            if st.session_state.session_id in deleted:
-                st.session_state.session_id = None
-                if st.session_state.crew:
-                    st.session_state.crew.session_id = None
-
-            if failed:
-                st.error("Some sessions could not be deleted:")
-                st.write(failed)
-            if deleted:
-                st.session_state.manage_data_notice = (
-                    f"Deleted {len(deleted)} session(s): {', '.join(deleted)}"
-                )
-                st.rerun()
-
-        with st.expander("Delete all sessions"):
-            confirm_all_sessions = st.checkbox(
-                "I understand this will delete every persisted session.",
-                key="confirm_delete_all_sessions",
-            )
-            if st.button(
-                "Delete All Sessions",
-                disabled=not confirm_all_sessions,
-                use_container_width=True,
-            ):
-                result = session_manager.delete_all_sessions()
-                if result["failed"]:
-                    st.error("Some sessions could not be deleted:")
-                    st.write(result["failed"])
-                if result["deleted"]:
-                    st.session_state.session_id = None
-                    if st.session_state.crew:
-                        st.session_state.crew.session_id = None
-                    st.session_state.manage_data_notice = (
-                        f"Deleted {len(result['deleted'])} persisted session(s)."
-                    )
-                    st.rerun()
-    else:
-        st.info("No persisted sessions found.")
+if st.session_state.user_role == "examiner":
+    render_examiner_portal()
+else:
+    render_student_portal()

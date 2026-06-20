@@ -428,7 +428,13 @@ class EducationCrew:
             tasks=[ingestion_task, question_task],
             verbose=self.verbose,
         )
-        crew_analysis = str(crew.kickoff())
+        try:
+            crew_analysis = str(crew.kickoff())
+        except Exception as error:
+            crew_analysis = (
+                "Supplementary CrewAI analysis was unavailable, but the uploaded material "
+                f"and extracted questions were saved. Reason: {error}"
+            )
 
         return {
             "workflow": "ingestion",
@@ -583,7 +589,13 @@ class EducationCrew:
             tasks=[assessment_task, feedback_task],
             verbose=self.verbose,
         )
-        crew_output = str(crew.kickoff())
+        try:
+            crew_output = str(crew.kickoff())
+        except Exception as error:
+            crew_output = (
+                "Supplementary CrewAI coaching analysis was unavailable. The rubric grade "
+                f"was still recorded. Reason: {error}"
+            )
 
         return {
             "workflow": "assessment",

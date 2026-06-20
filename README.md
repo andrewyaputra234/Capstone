@@ -22,6 +22,16 @@ streamlit run streamlit_app.py
 
 Use this app for the current split oral workflow: optional picture stimulus upload, optional reading passage upload, reading aloud section, and three stimulus-based conversation questions.
 
+### Examiner and student workflow
+
+1. Start the app with the project virtual environment: `\.venv\Scripts\streamlit.exe run streamlit_app.py`.
+2. Log in as an examiner, select a registered student, upload the required picture stimulus, and optionally upload a reading passage.
+3. The app creates a separate assignment for that student and saves the generated image questions.
+4. The student logs in, completes the optional reading passage and the image questions, and receives the AI result.
+5. The examiner opens **Results and review** to see both the original AI grade and the final verified grade. Criterion-level changes do not overwrite the AI record.
+
+The local register is [`data/users.json`](data/users.json). Add a student there before trying to assign an assessment. This is a local prototype login, not production authentication.
+
 ### 1. Load a Document
 
 ```bash
@@ -42,17 +52,17 @@ python run.py dialogue --interactive --subject math --rubric primary1_math --aud
 
 ## Documentation
 
-**Start here:** [QUICK_REFERENCE.md](QUICK_REFERENCE.md) ⚡ (60 seconds)
+**Start here:** [Quick Reference](ignore/QUICK_REFERENCE.md) ⚡ (60 seconds)
 
 | Guide | When to Read |
 |---|---|
-| [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | Command cheat sheet (START HERE!) |
-| [GETTING_STARTED.md](GETTING_STARTED.md) | Complete beginner walkthrough |
+| [Quick Reference](ignore/QUICK_REFERENCE.md) | Command cheat sheet (START HERE!) |
+| [Getting Started](ignore/GETTING_STARTED.md) | Complete beginner walkthrough |
 | [WORKFLOW_DIAGRAMS.md](WORKFLOW_DIAGRAMS.md) | Visual flowcharts |
-| [AUDIO_INPUT_GUIDE.md](AUDIO_INPUT_GUIDE.md) | Recording & voice features |
+| Audio input guide | Not currently included in this repository |
 | [SESSION_MANAGEMENT_GUIDE.md](SESSION_MANAGEMENT_GUIDE.md) | Saving assessments |
-| [AGENT_A5_RUBRIC_GRADER.md](AGENT_A5_RUBRIC_GRADER.md) | Creating rubrics |
-| [CAPSTONE_REQUIREMENTS_ASSESSMENT.md](CAPSTONE_REQUIREMENTS_ASSESSMENT.md) | Requirements mapping |
+| Rubric guide | [RUBRIC_GUIDE.md](RUBRIC_GUIDE.md) |
+| [Requirements assessment](ignore/CAPSTONE_REQUIREMENTS_ASSESSMENT.md) | Requirements mapping |
 
 ## Installation (3 minutes)
 
@@ -130,7 +140,7 @@ Capstone/
 | Rubric grading | ✅ Complete |
 | Session tracking | ✅ Complete |
 | Export (JSON/CSV) | ✅ Complete |
-| Web UI | ⏳ Coming |
+| Examiner/student web UI | ✅ Local prototype complete |
 | REST API | ⏳ Coming |
 
 **Current: 75% feature complete** - Ready for use!
@@ -152,7 +162,7 @@ See [CAPSTONE_REQUIREMENTS_ASSESSMENT.md](CAPSTONE_REQUIREMENTS_ASSESSMENT.md) f
 
 ## Next Steps
 
-1. Read [QUICK_REFERENCE.md](QUICK_REFERENCE.md) (2 min)
+1. Read the [Quick Reference](ignore/QUICK_REFERENCE.md) (2 min)
 2. Load your first document (3 min)
 3. Run a quiz (5 min)
 4. Create a custom rubric (5 min)
@@ -165,10 +175,10 @@ See [CAPSTONE_REQUIREMENTS_ASSESSMENT.md](CAPSTONE_REQUIREMENTS_ASSESSMENT.md) f
 **"No questions found"** → Format as "Q1) text" or let AI extract them
 **"Audio not working"** → Check microphone or run `pip install pyaudio`
 
-More help: See [GETTING_STARTED.md](GETTING_STARTED.md)
+More help: See [Getting Started](ignore/GETTING_STARTED.md)
 
 ---
 
-**Start with [QUICK_REFERENCE.md](QUICK_REFERENCE.md) →**
+**Start with the [Quick Reference](ignore/QUICK_REFERENCE.md) →**
 
 Built for educators. Powered by AI. Run on your machine.

@@ -110,6 +110,11 @@ class RubricGrader:
         )
         total_score = sum(s.score for s in scores)
         max_score = sum(s.max_score for s in scores)
+        scoring_source = (
+            "fallback"
+            if any(score.source == "fallback" for score in scores if score.max_score > 0)
+            else "ai"
+        )
         
         return {
             "assignment": assignment,
@@ -122,13 +127,15 @@ class RubricGrader:
                     "max_score": s.max_score,
                     "feedback": s.feedback,
                     "evidence": s.evidence,
+                    "source": s.source,
                 }
                 for s in scores
             ],
             "tutoring_feedback": tutoring_feedback,
             "total_score": total_score,
             "max_score": max_score,
-            "percentage": round((total_score / max_score * 100) if max_score > 0 else 0, 1)
+            "percentage": round((total_score / max_score * 100) if max_score > 0 else 0, 1),
+            "scoring_source": scoring_source,
         }
 
     def generate_skipped_feedback(
@@ -159,6 +166,7 @@ class RubricGrader:
                     "max_score": s.max_score,
                     "feedback": s.feedback,
                     "evidence": s.evidence,
+                    "source": s.source,
                 }
                 for s in scores
             ],
@@ -170,6 +178,7 @@ class RubricGrader:
             "total_score": total_score,
             "max_score": max_score,
             "percentage": round((total_score / max_score * 100) if max_score > 0 else 0, 1),
+            "scoring_source": "deterministic",
         }
     
     def _generate_tutoring_speech(
@@ -266,10 +275,23 @@ Requirements:
 
 Tutoring Feedback (spoken to student):""")
         
-        chain = prompt | self._get_llm() | StrOutputParser()
-        feedback = chain.invoke({"rubric_context": rubric_context})
-        
-        return feedback.strip()
+        try:
+            chain = prompt | self._get_llm() | StrOutputParser()
+            feedback = chain.invoke({"rubric_context": rubric_context})
+            return feedback.strip()
+        except Exception as error:
+            print(f"[WARN] AI tutoring feedback unavailable: {error}")
+            assessed = [score for score in scores if score.max_score > 0]
+            if not assessed:
+                return "No assessable oral-response evidence was recorded for this item."
+            strongest = max(assessed, key=lambda score: score.score / score.max_score)
+            focus = min(assessed, key=lambda score: score.score / score.max_score)
+            return (
+                f"Your response was recorded. A live AI coaching message was unavailable, so use the criterion feedback instead. "
+                f"Your strongest area was {strongest.criterion_name}: {strongest.feedback} "
+                f"Focus next on {focus.criterion_name}: {focus.feedback} "
+                "Try adding one specific detail and one reason in your next response."
+            )
     
     def grade_assignment(self, assignment_file: str, answer_file: str) -> Dict:
         """

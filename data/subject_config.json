@@ -5,6 +5,11 @@
       "pdf_path": "data\\input\\psle_oral_english\\image-45-1024x683.webp",
       "visual_path": "data\\input\\psle_oral_english\\image-45-1024x683.webp",
       "reading_path": "data\\input\\psle_oral_english\\Good morning, students. I hope you.txt"
+    },
+    "assignment_001_13dc03dc": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_001_13dc03dc\\image-45-1024x683.webp",
+      "visual_path": "data\\input\\assignment_001_13dc03dc\\image-45-1024x683.webp"
     }
   }
 }
