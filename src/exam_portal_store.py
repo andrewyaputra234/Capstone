@@ -11,6 +11,7 @@ from __future__ import annotations
 import copy
 import json
 import os
+import re
 import tempfile
 import uuid
 from datetime import datetime, timezone
@@ -21,6 +22,9 @@ from typing import Any
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 ASSIGNMENTS_PATH = DATA_DIR / "student_assignments.json"
 USERS_PATH = DATA_DIR / "users.json"
+RUBRICS_DIR = DATA_DIR / "rubrics"
+PSLE_ORAL_RUBRIC = "psle_oral_english"
+CUSTOM_ORAL_RUBRIC_PREFIX = "examiner_psle_oral_"
 
 
 def _now() -> str:
@@ -125,6 +129,255 @@ def authenticate(role: str, user_id: str) -> dict[str, str] | None:
         if str(user.get("id", "")).strip() == normalized_id:
             return {"id": normalized_id, "name": str(user.get("name") or normalized_id)}
     return None
+
+
+def list_english_oral_rubrics() -> list[str]:
+    """Return only the built-in PSLE oral rubric and examiner-added oral rubrics."""
+    custom_rubrics = []
+    if RUBRICS_DIR.exists():
+        custom_rubrics = [
+            path.stem
+            for path in RUBRICS_DIR.glob(f"{CUSTOM_ORAL_RUBRIC_PREFIX}*.json")
+        ]
+    return [PSLE_ORAL_RUBRIC, *sorted(custom_rubrics)]
+
+
+def rubric_display_name(rubric_name: str) -> str:
+    if rubric_name == PSLE_ORAL_RUBRIC:
+        return "PSLE English Oral (built-in)"
+    data = _read_json(RUBRICS_DIR / f"{rubric_name}.json", {})
+    return str(data.get("name") or rubric_name.replace("_", " ").title())
+
+
+def _mark_band_score(value: Any, maximum: int) -> int:
+    """Convert a band label such as '17-20' into its rubric score ceiling."""
+    numbers = [int(number) for number in re.findall(r"\d+", str(value))]
+    return min(max(numbers), maximum) if numbers else 0
+
+
+def _normalise_component_rubric(data: dict[str, Any], components: dict[str, Any]) -> dict[str, Any]:
+    """Convert PSLE-style component/band rubrics into RubricEngine criteria."""
+    criteria = []
+    for component_key, component in components.items():
+        if not isinstance(component, dict):
+            continue
+        raw_weight = component.get("component_weight", component.get("max_points", component.get("max_score")))
+        try:
+            maximum = int(raw_weight)
+        except (TypeError, ValueError):
+            continue
+        if maximum <= 0 or not isinstance(component.get("bands"), list):
+            continue
+
+        focus_lines = []
+        for focus in component.get("assessment_criteria", []):
+            if isinstance(focus, dict):
+                title = str(focus.get("criterion") or focus.get("name") or "").strip()
+                detail = str(focus.get("focus") or focus.get("description") or "").strip()
+                focus_lines.append(": ".join(part for part in (title, detail) if part))
+        levels = []
+        for band in component["bands"]:
+            if not isinstance(band, dict):
+                continue
+            score = _mark_band_score(band.get("marks", band.get("score", band.get("points"))), maximum)
+            descriptors = band.get("descriptors", [])
+            description = " ".join(str(item).strip() for item in descriptors if str(item).strip())
+            levels.append(
+                {
+                    "level": str(band.get("performance_level") or band.get("level") or f"{score} points"),
+                    "points": score,
+                    "description": description,
+                }
+            )
+        if not levels:
+            continue
+        display_name = component_key.replace("_", " ").title()
+        if component_key == "reading_aloud":
+            display_name = "Reading Aloud Delivery"
+        elif component_key == "stimulus_based_conversation":
+            display_name = "Stimulus-Based Conversation"
+        description = str(component.get("description") or "").strip()
+        if focus_lines:
+            description = f"{description} Assessment focus: {'; '.join(focus_lines)}".strip()
+        criteria.append(
+            {
+                "name": display_name,
+                "description": description,
+                "max_points": maximum,
+                "rubric_levels": levels,
+            }
+        )
+
+    return {
+        "name": data.get("name") or f"{data.get('exam', 'PSLE')} {data.get('subject', 'English')} Oral Rubric",
+        "level": data.get("level") or "Primary 6",
+        "subject": data.get("subject") or "English",
+        "assessment_type": data.get("component") or "English oral",
+        "criteria": criteria,
+    }
+
+
+def _normalise_uploaded_rubric(data: Any) -> dict[str, Any]:
+    """Accept common exported-rubric wrappers and convert them to our JSON schema."""
+    if isinstance(data, list):
+        return {"criteria": copy.deepcopy(data)}
+    if not isinstance(data, dict):
+        raise ValueError("The rubric file must contain a JSON object or a list of criteria.")
+
+    normalized = copy.deepcopy(data)
+    if not normalized.get("criteria"):
+        component_rubric = normalized.get("rubric")
+        if isinstance(component_rubric, dict) and any(
+            isinstance(value, dict) and "component_weight" in value and "bands" in value
+            for value in component_rubric.values()
+        ):
+            return _normalise_component_rubric(normalized, component_rubric)
+        for wrapper_key in ("rubric", "rubric_data", "rubricData", "assessment_rubric", "assessmentRubric"):
+            wrapped = normalized.get(wrapper_key)
+            if isinstance(wrapped, (dict, list)):
+                name = normalized.get("name") or normalized.get("title")
+                normalized = _normalise_uploaded_rubric(wrapped)
+                if name and not normalized.get("name"):
+                    normalized["name"] = name
+                break
+
+    if not normalized.get("criteria"):
+        for alternative_key in (
+            "assessment_criteria", "assessmentCriteria", "grading_criteria", "gradingCriteria", "categories", "dimensions"
+        ):
+            alternative = normalized.get(alternative_key)
+            if isinstance(alternative, (list, dict)):
+                normalized["criteria"] = alternative
+                break
+
+    criteria = normalized.get("criteria")
+    if isinstance(criteria, dict):
+        normalized["criteria"] = [
+            {"name": name, **details} if isinstance(details, dict) else {"name": name, "description": str(details)}
+            for name, details in criteria.items()
+        ]
+    return normalized
+
+
+def _normalise_criterion(criterion: dict[str, Any]) -> None:
+    if not criterion.get("name"):
+        criterion["name"] = criterion.get("criterion") or criterion.get("title") or criterion.get("category")
+    if not criterion.get("description"):
+        criterion["description"] = criterion.get("details") or criterion.get("descriptor") or ""
+
+    if "rubricLevels" in criterion and "rubric_levels" not in criterion:
+        criterion["rubric_levels"] = criterion["rubricLevels"]
+    if "performanceLevels" in criterion and "performance_levels" not in criterion:
+        criterion["performance_levels"] = criterion["performanceLevels"]
+    if "rubric_levels" not in criterion and "levels" not in criterion:
+        for alternative_key in ("performance_levels", "descriptors", "scale"):
+            if alternative_key in criterion:
+                criterion["rubric_levels"] = criterion[alternative_key]
+                break
+    levels = criterion.get("rubric_levels", criterion.get("levels"))
+    if isinstance(levels, list):
+        for level in levels:
+            if isinstance(level, dict) and "points" not in level:
+                points = level.get("score", level.get("value"))
+                if points is not None:
+                    level["points"] = points
+    if "maxPoints" in criterion and "max_points" not in criterion:
+        criterion["max_points"] = criterion["maxPoints"]
+    if "maxScore" in criterion and "max_score" not in criterion:
+        criterion["max_score"] = criterion["maxScore"]
+    if "max_points" not in criterion and "max_score" not in criterion:
+        for alternative_key in ("maximum", "max", "weight", "points"):
+            if alternative_key in criterion:
+                criterion["max_points"] = criterion[alternative_key]
+                break
+    if "max_points" not in criterion and "max_score" not in criterion:
+        possible_scores = []
+        if isinstance(levels, list):
+            possible_scores = [level.get("points") for level in levels if isinstance(level, dict)]
+        elif isinstance(levels, dict):
+            possible_scores = list(levels.keys())
+        try:
+            criterion["max_points"] = max(int(score) for score in possible_scores if score is not None)
+        except (TypeError, ValueError):
+            pass
+
+
+def _rubric_max_score(criterion: dict[str, Any]) -> int:
+    raw_value = criterion.get("max_points", criterion.get("max_score"))
+    try:
+        maximum = int(raw_value)
+    except (TypeError, ValueError) as error:
+        raise ValueError("Each criterion needs a positive max_points or max_score value.") from error
+    if maximum <= 0:
+        raise ValueError("Each criterion needs a positive max_points or max_score value.")
+    return maximum
+
+
+def validate_english_oral_rubric(data: Any) -> dict[str, Any]:
+    """Validate the rubric shape supported by RubricEngine before saving it."""
+    normalized = _normalise_uploaded_rubric(data)
+    criteria = normalized.get("criteria")
+    if not isinstance(criteria, list) or not criteria:
+        raise ValueError(
+            "No criteria were found. Use 'criteria', 'assessment_criteria', 'grading_criteria', "
+            "'categories', or a supported rubric wrapper."
+        )
+
+    for index, criterion in enumerate(criteria, start=1):
+        if not isinstance(criterion, dict):
+            raise ValueError(f"Criterion {index} must be a JSON object.")
+        _normalise_criterion(criterion)
+        if not str(criterion.get("name", "")).strip():
+            raise ValueError(f"Criterion {index} needs a name.")
+        maximum = _rubric_max_score(criterion)
+        if "max_points" in criterion:
+            criterion["max_points"] = maximum
+        else:
+            criterion["max_score"] = maximum
+        levels = criterion.get("rubric_levels", criterion.get("levels"))
+        if not isinstance(levels, (list, dict)) or not levels:
+            raise ValueError(f"Criterion '{criterion['name']}' needs scoring levels.")
+        if isinstance(levels, list):
+            for level in levels:
+                if not isinstance(level, dict):
+                    raise ValueError(f"Criterion '{criterion['name']}' has an invalid scoring level.")
+                try:
+                    points = int(level.get("points"))
+                except (TypeError, ValueError) as error:
+                    raise ValueError(f"Criterion '{criterion['name']}' has a level without numeric points.") from error
+                if points < 0 or points > maximum:
+                    raise ValueError(f"Criterion '{criterion['name']}' has level points outside 0-{maximum}.")
+                level["points"] = points
+        else:
+            for points in levels:
+                try:
+                    value = int(points)
+                except (TypeError, ValueError) as error:
+                    raise ValueError(f"Criterion '{criterion['name']}' has non-numeric level points.") from error
+                if value < 0 or value > maximum:
+                    raise ValueError(f"Criterion '{criterion['name']}' has level points outside 0-{maximum}.")
+    return normalized
+
+
+def save_english_oral_rubric(filename: str, contents: bytes) -> str:
+    """Save an examiner's validated English oral rubric under a portal-only name."""
+    try:
+        data = json.loads(contents.decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("Upload a UTF-8 JSON rubric file.") from error
+    rubric = validate_english_oral_rubric(data)
+    supplied_stem = Path(filename).stem
+    safe_stem = re.sub(r"[^a-z0-9]+", "_", supplied_stem.lower()).strip("_") or "custom_rubric"
+    base_name = f"{CUSTOM_ORAL_RUBRIC_PREFIX}{safe_stem}"
+    rubric_name = base_name
+    version = 2
+    while (RUBRICS_DIR / f"{rubric_name}.json").exists():
+        rubric_name = f"{base_name}_{version}"
+        version += 1
+    rubric["name"] = str(rubric.get("name") or supplied_stem or "Custom PSLE English Oral rubric").strip()
+    rubric["portal_scope"] = "psle_english_oral"
+    _write_json(RUBRICS_DIR / f"{rubric_name}.json", rubric)
+    return rubric_name
 
 
 def create_assignment(

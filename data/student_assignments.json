@@ -437,9 +437,9 @@
       "title": "PSLE English Oral Practice",
       "subject": "assignment_001_3dc126bf",
       "rubric": "psle_oral_english",
-      "status": "in_progress",
+      "status": "completed",
       "created_at": "2026-06-20T15:28:44.215625+00:00",
-      "updated_at": "2026-06-20T15:36:38.100680+00:00",
+      "updated_at": "2026-06-20T15:39:25.098325+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "image-45-1024x683.webp",
@@ -604,6 +604,424 @@
             "created_at": "2026-06-20T15:36:06.969693+00:00",
             "follow_up_response": "est"
           }
+        },
+        {
+          "result_id": "222135352249",
+          "question_id": 2,
+          "question": "Can you describe a meal you've had that included some of these foods?",
+          "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+          "student_response": "First response: i would describe i had a salmon that included vegeables such as tomatoes carrots and cucumbers\n\nResponse after examiner follow-up: i see a carrot, berries , tomato , cucumber and also a banana on the table. i think the boy seems to have a very healthy meal however i feel that he is lacking proteints or carbohydrates for ernergy , i feel that it should be a balanced diet",
+          "session_id": "4c868683",
+          "created_at": "2026-06-20T15:38:18.159121+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe a meal you've had that included some of these foods?",
+            "answer": "First response: i would describe i had a salmon that included vegeables such as tomatoes carrots and cucumbers\n\nResponse after examiner follow-up: i see a carrot, berries , tomato , cucumber and also a banana on the table. i think the boy seems to have a very healthy meal however i feel that he is lacking proteints or carbohydrates for ernergy , i feel that it should be a balanced diet",
+            "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student acknowledges the foods visible in the image and comments on the balance of the meal.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student demonstrates clear ideas with some useful reasons and examples, such as identifying the lack of proteins or carbohydrates in the meal.",
+                "evidence": "i feel that the boy seems to have a very healthy meal however i feel that he is lacking proteins or carbohydrates for energy",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary and minor errors.",
+                "evidence": "The student uses correct grammar and vocabulary to describe the foods in the image, and provides a coherent response to the examiner's follow-up question.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and builds naturally on prompts.",
+                "evidence": "The student not only acknowledges the foods in the image but also reflects on the nutritional balance of the meal and suggests improvements.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on identifying the healthy foods in the image and sharing your opinion on the balance of the meal. However, there was a mismatch in your response as you mentioned salmon and carrots, which are not visible in the picture. The area for improvement is to ensure your response directly relates to the visual stimulus provided. Remember to focus on including details from the image in your descriptions for better accuracy. For example, you could start your response with \"I can see...\" to help guide your description next time. Keep up the effort!",
+            "total_score": 19,
+            "max_score": 25,
+            "percentage": 76.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe a meal you've had that included some of these foods?",
+            "answer": "First response: i would describe i had a salmon that included vegeables such as tomatoes carrots and cucumbers\n\nResponse after examiner follow-up: i see a carrot, berries , tomato , cucumber and also a banana on the table. i think the boy seems to have a very healthy meal however i feel that he is lacking proteints or carbohydrates for ernergy , i feel that it should be a balanced diet",
+            "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student acknowledges the foods visible in the image and comments on the balance of the meal.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student demonstrates clear ideas with some useful reasons and examples, such as identifying the lack of proteins or carbohydrates in the meal.",
+                "evidence": "i feel that the boy seems to have a very healthy meal however i feel that he is lacking proteins or carbohydrates for energy",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary and minor errors.",
+                "evidence": "The student uses correct grammar and vocabulary to describe the foods in the image, and provides a coherent response to the examiner's follow-up question.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and builds naturally on prompts.",
+                "evidence": "The student not only acknowledges the foods in the image but also reflects on the nutritional balance of the meal and suggests improvements.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on identifying the healthy foods in the image and sharing your opinion on the balance of the meal. However, there was a mismatch in your response as you mentioned salmon and carrots, which are not visible in the picture. The area for improvement is to ensure your response directly relates to the visual stimulus provided. Remember to focus on including details from the image in your descriptions for better accuracy. For example, you could start your response with \"I can see...\" to help guide your description next time. Keep up the effort!",
+            "total_score": 19,
+            "max_score": 25,
+            "percentage": 76.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done on identifying the healthy foods in the image and sharing your opinion on the balance of the meal. However, there was a mismatch in your response as you mentioned salmon and carrots, which are not visible in the picture. The area for improvement is to ensure your response directly relates to the visual stimulus provided. Remember to focus on including details from the image in your descriptions for better accuracy. For example, you could start your response with \"I can see...\" to help guide your description next time. Keep up the effort!\n\nNext Speaking Move: \"I can see that there are...\"",
+          "guided_attempt": {
+            "original_response": "i would describe i had a salmon that included vegeables such as tomatoes carrots and cucumbers",
+            "follow_up_question": "Can you take another look at the image and describe some of the specific foods you see on the table?",
+            "reason": "The response lacks specific details and connection to the visual stimulus.",
+            "created_at": "2026-06-20T15:37:15.862030+00:00",
+            "follow_up_response": "i see a carrot, berries , tomato , cucumber and also a banana on the table. i think the boy seems to have a very healthy meal however i feel that he is lacking proteints or carbohydrates for ernergy , i feel that it should be a balanced diet"
+          }
+        },
+        {
+          "result_id": "a667afcc32d4",
+          "question_id": 3,
+          "question": "Why do you think having a balanced meal is important, like the one shown in the image?",
+          "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+          "student_response": "First response: i think a balanced meal is importan for our health in general. There are many health problems if we do no take care properly\n\nResponse after examiner follow-up: dl",
+          "session_id": "4c868683",
+          "created_at": "2026-06-20T15:39:24.417126+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Why do you think having a balanced meal is important, like the one shown in the image?",
+            "answer": "First response: i think a balanced meal is importan for our health in general. There are many health problems if we do no take care properly\n\nResponse after examiner follow-up: dl",
+            "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant as it mentions the importance of a balanced meal for health but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student mentions the importance of a balanced meal for health but does not directly reference any details from the image or provide a clear personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or examples.",
+                "evidence": "The student's response is short and only briefly mentions the importance of a balanced meal for health.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "i think a balanced meal is importan for our health in general. There are many health problems if we do no take care properly",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue or respond.",
+                "evidence": "The student's initial response lacks detail and coherence, requiring further prompting from the examiner.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for recognizing the importance of a balanced meal for our health. However, your response lacked specific details from the image, like the foods shown in the lunchbox. Next time, try to describe the healthy foods you see in the picture to support your point. Your answer could be stronger with more elaboration and examples to explain why balanced meals are crucial for our well-being. For instance, you could mention how different food groups provide essential nutrients for our bodies. Keep practicing, and remember to refer to the visual cues for more detailed responses.",
+            "total_score": 10,
+            "max_score": 25,
+            "percentage": 40.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Why do you think having a balanced meal is important, like the one shown in the image?",
+            "answer": "First response: i think a balanced meal is importan for our health in general. There are many health problems if we do no take care properly\n\nResponse after examiner follow-up: dl",
+            "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant as it mentions the importance of a balanced meal for health but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student mentions the importance of a balanced meal for health but does not directly reference any details from the image or provide a clear personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or examples.",
+                "evidence": "The student's response is short and only briefly mentions the importance of a balanced meal for health.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "i think a balanced meal is importan for our health in general. There are many health problems if we do no take care properly",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue or respond.",
+                "evidence": "The student's initial response lacks detail and coherence, requiring further prompting from the examiner.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for recognizing the importance of a balanced meal for our health. However, your response lacked specific details from the image, like the foods shown in the lunchbox. Next time, try to describe the healthy foods you see in the picture to support your point. Your answer could be stronger with more elaboration and examples to explain why balanced meals are crucial for our well-being. For instance, you could mention how different food groups provide essential nutrients for our bodies. Keep practicing, and remember to refer to the visual cues for more detailed responses.",
+            "total_score": 10,
+            "max_score": 25,
+            "percentage": 40.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for recognizing the importance of a balanced meal for our health. However, your response lacked specific details from the image, like the foods shown in the lunchbox. Next time, try to describe the healthy foods you see in the picture to support your point. Your answer could be stronger with more elaboration and examples to explain why balanced meals are crucial for our well-being. For instance, you could mention how different food groups provide essential nutrients for our bodies. Keep practicing, and remember to refer to the visual cues for more detailed responses.\n\nSentence Starter: \"In the image, I notice some healthy foods such as...\"",
+          "guided_attempt": {
+            "original_response": "i think a balanced meal is importan for our health in general. There are many health problems if we do no take care properly",
+            "follow_up_question": "Can you think of specific nutrients that might be found in the balanced meal shown in the image?",
+            "reason": "The response lacks specific details and needs more elaboration.",
+            "created_at": "2026-06-20T15:38:43.753495+00:00",
+            "follow_up_response": "dl"
+          }
+        }
+      ]
+    },
+    "2cc55f4c6c5e": {
+      "assignment_id": "2cc55f4c6c5e",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_001_c715e326",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-20T16:06:42.925743+00:00",
+      "updated_at": "2026-06-20T16:07:28.258672+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "image-45-1024x683.webp",
+        "path": "data\\input\\assignment_001_c715e326\\image-45-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what you see in the lunchbox and share your thoughts on why having a variety of foods might be important?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_c715e326_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox."
+        },
+        {
+          "id": 2,
+          "text": "Imagine you are preparing a lunchbox for yourself. What items would you include and why?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_c715e326_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox."
+        },
+        {
+          "id": 3,
+          "text": "Look at the drinks on the table. How do you decide what kind of beverages are good for you throughout the day?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_c715e326_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox."
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "b84a79993fbd",
+          "question_id": 1,
+          "question": "Can you describe what you see in the lunchbox and share your thoughts on why having a variety of foods might be important?",
+          "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+          "student_response": "[Skipped question]",
+          "session_id": "b75df93b",
+          "created_at": "2026-06-20T16:07:28.255190+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Can you describe what you see in the lunchbox and share your thoughts on why having a variety of foods might be important?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what you see in the lunchbox and share your thoughts on why having a variety of foods might be important?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
         }
       ]
     }

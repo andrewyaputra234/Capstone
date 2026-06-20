@@ -30,10 +30,13 @@ from exam_portal_store import (
     create_assignment,
     get_active_assignment,
     list_assignments,
+    list_english_oral_rubrics,
     list_students,
     mark_assignment_status,
     mark_reading_completed,
+    rubric_display_name,
     save_guidance_attempt,
+    save_english_oral_rubric,
 )
 from subject_manager import SubjectManager
 
@@ -64,8 +67,8 @@ for key, default in [
 
 
 def list_rubrics() -> list[str]:
-    rubric_dir = Path("data/rubrics")
-    return sorted(file.stem for file in rubric_dir.glob("*.json")) if rubric_dir.exists() else []
+    """The portal deliberately exposes only PSLE English Oral rubrics."""
+    return list_english_oral_rubrics()
 
 
 def reset_runtime_state() -> None:
@@ -233,36 +236,101 @@ def render_account_sidebar(role: str) -> None:
             logout()
 
 
+def _upload_label(upload, index: int) -> str:
+    return f"{index + 1}. {Path(upload.name).name} ({upload.size / 1024:.0f} KB)"
+
+
+def choose_uploaded_material(label: str, uploads, *, key: str, optional: bool = False):
+    if not uploads:
+        return None
+    options = list(range(len(uploads)))
+    if optional:
+        options = [None, *options]
+    selected = st.selectbox(
+        label,
+        options,
+        key=key,
+        format_func=lambda index: "No reading passage" if index is None else _upload_label(uploads[index], index),
+    )
+    return None if selected is None else uploads[selected]
+
+
+def render_custom_rubric_upload() -> None:
+    with st.expander("Add a custom English Oral rubric"):
+        st.caption(
+            "Upload a JSON rubric with one or more criteria. Each criterion needs a name, "
+            "a positive `max_points` or `max_score`, and scoring levels. Only this portal's "
+            "custom English Oral rubrics will appear in the grading selector."
+        )
+        custom_rubric = st.file_uploader(
+            "Custom English Oral rubric (.json)",
+            type=["json"],
+            key="custom_english_oral_rubric",
+        )
+        if st.button("Validate and save rubric", key="save_custom_english_oral_rubric"):
+            if not custom_rubric:
+                st.warning("Choose a JSON rubric file first.")
+                return
+            try:
+                rubric_name = save_english_oral_rubric(custom_rubric.name, custom_rubric.getvalue())
+            except ValueError as error:
+                st.error(f"The rubric was not saved: {error}")
+                return
+            st.session_state["rubric_upload_notice"] = (
+                f"Saved '{rubric_display_name(rubric_name)}'. It is now available for assignment grading."
+            )
+            st.rerun()
+
+
 def render_create_assignment() -> None:
     students = list_students()
     rubrics = list_rubrics() or [DEFAULT_PSLE_RUBRIC]
     st.subheader("Create an assessment")
-    st.caption("A picture stimulus is required. The reading-aloud passage is optional.")
+    st.caption("PSLE English Oral only. Select one picture stimulus and, if needed, one reading passage for this student.")
+    notice = st.session_state.pop("rubric_upload_notice", None)
+    if notice:
+        st.success(notice)
+    render_custom_rubric_upload()
     if not students:
         st.warning("No registered students are available. Add students to `data/users.json` first.")
         return
+
+    st.markdown("#### Choose the materials for this assignment")
+    visual_uploads = st.file_uploader(
+        "Upload one or more picture stimuli",
+        type=["png", "jpg", "jpeg", "webp"],
+        accept_multiple_files=True,
+        help="Only the picture you select below is sent to this student; the rest are not assigned.",
+        key="visual_material_uploads",
+    ) or []
+    visual_upload = choose_uploaded_material(
+        "Picture stimulus to assign", visual_uploads, key="selected_visual_material"
+    )
+    reading_uploads = st.file_uploader(
+        "Upload one or more reading passages",
+        type=["pdf", "docx", "txt"],
+        accept_multiple_files=True,
+        help="Choose one passage below, or leave it unselected. Reading is optional.",
+        key="reading_material_uploads",
+    ) or []
+    reading_upload = choose_uploaded_material(
+        "Reading passage to assign (optional)",
+        reading_uploads,
+        key="selected_reading_material",
+        optional=True,
+    )
 
     student_by_label = {f"{student['name']} ({student['id']})": student for student in students}
     with st.form("create_assignment"):
         selected_label = st.selectbox("Assign to registered student", list(student_by_label))
         title = st.text_input("Assessment title", value="PSLE English Oral Practice")
-        rubric = st.selectbox("Rubric", rubrics, index=0)
-        visual_upload = st.file_uploader(
-            "Picture stimulus (required)",
-            type=["png", "jpg", "jpeg", "webp"],
-            help="This image is used to generate up to three stimulus-based conversation questions.",
-        )
-        reading_upload = st.file_uploader(
-            "Reading passage (optional)",
-            type=["pdf", "docx", "txt"],
-            help="Students can view this before the image questions. Reading delivery is not automatically scored.",
-        )
-        submitted = st.form_submit_button("Upload and assign", type="primary", use_container_width=True)
+        rubric = st.selectbox("Grading rubric", rubrics, format_func=rubric_display_name)
+        submitted = st.form_submit_button("Assign selected materials", type="primary", use_container_width=True)
 
     if not submitted:
         return
     if not visual_upload:
-        st.error("Upload a picture stimulus before assigning the assessment.")
+        st.error("Upload and select a picture stimulus before assigning the assessment.")
         return
 
     student = student_by_label[selected_label]
