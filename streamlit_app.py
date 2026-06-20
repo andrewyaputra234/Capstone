@@ -5,6 +5,7 @@ Run with: ``streamlit run streamlit_app.py``
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shutil
@@ -39,6 +40,7 @@ from exam_portal_store import (
     save_english_oral_rubric,
 )
 from subject_manager import SubjectManager
+from voice_assessment import transcribe_streamlit_audio
 
 load_dotenv()
 
@@ -198,12 +200,141 @@ def render_recorded_response(result: dict) -> None:
     guided_attempt = result.get("guided_attempt")
     if not guided_attempt:
         st.write("**Student response:**", result.get("student_response", ""))
+        if result.get("audio_path"):
+            st.audio(result["audio_path"])
+        render_delivery_indicators(result.get("delivery_indicators"))
         return
     st.write("**First response:**", guided_attempt.get("original_response", ""))
     st.write("**Examiner's guiding question:**", guided_attempt.get("follow_up_question", ""))
     st.write("**Response after guidance:**", guided_attempt.get("follow_up_response", ""))
     if guided_attempt.get("reason"):
         st.caption(f"Guidance reason: {guided_attempt['reason']}")
+    if result.get("audio_path"):
+        st.audio(result["audio_path"])
+    render_delivery_indicators(result.get("delivery_indicators"))
+
+
+def render_delivery_indicators(indicators: dict | None) -> None:
+    if not indicators:
+        return
+    st.caption(indicators.get("disclaimer", "Automated delivery indicators are advisory only."))
+    if indicators.get("status") != "available":
+        return
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Recording", f"{indicators.get('duration_seconds', 0)}s")
+    col2.metric("Estimated pace", f"{indicators.get('words_per_minute', '—')} wpm")
+    pitch = indicators.get("pitch_range_semitones")
+    col3.metric("Pitch variation", f"{pitch} semitones" if pitch is not None else "Unavailable")
+    for note in indicators.get("notes", []):
+        st.caption(note)
+
+
+def discard_voice_preview(preview_key: str) -> None:
+    """Delete an unsubmitted recording and its transcript only from session storage."""
+    preview = st.session_state.pop(preview_key, None)
+    if not preview:
+        return
+    sessions_dir = Path("data/sessions").resolve()
+    for field in ("audio_path", "transcription_path"):
+        value = preview.get(field)
+        if not value:
+            continue
+        try:
+            path = Path(value).resolve()
+            path.relative_to(sessions_dir)
+            path.unlink(missing_ok=True)
+        except (OSError, ValueError):
+            continue
+
+
+def capture_student_response(key_suffix: str, submit_label: str) -> dict | None:
+    """Offer typing or browser microphone recording, returning text plus audio evidence."""
+    mode = st.radio(
+        "Answer using",
+        ["Type response", "Speak into microphone"],
+        horizontal=True,
+        key=f"response_mode_{key_suffix}",
+    )
+    if mode == "Type response":
+        with st.form(f"typed_response_{key_suffix}"):
+            text = st.text_area(
+                "Your response",
+                height=140,
+                placeholder="Type what you would say to the examiner.",
+            )
+            submit_col, skip_col = st.columns(2)
+            submitted = submit_col.form_submit_button(submit_label, type="primary", use_container_width=True)
+            skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
+        if not submitted and not skipped:
+            return None
+        if submitted and not text.strip():
+            st.warning("Please enter a response, record your answer, or choose Skip question.")
+            return None
+        return {"text": text.strip() if submitted else "[Skipped question]", "skipped": skipped, "mode": "text"}
+
+    if not hasattr(st, "audio_input"):
+        st.error("Microphone answers require a newer Streamlit version with browser audio input.")
+        return None
+    st.caption("Record in the browser, transcribe it, then review the captured text before sending it for grading.")
+    recording = st.audio_input("Record your answer", key=f"voice_response_{key_suffix}")
+    preview_key = f"voice_preview_{key_suffix}"
+    recording_fingerprint = None
+    if recording:
+        st.audio(recording)
+        recording_fingerprint = hashlib.sha256(recording.getvalue()).hexdigest()
+
+    preview = st.session_state.get(preview_key)
+    if preview and preview.get("fingerprint") != recording_fingerprint:
+        # A fresh recording must be transcribed before it can replace the prior preview.
+        discard_voice_preview(preview_key)
+        preview = None
+
+    if not preview:
+        transcribe_col, skip_col = st.columns(2)
+        transcribe = transcribe_col.button(
+            "Transcribe recording", type="primary", use_container_width=True, key=f"transcribe_voice_{key_suffix}"
+        )
+        skipped = skip_col.button("Skip question", use_container_width=True, key=f"skip_voice_{key_suffix}")
+        if skipped:
+            return {"text": "[Skipped question]", "skipped": True, "mode": "voice"}
+        if not transcribe:
+            return None
+        if not recording:
+            st.warning("Record an answer before transcribing it.")
+            return None
+        try:
+            with st.spinner("Transcribing your recording..."):
+                voice = transcribe_streamlit_audio(recording)
+        except Exception as error:
+            st.error(f"Your recording could not be transcribed: {error}")
+            return None
+        st.session_state[preview_key] = {"fingerprint": recording_fingerprint, **voice}
+        st.rerun()
+
+    st.success("Check the transcript before submitting it for grading.")
+    st.text_area(
+        "What the system heard",
+        value=preview["text"],
+        height=120,
+        disabled=True,
+        key=f"transcript_preview_{key_suffix}",
+    )
+    render_delivery_indicators(preview.get("delivery_indicators"))
+    use_col, retry_col, skip_col = st.columns(3)
+    use_transcript = use_col.button(submit_label, type="primary", use_container_width=True, key=f"use_voice_{key_suffix}")
+    retry = retry_col.button("Record again", use_container_width=True, key=f"retry_voice_{key_suffix}")
+    skipped = skip_col.button("Skip question", use_container_width=True, key=f"skip_review_voice_{key_suffix}")
+    if retry:
+        discard_voice_preview(preview_key)
+        st.info("Record a replacement answer, then choose Transcribe recording again.")
+        return None
+    if skipped:
+        discard_voice_preview(preview_key)
+        return {"text": "[Skipped question]", "skipped": True, "mode": "voice"}
+    if not use_transcript:
+        return None
+    st.session_state.pop(preview_key, None)
+    return {"text": preview["text"], "skipped": False, **preview}
 
 
 def render_login() -> None:
@@ -595,47 +726,27 @@ def render_student_assessment(assignment: dict) -> None:
     if guidance:
         st.info("Your examiner has given one guiding question. Use it to improve your answer; there will not be another prompt for this item.")
         st.write(f"**Examiner:** {guidance.get('follow_up_question', '')}")
-        with st.form(f"follow_up_{assignment['assignment_id']}_{question_id}"):
-            follow_up_response = st.text_area(
-                "Your response to the guiding question",
-                height=140,
-                placeholder="Look at the picture again, then answer the examiner's question.",
-            )
-            submit_col, skip_col = st.columns(2)
-            submitted = submit_col.form_submit_button("Submit final response", type="primary", use_container_width=True)
-            skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
-
-        if not submitted and not skipped:
+        captured = capture_student_response(
+            f"follow_up_{assignment['assignment_id']}_{question_id}", "Submit final response"
+        )
+        if not captured:
             return
-        if submitted and not follow_up_response.strip():
-            st.warning("Please enter a response, or choose Skip question.")
-            return
-
-        follow_up_answer = follow_up_response.strip() if submitted else "[No response after guidance]"
+        skipped = captured["skipped"]
+        follow_up_answer = captured["text"] if not skipped else "[No response after guidance]"
         answer_for_grading = combined_guided_response(guidance, follow_up_answer)
         grading_context = json.dumps({"examiner_guidance": guidance}, indent=2)
     else:
-        with st.form(f"response_{assignment['assignment_id']}_{question_id}"):
-            response = st.text_area(
-                "Your response",
-                height=140,
-                placeholder="Type what you would say to the examiner.",
-            )
-            submit_col, skip_col = st.columns(2)
-            submitted = submit_col.form_submit_button("Submit response", type="primary", use_container_width=True)
-            skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
-
-        if not submitted and not skipped:
+        captured = capture_student_response(
+            f"response_{assignment['assignment_id']}_{question_id}", "Submit response"
+        )
+        if not captured:
             return
-        if submitted and not response.strip():
-            st.warning("Please enter a response, or choose Skip question.")
-            return
-
-        if submitted:
+        skipped = captured["skipped"]
+        if not skipped:
             with st.spinner("Examiner is checking whether this answer can be graded..."):
                 decision = crew.evaluate_oral_turn(
                     question=assessment_question_with_visual_context(question),
-                    student_response=response.strip(),
+                    student_response=captured["text"],
                     attempt_number=1,
                     max_attempts=2,
                 )
@@ -644,7 +755,7 @@ def render_student_assessment(assignment: dict) -> None:
                     save_guidance_attempt(
                         assignment["assignment_id"],
                         question=question,
-                        original_response=response.strip(),
+                        original_response=captured["text"],
                         follow_up_question=decision.get("examiner_reply") or (
                             "What is one detail you can see in the picture that helps answer the question?"
                         ),
@@ -655,7 +766,7 @@ def render_student_assessment(assignment: dict) -> None:
                     return
                 st.rerun()
             follow_up_answer = None
-            answer_for_grading = response.strip()
+            answer_for_grading = captured["text"]
             grading_context = None
         else:
             follow_up_answer = None
@@ -671,6 +782,9 @@ def render_student_assessment(assignment: dict) -> None:
                 visual_context=question.get("visual_context"),
                 save_to_session=True,
                 skipped=skipped,
+                audio_path=captured.get("audio_path"),
+                transcription_path=captured.get("transcription_path"),
+                delivery_indicators=captured.get("delivery_indicators"),
             )
             add_assessment_result(
                 assignment["assignment_id"],
@@ -681,6 +795,10 @@ def render_student_assessment(assignment: dict) -> None:
                 crew_analysis=workflow.get("crew_analysis", ""),
                 skipped=skipped,
                 follow_up_response=follow_up_answer,
+                response_mode=captured.get("mode", "text"),
+                audio_path=captured.get("audio_path"),
+                transcription_path=captured.get("transcription_path"),
+                delivery_indicators=captured.get("delivery_indicators"),
             )
         except Exception as error:
             st.error(f"Your response was not saved: {error}")

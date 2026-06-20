@@ -482,6 +482,9 @@ class EducationCrew:
         visual_context: Optional[str] = None,
         save_to_session: bool = True,
         skipped: bool = False,
+        audio_path: Optional[str] = None,
+        transcription_path: Optional[str] = None,
+        delivery_indicators: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
         Hybrid assessment: Agent A5 rubric grading + CrewAI enrichment.
@@ -522,6 +525,8 @@ class EducationCrew:
             self.session_manager.add_turn(
                 speaker="student",
                 text=student_response,
+                audio_path=audio_path,
+                transcription_path=transcription_path,
                 metadata={"status": "skipped"} if is_skipped else None,
             )
             q_num = len(self.session_manager.current_session.scores or []) + 1
@@ -536,6 +541,9 @@ class EducationCrew:
                 "question": question,
                 "visual_context": visual_context,
                 "student_response": student_response,
+                "audio_path": audio_path,
+                "transcription_path": transcription_path,
+                "delivery_indicators": delivery_indicators,
                 "skipped": True,
                 "grading_result": grading_result,
                 "crew_analysis": (
@@ -605,6 +613,9 @@ class EducationCrew:
             "question": question,
             "visual_context": visual_context,
             "student_response": student_response,
+            "audio_path": audio_path,
+            "transcription_path": transcription_path,
+            "delivery_indicators": delivery_indicators,
             "skipped": False,
             "grading_result": grading_result,
             "crew_analysis": crew_output,

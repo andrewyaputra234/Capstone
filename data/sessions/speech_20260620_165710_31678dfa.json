@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260620_165710_31678dfa.wav",
+  "transcript": "I see that there's an orange juice on the table. What kind of beverages I think are good throughout the day is a balanced meal. So a beverage that I would not suggest is actually sweet drinks. I would suggest a healthier drink like a fruit juice or even plain water is fine.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 20.2,
+    "words_per_minute": 157.7,
+    "pitch_range_semitones": 16.1,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-20T16:57:23.246197+00:00"
+}

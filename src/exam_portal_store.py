@@ -498,6 +498,10 @@ def add_assessment_result(
     crew_analysis: str = "",
     skipped: bool = False,
     follow_up_response: str | None = None,
+    response_mode: str = "text",
+    audio_path: str | None = None,
+    transcription_path: str | None = None,
+    delivery_indicators: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     question_id = str(question.get("id", ""))
     result = {
@@ -506,6 +510,10 @@ def add_assessment_result(
         "question": question.get("text", ""),
         "visual_context": question.get("visual_context"),
         "student_response": student_response,
+        "response_mode": response_mode,
+        "audio_path": audio_path,
+        "transcription_path": transcription_path,
+        "delivery_indicators": copy.deepcopy(delivery_indicators) if delivery_indicators else None,
         "session_id": session_id,
         "created_at": _now(),
         "skipped": skipped,

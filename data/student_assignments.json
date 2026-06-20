@@ -860,9 +860,9 @@
       "title": "PSLE English Oral Practice",
       "subject": "assignment_001_c715e326",
       "rubric": "psle_oral_english",
-      "status": "in_progress",
+      "status": "completed",
       "created_at": "2026-06-20T16:06:42.925743+00:00",
-      "updated_at": "2026-06-20T16:07:28.258672+00:00",
+      "updated_at": "2026-06-20T17:01:34.913182+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "image-45-1024x683.webp",
@@ -1022,6 +1022,266 @@
           },
           "examiner_review": null,
           "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "5dd6a86554a4",
+          "question_id": 2,
+          "question": "Imagine you are preparing a lunchbox for yourself. What items would you include and why?",
+          "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+          "student_response": "I would prepare an apple, a banana, some meat like pork bacon ribs and eggs.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260620_162609_3aa1b6e1.wav",
+          "transcription_path": "data\\sessions\\speech_20260620_162609_3aa1b6e1.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 17.0,
+            "words_per_minute": 52.8,
+            "pitch_range_semitones": 14.1,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "c39adddd",
+          "created_at": "2026-06-20T16:26:43.685280+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Imagine you are preparing a lunchbox for yourself. What items would you include and why?",
+            "answer": "I would prepare an apple, a banana, some meat like pork bacon ribs and eggs.",
+            "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response includes some relevant details like mentioning a banana, but lacks direct reference to the specific items in the stimulus. More connection to the visual details and a clearer personal viewpoint would strengthen the response.",
+                "evidence": "The student mentions including an apple and a banana in their lunchbox.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides basic ideas but lacks elaboration or reasons for the choices.",
+                "evidence": "The student mentions including an apple, a banana, pork bacon ribs, and eggs in their lunchbox.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+                "evidence": "The student's answer includes basic vocabulary and is somewhat clear, but the grammar errors affect the overall clarity.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's answer needs repeated support to align with the prompt about preparing a lunchbox.",
+                "evidence": "The student's response does not align with the prompt as it includes items like pork bacon ribs and eggs, which were not seen in the visual stimulus of the lunchbox.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for including an apple and a banana in your lunchbox, showing good variety in your choices. However, there was a mismatch with the visual stimulus as you mentioned pork bacon ribs and eggs which were not seen in the image. In the future, try to connect your response more directly to the items in the prompt to make your answer more relevant. Remember to provide more details and reasons for your choices to strengthen your idea development. For example, you could say, \"I would include pork bacon ribs for protein and eggs for a source of energy.\" Keep practicing to improve your spoken language use and aim for clearer grammar and vocabulary. Let's work on aligning your responses more closely with the given prompts next time.",
+            "total_score": 14,
+            "max_score": 25,
+            "percentage": 56.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Imagine you are preparing a lunchbox for yourself. What items would you include and why?",
+            "answer": "I would prepare an apple, a banana, some meat like pork bacon ribs and eggs.",
+            "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response includes some relevant details like mentioning a banana, but lacks direct reference to the specific items in the stimulus. More connection to the visual details and a clearer personal viewpoint would strengthen the response.",
+                "evidence": "The student mentions including an apple and a banana in their lunchbox.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides basic ideas but lacks elaboration or reasons for the choices.",
+                "evidence": "The student mentions including an apple, a banana, pork bacon ribs, and eggs in their lunchbox.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+                "evidence": "The student's answer includes basic vocabulary and is somewhat clear, but the grammar errors affect the overall clarity.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's answer needs repeated support to align with the prompt about preparing a lunchbox.",
+                "evidence": "The student's response does not align with the prompt as it includes items like pork bacon ribs and eggs, which were not seen in the visual stimulus of the lunchbox.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for including an apple and a banana in your lunchbox, showing good variety in your choices. However, there was a mismatch with the visual stimulus as you mentioned pork bacon ribs and eggs which were not seen in the image. In the future, try to connect your response more directly to the items in the prompt to make your answer more relevant. Remember to provide more details and reasons for your choices to strengthen your idea development. For example, you could say, \"I would include pork bacon ribs for protein and eggs for a source of energy.\" Keep practicing to improve your spoken language use and aim for clearer grammar and vocabulary. Let's work on aligning your responses more closely with the given prompts next time.",
+            "total_score": 14,
+            "max_score": 25,
+            "percentage": 56.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for including an apple and a banana in your lunchbox, showing good variety in your choices. However, there was a mismatch with the visual stimulus as you mentioned pork bacon ribs and eggs which were not seen in the image. In the future, try to connect your response more directly to the items in the prompt to make your answer more relevant. Remember to provide more details and reasons for your choices to strengthen your idea development. For example, you could say, \"I would include pork bacon ribs for protein and eggs for a source of energy.\" Keep practicing to improve your spoken language use and aim for clearer grammar and vocabulary. Let's work on aligning your responses more closely with the given prompts next time.\n\nSentence Starter for Next Attempt: \"In my lunchbox, I would choose pork bacon ribs because...\"\n\nEncouragement: You're on the right track by considering different fruits for your lunchbox! Let's try to connect your choices more closely to the items in the visual stimulus next time and provide reasons for each item to make your response even stronger. Keep practicing, and you'll improve your spoken language clarity and confidence in no time!"
+        },
+        {
+          "result_id": "b8d535aa8b09",
+          "question_id": 3,
+          "question": "Look at the drinks on the table. How do you decide what kind of beverages are good for you throughout the day?",
+          "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+          "student_response": "I see that there's an orange juice on the table. What kind of beverages I think are good throughout the day is a balanced meal. So a beverage that I would not suggest is actually sweet drinks. I would suggest a healthier drink like a fruit juice or even plain water is fine.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260620_165710_31678dfa.wav",
+          "transcription_path": "data\\sessions\\speech_20260620_165710_31678dfa.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 20.2,
+            "words_per_minute": 157.7,
+            "pitch_range_semitones": 16.1,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "b1e00c90",
+          "created_at": "2026-06-20T17:01:34.161117+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Look at the drinks on the table. How do you decide what kind of beverages are good for you throughout the day?",
+            "answer": "I see that there's an orange juice on the table. What kind of beverages I think are good throughout the day is a balanced meal. So a beverage that I would not suggest is actually sweet drinks. I would suggest a healthier drink like a fruit juice or even plain water is fine.",
+            "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant to the prompt, mentioning the orange juice on the table and suggesting healthier drink choices like fruit juice or water.",
+                "evidence": "The student acknowledges the presence of orange juice on the table and recommends healthier drink options like fruit juice or water.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer demonstrates clear ideas with some useful reasons and examples, such as suggesting a balanced meal and healthier drink choices like fruit juice or water.",
+                "evidence": "The student mentions the importance of a balanced meal and suggests avoiding sweet drinks in favor of healthier options like fruit juice or plain water.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary and minor errors.",
+                "evidence": "The student uses appropriate vocabulary and grammar to explain their preference for healthier drinks like fruit juice or water.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and builds naturally on prompts by discussing the importance of choosing healthier beverages like fruit juice or water.",
+                "evidence": "I would suggest a healthier drink like a fruit juice or even plain water is fine.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job on staying relevant to the prompt and discussing the importance of choosing healthier beverages like fruit juice or water. However, there was a mismatch with the visual stimulus facts as there was no orange juice on the table. To improve, focus on providing more specific examples to support your ideas and remember to stick closely to the details in the stimulus. Next time, you could start with \"I believe that a balanced meal includes...\" to further develop your ideas. Keep up the good work!",
+            "total_score": 19,
+            "max_score": 25,
+            "percentage": 76.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Look at the drinks on the table. How do you decide what kind of beverages are good for you throughout the day?",
+            "answer": "I see that there's an orange juice on the table. What kind of beverages I think are good throughout the day is a balanced meal. So a beverage that I would not suggest is actually sweet drinks. I would suggest a healthier drink like a fruit juice or even plain water is fine.",
+            "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant to the prompt, mentioning the orange juice on the table and suggesting healthier drink choices like fruit juice or water.",
+                "evidence": "The student acknowledges the presence of orange juice on the table and recommends healthier drink options like fruit juice or water.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer demonstrates clear ideas with some useful reasons and examples, such as suggesting a balanced meal and healthier drink choices like fruit juice or water.",
+                "evidence": "The student mentions the importance of a balanced meal and suggests avoiding sweet drinks in favor of healthier options like fruit juice or plain water.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary and minor errors.",
+                "evidence": "The student uses appropriate vocabulary and grammar to explain their preference for healthier drinks like fruit juice or water.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and builds naturally on prompts by discussing the importance of choosing healthier beverages like fruit juice or water.",
+                "evidence": "I would suggest a healthier drink like a fruit juice or even plain water is fine.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job on staying relevant to the prompt and discussing the importance of choosing healthier beverages like fruit juice or water. However, there was a mismatch with the visual stimulus facts as there was no orange juice on the table. To improve, focus on providing more specific examples to support your ideas and remember to stick closely to the details in the stimulus. Next time, you could start with \"I believe that a balanced meal includes...\" to further develop your ideas. Keep up the good work!",
+            "total_score": 19,
+            "max_score": 25,
+            "percentage": 76.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great job on staying relevant to the prompt and discussing the importance of choosing healthier beverages like fruit juice or water. However, there was a mismatch with the visual stimulus facts as there was no orange juice on the table. To improve, focus on providing more specific examples to support your ideas and remember to stick closely to the details in the stimulus. Next time, you could start with \"I believe that a balanced meal includes...\" to further develop your ideas. Keep up the good work! Remember, details matter, so make sure to refer closely to the visual stimulus in your response. How can you ensure that your beverages complement the nutrients in your meal? This question can help you deepen your explanation and offer more specific insights. Well done, and keep practicing!"
         }
       ]
     }

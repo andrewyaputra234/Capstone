@@ -1,0 +1,95 @@
+{
+  "session_id": "c39adddd",
+  "paper_id": "assignment_001_c715e326",
+  "student_id": "001",
+  "date_created": "2026-06-21T00:25:04.747008",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-21T00:26:36.193269",
+      "speaker": "avatar",
+      "text": "Imagine you are preparing a lunchbox for yourself. What items would you include and why?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-21T00:26:36.207656",
+      "speaker": "student",
+      "text": "I would prepare an apple, a banana, some meat like pork bacon ribs and eggs.",
+      "audio_path": "data\\sessions\\speech_20260620_162609_3aa1b6e1.wav",
+      "transcription_path": "data\\sessions\\speech_20260620_162609_3aa1b6e1.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Imagine you are preparing a lunchbox for yourself. What items would you include and why?",
+        "answer": "I would prepare an apple, a banana, some meat like pork bacon ribs and eggs.",
+        "visual_context": "The image shows a young boy sitting at a table with a blue lunchbox in front of him. The lunchbox is open, revealing compartments filled with slices of avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. There is a banana and a bottle of yellow juice on the table. An orange and some food containers can also be seen on the side. The boy is wearing glasses, a light blue shirt, and a vest. He appears to be looking at the lunchbox.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The response includes some relevant details like mentioning a banana, but lacks direct reference to the specific items in the stimulus. More connection to the visual details and a clearer personal viewpoint would strengthen the response.",
+            "evidence": "The student mentions including an apple and a banana in their lunchbox.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides basic ideas but lacks elaboration or reasons for the choices.",
+            "evidence": "The student mentions including an apple, a banana, pork bacon ribs, and eggs in their lunchbox.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+            "evidence": "The student's answer includes basic vocabulary and is somewhat clear, but the grammar errors affect the overall clarity.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 1,
+            "max_score": 3,
+            "feedback": "The student's answer needs repeated support to align with the prompt about preparing a lunchbox.",
+            "evidence": "The student's response does not align with the prompt as it includes items like pork bacon ribs and eggs, which were not seen in the visual stimulus of the lunchbox.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for including an apple and a banana in your lunchbox, showing good variety in your choices. However, there was a mismatch with the visual stimulus as you mentioned pork bacon ribs and eggs which were not seen in the image. In the future, try to connect your response more directly to the items in the prompt to make your answer more relevant. Remember to provide more details and reasons for your choices to strengthen your idea development. For example, you could say, \"I would include pork bacon ribs for protein and eggs for a source of energy.\" Keep practicing to improve your spoken language use and aim for clearer grammar and vocabulary. Let's work on aligning your responses more closely with the given prompts next time.",
+        "total_score": 14,
+        "max_score": 25,
+        "percentage": 56.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-06-21T00:25:04.758566",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "2cc55f4c6c5e",
+    "component": "student_assessment",
+    "subject": "assignment_001_c715e326",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

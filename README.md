@@ -31,6 +31,8 @@ Use this app for the current split oral workflow: optional picture stimulus uplo
 5. The student logs in, completes the optional reading passage and the image questions, and receives the AI result. If an initial image answer is clearly too weak or unrelated, the AI examiner gives one focused guiding question before the final grade.
 6. The examiner opens **Results and review** to see both the original AI grade and the final verified grade. Criterion-level changes do not overwrite the AI record.
 
+Students can choose **Type response** or **Speak into microphone** for each image question. A spoken answer is transcribed and the recording is available to the examiner with advisory pace/pitch indicators. These indicators are not a pronunciation, accent, emotion, or official oral-exam score.
+
 The local register is [`data/users.json`](data/users.json). Add a student there before trying to assign an assessment. This is a local prototype login, not production authentication.
 
 ### 1. Load a Document
