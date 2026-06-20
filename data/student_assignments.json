@@ -24,9 +24,9 @@
       "title": "PSLE English Oral Practice",
       "subject": "assignment_001_13dc03dc",
       "rubric": "psle_oral_english",
-      "status": "in_progress",
+      "status": "completed",
       "created_at": "2026-06-20T05:42:52.427206+00:00",
-      "updated_at": "2026-06-20T05:44:22.952091+00:00",
+      "updated_at": "2026-06-20T15:33:50.712447+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "image-45-1024x683.webp",
@@ -144,7 +144,7 @@
               },
               {
                 "criterion": "Stimulus Response Relevance",
-                "score": 0,
+                "score": 4,
                 "max_score": 8,
                 "feedback": "The answer provided does not address the prompt or show any relevance to the visual stimulus.",
                 "evidence": "The student's response of 'dinosaur' does not relate to the types of food in the lunchbox or express any personal opinion.",
@@ -160,7 +160,7 @@
               },
               {
                 "criterion": "Spoken Language Use",
-                "score": 0,
+                "score": 2,
                 "max_score": 6,
                 "feedback": "The student's answer does not provide any usable spoken language evidence related to the lunchbox contents.",
                 "evidence": "dinosaur",
@@ -176,13 +176,434 @@
               }
             ],
             "tutoring_feedback": "Well done for confidently sharing your thoughts with me. However, I noticed that your answer of 'dinosaur' doesn't match the types of food in the lunchbox. Remember, it's important to pay attention to the details in the picture. In the future, try to describe the food you see and share whether you like them. For example, you could start with \"I see fresh vegetables and fruits in the lunchbox, and I enjoy eating...\" Keep up the effort in paying attention to details and expressing your opinions clearly.",
-            "total_score": 2,
+            "total_score": 8,
             "max_score": 25,
-            "percentage": 8.0,
+            "percentage": 32.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-06-20T15:33:50.712431+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 4,
+              "Idea Development": 2,
+              "Spoken Language Use": 2,
+              "Interaction And Confidence": 0
+            }
+          },
+          "crew_analysis": "Well done for confidently sharing your thoughts with me. However, I noticed that your answer of 'dinosaur' doesn't match the types of food in the lunchbox. Remember, it's important to pay attention to the details in the picture. In the future, try to describe the food you see and share whether you like them. For example, you could start with \"I see fresh vegetables and fruits in the lunchbox, and I enjoy eating...\" Keep up the effort in paying attention to details and expressing your opinions clearly. Can you tell me more about the different types of food you see in the lunchbox? You could start by describing some of the fruits and vegetables. Well done for sharing your thoughts with me! Let's try to pay closer attention to the details in the picture next time and describe the food you see. Keep up the effort in expressing your opinions clearly and elaborating on your ideas."
+        },
+        {
+          "result_id": "a3c3de56c715",
+          "question_id": 2,
+          "question": "Why do you think it’s important to have a variety of fruits and vegetables in a meal?",
+          "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+          "student_response": "yes i think it is very important",
+          "session_id": "348bfafc",
+          "created_at": "2026-06-20T05:46:23.945516+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Why do you think it’s important to have a variety of fruits and vegetables in a meal?",
+            "answer": "yes i think it is very important",
+            "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The response is limited in relevance and lacks specific details from the stimulus.",
+                "evidence": "The student simply states 'yes i think it is very important' without providing any specific details or reasons from the image.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or examples.",
+                "evidence": "yes i think it is very important",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's answer lacks detail and clarity, with limited vocabulary and no explanation provided.",
+                "evidence": "yes i think it is very important",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's answer lacks depth and does not provide a clear explanation. They need more support to elaborate on their thoughts.",
+                "evidence": "The student simply states 'yes i think it is very important.'",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your participation in the discussion. However, your response lacks detail and does not directly address the variety of fruits and vegetables in the image. Next time, try to provide specific examples or reasons to support your answer. For instance, you could say, \"It is important to have a variety of fruits and vegetables in a meal because they provide essential vitamins and nutrients for our bodies.\" Keep practicing to improve your explanation skills and connect your responses to the stimulus provided.",
+            "total_score": 6,
+            "max_score": 25,
+            "percentage": 24.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Why do you think it’s important to have a variety of fruits and vegetables in a meal?",
+            "answer": "yes i think it is very important",
+            "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The response is limited in relevance and lacks specific details from the stimulus.",
+                "evidence": "The student simply states 'yes i think it is very important' without providing any specific details or reasons from the image.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or examples.",
+                "evidence": "yes i think it is very important",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's answer lacks detail and clarity, with limited vocabulary and no explanation provided.",
+                "evidence": "yes i think it is very important",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's answer lacks depth and does not provide a clear explanation. They need more support to elaborate on their thoughts.",
+                "evidence": "The student simply states 'yes i think it is very important.'",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your participation in the discussion. However, your response lacks detail and does not directly address the variety of fruits and vegetables in the image. Next time, try to provide specific examples or reasons to support your answer. For instance, you could say, \"It is important to have a variety of fruits and vegetables in a meal because they provide essential vitamins and nutrients for our bodies.\" Keep practicing to improve your explanation skills and connect your responses to the stimulus provided.",
+            "total_score": 6,
+            "max_score": 25,
+            "percentage": 24.0,
             "scoring_source": "ai"
           },
           "examiner_review": null,
-          "crew_analysis": "Well done for confidently sharing your thoughts with me. However, I noticed that your answer of 'dinosaur' doesn't match the types of food in the lunchbox. Remember, it's important to pay attention to the details in the picture. In the future, try to describe the food you see and share whether you like them. For example, you could start with \"I see fresh vegetables and fruits in the lunchbox, and I enjoy eating...\" Keep up the effort in paying attention to details and expressing your opinions clearly. Can you tell me more about the different types of food you see in the lunchbox? You could start by describing some of the fruits and vegetables. Well done for sharing your thoughts with me! Let's try to pay closer attention to the details in the picture next time and describe the food you see. Keep up the effort in expressing your opinions clearly and elaborating on your ideas."
+          "crew_analysis": "I appreciate your participation in the discussion. However, your response lacks detail and does not directly address the variety of fruits and vegetables in the image. Next time, try to provide specific examples or reasons to support your answer. For instance, you could say, \"It is important to have a variety of fruits and vegetables in a meal because they provide essential vitamins and nutrients for our bodies.\" Keep practicing to improve your explanation skills and connect your responses to the stimulus provided.\n\nSentence Starter: \"In the image, I noticed a variety of fruits and vegetables such as ____. These are important because...\""
+        },
+        {
+          "result_id": "da3bde1ae53d",
+          "question_id": 3,
+          "question": "What do you think about the drinks available on the table? Which one would you choose and why?",
+          "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+          "student_response": "[Skipped question]",
+          "session_id": "348bfafc",
+          "created_at": "2026-06-20T05:46:36.786647+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "What do you think about the drinks available on the table? Which one would you choose and why?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "What do you think about the drinks available on the table? Which one would you choose and why?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy sitting at a table with a white and blue lunchbox in front of him. The lunchbox contains a variety of fresh vegetables and fruits, including sliced cucumbers, red bell pepper strips, cherry tomatoes, avocado slices, and black olives. Next to the lunchbox, a banana is placed on the table. There are also several drinks visible, including bottles of orange juice and soda. An orange can be seen on the table nearby. The boy is wearing glasses and is dressed in a formal shirt and vest.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ]
+    },
+    "ed3ae0cf193f": {
+      "assignment_id": "ed3ae0cf193f",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_001_3dc126bf",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-20T15:28:44.215625+00:00",
+      "updated_at": "2026-06-20T15:36:38.100680+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "image-45-1024x683.webp",
+        "path": "data\\input\\assignment_001_3dc126bf\\image-45-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think about the variety of foods in the boy's lunchbox?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_3dc126bf_images\\page_1.webp",
+          "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present."
+        },
+        {
+          "id": 2,
+          "text": "Can you describe a meal you've had that included some of these foods?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_3dc126bf_images\\page_1.webp",
+          "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present."
+        },
+        {
+          "id": 3,
+          "text": "Why do you think having a balanced meal is important, like the one shown in the image?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_3dc126bf_images\\page_1.webp",
+          "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present."
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "ea3d6b6222cd",
+          "question_id": 1,
+          "question": "What do you think about the variety of foods in the boy's lunchbox?",
+          "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+          "student_response": "First response: dinosaur\n\nResponse after examiner follow-up: est",
+          "session_id": "4c868683",
+          "created_at": "2026-06-20T15:36:38.097986+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What do you think about the variety of foods in the boy's lunchbox?",
+            "answer": "First response: dinosaur\n\nResponse after examiner follow-up: est",
+            "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's response does not provide a meaningful answer to the prompt about the variety of foods in the boy's lunchbox.",
+                "evidence": "First response: dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks development or elaboration.",
+                "evidence": "The student's response consists of only one or two words.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response lacks clarity and relevant content, with limited vocabulary use.",
+                "evidence": "First response: dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's response does not demonstrate any meaningful interaction or engagement with the assessment question.",
+                "evidence": "The student's responses of 'dinosaur' and 'est' do not address the variety of foods in the boy's lunchbox.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for attempting the question. I can see that you tried to give a response, which shows your willingness to participate. However, your answer of 'dinosaur' does not match the variety of foods in the lunchbox shown in the picture. Next time, try to focus on the details in the image and provide a relevant response. Remember to use more words to develop your ideas and give a clear explanation. For example, you could start with, \"I see a variety of healthy foods in the boy's lunchbox, such as...\" Keep practicing to improve your ability to respond accurately to the given stimulus.",
+            "total_score": 3,
+            "max_score": 25,
+            "percentage": 12.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What do you think about the variety of foods in the boy's lunchbox?",
+            "answer": "First response: dinosaur\n\nResponse after examiner follow-up: est",
+            "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's response does not provide a meaningful answer to the prompt about the variety of foods in the boy's lunchbox.",
+                "evidence": "First response: dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks development or elaboration.",
+                "evidence": "The student's response consists of only one or two words.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response lacks clarity and relevant content, with limited vocabulary use.",
+                "evidence": "First response: dinosaur",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's response does not demonstrate any meaningful interaction or engagement with the assessment question.",
+                "evidence": "The student's responses of 'dinosaur' and 'est' do not address the variety of foods in the boy's lunchbox.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for attempting the question. I can see that you tried to give a response, which shows your willingness to participate. However, your answer of 'dinosaur' does not match the variety of foods in the lunchbox shown in the picture. Next time, try to focus on the details in the image and provide a relevant response. Remember to use more words to develop your ideas and give a clear explanation. For example, you could start with, \"I see a variety of healthy foods in the boy's lunchbox, such as...\" Keep practicing to improve your ability to respond accurately to the given stimulus.",
+            "total_score": 3,
+            "max_score": 25,
+            "percentage": 12.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for attempting the question. I can see that you tried to give a response, which shows your willingness to participate. However, your answer of 'dinosaur' does not match the variety of foods in the lunchbox shown in the picture. Next time, try to focus on the details in the image and provide a relevant response. Remember to use more words to develop your ideas and give a clear explanation. For example, you could start with, \"I see a variety of healthy foods in the boy's lunchbox, such as...\" Keep practicing to improve your ability to respond accurately to the given stimulus.\n\nSentence Starter: \"I notice a diverse range of nutritious foods in the boy's lunchbox, such as...\"",
+          "guided_attempt": {
+            "original_response": "dinosaur",
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-20T15:36:06.969693+00:00",
+            "follow_up_response": "est"
+          }
         }
       ]
     }

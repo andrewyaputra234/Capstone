@@ -1,0 +1,95 @@
+{
+  "session_id": "4c868683",
+  "paper_id": "assignment_001_3dc126bf",
+  "student_id": "001",
+  "date_created": "2026-06-20T23:35:59.702002",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-20T23:36:32.745179",
+      "speaker": "avatar",
+      "text": "What do you think about the variety of foods in the boy's lunchbox?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-20T23:36:32.761099",
+      "speaker": "student",
+      "text": "First response: dinosaur\n\nResponse after examiner follow-up: est",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you think about the variety of foods in the boy's lunchbox?",
+        "answer": "First response: dinosaur\n\nResponse after examiner follow-up: est",
+        "visual_context": "The image shows a young boy wearing glasses and dressed in a light blue shirt with a dark vest, sitting at a wooden table. In front of him is an open lunchbox with sections containing sliced cucumbers, bell peppers, cherry tomatoes, avocados, and olives. There is also a banana on the table and various drinks, including a yellow bottle. An orange and some packaged snacks can also be seen. Another person's hand is visible, suggesting a setting where more than one person is present.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "The student's response does not provide a meaningful answer to the prompt about the variety of foods in the boy's lunchbox.",
+            "evidence": "First response: dinosaur",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The answer is very brief and lacks development or elaboration.",
+            "evidence": "The student's response consists of only one or two words.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 1,
+            "max_score": 6,
+            "feedback": "The student's response lacks clarity and relevant content, with limited vocabulary use.",
+            "evidence": "First response: dinosaur",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "The student's response does not demonstrate any meaningful interaction or engagement with the assessment question.",
+            "evidence": "The student's responses of 'dinosaur' and 'est' do not address the variety of foods in the boy's lunchbox.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for attempting the question. I can see that you tried to give a response, which shows your willingness to participate. However, your answer of 'dinosaur' does not match the variety of foods in the lunchbox shown in the picture. Next time, try to focus on the details in the image and provide a relevant response. Remember to use more words to develop your ideas and give a clear explanation. For example, you could start with, \"I see a variety of healthy foods in the boy's lunchbox, such as...\" Keep practicing to improve your ability to respond accurately to the given stimulus.",
+        "total_score": 3,
+        "max_score": 25,
+        "percentage": 12.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-06-20T23:35:59.714215",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "ed3ae0cf193f",
+    "component": "student_assessment",
+    "subject": "assignment_001_3dc126bf",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

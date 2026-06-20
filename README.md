@@ -27,7 +27,7 @@ Use this app for the current split oral workflow: optional picture stimulus uplo
 1. Start the app with the project virtual environment: `\.venv\Scripts\streamlit.exe run streamlit_app.py`.
 2. Log in as an examiner, select a registered student, upload the required picture stimulus, and optionally upload a reading passage.
 3. The app creates a separate assignment for that student and saves the generated image questions.
-4. The student logs in, completes the optional reading passage and the image questions, and receives the AI result.
+4. The student logs in, completes the optional reading passage and the image questions, and receives the AI result. If an initial image answer is clearly too weak or unrelated, the AI examiner gives one focused guiding question before the final grade.
 5. The examiner opens **Results and review** to see both the original AI grade and the final verified grade. Criterion-level changes do not overwrite the AI record.
 
 The local register is [`data/users.json`](data/users.json). Add a student there before trying to assign an assessment. This is a local prototype login, not production authentication.

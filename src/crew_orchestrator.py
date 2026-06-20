@@ -692,8 +692,7 @@ class EducationCrew:
                 "accepted": False,
                 "status": "struggling",
                 "examiner_reply": (
-                    "That's okay. Start with what you notice first. You can say, "
-                    "'I think this picture shows...' and then add one reason."
+                    "What is one person, object, or action you can see in the picture?"
                 ),
                 "reason": "The response is empty, very short, or indicates the student is stuck.",
                 "rubric_focus": ["Stimulus Response Relevance", "Idea Development", "Interaction And Confidence"],
@@ -721,7 +720,7 @@ class EducationCrew:
             "and has some connection to the image or oral topic, even if it is brief "
             "or could be improved. Do not ask for extra detail merely to make a fair "
             "answer stronger.\n\n"
-            "Only prompt again with a hint when the answer is almost a fail: empty, "
+            "Only prompt again with one focused follow-up question when the answer is almost a fail: empty, "
             "very short with no clear idea, unrelated to the image/topic, badly "
             "off-topic, impossible to understand, or directly contradicts important "
             "visual facts. If a student gives a wrong visible detail, ask them to "
@@ -730,8 +729,9 @@ class EducationCrew:
             "If accepted, the examiner_reply should be a short transition such as "
             "'Thank you, let's move on to the next question.' Do not include hints, "
             "sentence starters, or improvement advice when accepted.\n"
-            "If not accepted, give exactly one brief hint or one focused look-again "
-            "prompt, then invite the student to try once more.\n\n"
+            "If not accepted, give exactly one short, concrete follow-up QUESTION that "
+            "helps the student look again at the picture. Do not give the answer or a "
+            "sentence starter.\n\n"
             "Return ONLY valid JSON with this exact shape:\n"
             "{\n"
             '  "accepted": true,\n'
@@ -753,7 +753,7 @@ class EducationCrew:
             if accepted:
                 examiner_reply = "Thank you, let's move on to the next question."
             elif not examiner_reply:
-                examiner_reply = "Look at the picture again and add one detail that answers the question."
+                examiner_reply = "What is one detail you can see in the picture that helps answer the question?"
 
             return {
                 "accepted": accepted,
@@ -795,9 +795,7 @@ class EducationCrew:
             reply = "Thank you, let's move on to the next question."
             status = "accepted"
         else:
-            reply = (
-                "Look at the picture again and add one detail that answers the question."
-            )
+            reply = "What is one detail you can see in the picture that helps answer the question?"
             status = "needs_prompt"
         return {
             "accepted": accepted,

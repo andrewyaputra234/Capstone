@@ -44,8 +44,9 @@ These require a deployment/security decision rather than a safe local code edit.
 2. An examiner opens **Assign assessment**, selects a registered student, uploads a picture, and optionally uploads a reading passage.
 3. The system ingests the picture under a unique assignment subject, generates up to three questions, and persists the assignment.
 4. The student signs in, views the assigned materials, optionally marks the reading passage complete, and submits each image-question answer.
-5. AI rubric output is stored as `ai_grading`; the initial `final_grading` is a copy of it.
-6. The examiner opens **Results and review**, compares the two grades, changes criterion values if necessary, and adds a note. The change is persisted without losing the AI output.
+5. If an answer is likely to fail because it is too weak or unrelated to the image, the AI examiner persists exactly one focused guiding question. The follow-up response and the original response are graded together and shown to the examiner.
+6. AI rubric output is stored as `ai_grading`; the initial `final_grading` is a copy of it.
+7. The examiner opens **Results and review**, compares the two grades, changes criterion values if necessary, and adds a note. The change is persisted without losing the AI output.
 
 ## Verification performed
 

@@ -33,6 +33,7 @@ from exam_portal_store import (
     list_students,
     mark_assignment_status,
     mark_reading_completed,
+    save_guidance_attempt,
 )
 from subject_manager import SubjectManager
 
@@ -172,6 +173,34 @@ def assignment_subject(student_id: str) -> str:
 def visual_path(assignment: dict) -> str | None:
     path = assignment.get("visual", {}).get("path")
     return path if path and Path(path).exists() else None
+
+
+def assessment_question_with_visual_context(question: dict) -> str:
+    """Give the turn evaluator the visual facts it needs to catch irrelevant answers."""
+    visual_context = question.get("visual_context")
+    if not visual_context:
+        return question.get("text", "")
+    return f"Visual stimulus facts: {visual_context}\n\nQuestion: {question.get('text', '')}"
+
+
+def combined_guided_response(guidance: dict, follow_up_response: str) -> str:
+    return (
+        f"First response: {guidance.get('original_response', '')}\n\n"
+        f"Response after examiner follow-up: {follow_up_response.strip()}"
+    )
+
+
+def render_recorded_response(result: dict) -> None:
+    """Show the response trail when the one permitted examiner prompt was used."""
+    guided_attempt = result.get("guided_attempt")
+    if not guided_attempt:
+        st.write("**Student response:**", result.get("student_response", ""))
+        return
+    st.write("**First response:**", guided_attempt.get("original_response", ""))
+    st.write("**Examiner's guiding question:**", guided_attempt.get("follow_up_question", ""))
+    st.write("**Response after guidance:**", guided_attempt.get("follow_up_response", ""))
+    if guided_attempt.get("reason"):
+        st.caption(f"Guidance reason: {guided_attempt['reason']}")
 
 
 def render_login() -> None:
@@ -337,7 +366,7 @@ def render_examiner_review() -> None:
         reviewed_at = (result.get("examiner_review") or {}).get("reviewed_at")
         title = f"Q{number}: {result.get('question', 'Question')[:80]}"
         with st.expander(title, expanded=(number == 1)):
-            st.write("**Student response:**", result.get("student_response", ""))
+            render_recorded_response(result)
             left, right = st.columns(2)
             with left:
                 render_grading_result(ai_grading, heading="AI grade")
@@ -492,29 +521,85 @@ def render_student_assessment(assignment: dict) -> None:
     image = visual_path(assignment)
     if image:
         st.image(image, width=550)
+    question_id = str(question.get("id", ""))
+    guidance = (assignment.get("guidance_attempts") or {}).get(question_id)
 
-    with st.form(f"response_{assignment['assignment_id']}_{question.get('id')}"):
-        response = st.text_area(
-            "Your response",
-            height=140,
-            placeholder="Type what you would say to the examiner.",
-        )
-        submit_col, skip_col = st.columns(2)
-        submitted = submit_col.form_submit_button("Submit response", type="primary", use_container_width=True)
-        skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
+    if guidance:
+        st.info("Your examiner has given one guiding question. Use it to improve your answer; there will not be another prompt for this item.")
+        st.write(f"**Examiner:** {guidance.get('follow_up_question', '')}")
+        with st.form(f"follow_up_{assignment['assignment_id']}_{question_id}"):
+            follow_up_response = st.text_area(
+                "Your response to the guiding question",
+                height=140,
+                placeholder="Look at the picture again, then answer the examiner's question.",
+            )
+            submit_col, skip_col = st.columns(2)
+            submitted = submit_col.form_submit_button("Submit final response", type="primary", use_container_width=True)
+            skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
 
-    if not submitted and not skipped:
-        return
-    if submitted and not response.strip():
-        st.warning("Please enter a response, or choose Skip question.")
-        return
+        if not submitted and not skipped:
+            return
+        if submitted and not follow_up_response.strip():
+            st.warning("Please enter a response, or choose Skip question.")
+            return
 
-    answer = response.strip() if submitted else "[Skipped question]"
+        follow_up_answer = follow_up_response.strip() if submitted else "[No response after guidance]"
+        answer_for_grading = combined_guided_response(guidance, follow_up_answer)
+        grading_context = json.dumps({"examiner_guidance": guidance}, indent=2)
+    else:
+        with st.form(f"response_{assignment['assignment_id']}_{question_id}"):
+            response = st.text_area(
+                "Your response",
+                height=140,
+                placeholder="Type what you would say to the examiner.",
+            )
+            submit_col, skip_col = st.columns(2)
+            submitted = submit_col.form_submit_button("Submit response", type="primary", use_container_width=True)
+            skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
+
+        if not submitted and not skipped:
+            return
+        if submitted and not response.strip():
+            st.warning("Please enter a response, or choose Skip question.")
+            return
+
+        if submitted:
+            with st.spinner("Examiner is checking whether this answer can be graded..."):
+                decision = crew.evaluate_oral_turn(
+                    question=assessment_question_with_visual_context(question),
+                    student_response=response.strip(),
+                    attempt_number=1,
+                    max_attempts=2,
+                )
+            if not decision.get("accepted"):
+                try:
+                    save_guidance_attempt(
+                        assignment["assignment_id"],
+                        question=question,
+                        original_response=response.strip(),
+                        follow_up_question=decision.get("examiner_reply") or (
+                            "What is one detail you can see in the picture that helps answer the question?"
+                        ),
+                        reason=decision.get("reason", ""),
+                    )
+                except Exception as error:
+                    st.error(f"The guiding question could not be saved: {error}")
+                    return
+                st.rerun()
+            follow_up_answer = None
+            answer_for_grading = response.strip()
+            grading_context = None
+        else:
+            follow_up_answer = None
+            answer_for_grading = "[Skipped question]"
+            grading_context = None
+
     with st.spinner("AI is grading your response..."):
         try:
             workflow = crew.run_assessment_workflow(
                 question=question.get("text", ""),
-                student_response=answer,
+                student_response=answer_for_grading,
+                context=grading_context,
                 visual_context=question.get("visual_context"),
                 save_to_session=True,
                 skipped=skipped,
@@ -522,11 +607,12 @@ def render_student_assessment(assignment: dict) -> None:
             add_assessment_result(
                 assignment["assignment_id"],
                 question=question,
-                student_response=answer,
+                student_response=answer_for_grading,
                 grading_result=workflow["grading_result"],
                 session_id=st.session_state.session_id,
                 crew_analysis=workflow.get("crew_analysis", ""),
                 skipped=skipped,
+                follow_up_response=follow_up_answer,
             )
         except Exception as error:
             st.error(f"Your response was not saved: {error}")
@@ -543,7 +629,7 @@ def render_student_results(assignment: dict) -> None:
     for number, result in enumerate(results, 1):
         with st.expander(f"Question {number}", expanded=(number == len(results))):
             st.write("**Question:**", result.get("question", ""))
-            st.write("**Your response:**", result.get("student_response", ""))
+            render_recorded_response(result)
             render_grading_result(result.get("final_grading") or result.get("ai_grading") or {})
             if result.get("examiner_review"):
                 st.caption("An examiner has verified or adjusted this grade.")

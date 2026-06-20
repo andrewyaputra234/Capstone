@@ -106,6 +106,47 @@ class ExamPortalStoreTests(unittest.TestCase):
         store.mark_assignment_status(assignment["assignment_id"], "completed")
         self.assertIsNone(store.get_active_assignment("s1"))
 
+    def test_one_guidance_prompt_is_preserved_with_the_final_result(self) -> None:
+        assignment = store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Picture discussion",
+            subject="assignment_s1_test",
+            rubric="psle_oral_english",
+            visual={},
+            questions=[{"id": "q1", "text": "What do you see?"}],
+            reading=None,
+            examiner_id="e1",
+        )
+        question = {"id": "q1", "text": "What do you see?"}
+        store.save_guidance_attempt(
+            assignment["assignment_id"],
+            question=question,
+            original_response="I like ice cream.",
+            follow_up_question="What can you see in the picture?",
+            reason="The first response was unrelated to the image.",
+        )
+        with self.assertRaises(ValueError):
+            store.save_guidance_attempt(
+                assignment["assignment_id"],
+                question=question,
+                original_response="Another attempt",
+                follow_up_question="A second prompt is not allowed.",
+            )
+
+        store.add_assessment_result(
+            assignment["assignment_id"],
+            question=question,
+            student_response="First response: I like ice cream.\n\nResponse after examiner follow-up: I can see children playing.",
+            grading_result={"scores": [], "total_score": 0, "max_score": 0, "percentage": 0},
+            session_id="session1",
+            follow_up_response="I can see children playing.",
+        )
+        saved = store.get_assignment(assignment["assignment_id"])
+        self.assertEqual(saved["guidance_attempts"], {})
+        guidance = saved["results"][0]["guided_attempt"]
+        self.assertEqual(guidance["original_response"], "I like ice cream.")
+        self.assertEqual(guidance["follow_up_response"], "I can see children playing.")
+
 
 if __name__ == "__main__":
     unittest.main()

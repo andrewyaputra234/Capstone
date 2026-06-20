@@ -75,6 +75,7 @@ def _legacy_assignment(student_id: str, details: dict[str, Any]) -> dict[str, An
         "reading": None,
         "questions": [],
         "reading_completed_at": None,
+        "guidance_attempts": {},
         "results": [],
     }
 
@@ -154,6 +155,7 @@ def create_assignment(
         "reading": copy.deepcopy(reading) if reading else None,
         "questions": copy.deepcopy(questions[:3]),
         "reading_completed_at": None,
+        "guidance_attempts": {},
         "results": [],
     }
     store = load_assignments()
@@ -206,6 +208,33 @@ def mark_reading_completed(assignment_id: str) -> dict[str, Any]:
     )
 
 
+def save_guidance_attempt(
+    assignment_id: str,
+    *,
+    question: dict[str, Any],
+    original_response: str,
+    follow_up_question: str,
+    reason: str = "",
+) -> dict[str, Any]:
+    """Persist the one allowed examiner guidance prompt for a question."""
+    question_id = str(question.get("id", ""))
+    if not question_id:
+        raise ValueError("A question ID is required to save guidance")
+
+    def add_guidance(record: dict[str, Any]) -> None:
+        attempts = record.setdefault("guidance_attempts", {})
+        if question_id in attempts:
+            raise ValueError("A guidance prompt has already been used for this question")
+        attempts[question_id] = {
+            "original_response": original_response,
+            "follow_up_question": follow_up_question,
+            "reason": reason,
+            "created_at": _now(),
+        }
+
+    return _update_assignment(assignment_id, add_guidance)
+
+
 def add_assessment_result(
     assignment_id: str,
     *,
@@ -215,7 +244,9 @@ def add_assessment_result(
     session_id: str | None,
     crew_analysis: str = "",
     skipped: bool = False,
+    follow_up_response: str | None = None,
 ) -> dict[str, Any]:
+    question_id = str(question.get("id", ""))
     result = {
         "result_id": uuid.uuid4().hex[:12],
         "question_id": question.get("id"),
@@ -232,6 +263,10 @@ def add_assessment_result(
     }
 
     def append_result(record: dict[str, Any]) -> None:
+        guidance = record.setdefault("guidance_attempts", {}).pop(question_id, None)
+        if guidance:
+            guidance["follow_up_response"] = follow_up_response or student_response
+            result["guided_attempt"] = guidance
         record.setdefault("results", []).append(result)
         if record.get("status") == "assigned":
             record["status"] = "in_progress"
