@@ -1284,6 +1284,1254 @@
           "crew_analysis": "Great job on staying relevant to the prompt and discussing the importance of choosing healthier beverages like fruit juice or water. However, there was a mismatch with the visual stimulus facts as there was no orange juice on the table. To improve, focus on providing more specific examples to support your ideas and remember to stick closely to the details in the stimulus. Next time, you could start with \"I believe that a balanced meal includes...\" to further develop your ideas. Keep up the good work! Remember, details matter, so make sure to refer closely to the visual stimulus in your response. How can you ensure that your beverages complement the nutrients in your meal? This question can help you deepen your explanation and offer more specific insights. Well done, and keep practicing!"
         }
       ]
+    },
+    "a62871782379": {
+      "assignment_id": "a62871782379",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_001_7e6a138e",
+      "rubric": "examiner_psle_oral_gemini_code_1781970834915_3",
+      "status": "completed",
+      "created_at": "2026-06-21T03:44:21.882521+00:00",
+      "updated_at": "2026-06-21T04:04:22.513657+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "image-45-1024x683.webp",
+        "path": "data\\input\\assignment_001_7e6a138e\\image-45-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what's in the boy's lunchbox and why these foods might be considered healthy?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_7e6a138e_images\\page_1.webp",
+          "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby."
+        },
+        {
+          "id": 2,
+          "text": "Why do you think having a variety of colors in a meal is important, just like in the picture?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_7e6a138e_images\\page_1.webp",
+          "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby."
+        },
+        {
+          "id": 3,
+          "text": "What do you think the boy might be doing next after finishing his meal in this setting?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_7e6a138e_images\\page_1.webp",
+          "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby."
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "bd1fdde4893c",
+          "question_id": 1,
+          "question": "Can you describe what's in the boy's lunchbox and why these foods might be considered healthy?",
+          "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+          "student_response": "I can see that the boy's lunchbox has cucumbers, tomatoes, some sort of peppers and berries. It also has a banana on the table and also what looks like an orange juice. I think these are some of the best fruits and vegetables that anyone can have in a balanced diet.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260621_035003_9d467ce3.wav",
+          "transcription_path": "data\\sessions\\speech_20260621_035003_9d467ce3.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 24.2,
+            "words_per_minute": 126.6,
+            "pitch_range_semitones": 14.8,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "9d19271b",
+          "created_at": "2026-06-21T03:51:08.579553+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe what's in the boy's lunchbox and why these foods might be considered healthy?",
+            "answer": "I can see that the boy's lunchbox has cucumbers, tomatoes, some sort of peppers and berries. It also has a banana on the table and also what looks like an orange juice. I think these are some of the best fruits and vegetables that anyone can have in a balanced diet.",
+            "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus-Based Conversation",
+                "score": 12,
+                "max_score": 20,
+                "feedback": "The student's response is generally relevant but lacks depth and personal elaboration. They provide a basic description of the foods in the lunchbox without much detail or explanation.",
+                "evidence": "The student mentions the fruits and vegetables in the lunchbox and states that they are good for a balanced diet.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on accurately identifying some of the fruits and vegetables in the boy's lunchbox. However, there was a slight mismatch in your description as there were no berries present in the visual stimulus. In terms of improvement, try to provide more detailed explanations or personal experiences to support your points. For example, you could explain why each food item is considered healthy or share a time when you enjoyed eating one of them. Next time, you could start your response with a sentence like \"I noticed that the boy's lunchbox contains...\" to provide a clear introduction to your observations. Keep up the effort in adding depth to your responses!",
+            "total_score": 12,
+            "max_score": 20,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what's in the boy's lunchbox and why these foods might be considered healthy?",
+            "answer": "I can see that the boy's lunchbox has cucumbers, tomatoes, some sort of peppers and berries. It also has a banana on the table and also what looks like an orange juice. I think these are some of the best fruits and vegetables that anyone can have in a balanced diet.",
+            "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus-Based Conversation",
+                "score": 12,
+                "max_score": 20,
+                "feedback": "The student's response is generally relevant but lacks depth and personal elaboration. They provide a basic description of the foods in the lunchbox without much detail or explanation.",
+                "evidence": "The student mentions the fruits and vegetables in the lunchbox and states that they are good for a balanced diet.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on accurately identifying some of the fruits and vegetables in the boy's lunchbox. However, there was a slight mismatch in your description as there were no berries present in the visual stimulus. In terms of improvement, try to provide more detailed explanations or personal experiences to support your points. For example, you could explain why each food item is considered healthy or share a time when you enjoyed eating one of them. Next time, you could start your response with a sentence like \"I noticed that the boy's lunchbox contains...\" to provide a clear introduction to your observations. Keep up the effort in adding depth to your responses!",
+            "total_score": 12,
+            "max_score": 20,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done on accurately identifying some of the fruits and vegetables in the boy's lunchbox. Your understanding of the importance of fruits and vegetables for a balanced diet is commendable. To enhance your response, try providing detailed explanations and sharing personal experiences to add depth. For instance, you could elaborate on why each food item is considered healthy or share a story about enjoying one of them. In your next attempt, you could start by saying, \"I noticed that the boy's lunchbox contains...\" to introduce your observations clearly. Keep up the good work in enriching your responses with more personal insights and explanations!"
+        },
+        {
+          "result_id": "cc9dfb931187",
+          "question_id": 2,
+          "question": "Why do you think having a variety of colors in a meal is important, just like in the picture?",
+          "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+          "student_response": "Yes, I think having variety of colours in the meal is important because each different type of colour represents a different type of meal, different types of vitamins needed for the boy.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260621_035153_874bf49c.wav",
+          "transcription_path": "data\\sessions\\speech_20260621_035153_874bf49c.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 11.2,
+            "words_per_minute": 171.1,
+            "pitch_range_semitones": 12.3,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "9d19271b",
+          "created_at": "2026-06-21T03:52:35.611560+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Why do you think having a variety of colors in a meal is important, just like in the picture?",
+            "answer": "Yes, I think having variety of colours in the meal is important because each different type of colour represents a different type of meal, different types of vitamins needed for the boy.",
+            "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus-Based Conversation",
+                "score": 16,
+                "max_score": 20,
+                "feedback": "The student's response provides relevant and well-explained ideas with clear personal elaboration. They demonstrate a varied vocabulary and generally accurate grammar, with minor errors that do not affect clarity.",
+                "evidence": "each different type of colour represents a different type of meal, different types of vitamins needed for the boy",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on your response, you demonstrated a good understanding of the importance of having a variety of colors in a meal. However, there was a slight mismatch between your answer and the visual stimulus facts provided. The image showed specific foods like avocado, cucumber, cherry tomatoes, black olives, and red bell peppers, but you mentioned different types of meals instead. \n\nThe biggest area for improvement is to align your response more closely with the details in the picture. Try to mention specific foods and their benefits to highlight the importance of having a variety of colors in a meal. For example, you could say, \"The different colors in the meal provide a range of vitamins and nutrients essential for the boy's health.\"\n\nOverall, your response was clear and well-explained, but focusing on specific details from the visual stimulus will enhance your answer next time. Keep up the good work!",
+            "total_score": 16,
+            "max_score": 20,
+            "percentage": 80.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Why do you think having a variety of colors in a meal is important, just like in the picture?",
+            "answer": "Yes, I think having variety of colours in the meal is important because each different type of colour represents a different type of meal, different types of vitamins needed for the boy.",
+            "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus-Based Conversation",
+                "score": 16,
+                "max_score": 20,
+                "feedback": "The student's response provides relevant and well-explained ideas with clear personal elaboration. They demonstrate a varied vocabulary and generally accurate grammar, with minor errors that do not affect clarity.",
+                "evidence": "each different type of colour represents a different type of meal, different types of vitamins needed for the boy",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on your response, you demonstrated a good understanding of the importance of having a variety of colors in a meal. However, there was a slight mismatch between your answer and the visual stimulus facts provided. The image showed specific foods like avocado, cucumber, cherry tomatoes, black olives, and red bell peppers, but you mentioned different types of meals instead. \n\nThe biggest area for improvement is to align your response more closely with the details in the picture. Try to mention specific foods and their benefits to highlight the importance of having a variety of colors in a meal. For example, you could say, \"The different colors in the meal provide a range of vitamins and nutrients essential for the boy's health.\"\n\nOverall, your response was clear and well-explained, but focusing on specific details from the visual stimulus will enhance your answer next time. Keep up the good work!",
+            "total_score": 16,
+            "max_score": 20,
+            "percentage": 80.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done on your response, you demonstrated a good understanding of the importance of having a variety of colors in a meal. However, there was a slight mismatch between your answer and the visual stimulus facts provided. The image showed specific foods like avocado, cucumber, cherry tomatoes, black olives, and red bell peppers, but you mentioned different types of meals instead.\n\nThe biggest area for improvement is to align your response more closely with the details in the picture. Try to mention specific foods and their benefits to highlight the importance of having a variety of colors in a meal. For example, you could say, \"The different colors in the meal provide a range of vitamins and nutrients essential for the boy's health.\"\n\nOverall, your response was clear and well-explained, but focusing on specific details from the visual stimulus will enhance your answer next time. Keep up the good work!\n\nSentence Starter: \"The various colors in the meal offer essential vitamins and nutrients, such as...\""
+        },
+        {
+          "result_id": "20940399a7fe",
+          "question_id": 3,
+          "question": "What do you think the boy might be doing next after finishing his meal in this setting?",
+          "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+          "student_response": "First response: Not very sure.\n\nResponse after examiner follow-up: It's about Tumma.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260621_040259_6efbcc42.wav",
+          "transcription_path": "data\\sessions\\speech_20260621_040259_6efbcc42.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 3.5,
+            "words_per_minute": 50.8,
+            "pitch_range_semitones": 11.3,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "d1137200",
+          "created_at": "2026-06-21T04:04:21.744910+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What do you think the boy might be doing next after finishing his meal in this setting?",
+            "answer": "First response: Not very sure.\n\nResponse after examiner follow-up: It's about Tumma.",
+            "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus-Based Conversation",
+                "score": 12,
+                "max_score": 20,
+                "feedback": "The student provided generally relevant responses but may lack depth or rely on simpler personal anecdotes. Vocabulary and grammatical structures are basic but functional.",
+                "evidence": "The student engaged in a conversation with the examiner about Tumma, showing some level of participation and interaction.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for engaging in the conversation about Tumma. It shows you can participate in the discussion with the examiner. However, remember to stick closely to the visual details given to avoid any mismatches in your responses. Your vocabulary and grammar could be improved to add depth to your answers. Next time, try starting your response with a strong opener like \"In my opinion,\" to provide a clear and thoughtful answer. Keep practicing and paying attention to all the details in the stimulus for a more comprehensive response.",
+            "total_score": 12,
+            "max_score": 20,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What do you think the boy might be doing next after finishing his meal in this setting?",
+            "answer": "First response: Not very sure.\n\nResponse after examiner follow-up: It's about Tumma.",
+            "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus-Based Conversation",
+                "score": 12,
+                "max_score": 20,
+                "feedback": "The student provided generally relevant responses but may lack depth or rely on simpler personal anecdotes. Vocabulary and grammatical structures are basic but functional.",
+                "evidence": "The student engaged in a conversation with the examiner about Tumma, showing some level of participation and interaction.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for engaging in the conversation about Tumma. It shows you can participate in the discussion with the examiner. However, remember to stick closely to the visual details given to avoid any mismatches in your responses. Your vocabulary and grammar could be improved to add depth to your answers. Next time, try starting your response with a strong opener like \"In my opinion,\" to provide a clear and thoughtful answer. Keep practicing and paying attention to all the details in the stimulus for a more comprehensive response.",
+            "total_score": 12,
+            "max_score": 20,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for engaging in the conversation about Tumma. It shows you can participate in the discussion with the examiner. However, remember to stick closely to the visual details given to avoid any mismatches in your responses. Your vocabulary and grammar could be improved to add depth to your answers. Next time, try starting your response with a strong opener like \"In my opinion,\" to provide a clear and thoughtful answer. Keep practicing and paying attention to all the details in the stimulus for a more comprehensive response.\n\nSentence Starter: \"In my opinion, I believe that...\"\n\nOutcome: The feedback provides positive reinforcement, specific areas for improvement, and a practical sentence starter to enhance the student's oral responses in the next attempt.",
+          "guided_attempt": {
+            "original_response": "Not very sure.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260621_035943_44424483.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260621_035943_44424483.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 1.7,
+              "words_per_minute": 103.4,
+              "pitch_range_semitones": 14.7,
+              "notes": [
+                "Pace falls within a broad conversational range; listen to the recording for clarity.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-21T04:02:41.048306+00:00",
+            "follow_up_response": "It's about Tumma."
+          }
+        }
+      ]
+    },
+    "d89efc560dff": {
+      "assignment_id": "d89efc560dff",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_001_bee4f5be",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-21T04:09:03.030866+00:00",
+      "updated_at": "2026-06-21T04:20:56.104474+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "helping.webp",
+        "path": "data\\input\\assignment_001_bee4f5be\\helping.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Describe what the elderly person might be doing and why it might be important for them to go out like this.",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_bee4f5be_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and a face mask, pushing a wheeled shopping cart along a paved path in a grassy park. The cart contains a large paper bag filled with groceries. There are shadows of trees, and the park is lush with green grass and trees in the background."
+        },
+        {
+          "id": 2,
+          "text": "What are some ways you think communities can support elderly individuals when they go shopping or run errands?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_bee4f5be_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and a face mask, pushing a wheeled shopping cart along a paved path in a grassy park. The cart contains a large paper bag filled with groceries. There are shadows of trees, and the park is lush with green grass and trees in the background."
+        },
+        {
+          "id": 3,
+          "text": "Can you think of some benefits of spending time outdoors in parks like the one seen in the picture?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_bee4f5be_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and a face mask, pushing a wheeled shopping cart along a paved path in a grassy park. The cart contains a large paper bag filled with groceries. There are shadows of trees, and the park is lush with green grass and trees in the background."
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": []
+    },
+    "43f4131239ce": {
+      "assignment_id": "43f4131239ce",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice1",
+      "subject": "assignment_001_09355b7d",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-06-21T04:13:12.886853+00:00",
+      "updated_at": "2026-06-21T04:15:21.406635+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "helping.webp",
+        "path": "data\\input\\assignment_001_09355b7d\\helping.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_001_09355b7d\\Good morning, students. I hope you.txt",
+        "text": "Good morning, students. I hope you are all well and ready for the exciting week ahead. I would like to remind everyone that our annual Clean and Green Week begins next Monday. This is a special time when we come together as a school to care for our environment and learn the value of responsibility.\n\nEach class will be assigned a different area to clean, such as the canteen, the garden, the school hall, and even the car park. These tasks will be done during your class’s designated time slot. Please remember to wear your PE attire and bring along gloves if you have them. The school will also provide additional cleaning materials for everyone.\n\nWe hope that through this event, you will understand how small actions can make a big difference. Working as a team to keep our school clean shows that we respect our surroundings and one another."
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Tell me what you notice about what the person is carrying and why it might be important for them.",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_09355b7d_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping."
+        },
+        {
+          "id": 2,
+          "text": "How do you think the person feels while they are walking through the park with their shopping cart?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_09355b7d_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping."
+        },
+        {
+          "id": 3,
+          "text": "Can you share your thoughts on the environment in the park and how it might affect people who visit it?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_09355b7d_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping."
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "b3786b0487ce",
+          "question_id": 1,
+          "question": "Tell me what you notice about what the person is carrying and why it might be important for them.",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+          "student_response": "I see that there's an elderly woman looking like pushing a trolley, but it looks pretty heavy. I think that she is probably grabbing some food or important groceries.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260621_041414_d8d43652.wav",
+          "transcription_path": "data\\sessions\\speech_20260621_041414_d8d43652.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 12.4,
+            "words_per_minute": 140.1,
+            "pitch_range_semitones": 14.5,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "d86a0af2",
+          "created_at": "2026-06-21T04:14:57.855297+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Tell me what you notice about what the person is carrying and why it might be important for them.",
+            "answer": "I see that there's an elderly woman looking like pushing a trolley, but it looks pretty heavy. I think that she is probably grabbing some food or important groceries.",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student mentions that the elderly woman is pushing a trolley and likely grabbing important groceries, which aligns with the visual stimulus of the person pushing a shopping cart filled with grocery bags.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student provides a clear idea that the elderly woman is likely grabbing important groceries, supported by the observation of her pushing a heavy trolley filled with grocery bags.",
+                "evidence": "I think that she is probably grabbing some food or important groceries.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+                "evidence": "The student uses appropriate vocabulary to describe the elderly woman and her actions, but there are some errors in sentence structure and grammar.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by interpreting the visual stimulus and making a logical inference about the person's actions.",
+                "evidence": "The student mentions that the elderly woman is pushing a trolley and likely grabbing important groceries.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for noting that the elderly woman is likely grabbing important groceries, showing good observation skills. However, there was a mismatch in your response - the person is actually wearing a face mask, not a beanie as you mentioned. Your biggest improvement area is to work on your spoken language use to ensure more accurate grammar and sentence structure. Next time, you could start your response with \"I can see that the person is...\" to provide a clear introduction. Keep practicing to improve your language skills and attention to detail.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Tell me what you notice about what the person is carrying and why it might be important for them.",
+            "answer": "I see that there's an elderly woman looking like pushing a trolley, but it looks pretty heavy. I think that she is probably grabbing some food or important groceries.",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student mentions that the elderly woman is pushing a trolley and likely grabbing important groceries, which aligns with the visual stimulus of the person pushing a shopping cart filled with grocery bags.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student provides a clear idea that the elderly woman is likely grabbing important groceries, supported by the observation of her pushing a heavy trolley filled with grocery bags.",
+                "evidence": "I think that she is probably grabbing some food or important groceries.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+                "evidence": "The student uses appropriate vocabulary to describe the elderly woman and her actions, but there are some errors in sentence structure and grammar.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by interpreting the visual stimulus and making a logical inference about the person's actions.",
+                "evidence": "The student mentions that the elderly woman is pushing a trolley and likely grabbing important groceries.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for noting that the elderly woman is likely grabbing important groceries, showing good observation skills. However, there was a mismatch in your response - the person is actually wearing a face mask, not a beanie as you mentioned. Your biggest improvement area is to work on your spoken language use to ensure more accurate grammar and sentence structure. Next time, you could start your response with \"I can see that the person is...\" to provide a clear introduction. Keep practicing to improve your language skills and attention to detail.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for noting that the elderly woman is likely grabbing important groceries, showing good observation skills. However, there was a mismatch in your response - the person is actually wearing a face mask, not a beanie as you mentioned. Your biggest improvement area is to work on your spoken language use to ensure more accurate grammar and sentence structure. Next time, you could start your response with \"I can see that the person is...\" to provide a clear introduction. Keep practicing to improve your language skills and attention to detail.\n\nStudent Sentence Starter for Next Attempt: \"I can see that the person is wearing a face mask and pushing a trolley filled with groceries, which indicates...\""
+        },
+        {
+          "result_id": "5f4004c37a77",
+          "question_id": 2,
+          "question": "How do you think the person feels while they are walking through the park with their shopping cart?",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "d86a0af2",
+          "created_at": "2026-06-21T04:15:03.012749+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "How do you think the person feels while they are walking through the park with their shopping cart?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "How do you think the person feels while they are walking through the park with their shopping cart?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "2ead48744a92",
+          "question_id": 3,
+          "question": "Can you share your thoughts on the environment in the park and how it might affect people who visit it?",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "d86a0af2",
+          "created_at": "2026-06-21T04:15:20.631980+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Can you share your thoughts on the environment in the park and how it might affect people who visit it?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Can you share your thoughts on the environment in the park and how it might affect people who visit it?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ]
+    },
+    "a48f7e0e4744": {
+      "assignment_id": "a48f7e0e4744",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_001_ebf96374",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-06-21T04:22:44.607373+00:00",
+      "updated_at": "2026-06-21T04:31:38.073935+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "helping.webp",
+        "path": "data\\input\\assignment_001_ebf96374\\helping.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_001_ebf96374\\Good morning, students. I hope you.txt",
+        "text": "Good morning, students. I hope you are all well and ready for the exciting week ahead. I would like to remind everyone that our annual Clean and Green Week begins next Monday. This is a special time when we come together as a school to care for our environment and learn the value of responsibility.\n\nEach class will be assigned a different area to clean, such as the canteen, the garden, the school hall, and even the car park. These tasks will be done during your class’s designated time slot. Please remember to wear your PE attire and bring along gloves if you have them. The school will also provide additional cleaning materials for everyone.\n\nWe hope that through this event, you will understand how small actions can make a big difference. Working as a team to keep our school clean shows that we respect our surroundings and one another."
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe how this person might be feeling while they are walking in the park?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_ebf96374_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path."
+        },
+        {
+          "id": 2,
+          "text": "Why do you think it's important for people to spend time outdoors like in the picture?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_ebf96374_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path."
+        },
+        {
+          "id": 3,
+          "text": "How do you think we can help elderly people when they go shopping for groceries?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_ebf96374_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path."
+        }
+      ],
+      "reading_completed_at": "2026-06-21T04:29:42.366950+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "4b660051d7d7",
+          "question_id": 1,
+          "question": "Can you describe how this person might be feeling while they are walking in the park?",
+          "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+          "student_response": "[Skipped question]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c8ac8e5e",
+          "created_at": "2026-06-21T04:31:03.066909+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Can you describe how this person might be feeling while they are walking in the park?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Can you describe how this person might be feeling while they are walking in the park?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "9d16a05d47aa",
+          "question_id": 2,
+          "question": "Why do you think it's important for people to spend time outdoors like in the picture?",
+          "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c8ac8e5e",
+          "created_at": "2026-06-21T04:31:34.448781+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Why do you think it's important for people to spend time outdoors like in the picture?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Why do you think it's important for people to spend time outdoors like in the picture?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "7745d19210c3",
+          "question_id": 3,
+          "question": "How do you think we can help elderly people when they go shopping for groceries?",
+          "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c8ac8e5e",
+          "created_at": "2026-06-21T04:31:37.066386+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "How do you think we can help elderly people when they go shopping for groceries?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "How do you think we can help elderly people when they go shopping for groceries?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person walking in a park, pushing a black shopping cart filled with groceries. The person is wearing a blue coat, light-colored pants, white shoes, and a beige knit beanie. They have a mask on their face and are carrying a black backpack. The background is a grassy area with trees and a paved path.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "reading_submission": {
+        "transcript": "Good morning, students.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260621_042831_e480cb31.wav",
+        "transcription_path": "data\\sessions\\speech_20260621_042831_e480cb31.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 2.6,
+          "words_per_minute": 68.2,
+          "pitch_range_semitones": 11.7,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "submitted_at": "2026-06-21T04:29:42.366821+00:00"
+      }
     }
   }
 }

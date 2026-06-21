@@ -77,6 +77,7 @@ def _legacy_assignment(student_id: str, details: dict[str, Any]) -> dict[str, An
         "updated_at": None,
         "visual": {},
         "reading": None,
+        "reading_submission": None,
         "questions": [],
         "reading_completed_at": None,
         "guidance_attempts": {},
@@ -406,6 +407,7 @@ def create_assignment(
         "assigned_by": examiner_id,
         "visual": copy.deepcopy(visual),
         "reading": copy.deepcopy(reading) if reading else None,
+        "reading_submission": None,
         "questions": copy.deepcopy(questions[:3]),
         "reading_completed_at": None,
         "guidance_attempts": {},
@@ -461,6 +463,32 @@ def mark_reading_completed(assignment_id: str) -> dict[str, Any]:
     )
 
 
+def save_reading_submission(
+    assignment_id: str,
+    *,
+    transcript: str,
+    response_mode: str,
+    audio_path: str | None = None,
+    transcription_path: str | None = None,
+    delivery_indicators: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Save the student's reading-aloud recording without grading it automatically."""
+    def save_submission(record: dict[str, Any]) -> None:
+        if not record.get("reading"):
+            raise ValueError("This assessment has no reading passage.")
+        record["reading_submission"] = {
+            "transcript": transcript,
+            "response_mode": response_mode,
+            "audio_path": audio_path,
+            "transcription_path": transcription_path,
+            "delivery_indicators": copy.deepcopy(delivery_indicators) if delivery_indicators else None,
+            "submitted_at": _now(),
+        }
+        record["reading_completed_at"] = _now()
+
+    return _update_assignment(assignment_id, save_submission)
+
+
 def save_guidance_attempt(
     assignment_id: str,
     *,
@@ -468,6 +496,10 @@ def save_guidance_attempt(
     original_response: str,
     follow_up_question: str,
     reason: str = "",
+    response_mode: str = "text",
+    audio_path: str | None = None,
+    transcription_path: str | None = None,
+    delivery_indicators: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Persist the one allowed examiner guidance prompt for a question."""
     question_id = str(question.get("id", ""))
@@ -480,6 +512,10 @@ def save_guidance_attempt(
             raise ValueError("A guidance prompt has already been used for this question")
         attempts[question_id] = {
             "original_response": original_response,
+            "original_response_mode": response_mode,
+            "original_audio_path": audio_path,
+            "original_transcription_path": transcription_path,
+            "original_delivery_indicators": copy.deepcopy(delivery_indicators) if delivery_indicators else None,
             "follow_up_question": follow_up_question,
             "reason": reason,
             "created_at": _now(),

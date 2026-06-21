@@ -1,0 +1,73 @@
+{
+  "name": "Primary School Leaving Examination (PSLE) English Language Oral Rubric",
+  "level": "Primary 6",
+  "subject": "English Language",
+  "assessment_type": "Oral Communication (Paper 4)",
+  "criteria": [
+    {
+      "name": "Reading Aloud Delivery",
+      "description": "Candidates are assessed on their ability to read a short text with accuracy, pronunciation, and appropriate expression. Assessment focus: Pronunciation and Articulation: Clear and accurate pronunciation of words; distinct articulation of vowel and consonant sounds (e.g., final consonant sounds like 't', 'd', 's').; Rhythm and Fluency: Appropriate phrasing, pacing, and reading without unnecessary hesitations or repetitions.; Expressiveness: Varying pitch, tone, and volume to convey meaning, mood, and emotion appropriate to the text context.",
+      "max_points": 10,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 10,
+          "description": "Pronunciation and articulation are consistently clear and accurate. Reading is highly fluent with natural phrasing and appropriate pacing. Excellent variation in pitch and tone; fully captures the mood and meaning of the text."
+        },
+        {
+          "level": "Good",
+          "points": 8,
+          "description": "Pronunciation and articulation are clear and accurate with only minor, occasional slips. Reading is mostly fluent with good phrasing and pacing. Good variation in pitch and tone; effectively conveys the meaning of the text."
+        },
+        {
+          "level": "Satisfactory",
+          "points": 6,
+          "description": "Pronunciation and articulation are generally clear, though some errors occur. Reading is reasonably fluent, but pacing may be slightly uneven or mechanical. Some attempt at expression, but tone may be flat or inconsistent at times."
+        },
+        {
+          "level": "Weak",
+          "points": 4,
+          "description": "Frequent errors in pronunciation and unclear articulation make parts difficult to understand. Reading is jerky, hesitant, or too fast/slow; poor phrasing. Monotone or inappropriate expression; fails to convey the meaning of the text."
+        },
+        {
+          "level": "Very Weak",
+          "points": 2,
+          "description": "Severe deficiencies in pronunciation and articulation throughout. Struggles to read fluently; halting and disjointed. No expression or completely inappropriate tone."
+        }
+      ]
+    },
+    {
+      "name": "Stimulus-Based Conversation",
+      "description": "Candidates engage in a conversation with the examiners based on a visual stimulus (e.g., a poster, sign, or advertisement) and a related theme. Assessment focus: Personal Response: Providing clear, relevant ideas and personal experiences in response to the prompts.; Clarity of Expression: Using a wide range of appropriate vocabulary and accurate grammatical structures to express ideas clearly.; Engagement and Interaction: Developing lines of thought smoothly, maintaining the conversation, and engaging with the examiner naturally.",
+      "max_points": 20,
+      "rubric_levels": [
+        {
+          "level": "Excellent",
+          "points": 20,
+          "description": "Ideas and personal responses are mature, highly relevant, well-developed, and insightful. Demonstrates a wide vocabulary and accurate use of complex structures with very few grammatical errors. Highly engaging; develops thoughts seamlessly and responds to prompts with confidence and spontaneity."
+        },
+        {
+          "level": "Good",
+          "points": 16,
+          "description": "Ideas and responses are relevant and well-explained with clear personal elaboration. Vocabulary is varied and appropriate; grammar is generally accurate with minor errors that do not affect clarity. Converses comfortably; able to expand on ideas effectively when prompted."
+        },
+        {
+          "level": "Satisfactory",
+          "points": 12,
+          "description": "Responses are generally relevant but may lack depth or rely on simpler personal anecdotes. Vocabulary and grammatical structures are basic but functional; errors are present but meaning is clear. Participates adequately but may rely heavily on the examiner's prompts to keep the conversation going."
+        },
+        {
+          "level": "Weak",
+          "points": 8,
+          "description": "Responses are limited, superficial, or occasionally irrelevant to the topic. Limited vocabulary and frequent grammatical errors that sometimes obscure meaning. Passive or hesitant interaction; struggles to develop thoughts or requires constant redirection."
+        },
+        {
+          "level": "Very Weak",
+          "points": 4,
+          "description": "Unable to provide relevant responses or ideas; extremely brief answers (e.g., yes/no). Severe lack of vocabulary and fragmented grammar make communication very difficult. Unable to sustain a conversation; heavily reliant on prompts with minimal output."
+        }
+      ]
+    }
+  ],
+  "portal_scope": "psle_english_oral"
+}

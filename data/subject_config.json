@@ -20,6 +20,28 @@
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_001_c715e326\\image-45-1024x683.webp",
       "visual_path": "data\\input\\assignment_001_c715e326\\image-45-1024x683.webp"
+    },
+    "assignment_001_7e6a138e": {
+      "rubric": "examiner_psle_oral_gemini_code_1781970834915_3",
+      "pdf_path": "data\\input\\assignment_001_7e6a138e\\image-45-1024x683.webp",
+      "visual_path": "data\\input\\assignment_001_7e6a138e\\image-45-1024x683.webp"
+    },
+    "assignment_001_bee4f5be": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_001_bee4f5be\\helping.webp",
+      "visual_path": "data\\input\\assignment_001_bee4f5be\\helping.webp"
+    },
+    "assignment_001_09355b7d": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_001_09355b7d\\helping.webp",
+      "visual_path": "data\\input\\assignment_001_09355b7d\\helping.webp",
+      "reading_path": "data\\input\\assignment_001_09355b7d\\Good morning, students. I hope you.txt"
+    },
+    "assignment_001_ebf96374": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_001_ebf96374\\helping.webp",
+      "visual_path": "data\\input\\assignment_001_ebf96374\\helping.webp",
+      "reading_path": "data\\input\\assignment_001_ebf96374\\Good morning, students. I hope you.txt"
     }
   }
 }

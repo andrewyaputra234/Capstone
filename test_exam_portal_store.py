@@ -129,6 +129,10 @@ class ExamPortalStoreTests(unittest.TestCase):
             original_response="I like ice cream.",
             follow_up_question="What can you see in the picture?",
             reason="The first response was unrelated to the image.",
+            response_mode="voice",
+            audio_path="data/sessions/first.wav",
+            transcription_path="data/sessions/first.json",
+            delivery_indicators={"status": "available", "words_per_minute": 90},
         )
         with self.assertRaises(ValueError):
             store.save_guidance_attempt(
@@ -151,6 +155,32 @@ class ExamPortalStoreTests(unittest.TestCase):
         guidance = saved["results"][0]["guided_attempt"]
         self.assertEqual(guidance["original_response"], "I like ice cream.")
         self.assertEqual(guidance["follow_up_response"], "I can see children playing.")
+        self.assertEqual(guidance["original_audio_path"], "data/sessions/first.wav")
+        self.assertEqual(guidance["original_delivery_indicators"]["words_per_minute"], 90)
+
+    def test_reading_submission_saves_voice_evidence_without_a_grade(self) -> None:
+        assignment = store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Picture discussion",
+            subject="assignment_s1_test",
+            rubric="psle_oral_english",
+            visual={},
+            questions=[{"id": "q1", "text": "What do you see?"}],
+            reading={"name": "passage.txt", "text": "A short passage."},
+            examiner_id="e1",
+        )
+        saved = store.save_reading_submission(
+            assignment["assignment_id"],
+            transcript="A short passage.",
+            response_mode="voice",
+            audio_path="data/sessions/reading.wav",
+            transcription_path="data/sessions/reading.json",
+            delivery_indicators={"status": "available", "words_per_minute": 100},
+        )
+        submission = saved["reading_submission"]
+        self.assertEqual(submission["transcript"], "A short passage.")
+        self.assertEqual(submission["audio_path"], "data/sessions/reading.wav")
+        self.assertEqual(saved["results"], [])
 
     def test_only_psle_oral_and_valid_custom_oral_rubrics_are_listed(self) -> None:
         custom_rubric = {

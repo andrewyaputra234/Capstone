@@ -34,10 +34,10 @@ from exam_portal_store import (
     list_english_oral_rubrics,
     list_students,
     mark_assignment_status,
-    mark_reading_completed,
     rubric_display_name,
     save_guidance_attempt,
     save_english_oral_rubric,
+    save_reading_submission,
 )
 from subject_manager import SubjectManager
 from voice_assessment import transcribe_streamlit_audio
@@ -205,11 +205,16 @@ def render_recorded_response(result: dict) -> None:
         render_delivery_indicators(result.get("delivery_indicators"))
         return
     st.write("**First response:**", guided_attempt.get("original_response", ""))
+    if guided_attempt.get("original_audio_path"):
+        st.caption("First recording")
+        st.audio(guided_attempt["original_audio_path"])
+    render_delivery_indicators(guided_attempt.get("original_delivery_indicators"))
     st.write("**Examiner's guiding question:**", guided_attempt.get("follow_up_question", ""))
     st.write("**Response after guidance:**", guided_attempt.get("follow_up_response", ""))
     if guided_attempt.get("reason"):
         st.caption(f"Guidance reason: {guided_attempt['reason']}")
     if result.get("audio_path"):
+        st.caption("Recording after guidance")
         st.audio(result["audio_path"])
     render_delivery_indicators(result.get("delivery_indicators"))
 
@@ -247,7 +252,7 @@ def discard_voice_preview(preview_key: str) -> None:
             continue
 
 
-def capture_student_response(key_suffix: str, submit_label: str) -> dict | None:
+def capture_student_response(key_suffix: str, submit_label: str, *, allow_skip: bool = True) -> dict | None:
     """Offer typing or browser microphone recording, returning text plus audio evidence."""
     mode = st.radio(
         "Answer using",
@@ -262,9 +267,9 @@ def capture_student_response(key_suffix: str, submit_label: str) -> dict | None:
                 height=140,
                 placeholder="Type what you would say to the examiner.",
             )
-            submit_col, skip_col = st.columns(2)
-            submitted = submit_col.form_submit_button(submit_label, type="primary", use_container_width=True)
-            skipped = skip_col.form_submit_button("Skip question", use_container_width=True)
+            columns = st.columns(2) if allow_skip else st.columns(1)
+            submitted = columns[0].form_submit_button(submit_label, type="primary", use_container_width=True)
+            skipped = columns[1].form_submit_button("Skip question", use_container_width=True) if allow_skip else False
         if not submitted and not skipped:
             return None
         if submitted and not text.strip():
@@ -290,11 +295,11 @@ def capture_student_response(key_suffix: str, submit_label: str) -> dict | None:
         preview = None
 
     if not preview:
-        transcribe_col, skip_col = st.columns(2)
-        transcribe = transcribe_col.button(
+        columns = st.columns(2) if allow_skip else st.columns(1)
+        transcribe = columns[0].button(
             "Transcribe recording", type="primary", use_container_width=True, key=f"transcribe_voice_{key_suffix}"
         )
-        skipped = skip_col.button("Skip question", use_container_width=True, key=f"skip_voice_{key_suffix}")
+        skipped = columns[1].button("Skip question", use_container_width=True, key=f"skip_voice_{key_suffix}") if allow_skip else False
         if skipped:
             return {"text": "[Skipped question]", "skipped": True, "mode": "voice"}
         if not transcribe:
@@ -320,10 +325,10 @@ def capture_student_response(key_suffix: str, submit_label: str) -> dict | None:
         key=f"transcript_preview_{key_suffix}",
     )
     render_delivery_indicators(preview.get("delivery_indicators"))
-    use_col, retry_col, skip_col = st.columns(3)
-    use_transcript = use_col.button(submit_label, type="primary", use_container_width=True, key=f"use_voice_{key_suffix}")
-    retry = retry_col.button("Record again", use_container_width=True, key=f"retry_voice_{key_suffix}")
-    skipped = skip_col.button("Skip question", use_container_width=True, key=f"skip_review_voice_{key_suffix}")
+    columns = st.columns(3) if allow_skip else st.columns(2)
+    use_transcript = columns[0].button(submit_label, type="primary", use_container_width=True, key=f"use_voice_{key_suffix}")
+    retry = columns[1].button("Record again", use_container_width=True, key=f"retry_voice_{key_suffix}")
+    skipped = columns[2].button("Skip question", use_container_width=True, key=f"skip_review_voice_{key_suffix}") if allow_skip else False
     if retry:
         discard_voice_preview(preview_key)
         st.info("Record a replacement answer, then choose Transcribe recording again.")
@@ -553,8 +558,16 @@ def render_examiner_review() -> None:
     col3.metric("Reviewed", reviewed)
 
     if assignment.get("reading"):
-        reading_status = "completed" if assignment.get("reading_completed_at") else "not marked complete"
-        st.caption(f"Reading passage: {reading_status} (reading delivery is not AI-scored).")
+        reading_submission = assignment.get("reading_submission")
+        if reading_submission:
+            with st.expander("Reading-aloud submission", expanded=True):
+                st.write("**Transcript:**", reading_submission.get("transcript", ""))
+                if reading_submission.get("audio_path"):
+                    st.audio(reading_submission["audio_path"])
+                render_delivery_indicators(reading_submission.get("delivery_indicators"))
+                st.caption("Reading delivery is saved for examiner review; it is not AI-scored automatically.")
+        else:
+            st.caption("Reading passage: awaiting the student's recorded submission.")
     if not results:
         st.info("The student has not submitted an image-question response yet.")
         return
@@ -655,23 +668,63 @@ def render_student_materials(assignment: dict) -> None:
     else:
         st.warning("The picture stimulus is unavailable. Ask your examiner to upload the assessment again.")
 
-    reading = assignment.get("reading")
-    if reading:
-        st.markdown("#### Reading aloud (optional)")
+    if assignment.get("reading"):
+        st.markdown("#### Reading passage preparation")
+        st.caption("Read and prepare this passage here. You will record and submit it at the start of Take assessment.")
         st.text_area(
-            "Passage",
-            value=reading.get("text", ""),
+            "Reading passage",
+            value=assignment["reading"].get("text", ""),
             height=220,
             disabled=True,
-            key=f"reading_{assignment['assignment_id']}",
+            key=f"materials_reading_{assignment['assignment_id']}",
         )
-        if assignment.get("reading_completed_at"):
-            st.success("Reading passage marked complete.")
-        elif st.button("Mark reading passage complete", use_container_width=True):
-            mark_reading_completed(assignment["assignment_id"])
-            st.rerun()
     else:
         st.caption("No reading-aloud passage was assigned for this assessment.")
+
+
+def render_reading_before_questions(assignment: dict) -> bool:
+    """Collect the reading-aloud submission before image questions begin."""
+    reading = assignment.get("reading")
+    if not reading:
+        return True
+
+    st.markdown("### Reading Aloud")
+    st.caption("Read this passage aloud, record it, review its transcript, then submit before moving on to the three image questions.")
+    st.text_area(
+        "Reading passage",
+        value=reading.get("text", ""),
+        height=250,
+        disabled=True,
+        key=f"assessment_reading_{assignment['assignment_id']}",
+    )
+    submission = assignment.get("reading_submission")
+    if submission:
+        st.success("Reading aloud submitted. Continue to the image questions below.")
+        st.write("**Submitted transcript:**", submission.get("transcript", ""))
+        if submission.get("audio_path"):
+            st.audio(submission["audio_path"])
+        render_delivery_indicators(submission.get("delivery_indicators"))
+        return True
+
+    captured = capture_student_response(
+        f"reading_{assignment['assignment_id']}", "Submit reading aloud", allow_skip=False
+    )
+    if not captured:
+        return False
+    try:
+        save_reading_submission(
+            assignment["assignment_id"],
+            transcript=captured["text"],
+            response_mode=captured.get("mode", "text"),
+            audio_path=captured.get("audio_path"),
+            transcription_path=captured.get("transcription_path"),
+            delivery_indicators=captured.get("delivery_indicators"),
+        )
+        st.rerun()
+    except Exception as error:
+        st.error(f"The reading-aloud submission could not be saved: {error}")
+    st.info("Submit the reading-aloud recording to unlock the image questions.")
+    return False
 
 
 def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
@@ -687,23 +740,15 @@ def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
 
 
 def render_student_assessment(assignment: dict) -> None:
-    st.subheader("Image questions")
+    st.subheader("Take assessment")
     questions = assignment.get("questions", [])
     if not questions:
         st.warning("This legacy assignment has no saved questions. Ask the examiner to upload a new assessment.")
         return
 
     crew = ensure_assignment_crew(assignment)
-    if _finish_if_complete(assignment, crew):
-        st.success("Assessment complete. Your results are ready in the Results tab.")
-        return
 
     answered_ids = {result.get("question_id") for result in assignment.get("results", [])}
-    question = next((item for item in questions if item.get("id") not in answered_ids), None)
-    if not question:
-        st.info("No further questions are available.")
-        return
-
     if not st.session_state.session_id:
         if st.button("Begin assessment", type="primary", use_container_width=True):
             st.session_state.session_id = crew.start_session(
@@ -713,6 +758,20 @@ def render_student_assessment(assignment: dict) -> None:
             st.rerun()
         st.caption("Your examiner will be able to review the AI score after each submitted answer.")
         return
+
+    if not render_reading_before_questions(assignment):
+        return
+
+    if _finish_if_complete(assignment, crew):
+        st.success("Assessment complete. Your results are ready in the Results tab.")
+        return
+
+    question = next((item for item in questions if item.get("id") not in answered_ids), None)
+    if not question:
+        st.info("No further questions are available.")
+        return
+
+    st.markdown("### Image questions")
 
     current_number = len(answered_ids) + 1
     st.progress(current_number / len(questions), text=f"Question {current_number} of {len(questions)}")
@@ -760,6 +819,10 @@ def render_student_assessment(assignment: dict) -> None:
                             "What is one detail you can see in the picture that helps answer the question?"
                         ),
                         reason=decision.get("reason", ""),
+                        response_mode=captured.get("mode", "text"),
+                        audio_path=captured.get("audio_path"),
+                        transcription_path=captured.get("transcription_path"),
+                        delivery_indicators=captured.get("delivery_indicators"),
                     )
                 except Exception as error:
                     st.error(f"The guiding question could not be saved: {error}")

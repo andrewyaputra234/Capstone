@@ -1,0 +1,71 @@
+{
+  "session_id": "d1137200",
+  "paper_id": "assignment_001_7e6a138e",
+  "student_id": "001",
+  "date_created": "2026-06-21T11:59:28.592586",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-21T12:04:15.191711",
+      "speaker": "avatar",
+      "text": "What do you think the boy might be doing next after finishing his meal in this setting?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-21T12:04:15.206439",
+      "speaker": "student",
+      "text": "First response: Not very sure.\n\nResponse after examiner follow-up: It's about Tumma.",
+      "audio_path": "data\\sessions\\speech_20260621_040259_6efbcc42.wav",
+      "transcription_path": "data\\sessions\\speech_20260621_040259_6efbcc42.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you think the boy might be doing next after finishing his meal in this setting?",
+        "answer": "First response: Not very sure.\n\nResponse after examiner follow-up: It's about Tumma.",
+        "visual_context": "The image shows a young boy with glasses seated at a table. He is dressed in a light blue shirt with a dark vest. In front of him on the table is a lunchbox with four compartments containing sliced avocado, cucumber, cherry tomatoes, black olives, and red bell peppers. A banana, juice bottle, and soda bottle are also on the table. Additionally, there is an orange and an open lunchbox with a blue lid nearby.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus-Based Conversation",
+            "score": 12,
+            "max_score": 20,
+            "feedback": "The student provided generally relevant responses but may lack depth or rely on simpler personal anecdotes. Vocabulary and grammatical structures are basic but functional.",
+            "evidence": "The student engaged in a conversation with the examiner about Tumma, showing some level of participation and interaction.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for engaging in the conversation about Tumma. It shows you can participate in the discussion with the examiner. However, remember to stick closely to the visual details given to avoid any mismatches in your responses. Your vocabulary and grammar could be improved to add depth to your answers. Next time, try starting your response with a strong opener like \"In my opinion,\" to provide a clear and thoughtful answer. Keep practicing and paying attention to all the details in the stimulus for a more comprehensive response.",
+        "total_score": 12,
+        "max_score": 20,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-06-21T11:59:28.609515",
+  "end_time": "2026-06-21T12:04:22.554144",
+  "metadata": {
+    "assignment_id": "a62871782379",
+    "component": "student_assessment",
+    "subject": "assignment_001_7e6a138e",
+    "rubric": "examiner_psle_oral_gemini_code_1781970834915_3",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}
