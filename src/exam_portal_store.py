@@ -471,6 +471,8 @@ def save_reading_submission(
     audio_path: str | None = None,
     transcription_path: str | None = None,
     delivery_indicators: dict[str, Any] | None = None,
+    grading_result: dict[str, Any] | None = None,
+    crew_analysis: str = "",
 ) -> dict[str, Any]:
     """Save the student's reading-aloud recording without grading it automatically."""
     def save_submission(record: dict[str, Any]) -> None:
@@ -482,6 +484,9 @@ def save_reading_submission(
             "audio_path": audio_path,
             "transcription_path": transcription_path,
             "delivery_indicators": copy.deepcopy(delivery_indicators) if delivery_indicators else None,
+            "ai_grading": copy.deepcopy(grading_result) if grading_result else None,
+            "final_grading": copy.deepcopy(grading_result) if grading_result else None,
+            "crew_analysis": crew_analysis,
             "submitted_at": _now(),
         }
         record["reading_completed_at"] = _now()

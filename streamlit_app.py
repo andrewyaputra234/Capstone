@@ -565,7 +565,10 @@ def render_examiner_review() -> None:
                 if reading_submission.get("audio_path"):
                     st.audio(reading_submission["audio_path"])
                 render_delivery_indicators(reading_submission.get("delivery_indicators"))
-                st.caption("Reading delivery is saved for examiner review; it is not AI-scored automatically.")
+                reading_grade = reading_submission.get("final_grading") or reading_submission.get("ai_grading")
+                if reading_grade:
+                    render_grading_result(reading_grade, heading="Provisional reading-aloud grade")
+                st.caption("The grade uses the selected reading-delivery rubric criteria. Verify it against the recording before relying on it.")
         else:
             st.caption("Reading passage: awaiting the student's recorded submission.")
     if not results:
@@ -682,7 +685,7 @@ def render_student_materials(assignment: dict) -> None:
         st.caption("No reading-aloud passage was assigned for this assessment.")
 
 
-def render_reading_before_questions(assignment: dict) -> bool:
+def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bool:
     """Collect the reading-aloud submission before image questions begin."""
     reading = assignment.get("reading")
     if not reading:
@@ -704,6 +707,8 @@ def render_reading_before_questions(assignment: dict) -> bool:
         if submission.get("audio_path"):
             st.audio(submission["audio_path"])
         render_delivery_indicators(submission.get("delivery_indicators"))
+        if submission.get("final_grading") or submission.get("ai_grading"):
+            render_grading_result(submission.get("final_grading") or submission.get("ai_grading"), heading="Reading-aloud grade")
         return True
 
     captured = capture_student_response(
@@ -712,6 +717,26 @@ def render_reading_before_questions(assignment: dict) -> bool:
     if not captured:
         return False
     try:
+        reading_criteria = crew.get_reading_criterion_names()
+        if not reading_criteria:
+            raise ValueError("The selected rubric does not contain a reading-aloud delivery criterion.")
+        evidence = {
+            "audio_evidence": "A student recording was submitted for examiner review.",
+            "delivery_indicators": captured.get("delivery_indicators"),
+            "limitation": "Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.",
+        }
+        with st.spinner("AI is preparing a provisional reading-aloud grade..."):
+            workflow = crew.run_assessment_workflow(
+                question="Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+                student_response=captured["text"],
+                context=json.dumps(evidence, indent=2),
+                visual_context=f"Audio evidence: {json.dumps(evidence)}",
+                save_to_session=True,
+                audio_path=captured.get("audio_path"),
+                transcription_path=captured.get("transcription_path"),
+                delivery_indicators=captured.get("delivery_indicators"),
+                criterion_names=reading_criteria,
+            )
         save_reading_submission(
             assignment["assignment_id"],
             transcript=captured["text"],
@@ -719,6 +744,8 @@ def render_reading_before_questions(assignment: dict) -> bool:
             audio_path=captured.get("audio_path"),
             transcription_path=captured.get("transcription_path"),
             delivery_indicators=captured.get("delivery_indicators"),
+            grading_result=workflow["grading_result"],
+            crew_analysis=workflow.get("crew_analysis", ""),
         )
         st.rerun()
     except Exception as error:
@@ -759,7 +786,7 @@ def render_student_assessment(assignment: dict) -> None:
         st.caption("Your examiner will be able to review the AI score after each submitted answer.")
         return
 
-    if not render_reading_before_questions(assignment):
+    if not render_reading_before_questions(assignment, crew):
         return
 
     if _finish_if_complete(assignment, crew):
@@ -871,6 +898,10 @@ def render_student_assessment(assignment: dict) -> None:
 
 def render_student_results(assignment: dict) -> None:
     st.subheader("Your results")
+    reading_submission = assignment.get("reading_submission")
+    if reading_submission and (reading_submission.get("final_grading") or reading_submission.get("ai_grading")):
+        with st.expander("Reading aloud", expanded=True):
+            render_grading_result(reading_submission.get("final_grading") or reading_submission.get("ai_grading"))
     results = assignment.get("results", [])
     if not results:
         st.info("Submit an image-question response to see its AI grade here.")

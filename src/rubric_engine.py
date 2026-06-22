@@ -98,6 +98,7 @@ class RubricEngine:
         question: str,
         answer: str,
         criterion_name: Optional[str] = None,
+        criterion_names: Optional[List[str]] = None,
         visual_context: Optional[str] = None,
     ) -> List[RubricScore]:
         """
@@ -107,6 +108,8 @@ class RubricEngine:
             question: The question asked
             answer: Student's answer
             criterion_name: Optional specific criterion to score (if None, score all)
+            criterion_names: Optional list of criteria to score; useful when an
+                assessment step is intentionally limited to a rubric component.
             visual_context: Optional factual description of the visual stimulus
             
         Returns:
@@ -124,6 +127,8 @@ class RubricEngine:
         
         for criterion in criteria:
             if criterion_name and criterion.get("name") != criterion_name:
+                continue
+            if criterion_names and criterion.get("name") not in criterion_names:
                 continue
             
             name = criterion.get("name", "Unknown")
@@ -463,7 +468,8 @@ Return ONLY valid JSON with this shape:
     ) -> bool:
         """Reading-aloud delivery needs delivery/audio evidence; stimulus chat does not provide it."""
         criterion_text = f"{name} {description}".lower()
-        if "reading aloud" not in criterion_text and "pronunciation" not in criterion_text:
+        reading_markers = ("reading aloud", "oral reading", "pronunciation", "fluency", "articulation")
+        if not any(marker in criterion_text for marker in reading_markers):
             return False
 
         context = f"{question}\n{visual_context or ''}".lower()

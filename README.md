@@ -28,10 +28,10 @@ Use this app for the current split oral workflow: optional picture stimulus uplo
 2. Log in as an examiner, select a registered student, upload one or more picture stimuli and reading passages, then choose the exact picture and optional passage for that student.
 3. Choose the built-in **PSLE English Oral** rubric or upload a validated custom English Oral JSON rubric. The selected rubric is saved with the assignment and used by the AI grader.
 4. The app creates a separate assignment for that student and saves the generated image questions.
-5. The student logs in, completes the optional reading passage and the image questions, and receives the AI result. If an initial image answer is clearly too weak or unrelated, the AI examiner gives one focused guiding question before the final grade.
+5. The student logs in, completes the optional reading passage and the image questions, and receives the AI result. The reading-aloud submission is graded only against the selected rubric's reading-delivery criteria. If an initial image answer is clearly too weak or unrelated, the AI examiner gives one focused guiding question before the final grade.
 6. The examiner opens **Results and review** to see both the original AI grade and the final verified grade. Criterion-level changes do not overwrite the AI record.
 
-Students can choose **Type response** or **Speak into microphone** for each image question. A spoken answer is transcribed and the recording is available to the examiner with advisory pace/pitch indicators. These indicators are not a pronunciation, accent, emotion, or official oral-exam score.
+Students can choose **Type response** or **Speak into microphone** for the reading passage and each image question. A spoken answer is transcribed and the recording is available to the examiner with advisory pace/pitch indicators. A reading grade is therefore provisional and must be checked against the recording; these indicators are not a pronunciation, accent, emotion, or official oral-exam score.
 
 The local register is [`data/users.json`](data/users.json). Add a student there before trying to assign an assessment. This is a local prototype login, not production authentication.
 

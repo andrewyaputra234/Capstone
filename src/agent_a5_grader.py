@@ -72,6 +72,7 @@ class RubricGrader:
         answer: str,
         visual_context: Optional[str] = None,
         conversation_history: Optional[List[Dict]] = None,
+        criterion_names: Optional[List[str]] = None,
     ) -> Dict:
         """
         Generate tutoring feedback as if a teacher/tutor is speaking to the student.
@@ -90,6 +91,7 @@ class RubricGrader:
                 assignment=assignment,
                 answer=answer,
                 visual_context=visual_context,
+                criterion_names=criterion_names,
             )
 
         # Score against rubric
@@ -97,6 +99,7 @@ class RubricGrader:
             assignment,
             answer,
             visual_context=visual_context,
+            criterion_names=criterion_names,
         )
         
         # Generate natural tutoring feedback
@@ -143,6 +146,7 @@ class RubricGrader:
         assignment: str,
         answer: str = "[Skipped question]",
         visual_context: Optional[str] = None,
+        criterion_names: Optional[List[str]] = None,
     ) -> Dict:
         """Return deterministic zero scoring when a question is skipped."""
         display_answer = (answer or "").strip() or "[Skipped question]"
@@ -150,6 +154,7 @@ class RubricGrader:
             assignment,
             "",
             visual_context=visual_context,
+            criterion_names=criterion_names,
         )
         total_score = sum(s.score for s in scores)
         max_score = sum(s.max_score for s in scores)

@@ -158,7 +158,7 @@ class ExamPortalStoreTests(unittest.TestCase):
         self.assertEqual(guidance["original_audio_path"], "data/sessions/first.wav")
         self.assertEqual(guidance["original_delivery_indicators"]["words_per_minute"], 90)
 
-    def test_reading_submission_saves_voice_evidence_without_a_grade(self) -> None:
+    def test_reading_submission_saves_voice_evidence_and_provisional_grade(self) -> None:
         assignment = store.create_assignment(
             student={"id": "s1", "name": "Ada Student"},
             title="Picture discussion",
@@ -176,10 +176,13 @@ class ExamPortalStoreTests(unittest.TestCase):
             audio_path="data/sessions/reading.wav",
             transcription_path="data/sessions/reading.json",
             delivery_indicators={"status": "available", "words_per_minute": 100},
+            grading_result={"total_score": 8, "max_score": 10, "percentage": 80, "scores": []},
+            crew_analysis="Recorded reading feedback.",
         )
         submission = saved["reading_submission"]
         self.assertEqual(submission["transcript"], "A short passage.")
         self.assertEqual(submission["audio_path"], "data/sessions/reading.wav")
+        self.assertEqual(submission["final_grading"]["total_score"], 8)
         self.assertEqual(saved["results"], [])
 
     def test_only_psle_oral_and_valid_custom_oral_rubrics_are_listed(self) -> None:

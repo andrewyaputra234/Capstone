@@ -450,6 +450,7 @@ class EducationCrew:
         question: str,
         student_response: str,
         visual_context: Optional[str] = None,
+        criterion_names: Optional[List[str]] = None,
     ) -> Dict[str, Any]:
         """Grade using Agent A5 RubricGrader (structured, reliable scores)."""
         from agent_a5_grader import RubricGrader
@@ -462,7 +463,36 @@ class EducationCrew:
             assignment=question,
             answer=student_response,
             visual_context=visual_context,
+            criterion_names=criterion_names,
         )
+
+    def get_reading_criterion_names(self) -> List[str]:
+        """Return rubric criteria intended for reading-aloud delivery scoring."""
+        from rubric_engine import RubricEngine
+
+        if not self.rubric_name:
+            return []
+        engine = RubricEngine()
+        if not engine.load_rubric(self.rubric_name):
+            return []
+        names = []
+        for criterion in engine.current_rubric.get("criteria", []):
+            name = str(criterion.get("name", ""))
+            description = str(criterion.get("description", ""))
+            text = f"{name} {description}".lower()
+            if any(
+                marker in text
+                for marker in (
+                    "reading aloud",
+                    "oral reading",
+                    "pronunciation",
+                    "fluency",
+                    "articulation",
+                    "oral delivery",
+                )
+            ):
+                names.append(name)
+        return names
 
     @staticmethod
     def _is_skipped_response(student_response: str) -> bool:
@@ -485,6 +515,7 @@ class EducationCrew:
         audio_path: Optional[str] = None,
         transcription_path: Optional[str] = None,
         delivery_indicators: Optional[Dict[str, Any]] = None,
+        criterion_names: Optional[List[str]] = None,
     ) -> Dict[str, Any]:
         """
         Hybrid assessment: Agent A5 rubric grading + CrewAI enrichment.
@@ -504,12 +535,14 @@ class EducationCrew:
                 assignment=question,
                 answer=student_response,
                 visual_context=visual_context,
+                criterion_names=criterion_names,
             )
         else:
             grading_result = self.grade_response(
                 question,
                 student_response,
                 visual_context=visual_context,
+                criterion_names=criterion_names,
             )
 
         if save_to_session and self.session_manager.current_session:
