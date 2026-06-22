@@ -27,14 +27,15 @@ from crew_orchestrator import DEFAULT_PSLE_RUBRIC, EducationCrew
 from exam_portal_store import (
     add_assessment_result,
     apply_examiner_review,
+    apply_reading_examiner_review,
     authenticate,
     create_assignment,
-    get_active_assignment,
     list_assignments,
     list_english_oral_rubrics,
     list_students,
     mark_assignment_status,
     rubric_display_name,
+    release_final_results,
     save_guidance_attempt,
     save_english_oral_rubric,
     save_reading_submission,
@@ -569,6 +570,34 @@ def render_examiner_review() -> None:
                 if reading_grade:
                     render_grading_result(reading_grade, heading="Provisional reading-aloud grade")
                 st.caption("The grade uses the selected reading-delivery rubric criteria. Verify it against the recording before relying on it.")
+                previous_note = (reading_submission.get("examiner_review") or {}).get("note", "")
+                with st.form(f"review_reading_{assignment['assignment_id']}"):
+                    changes: dict[str, int] = {}
+                    for criterion in reading_grade.get("scores", []) if reading_grade else []:
+                        label = str(criterion.get("criterion", "Criterion"))
+                        maximum = int(criterion.get("max_score", 0))
+                        if maximum <= 0:
+                            continue
+                        changes[label] = int(
+                            st.number_input(
+                                label,
+                                min_value=0,
+                                max_value=maximum,
+                                value=int(criterion.get("score", 0)),
+                                step=1,
+                                key=f"reading_score_{assignment['assignment_id']}_{label}",
+                            )
+                        )
+                    note = st.text_area("Examiner note (optional)", value=previous_note)
+                    saved_reading = st.form_submit_button("Save verified reading grade", use_container_width=True)
+                if saved_reading:
+                    apply_reading_examiner_review(
+                        assignment["assignment_id"], changes, note, st.session_state.user_id
+                    )
+                    st.success("Verified reading grade saved.")
+                    st.rerun()
+                if (reading_submission.get("examiner_review") or {}).get("reviewed_at"):
+                    st.caption(f"Last reviewed: {reading_submission['examiner_review']['reviewed_at']}")
         else:
             st.caption("Reading passage: awaiting the student's recorded submission.")
     if not results:
@@ -629,6 +658,32 @@ def render_examiner_review() -> None:
                 st.rerun()
             if reviewed_at:
                 st.caption(f"Last reviewed: {reviewed_at}")
+
+    reading_pending = bool(
+        assignment.get("reading")
+        and not (assignment.get("reading_submission") or {}).get("examiner_review")
+    )
+    unreviewed_questions = [result for result in results if not result.get("examiner_review")]
+    st.markdown("#### Release final results")
+    if assignment.get("results_released_at"):
+        st.success(f"Final results released on {assignment['results_released_at']}.")
+    elif assignment.get("status") != "completed":
+        st.info("Results can be released after the student has submitted the complete assessment.")
+    elif reading_pending or unreviewed_questions:
+        parts = []
+        if reading_pending:
+            parts.append("reading aloud")
+        if unreviewed_questions:
+            parts.append(f"{len(unreviewed_questions)} image question(s)")
+        st.warning(f"Verify {', '.join(parts)} before releasing the final results.")
+    elif st.button("Approve and release final results", type="primary", use_container_width=True):
+        try:
+            release_final_results(assignment["assignment_id"], st.session_state.user_id)
+        except Exception as error:
+            st.error(f"The final results could not be released: {error}")
+        else:
+            st.success("Final results released to the student.")
+            st.rerun()
 
 
 def render_assignment_overview() -> None:
@@ -707,8 +762,7 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         if submission.get("audio_path"):
             st.audio(submission["audio_path"])
         render_delivery_indicators(submission.get("delivery_indicators"))
-        if submission.get("final_grading") or submission.get("ai_grading"):
-            render_grading_result(submission.get("final_grading") or submission.get("ai_grading"), heading="Reading-aloud grade")
+        st.caption("Your recording has been sent to the examiner for review. Your final grade will be released after verification.")
         return True
 
     captured = capture_student_response(
@@ -768,6 +822,13 @@ def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
 
 def render_student_assessment(assignment: dict) -> None:
     st.subheader("Take assessment")
+    if assignment.get("status") == "completed":
+        st.success("You have already submitted this assessment. It can only be taken once.")
+        if assignment.get("results_released_at"):
+            st.info("Your examiner has released the final results in the Results tab.")
+        else:
+            st.info("Your submission is with the examiner for verification. Final results will appear in the Results tab once released.")
+        return
     questions = assignment.get("questions", [])
     if not questions:
         st.warning("This legacy assignment has no saved questions. Ask the examiner to upload a new assessment.")
@@ -783,14 +844,14 @@ def render_student_assessment(assignment: dict) -> None:
             )
             mark_assignment_status(assignment["assignment_id"], "in_progress")
             st.rerun()
-        st.caption("Your examiner will be able to review the AI score after each submitted answer.")
+        st.caption("You can submit this assessment once. Your examiner will verify the grades before final results are released.")
         return
 
     if not render_reading_before_questions(assignment, crew):
         return
 
     if _finish_if_complete(assignment, crew):
-        st.success("Assessment complete. Your results are ready in the Results tab.")
+        st.success("Assessment submitted. Your examiner will verify the grades before releasing your final results.")
         return
 
     question = next((item for item in questions if item.get("id") not in answered_ids), None)
@@ -898,6 +959,12 @@ def render_student_assessment(assignment: dict) -> None:
 
 def render_student_results(assignment: dict) -> None:
     st.subheader("Your results")
+    if not assignment.get("results_released_at"):
+        if assignment.get("status") == "completed":
+            st.info("Your assessment has been submitted. Final results will appear here after your examiner verifies and releases them.")
+        else:
+            st.info("Final results will appear here after you complete the assessment and your examiner releases them.")
+        return
     reading_submission = assignment.get("reading_submission")
     if reading_submission and (reading_submission.get("final_grading") or reading_submission.get("ai_grading")):
         with st.expander("Reading aloud", expanded=True):
@@ -918,13 +985,30 @@ def render_student_results(assignment: dict) -> None:
 def render_student_portal() -> None:
     render_account_sidebar("Student")
     st.title("Student Assessment")
-    assignment = get_active_assignment(st.session_state.user_id)
-    if not assignment:
-        past_assignments = list_assignments(st.session_state.user_id)
-        assignment = past_assignments[0] if past_assignments else None
-    if not assignment:
+    assignments = [
+        record
+        for record in list_assignments(st.session_state.user_id)
+        if record.get("questions")
+    ]
+    assignments.sort(key=lambda record: record.get("updated_at") or record.get("created_at") or "", reverse=True)
+    if not assignments:
         st.info("No assessment has been assigned to your student ID yet.")
         return
+
+    def student_assignment_label(record: dict) -> str:
+        status = record.get("status", "assigned").replace("_", " ").title()
+        if record.get("results_released_at"):
+            status = "Final results released"
+        elif record.get("status") == "completed":
+            status = "Submitted — awaiting examiner"
+        return f"{record.get('title', 'Assessment')} — {status}"
+
+    assignment = st.selectbox(
+        "Your assessment",
+        assignments,
+        format_func=student_assignment_label,
+        key="student_assignment_picker",
+    )
 
     if st.session_state.active_assignment_id != assignment["assignment_id"]:
         reset_runtime_state()

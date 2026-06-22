@@ -111,6 +111,72 @@ class ExamPortalStoreTests(unittest.TestCase):
         store.mark_assignment_status(assignment["assignment_id"], "completed")
         self.assertIsNone(store.get_active_assignment("s1"))
 
+    def test_results_are_released_only_after_every_grade_is_examiner_verified(self) -> None:
+        assignment = store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Complete oral assessment",
+            subject="assignment_s1_test",
+            rubric="psle_oral_english",
+            visual={},
+            questions=[{"id": "q1", "text": "What do you see?"}],
+            reading={"name": "passage.txt", "text": "A short passage."},
+            examiner_id="e1",
+        )
+        grading = {
+            "scores": [{"criterion": "Delivery", "score": 6, "max_score": 10}],
+            "total_score": 6,
+            "max_score": 10,
+            "percentage": 60,
+        }
+        store.save_reading_submission(
+            assignment["assignment_id"], transcript="A short passage.", response_mode="voice", grading_result=grading
+        )
+        result = store.add_assessment_result(
+            assignment["assignment_id"],
+            question={"id": "q1", "text": "What do you see?"},
+            student_response="I see a family at the park.",
+            grading_result=grading,
+            session_id="session1",
+        )
+        store.mark_assignment_status(assignment["assignment_id"], "completed")
+
+        with self.assertRaises(ValueError):
+            store.release_final_results(assignment["assignment_id"], "e1")
+
+        store.apply_reading_examiner_review(assignment["assignment_id"], {"Delivery": 7}, "Clearer on replay.", "e1")
+        store.apply_examiner_review(assignment["assignment_id"], result["result_id"], {"Delivery": 8}, "Relevant response.", "e1")
+        released = store.release_final_results(assignment["assignment_id"], "e1")
+
+        self.assertIsNotNone(released["results_released_at"])
+        self.assertEqual(released["results_released_by"], "e1")
+        self.assertEqual(released["reading_submission"]["final_grading"]["total_score"], 7)
+        self.assertEqual(released["results"][0]["final_grading"]["total_score"], 8)
+
+    def test_student_cannot_submit_a_question_or_reading_twice(self) -> None:
+        assignment = store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Single attempt",
+            subject="assignment_s1_test",
+            rubric="psle_oral_english",
+            visual={},
+            questions=[{"id": "q1", "text": "What do you see?"}],
+            reading={"name": "passage.txt", "text": "A short passage."},
+            examiner_id="e1",
+        )
+        store.save_reading_submission(assignment["assignment_id"], transcript="A short passage.", response_mode="text")
+        with self.assertRaises(ValueError):
+            store.save_reading_submission(assignment["assignment_id"], transcript="A replacement.", response_mode="text")
+
+        result_args = {
+            "question": {"id": "q1", "text": "What do you see?"},
+            "student_response": "I see a park.",
+            "grading_result": {"scores": [], "total_score": 0, "max_score": 0, "percentage": 0},
+            "session_id": "session1",
+        }
+        store.add_assessment_result(assignment["assignment_id"], **result_args)
+        with self.assertRaises(ValueError):
+            store.add_assessment_result(assignment["assignment_id"], **result_args)
+
     def test_one_guidance_prompt_is_preserved_with_the_final_result(self) -> None:
         assignment = store.create_assignment(
             student={"id": "s1", "name": "Ada Student"},

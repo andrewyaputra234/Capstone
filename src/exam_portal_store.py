@@ -82,6 +82,8 @@ def _legacy_assignment(student_id: str, details: dict[str, Any]) -> dict[str, An
         "reading_completed_at": None,
         "guidance_attempts": {},
         "results": [],
+        "results_released_at": None,
+        "results_released_by": None,
     }
 
 
@@ -412,6 +414,8 @@ def create_assignment(
         "reading_completed_at": None,
         "guidance_attempts": {},
         "results": [],
+        "results_released_at": None,
+        "results_released_by": None,
     }
     store = load_assignments()
     store["assignments"][assignment_id] = record
@@ -474,10 +478,12 @@ def save_reading_submission(
     grading_result: dict[str, Any] | None = None,
     crew_analysis: str = "",
 ) -> dict[str, Any]:
-    """Save the student's reading-aloud recording without grading it automatically."""
+    """Save one reading-aloud submission and its provisional AI grade."""
     def save_submission(record: dict[str, Any]) -> None:
         if not record.get("reading"):
             raise ValueError("This assessment has no reading passage.")
+        if record.get("reading_submission"):
+            raise ValueError("The reading-aloud response has already been submitted.")
         record["reading_submission"] = {
             "transcript": transcript,
             "response_mode": response_mode,
@@ -486,6 +492,7 @@ def save_reading_submission(
             "delivery_indicators": copy.deepcopy(delivery_indicators) if delivery_indicators else None,
             "ai_grading": copy.deepcopy(grading_result) if grading_result else None,
             "final_grading": copy.deepcopy(grading_result) if grading_result else None,
+            "examiner_review": None,
             "crew_analysis": crew_analysis,
             "submitted_at": _now(),
         }
@@ -565,6 +572,8 @@ def add_assessment_result(
     }
 
     def append_result(record: dict[str, Any]) -> None:
+        if any(str(item.get("question_id")) == question_id for item in record.get("results", [])):
+            raise ValueError("This question has already been submitted.")
         guidance = record.setdefault("guidance_attempts", {}).pop(question_id, None)
         if guidance:
             guidance["follow_up_response"] = follow_up_response or student_response
@@ -614,3 +623,62 @@ def apply_examiner_review(
         raise KeyError(f"Result {result_id} was not found")
 
     return _update_assignment(assignment_id, update_result)
+
+
+def apply_reading_examiner_review(
+    assignment_id: str,
+    scores: dict[str, int],
+    note: str,
+    examiner_id: str,
+) -> dict[str, Any]:
+    """Save the examiner's final reading-aloud grade while retaining the AI grade."""
+    def update_reading(record: dict[str, Any]) -> None:
+        submission = record.get("reading_submission")
+        if not submission:
+            raise ValueError("The student has not submitted the reading-aloud response.")
+        final_grading = copy.deepcopy(submission.get("final_grading") or submission.get("ai_grading") or {})
+        total = 0
+        maximum = 0
+        for criterion in final_grading.get("scores", []):
+            max_score = int(criterion.get("max_score", 0))
+            name = str(criterion.get("criterion", ""))
+            if name in scores:
+                criterion["score"] = max(0, min(int(scores[name]), max_score))
+            total += int(criterion.get("score", 0))
+            maximum += max_score
+        final_grading["total_score"] = total
+        final_grading["max_score"] = maximum
+        final_grading["percentage"] = round(total / maximum * 100, 1) if maximum else 0
+        submission["final_grading"] = final_grading
+        submission["examiner_review"] = {
+            "reviewed_at": _now(),
+            "reviewed_by": examiner_id,
+            "note": note.strip(),
+            "score_changes": copy.deepcopy(scores),
+        }
+
+    return _update_assignment(assignment_id, update_reading)
+
+
+def release_final_results(assignment_id: str, examiner_id: str) -> dict[str, Any]:
+    """Release results only after the examiner has verified every required component."""
+    def release(record: dict[str, Any]) -> None:
+        if record.get("status") != "completed":
+            raise ValueError("The student must complete the assessment before results can be released.")
+        if record.get("reading"):
+            submission = record.get("reading_submission")
+            if not submission or not submission.get("examiner_review"):
+                raise ValueError("Verify the reading-aloud grade before releasing results.")
+
+        expected_ids = {str(question.get("id")) for question in record.get("questions", [])}
+        submitted = {str(result.get("question_id")): result for result in record.get("results", [])}
+        missing = expected_ids - set(submitted)
+        if missing:
+            raise ValueError("The student has not submitted every image question.")
+        unreviewed = [question_id for question_id in expected_ids if not submitted[question_id].get("examiner_review")]
+        if unreviewed:
+            raise ValueError("Verify every image-question grade before releasing results.")
+        record["results_released_at"] = _now()
+        record["results_released_by"] = examiner_id
+
+    return _update_assignment(assignment_id, release)

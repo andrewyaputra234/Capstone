@@ -1,0 +1,5 @@
+--- Chunk 1 ---
+Filename ending bracket or space cause ingestion issue to follow up
+
+Script to exclude excel file in folder for ingestion
+

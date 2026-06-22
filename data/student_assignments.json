@@ -26,7 +26,7 @@
       "rubric": "psle_oral_english",
       "status": "completed",
       "created_at": "2026-06-20T05:42:52.427206+00:00",
-      "updated_at": "2026-06-20T15:33:50.712447+00:00",
+      "updated_at": "2026-06-22T03:23:54.005669+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "image-45-1024x683.webp",
@@ -144,7 +144,7 @@
               },
               {
                 "criterion": "Stimulus Response Relevance",
-                "score": 4,
+                "score": 6,
                 "max_score": 8,
                 "feedback": "The answer provided does not address the prompt or show any relevance to the visual stimulus.",
                 "evidence": "The student's response of 'dinosaur' does not relate to the types of food in the lunchbox or express any personal opinion.",
@@ -152,7 +152,7 @@
               },
               {
                 "criterion": "Idea Development",
-                "score": 2,
+                "score": 8,
                 "max_score": 8,
                 "feedback": "The answer is very brief and does not address the question about the food in the lunchbox.",
                 "evidence": "dinosaur",
@@ -176,18 +176,18 @@
               }
             ],
             "tutoring_feedback": "Well done for confidently sharing your thoughts with me. However, I noticed that your answer of 'dinosaur' doesn't match the types of food in the lunchbox. Remember, it's important to pay attention to the details in the picture. In the future, try to describe the food you see and share whether you like them. For example, you could start with \"I see fresh vegetables and fruits in the lunchbox, and I enjoy eating...\" Keep up the effort in paying attention to details and expressing your opinions clearly.",
-            "total_score": 8,
+            "total_score": 16,
             "max_score": 25,
-            "percentage": 32.0,
+            "percentage": 64.0,
             "scoring_source": "ai"
           },
           "examiner_review": {
-            "reviewed_at": "2026-06-20T15:33:50.712431+00:00",
+            "reviewed_at": "2026-06-22T03:23:41.342865+00:00",
             "reviewed_by": "001",
             "note": "",
             "score_changes": {
-              "Stimulus Response Relevance": 4,
-              "Idea Development": 2,
+              "Stimulus Response Relevance": 6,
+              "Idea Development": 8,
               "Spoken Language Use": 2,
               "Interaction And Confidence": 0
             }
@@ -307,7 +307,17 @@
             "percentage": 24.0,
             "scoring_source": "ai"
           },
-          "examiner_review": null,
+          "examiner_review": {
+            "reviewed_at": "2026-06-22T03:23:29.746788+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 2,
+              "Idea Development": 2,
+              "Spoken Language Use": 1,
+              "Interaction And Confidence": 1
+            }
+          },
           "crew_analysis": "I appreciate your participation in the discussion. However, your response lacks detail and does not directly address the variety of fruits and vegetables in the image. Next time, try to provide specific examples or reasons to support your answer. For instance, you could say, \"It is important to have a variety of fruits and vegetables in a meal because they provide essential vitamins and nutrients for our bodies.\" Keep practicing to improve your explanation skills and connect your responses to the stimulus provided.\n\nSentence Starter: \"In the image, I noticed a variety of fruits and vegetables such as ____. These are important because...\""
         },
         {
@@ -425,10 +435,22 @@
             "percentage": 0.0,
             "scoring_source": "deterministic"
           },
-          "examiner_review": null,
+          "examiner_review": {
+            "reviewed_at": "2026-06-22T03:23:35.729260+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 0,
+              "Idea Development": 0,
+              "Spoken Language Use": 0,
+              "Interaction And Confidence": 0
+            }
+          },
           "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
         }
-      ]
+      ],
+      "results_released_at": "2026-06-22T03:23:54.005659+00:00",
+      "results_released_by": "001"
     },
     "ed3ae0cf193f": {
       "assignment_id": "ed3ae0cf193f",
@@ -1615,7 +1637,7 @@
       "rubric": "psle_oral_english",
       "status": "in_progress",
       "created_at": "2026-06-21T04:09:03.030866+00:00",
-      "updated_at": "2026-06-21T04:20:56.104474+00:00",
+      "updated_at": "2026-06-22T01:43:51.103198+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "helping.webp",
@@ -2532,6 +2554,516 @@
         },
         "submitted_at": "2026-06-21T04:29:42.366821+00:00"
       }
+    },
+    "a1307ec6bf43": {
+      "assignment_id": "a1307ec6bf43",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_001_b61434a1",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-06-22T01:45:46.826817+00:00",
+      "updated_at": "2026-06-22T03:19:41.132717+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "helping.webp",
+        "path": "data\\input\\assignment_001_b61434a1\\helping.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_001_b61434a1\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "File name ending bracket or space cross-ingestion. You should do fallout.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260622_030347_fd04bfe8.wav",
+        "transcription_path": "data\\sessions\\speech_20260622_030347_fd04bfe8.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 6.1,
+          "words_per_minute": 118.8,
+          "pitch_range_semitones": 11.1,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "File name ending bracket or space cross-ingestion. You should do fallout.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 6.1, \"words_per_minute\": 118.8, \"pitch_range_semitones\": 11.1, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and limited expression.",
+              "evidence": "File name ending bracket or space cross-ingestion. You should do fallout.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on clearly pronouncing most of the words in your reading. However, there was some confusion with the content of the stimulus, as the phrase \"space cross-ingestion\" does not align with the given information. The area that needs the most improvement is your pacing and expression while reading aloud. To improve, try varying your pitch and speed to match the meaning of the text. Next time, you can start with a confident opening like \"The file name suggests a connection to the topic of technology.\" Keep practicing to enhance your overall delivery and engagement with the text.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "File name ending bracket or space cross-ingestion. You should do fallout.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 6.1, \"words_per_minute\": 118.8, \"pitch_range_semitones\": 11.1, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and limited expression.",
+              "evidence": "File name ending bracket or space cross-ingestion. You should do fallout.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on clearly pronouncing most of the words in your reading. However, there was some confusion with the content of the stimulus, as the phrase \"space cross-ingestion\" does not align with the given information. The area that needs the most improvement is your pacing and expression while reading aloud. To improve, try varying your pitch and speed to match the meaning of the text. Next time, you can start with a confident opening like \"The file name suggests a connection to the topic of technology.\" Keep practicing to enhance your overall delivery and engagement with the text.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "crew_analysis": "Well done on clearly pronouncing most of the words in your reading. However, there was some confusion with the content of the stimulus, as the phrase \"space cross-ingestion\" does not align with the given information. The area that needs the most improvement is your pacing and expression while reading aloud. To improve, try varying your pitch and speed to match the meaning of the text. Next time, you can start with a confident opening like \"The file name suggests a connection to the topic of technology.\" Keep practicing to enhance your overall delivery and engagement with the text.\n\nSentence Starter: \"As I delve deeper into the passage, I can see connections to the real world.\"",
+        "submitted_at": "2026-06-22T03:05:58.769299+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the elderly person might have in the cart and why are they using it?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_b61434a1_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day."
+        },
+        {
+          "id": 2,
+          "text": "How important do you think it is for elderly people to get outside and be active? Can you give some examples?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_b61434a1_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day."
+        },
+        {
+          "id": 3,
+          "text": "What are some ways communities can help make outdoor spaces accessible and enjoyable for everyone?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_b61434a1_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day."
+        }
+      ],
+      "reading_completed_at": "2026-06-22T03:05:58.769324+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "b302b12a6aa7",
+          "question_id": 1,
+          "question": "What do you think the elderly person might have in the cart and why are they using it?",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+          "student_response": "I think the lady is doing some grocery shopping and she needs a trolley to push the heavy stuff.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260622_031619_da4b6521.wav",
+          "transcription_path": "data\\sessions\\speech_20260622_031619_da4b6521.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 7.9,
+            "words_per_minute": 143.9,
+            "pitch_range_semitones": 6.3,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "e396dd20",
+          "created_at": "2026-06-22T03:17:00.743643+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What do you think the elderly person might have in the cart and why are they using it?",
+            "answer": "I think the lady is doing some grocery shopping and she needs a trolley to push the heavy stuff.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant, mentioning grocery shopping and the need for a trolley, but lacks in-depth stimulus details or a strong personal viewpoint.",
+                "evidence": "The student mentions the lady doing grocery shopping and needing a trolley to push heavy stuff.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The answer provides a clear idea with a reason for why the elderly person is using the cart.",
+                "evidence": "The student suggests that the lady is doing grocery shopping and needs a trolley to push the heavy stuff.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+                "evidence": "The student uses appropriate vocabulary and clear sentence structure in their response.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and builds naturally on the prompt by explaining why they think the elderly person is using the cart.",
+                "evidence": "I think the lady is doing some grocery shopping and she needs a trolley to push the heavy stuff.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Excellent job on confidently explaining why you think the elderly person in the image is using the cart for grocery shopping. However, remember to pay attention to specific details in the stimulus, such as the fact that there is no mention of groceries in the image. A key area for improvement is to provide more in-depth stimulus details and personal viewpoints to enhance your response. Next time, you could start your answer with a sentence like, \"Based on the image, I believe the elderly person is using the cart because...\" Keep up the good effort in incorporating these suggestions into your responses!",
+            "total_score": 19,
+            "max_score": 25,
+            "percentage": 76.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What do you think the elderly person might have in the cart and why are they using it?",
+            "answer": "I think the lady is doing some grocery shopping and she needs a trolley to push the heavy stuff.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant, mentioning grocery shopping and the need for a trolley, but lacks in-depth stimulus details or a strong personal viewpoint.",
+                "evidence": "The student mentions the lady doing grocery shopping and needing a trolley to push heavy stuff.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The answer provides a clear idea with a reason for why the elderly person is using the cart.",
+                "evidence": "The student suggests that the lady is doing grocery shopping and needs a trolley to push the heavy stuff.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+                "evidence": "The student uses appropriate vocabulary and clear sentence structure in their response.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and builds naturally on the prompt by explaining why they think the elderly person is using the cart.",
+                "evidence": "I think the lady is doing some grocery shopping and she needs a trolley to push the heavy stuff.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Excellent job on confidently explaining why you think the elderly person in the image is using the cart for grocery shopping. However, remember to pay attention to specific details in the stimulus, such as the fact that there is no mention of groceries in the image. A key area for improvement is to provide more in-depth stimulus details and personal viewpoints to enhance your response. Next time, you could start your answer with a sentence like, \"Based on the image, I believe the elderly person is using the cart because...\" Keep up the good effort in incorporating these suggestions into your responses!",
+            "total_score": 19,
+            "max_score": 25,
+            "percentage": 76.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Excellent job on confidently explaining why you think the elderly person in the image is using the cart for grocery shopping. Remember to pay attention to specific details in the stimulus. A key area for improvement is to provide more in-depth stimulus details and personal viewpoints. Next time, you could start your answer with a sentence like, \"Based on the image, I believe the elderly person is using the cart because...\" Keep up the good effort in incorporating these suggestions into your responses!"
+        },
+        {
+          "result_id": "2c5a5ccf59ab",
+          "question_id": 2,
+          "question": "How important do you think it is for elderly people to get outside and be active? Can you give some examples?",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "e396dd20",
+          "created_at": "2026-06-22T03:17:39.620408+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "How important do you think it is for elderly people to get outside and be active? Can you give some examples?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "How important do you think it is for elderly people to get outside and be active? Can you give some examples?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "dcde4cdd4cbc",
+          "question_id": 3,
+          "question": "What are some ways communities can help make outdoor spaces accessible and enjoyable for everyone?",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+          "student_response": "First response: hi\n\nResponse after examiner follow-up: Ohleleylo Hello, hello",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260622_031912_7ab59f34.wav",
+          "transcription_path": "data\\sessions\\speech_20260622_031912_7ab59f34.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 11.8,
+            "words_per_minute": 15.3,
+            "pitch_range_semitones": 9.4,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "e396dd20",
+          "created_at": "2026-06-22T03:19:40.601116+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What are some ways communities can help make outdoor spaces accessible and enjoyable for everyone?",
+            "answer": "First response: hi\n\nResponse after examiner follow-up: Ohleleylo Hello, hello",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's responses do not address the prompt or provide any relevant information related to the visual stimulus.",
+                "evidence": "First response: hi; Response after examiner follow-up: Ohleleylo Hello, hello",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The student's initial response of 'hi' and 'Ohleleylo Hello, hello' after follow-up lack any developed ideas related to the question about making outdoor spaces accessible and enjoyable for everyone.",
+                "evidence": "First response: hi, Response after examiner follow-up: Ohleleylo Hello, hello",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response lacks clarity and demonstrates very limited vocabulary.",
+                "evidence": "The student's initial response of 'hi' and 'Ohleleylo Hello, hello' show very limited vocabulary and lack of coherence.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's initial responses do not demonstrate meaningful interaction or engagement with the question.",
+                "evidence": "First response: hi, Response after examiner follow-up: Ohleleylo Hello, hello",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Hello there, I appreciate your effort in responding to the prompt. One thing I noticed is your friendly tone in saying 'hi' and 'Ohleleylo Hello, hello'. However, it's important to provide relevant information related to the visual stimulus. In this case, the prompt was about making outdoor spaces accessible and enjoyable for everyone, but your responses did not address that. \n\nMoving forward, try to think about how communities can improve outdoor spaces for everyone. For example, you could mention adding ramps for wheelchair accessibility or creating more shaded areas for comfort. A good sentence starter could be, \"One way communities can make outdoor spaces better for everyone is by...\" Remember to focus on the prompt and provide detailed ideas related to the topic. Keep practicing and I'm sure you'll improve in no time.",
+            "total_score": 3,
+            "max_score": 25,
+            "percentage": 12.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What are some ways communities can help make outdoor spaces accessible and enjoyable for everyone?",
+            "answer": "First response: hi\n\nResponse after examiner follow-up: Ohleleylo Hello, hello",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige beanie, and a face mask, pushing a cart along a paved path in a park. There is a bag in the cart filled with various items. The surroundings are green with grass and trees, indicating a pleasant, sunny day.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's responses do not address the prompt or provide any relevant information related to the visual stimulus.",
+                "evidence": "First response: hi; Response after examiner follow-up: Ohleleylo Hello, hello",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The student's initial response of 'hi' and 'Ohleleylo Hello, hello' after follow-up lack any developed ideas related to the question about making outdoor spaces accessible and enjoyable for everyone.",
+                "evidence": "First response: hi, Response after examiner follow-up: Ohleleylo Hello, hello",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response lacks clarity and demonstrates very limited vocabulary.",
+                "evidence": "The student's initial response of 'hi' and 'Ohleleylo Hello, hello' show very limited vocabulary and lack of coherence.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's initial responses do not demonstrate meaningful interaction or engagement with the question.",
+                "evidence": "First response: hi, Response after examiner follow-up: Ohleleylo Hello, hello",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Hello there, I appreciate your effort in responding to the prompt. One thing I noticed is your friendly tone in saying 'hi' and 'Ohleleylo Hello, hello'. However, it's important to provide relevant information related to the visual stimulus. In this case, the prompt was about making outdoor spaces accessible and enjoyable for everyone, but your responses did not address that. \n\nMoving forward, try to think about how communities can improve outdoor spaces for everyone. For example, you could mention adding ramps for wheelchair accessibility or creating more shaded areas for comfort. A good sentence starter could be, \"One way communities can make outdoor spaces better for everyone is by...\" Remember to focus on the prompt and provide detailed ideas related to the topic. Keep practicing and I'm sure you'll improve in no time.",
+            "total_score": 3,
+            "max_score": 25,
+            "percentage": 12.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Hello there, I appreciate your effort in responding to the prompt. One thing I noticed is your friendly tone in saying 'hi' and 'Ohleleylo Hello, hello'. However, it's important to provide relevant information related to the visual stimulus. In this case, the prompt was about making outdoor spaces accessible and enjoyable for everyone, but your responses did not address that.\n\nMoving forward, try to think about how communities can improve outdoor spaces for everyone. For example, you could mention adding ramps for wheelchair accessibility or creating more shaded areas for comfort. A good sentence starter could be, \"One way communities can make outdoor spaces better for everyone is by...\"\n\nRemember to focus on the prompt and provide detailed ideas related to the topic. Keep practicing and I'm sure you'll improve in no time.",
+          "guided_attempt": {
+            "original_response": "hi",
+            "original_response_mode": "text",
+            "original_audio_path": null,
+            "original_transcription_path": null,
+            "original_delivery_indicators": null,
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-22T03:18:49.714084+00:00",
+            "follow_up_response": "Ohleleylo Hello, hello"
+          }
+        }
+      ]
     }
   }
 }

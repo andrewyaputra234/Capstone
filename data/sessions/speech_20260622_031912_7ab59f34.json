@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260622_031912_7ab59f34.wav",
+  "transcript": "Ohleleylo Hello, hello",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 11.8,
+    "words_per_minute": 15.3,
+    "pitch_range_semitones": 9.4,
+    "notes": [
+      "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-22T03:19:15.114345+00:00"
+}
