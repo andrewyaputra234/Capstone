@@ -1,0 +1,249 @@
+{
+  "session_id": "d1ba0cd1",
+  "paper_id": "assignment_001_1d6cd8fd",
+  "student_id": "001",
+  "date_created": "2026-06-22T14:05:22.927959",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-22T14:06:12.496424",
+      "speaker": "avatar",
+      "text": "Can you describe what the elderly person in the picture is doing and how they might be feeling?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking in a park on a sunny day. The person is pushing a shopping cart filled with groceries. They are wearing a face mask, a beanie, a coat, and pants. The surroundings include green grass, trees, and a paved walkway."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-22T14:06:12.506274",
+      "speaker": "student",
+      "text": "First response: Hello.\n\nResponse after examiner follow-up: Hello, how are you?",
+      "audio_path": "data\\sessions\\speech_20260622_060536_801cdb01.wav",
+      "transcription_path": "data\\sessions\\speech_20260622_060536_801cdb01.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-06-22T14:09:58.613416",
+      "speaker": "avatar",
+      "text": "Why do you think the person is wearing a mask and what does it tell you about the current environment?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking in a park on a sunny day. The person is pushing a shopping cart filled with groceries. They are wearing a face mask, a beanie, a coat, and pants. The surroundings include green grass, trees, and a paved walkway."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-06-22T14:09:58.625573",
+      "speaker": "student",
+      "text": "First response: There is a tree.\n\nResponse after examiner follow-up: [No response after guidance]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-06-22T14:10:06.986217",
+      "speaker": "avatar",
+      "text": "Imagine you are walking in the park. What are some activities you could do here and why are they enjoyable?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking in a park on a sunny day. The person is pushing a shopping cart filled with groceries. They are wearing a face mask, a beanie, a coat, and pants. The surroundings include green grass, trees, and a paved walkway."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-06-22T14:10:07.004247",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Can you describe what the elderly person in the picture is doing and how they might be feeling?",
+        "answer": "First response: Hello.\n\nResponse after examiner follow-up: Hello, how are you?",
+        "visual_context": "The image shows an elderly person walking in a park on a sunny day. The person is pushing a shopping cart filled with groceries. They are wearing a face mask, a beanie, a coat, and pants. The surroundings include green grass, trees, and a paved walkway.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The response lacks relevance to the prompt and stimulus details.",
+            "evidence": "Hello.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The answer is very brief and lacks development.",
+            "evidence": "Hello.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 1,
+            "max_score": 6,
+            "feedback": "The student's response lacks relevant content and does not address the question about the elderly person in the picture.",
+            "evidence": "Hello.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responded adequately with some confidence to the examiner's follow-up question.",
+            "evidence": "The student responded to the examiner's follow-up question with 'Hello, how are you?'",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Hello, I appreciate your prompt response to my follow-up question. Your willingness to engage in conversation shows good interaction and confidence. However, in terms of improvement, your answer lacked relevance to the prompt and stimulus details. Remember to focus on describing the elderly person in the picture and how they might be feeling based on the visual cues provided. Try starting your response with something like \"The elderly person in the picture is...\" for a more focused and detailed answer. Keep practicing and pay close attention to the details in the image for a more accurate and complete response next time.",
+        "total_score": 7,
+        "max_score": 25,
+        "percentage": 28.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Why do you think the person is wearing a mask and what does it tell you about the current environment?",
+        "answer": "First response: There is a tree.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "The image shows an elderly person walking in a park on a sunny day. The person is pushing a shopping cart filled with groceries. They are wearing a face mask, a beanie, a coat, and pants. The surroundings include green grass, trees, and a paved walkway.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Imagine you are walking in the park. What are some activities you could do here and why are they enjoyable?",
+        "answer": "[Skipped question]",
+        "visual_context": "The image shows an elderly person walking in a park on a sunny day. The person is pushing a shopping cart filled with groceries. They are wearing a face mask, a beanie, a coat, and pants. The surroundings include green grass, trees, and a paved walkway.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    }
+  ],
+  "start_time": "2026-06-22T14:05:22.938903",
+  "end_time": "2026-06-22T14:10:11.764238",
+  "metadata": {
+    "assignment_id": "f3aca57371d1",
+    "component": "student_assessment",
+    "subject": "assignment_001_1d6cd8fd",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

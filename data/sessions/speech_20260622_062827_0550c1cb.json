@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260622_062827_0550c1cb.wav",
+  "transcript": "I think the person just went grocery shopping",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 3.5,
+    "words_per_minute": 137.9,
+    "pitch_range_semitones": 6.7,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-22T06:28:38.873594+00:00"
+}

@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260622_060848_ec499f5f.wav",
+  "transcript": "There is a tree.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 3.4,
+    "words_per_minute": 71.4,
+    "pitch_range_semitones": 7.5,
+    "notes": [
+      "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-22T06:08:51.843569+00:00"
+}

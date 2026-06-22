@@ -1,0 +1,169 @@
+{
+  "session_id": "6452bc91",
+  "paper_id": "assignment_001_f3f01304",
+  "student_id": "001",
+  "date_created": "2026-06-22T14:40:40.658765",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-22T14:40:47.437624",
+      "speaker": "avatar",
+      "text": "Can you describe what the person in the picture is doing and what they might have in their cart?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking on a path in a park. The person is wearing a blue coat, beige pants, a beige beanie, and a face mask. They are pushing a black shopping cart filled with grocery bags. A backpack is strapped to their back. The park has green grass, a few trees, and is under a clear, sunny sky."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-22T14:40:47.451585",
+      "speaker": "student",
+      "text": "I think the person just went grocery shopping",
+      "audio_path": "data\\sessions\\speech_20260622_062827_0550c1cb.wav",
+      "transcription_path": "data\\sessions\\speech_20260622_062827_0550c1cb.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-06-22T14:41:05.974509",
+      "speaker": "avatar",
+      "text": "Can you describe what the person in the picture is doing and what they might have in their cart?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking on a path in a park. The person is wearing a blue coat, beige pants, a beige beanie, and a face mask. They are pushing a black shopping cart filled with grocery bags. A backpack is strapped to their back. The park has green grass, a few trees, and is under a clear, sunny sky."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-06-22T14:41:05.990288",
+      "speaker": "student",
+      "text": "I think the person just went grocery shopping",
+      "audio_path": "data\\sessions\\speech_20260622_062827_0550c1cb.wav",
+      "transcription_path": "data\\sessions\\speech_20260622_062827_0550c1cb.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Can you describe what the person in the picture is doing and what they might have in their cart?",
+        "answer": "I think the person just went grocery shopping",
+        "visual_context": "The image shows an elderly person walking on a path in a park. The person is wearing a blue coat, beige pants, a beige beanie, and a face mask. They are pushing a black shopping cart filled with grocery bags. A backpack is strapped to their back. The park has green grass, a few trees, and is under a clear, sunny sky.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The response is mostly relevant as it mentions grocery shopping, but lacks specific details from the stimulus like the shopping cart and bags.",
+            "evidence": "The student's answer states 'I think the person just went grocery shopping.'",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+            "evidence": "The student's answer is very brief and only states that the person went grocery shopping.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+            "evidence": "The student's answer is clear but lacks detail and complexity.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence, acknowledging the activity of grocery shopping.",
+            "evidence": "The student's answer states, 'I think the person just went grocery shopping.'",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for recognizing that the person in the picture went grocery shopping. You showed good understanding of the situation. However, you missed mentioning key details like the shopping cart and bags in your response. Try to include more specific details from the picture next time to make your answer more complete. Remember to elaborate on your ideas and give examples to support your response. For example, you could say, \"The person seems to have just finished shopping for groceries as they are pushing a black shopping cart filled with bags.\" Keep practicing to improve your language use and accuracy. Keep up the effort!",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Can you describe what the person in the picture is doing and what they might have in their cart?",
+        "answer": "I think the person just went grocery shopping",
+        "visual_context": "The image shows an elderly person walking on a path in a park. The person is wearing a blue coat, beige pants, a beige beanie, and a face mask. They are pushing a black shopping cart filled with grocery bags. A backpack is strapped to their back. The park has green grass, a few trees, and is under a clear, sunny sky.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The response is mostly relevant as it mentions grocery shopping, but lacks specific details from the stimulus like the shopping cart, grocery bags, and the park setting.",
+            "evidence": "The student mentions that the person went grocery shopping.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+            "evidence": "The student's answer is very brief and only states that the person went grocery shopping.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+            "evidence": "The student's answer is clear but lacks detail and complexity.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence.",
+            "evidence": "The student provides a brief but relevant answer to the question.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Great job in recognizing that the person in the picture went grocery shopping. However, you missed mentioning important details like the shopping cart, grocery bags, and the park setting. Next time, try to include more specific details from the picture to make your answer more complete. A sentence starter you can use is \"I noticed that...\" Keep practicing to improve your idea development and include more elaboration and examples in your responses. Overall, good effort, and keep working on adding more detail to your answers.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-06-22T14:40:40.675037",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "dc143798cb8f",
+    "component": "student_assessment",
+    "subject": "assignment_001_f3f01304",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

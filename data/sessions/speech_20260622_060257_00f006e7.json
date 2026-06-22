@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260622_060257_00f006e7.wav",
+  "transcript": "Hello.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 2.0,
+    "words_per_minute": 30.3,
+    "pitch_range_semitones": 6.9,
+    "notes": [
+      "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-22T06:03:10.682094+00:00"
+}

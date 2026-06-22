@@ -118,6 +118,16 @@ def ensure_assignment_crew(assignment: dict) -> EducationCrew:
     return st.session_state.crew
 
 
+def restore_assignment_session(crew: EducationCrew, assignment_id: str) -> bool:
+    """Recover an active session after a Streamlit rerun loses browser state."""
+    session = crew.session_manager.find_active_session_for_assignment(assignment_id)
+    if not session:
+        return False
+    crew.session_id = session.session_id
+    st.session_state.session_id = session.session_id
+    return True
+
+
 def render_grading_result(grading: dict, *, heading: str | None = None) -> None:
     if heading:
         st.markdown(f"#### {heading}")
@@ -838,6 +848,8 @@ def render_student_assessment(assignment: dict) -> None:
 
     answered_ids = {result.get("question_id") for result in assignment.get("results", [])}
     if not st.session_state.session_id:
+        if restore_assignment_session(crew, assignment["assignment_id"]):
+            st.rerun()
         if st.button("Begin assessment", type="primary", use_container_width=True):
             st.session_state.session_id = crew.start_session(
                 metadata={"assignment_id": assignment["assignment_id"], "component": "student_assessment"}
@@ -1003,12 +1015,19 @@ def render_student_portal() -> None:
             status = "Submitted — awaiting examiner"
         return f"{record.get('title', 'Assessment')} — {status}"
 
-    assignment = st.selectbox(
+    assignments_by_id = {record["assignment_id"]: record for record in assignments}
+    assignment_ids = list(assignments_by_id)
+    active_assignment_id = st.session_state.active_assignment_id
+    initial_index = assignment_ids.index(active_assignment_id) if active_assignment_id in assignments_by_id else 0
+    selected_assignment_id = st.selectbox(
         "Your assessment",
-        assignments,
-        format_func=student_assignment_label,
-        key="student_assignment_picker",
+        assignment_ids,
+        index=initial_index,
+        format_func=lambda assignment_id: student_assignment_label(assignments_by_id[assignment_id]),
+        key="student_assignment_id_picker",
+        disabled=bool(st.session_state.session_id and active_assignment_id in assignments_by_id),
     )
+    assignment = assignments_by_id[selected_assignment_id]
 
     if st.session_state.active_assignment_id != assignment["assignment_id"]:
         reset_runtime_state()

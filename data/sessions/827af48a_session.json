@@ -1,0 +1,246 @@
+{
+  "session_id": "827af48a",
+  "paper_id": "assignment_001_a9137946",
+  "student_id": "001",
+  "date_created": "2026-06-22T14:57:04.081313",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-22T14:58:47.824645",
+      "speaker": "avatar",
+      "text": "Can you describe what the elderly person is doing in this picture and why it might be important for people to engage in such activities?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking outdoors in a park-like setting on a sunny day. They are wearing a blue coat, a beige beanie, and a face mask. The person is pushing a black metal shopping cart filled with grocery bags. The path is surrounded by well-maintained green grass and trees, and there is a backpack on their back."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-22T14:58:47.840856",
+      "speaker": "student",
+      "text": "First response: That elderly person is going grocery shopping and walking trolley.\n\nResponse after examiner follow-up: I think it's important to keep it healthy.",
+      "audio_path": "data\\sessions\\speech_20260622_065834_ad482e53.wav",
+      "transcription_path": "data\\sessions\\speech_20260622_065834_ad482e53.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-06-22T15:00:31.962379",
+      "speaker": "avatar",
+      "text": "What do you think about the environment in this image? How does it contribute to the person\u2019s experience?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking outdoors in a park-like setting on a sunny day. They are wearing a blue coat, a beige beanie, and a face mask. The person is pushing a black metal shopping cart filled with grocery bags. The path is surrounded by well-maintained green grass and trees, and there is a backpack on their back."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-06-22T15:00:31.978073",
+      "speaker": "student",
+      "text": "I think it's a very clean and green environment and it's good to have some fresh air and also to get out of the house and really enjoy living out there.",
+      "audio_path": "data\\sessions\\speech_20260622_065936_a3cdbb0d.wav",
+      "transcription_path": "data\\sessions\\speech_20260622_065936_a3cdbb0d.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-06-22T15:01:01.066451",
+      "speaker": "avatar",
+      "text": "Why do you think it is important for communities to have spaces like the one in the picture?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows an elderly person walking outdoors in a park-like setting on a sunny day. They are wearing a blue coat, a beige beanie, and a face mask. The person is pushing a black metal shopping cart filled with grocery bags. The path is surrounded by well-maintained green grass and trees, and there is a backpack on their back."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-06-22T15:01:01.078993",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Can you describe what the elderly person is doing in this picture and why it might be important for people to engage in such activities?",
+        "answer": "First response: That elderly person is going grocery shopping and walking trolley.\n\nResponse after examiner follow-up: I think it's important to keep it healthy.",
+        "visual_context": "The image shows an elderly person walking outdoors in a park-like setting on a sunny day. They are wearing a blue coat, a beige beanie, and a face mask. The person is pushing a black metal shopping cart filled with grocery bags. The path is surrounded by well-maintained green grass and trees, and there is a backpack on their back.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The response is mostly relevant, mentioning grocery shopping and walking with a trolley, but lacks in-depth stimulus details and personal viewpoint.",
+            "evidence": "The student mentions the elderly person going grocery shopping and walking with a trolley, showing some relevance to the stimulus.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea but lacks elaboration or examples to support it.",
+            "evidence": "That elderly person is going grocery shopping and walking trolley.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+            "evidence": "The student's response includes simple vocabulary and understandable language, but there are errors in sentence structure and grammar.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence and provides a brief explanation when prompted.",
+            "evidence": "I think it's important to keep it healthy.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for mentioning that the elderly person is going grocery shopping and walking with a trolley, showing good observation skills. However, there was a mismatch with the visual stimulus facts as the person was actually pushing a shopping cart, not a trolley. Your biggest improvement area is in providing more details and examples to support your ideas. Next time, try starting with a sentence like \"In the picture, I can see...\" to help you include more details. Keep practicing to improve your idea development and language use.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "What do you think about the environment in this image? How does it contribute to the person\u2019s experience?",
+        "answer": "I think it's a very clean and green environment and it's good to have some fresh air and also to get out of the house and really enjoy living out there.",
+        "visual_context": "The image shows an elderly person walking outdoors in a park-like setting on a sunny day. They are wearing a blue coat, a beige beanie, and a face mask. The person is pushing a black metal shopping cart filled with grocery bags. The path is surrounded by well-maintained green grass and trees, and there is a backpack on their back.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+            "evidence": "The student mentions the clean and green environment in the image and the benefit of fresh air and enjoying being outdoors.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student's answer provides a basic idea about the environment but lacks elaboration or specific examples.",
+            "evidence": "The student mentions that the environment is clean and green and talks about the benefits of fresh air and getting out of the house.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 4,
+            "max_score": 6,
+            "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+            "evidence": "The student uses appropriate vocabulary to describe the environment as 'clean and green' and mentions the importance of fresh air and enjoying being outdoors.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence to the prompt about the environment in the image.",
+            "evidence": "The student acknowledges the clean and green environment in the image and expresses the benefits of being outdoors.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Great job for mentioning the clean and green environment in the image and highlighting the importance of fresh air. However, there was a slight mismatch as the student mentioned enjoying living outdoors, which was not explicitly shown in the image. The biggest area for improvement is to provide more specific examples or details to support your ideas about the environment. Next time, you can start your response with \"I noticed that the environment in the image is...\" to help you connect your answer more closely to the stimulus. Overall, good effort, and keep working on adding more details to strengthen your responses.",
+        "total_score": 16,
+        "max_score": 25,
+        "percentage": 64.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Why do you think it is important for communities to have spaces like the one in the picture?",
+        "answer": "[Skipped question]",
+        "visual_context": "The image shows an elderly person walking outdoors in a park-like setting on a sunny day. They are wearing a blue coat, a beige beanie, and a face mask. The person is pushing a black metal shopping cart filled with grocery bags. The path is surrounded by well-maintained green grass and trees, and there is a backpack on their back.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    }
+  ],
+  "start_time": "2026-06-22T14:57:04.096810",
+  "end_time": "2026-06-22T15:01:01.918885",
+  "metadata": {
+    "assignment_id": "eba71c223b4d",
+    "component": "student_assessment",
+    "subject": "assignment_001_a9137946",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

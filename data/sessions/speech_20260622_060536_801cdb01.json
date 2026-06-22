@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260622_060536_801cdb01.wav",
+  "transcript": "Hello, how are you?",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 2.0,
+    "words_per_minute": 117.6,
+    "pitch_range_semitones": 10.7,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-22T06:05:46.342838+00:00"
+}

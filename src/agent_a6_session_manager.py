@@ -363,6 +363,28 @@ class SessionManager:
             except (OSError, json.JSONDecodeError, AttributeError):
                 print(f"[WARN] Skipping unreadable session file: {file}")
         return sorted(sessions)
+
+    def find_active_session_for_assignment(self, assignment_id: str) -> Optional[Session]:
+        """Restore the newest active session associated with an assignment."""
+        session_files = sorted(
+            Path(self.session_dir).glob("*_session.json"),
+            key=lambda path: path.stat().st_mtime,
+            reverse=True,
+        )
+        for session_file in session_files:
+            try:
+                with open(session_file, "r", encoding="utf-8") as handle:
+                    data = json.load(handle)
+                metadata = data.get("metadata") or {}
+                if (
+                    data.get("state") == SessionState.ACTIVE.value
+                    and metadata.get("assignment_id") == assignment_id
+                    and data.get("session_id")
+                ):
+                    return self.get_session(data["session_id"])
+            except (OSError, json.JSONDecodeError, AttributeError, ValueError):
+                continue
+        return None
     
     def delete_session(self, session_id: str, include_artifacts: bool = True) -> bool:
         """Delete a session and optional files referenced by the session."""

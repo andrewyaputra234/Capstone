@@ -1,0 +1,19 @@
+{
+  "session_id": "6564f8d1",
+  "paper_id": "assignment_001_f3f01304",
+  "student_id": "001",
+  "date_created": "2026-06-22T14:43:01.919059",
+  "state": "ACTIVE",
+  "turns": [],
+  "scores": null,
+  "start_time": "2026-06-22T14:43:01.934479",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "dc143798cb8f",
+    "component": "student_assessment",
+    "subject": "assignment_001_f3f01304",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

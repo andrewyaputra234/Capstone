@@ -28,6 +28,20 @@ class PersistenceSafetyTests(unittest.TestCase):
             (Path(directory) / "broken_session.json").write_text("not json", encoding="utf-8")
             self.assertEqual(manager.list_sessions(), [session_id])
 
+    def test_active_session_can_be_restored_for_its_assignment(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            manager = SessionManager(session_dir=directory)
+            session_id = manager.create_session("paper", "student", metadata={"assignment_id": "assignment-1"})
+            self.assertTrue(manager.start_session(session_id))
+
+            restored = SessionManager(session_dir=directory).find_active_session_for_assignment("assignment-1")
+
+            self.assertIsNotNone(restored)
+            self.assertEqual(restored.session_id, session_id)
+
+            self.assertTrue(manager.end_session(session_id))
+            self.assertIsNone(SessionManager(session_dir=directory).find_active_session_for_assignment("assignment-1"))
+
     def test_invalid_subject_config_is_not_silently_replaced(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
