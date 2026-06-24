@@ -11,6 +11,7 @@ import re
 import shutil
 import sys
 import tempfile
+import time
 import uuid
 from pathlib import Path
 
@@ -64,6 +65,9 @@ for key, default in [
     ("crew_student_id", None),
     ("session_id", None),
     ("active_assignment_id", None),
+    ("assignment_draft", None),
+    ("preparation_deadline", None),
+    ("preparation_complete", False),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -85,6 +89,8 @@ def reset_runtime_state() -> None:
 
 def logout() -> None:
     reset_runtime_state()
+    st.session_state.preparation_deadline = None
+    st.session_state.preparation_complete = False
     st.session_state.authenticated = False
     st.session_state.user_role = None
     st.session_state.user_id = ""
@@ -369,6 +375,12 @@ def render_login() -> None:
         st.session_state.user_role = role.lower()
         st.session_state.user_id = user["id"]
         st.session_state.user_name = user["name"]
+        if role == "Student":
+            st.session_state.preparation_deadline = time.time() + 10 * 60
+            st.session_state.preparation_complete = False
+        else:
+            st.session_state.preparation_deadline = None
+            st.session_state.preparation_complete = False
         st.rerun()
 
     with st.expander("Where do registered students come from?"):
@@ -437,12 +449,87 @@ def render_create_assignment() -> None:
     notice = st.session_state.pop("rubric_upload_notice", None)
     if notice:
         st.success(notice)
+    assignment_notice = st.session_state.pop("assignment_notice", None)
+    if assignment_notice:
+        st.success(assignment_notice)
     render_custom_rubric_upload()
     if not students:
         st.warning("No registered students are available. Add students to `data/users.json` first.")
         return
 
-    st.markdown("#### Choose the materials for this assignment")
+    draft = st.session_state.get("assignment_draft")
+    if draft:
+        st.markdown("#### Review AI-generated questions")
+        st.info(
+            "Edit any question before assigning it. The student and grader will use these final examiner-approved questions."
+        )
+        with st.form("review_assignment_questions"):
+            edited_questions = []
+            for number, question in enumerate(draft["questions"], 1):
+                original_text = str(question.get("text", ""))
+                text = st.text_area(
+                    f"Question {number}",
+                    value=original_text,
+                    height=100,
+                    key=f"draft_question_{draft['draft_id']}_{question.get('id', number)}",
+                )
+                edited_questions.append((question, text))
+
+            assign_column, discard_column = st.columns(2)
+            assign = assign_column.form_submit_button(
+                "Assign reviewed assessment", type="primary", use_container_width=True
+            )
+            discard = discard_column.form_submit_button("Discard draft", use_container_width=True)
+
+        if discard:
+            try:
+                SubjectManager().delete_subject_data(draft["subject"])
+            except Exception:
+                pass
+            st.session_state.assignment_draft = None
+            st.rerun()
+
+        if not assign:
+            return
+
+        final_questions = []
+        for question, edited_text in edited_questions:
+            final_text = edited_text.strip()
+            if not final_text:
+                st.error("Every question needs text before the assessment can be assigned.")
+                return
+            generated_text = str(question.get("generated_text", question.get("text", "")))
+            final_questions.append(
+                {
+                    **question,
+                    "text": final_text,
+                    "generated_text": generated_text,
+                    "edited_by_examiner": final_text != generated_text,
+                }
+            )
+
+        try:
+            record = create_assignment(
+                student=draft["student"],
+                title=draft["title"],
+                subject=draft["subject"],
+                rubric=draft["rubric"],
+                visual=draft["visual"],
+                questions=final_questions,
+                reading=draft["reading"],
+                examiner_id=st.session_state.user_id,
+            )
+        except Exception as error:
+            st.error(f"The assessment was not assigned: {error}")
+            return
+
+        st.session_state.assignment_draft = None
+        st.session_state["assignment_notice"] = (
+            f"Assigned '{record['title']}' to {draft['student']['name']} with {len(record['questions'])} reviewed question(s)."
+        )
+        st.rerun()
+
+    st.markdown("#### Choose the materials for this assessment")
     visual_uploads = st.file_uploader(
         "Upload one or more picture stimuli",
         type=["png", "jpg", "jpeg", "webp"],
@@ -472,7 +559,7 @@ def render_create_assignment() -> None:
         selected_label = st.selectbox("Assign to registered student", list(student_by_label))
         title = st.text_input("Assessment title", value="PSLE English Oral Practice")
         rubric = st.selectbox("Grading rubric", rubrics, format_func=rubric_display_name)
-        submitted = st.form_submit_button("Assign selected materials", type="primary", use_container_width=True)
+        submitted = st.form_submit_button("Generate questions for review", type="primary", use_container_width=True)
 
     if not submitted:
         return
@@ -514,16 +601,20 @@ def render_create_assignment() -> None:
                     "text": extract_reading_passage(stored_path) if stored_path else "",
                 }
 
-            record = create_assignment(
-                student=student,
-                title=title,
-                subject=subject,
-                rubric=rubric,
-                visual=visual_info,
-                questions=questions,
-                reading=reading_info,
-                examiner_id=st.session_state.user_id,
-            )
+            prepared_questions = [
+                {**question, "generated_text": question.get("text", ""), "edited_by_examiner": False}
+                for question in questions
+            ]
+            st.session_state.assignment_draft = {
+                "draft_id": uuid.uuid4().hex,
+                "student": student,
+                "title": title,
+                "subject": subject,
+                "rubric": rubric,
+                "visual": visual_info,
+                "questions": prepared_questions,
+                "reading": reading_info,
+            }
     except Exception as error:
         # Ingestion creates subject folders before the JSON assignment is saved.
         # Remove those orphaned artifacts when the assignment cannot be completed.
@@ -531,16 +622,12 @@ def render_create_assignment() -> None:
             SubjectManager().delete_subject_data(subject)
         except Exception:
             pass
-        st.error(f"The assessment was not assigned: {error}")
+        st.error(f"The questions could not be prepared for review: {error}")
         return
     finally:
         shutil.rmtree(temporary_directory, ignore_errors=True)
 
-    st.success(f"Assigned '{record['title']}' to {student['name']}.")
-    st.caption(f"Created {len(record['questions'])} image question(s).")
-    with st.expander("Generated questions"):
-        for number, question in enumerate(record["questions"], 1):
-            st.write(f"**Q{number}.** {question.get('text', '')}")
+    st.rerun()
 
 
 def _assignment_label(assignment: dict) -> str:
@@ -749,6 +836,30 @@ def render_student_materials(assignment: dict) -> None:
     else:
         st.caption("No reading-aloud passage was assigned for this assessment.")
 
+    st.divider()
+    st.warning("Continuing starts the assessment phase. You will not be able to return to these preparation materials.")
+    if st.button("Continue to assessment", type="primary", use_container_width=True):
+        st.session_state.preparation_complete = True
+        st.rerun()
+
+
+@st.fragment(run_every=1)
+def render_preparation_timer() -> None:
+    """Display and enforce the student preparation window."""
+    deadline = st.session_state.preparation_deadline
+    if not deadline or st.session_state.preparation_complete:
+        return
+
+    seconds_remaining = max(0, int(deadline - time.time()))
+    if seconds_remaining == 0:
+        st.session_state.preparation_complete = True
+        st.warning("Preparation time has ended. The assessment phase is now open and materials are locked.")
+        st.rerun(scope="app")
+
+    minutes, seconds = divmod(seconds_remaining, 60)
+    st.info(f"Preparation time remaining: **{minutes:02d}:{seconds:02d}**")
+    st.progress(seconds_remaining / (10 * 60))
+
 
 def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bool:
     """Collect the reading-aloud submission before image questions begin."""
@@ -851,6 +962,7 @@ def render_student_assessment(assignment: dict) -> None:
         if restore_assignment_session(crew, assignment["assignment_id"]):
             st.rerun()
         if st.button("Begin assessment", type="primary", use_container_width=True):
+            st.session_state.preparation_complete = True
             st.session_state.session_id = crew.start_session(
                 metadata={"assignment_id": assignment["assignment_id"], "component": "student_assessment"}
             )
@@ -1033,13 +1145,22 @@ def render_student_portal() -> None:
         reset_runtime_state()
         st.session_state.active_assignment_id = assignment["assignment_id"]
     st.caption(f"Status: {assignment.get('status', 'assigned').replace('_', ' ').title()}")
-    materials_tab, assessment_tab, results_tab = st.tabs(["Materials", "Take assessment", "Results"])
-    with materials_tab:
-        render_student_materials(assignment)
-    with assessment_tab:
-        render_student_assessment(assignment)
-    with results_tab:
-        render_student_results(assignment)
+    if st.session_state.preparation_complete:
+        st.info("Preparation materials are locked. Continue with the assessment or view results.")
+        assessment_tab, results_tab = st.tabs(["Take assessment", "Results"])
+        with assessment_tab:
+            render_student_assessment(assignment)
+        with results_tab:
+            render_student_results(assignment)
+    else:
+        render_preparation_timer()
+        materials_tab, assessment_tab, results_tab = st.tabs(["Materials", "Take assessment", "Results"])
+        with materials_tab:
+            render_student_materials(assignment)
+        with assessment_tab:
+            render_student_assessment(assignment)
+        with results_tab:
+            render_student_results(assignment)
 
 
 if not st.session_state.authenticated:

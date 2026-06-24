@@ -3610,6 +3610,1506 @@
       ],
       "results_released_at": "2026-06-22T07:06:01.978863+00:00",
       "results_released_by": "001"
+    },
+    "32991366ebba": {
+      "assignment_id": "32991366ebba",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice2",
+      "subject": "assignment_001_43cd5073",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-06-22T07:27:52.771932+00:00",
+      "updated_at": "2026-06-22T07:33:46.987672+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "image-45-1024x683.webp",
+        "path": "data\\input\\assignment_001_43cd5073\\image-45-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what kinds of foods are in the boy's lunchbox and why they might be good choices for a healthy meal?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_43cd5073_images\\page_1.webp",
+          "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table."
+        },
+        {
+          "id": 2,
+          "text": "What do you think the boy might be planning to do after eating his lunch? Why?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_43cd5073_images\\page_1.webp",
+          "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table."
+        },
+        {
+          "id": 3,
+          "text": "How important do you think it is to have a variety of foods in a meal like this, and why?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_43cd5073_images\\page_1.webp",
+          "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table."
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "1762a7619bcc",
+          "question_id": 1,
+          "question": "Can you describe what kinds of foods are in the boy's lunchbox and why they might be good choices for a healthy meal?",
+          "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+          "student_response": "First response: The boy got cucumber, carrot.\n\nResponse after examiner follow-up: I'm going to eat a banana  I'm going to eat a banana",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260622_073013_72041542.wav",
+          "transcription_path": "data\\sessions\\speech_20260622_073013_72041542.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 6.0,
+            "words_per_minute": 120.0,
+            "pitch_range_semitones": 12.2,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "e25785af",
+          "created_at": "2026-06-22T07:31:52.952424+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe what kinds of foods are in the boy's lunchbox and why they might be good choices for a healthy meal?",
+            "answer": "First response: The boy got cucumber, carrot.\n\nResponse after examiner follow-up: I'm going to eat a banana  I'm going to eat a banana",
+            "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus and a clear personal viewpoint.",
+                "evidence": "The student mentions cucumber and carrot, which are not present in the lunchbox shown in the image. The response lacks specific details from the stimulus and does not provide a clear personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or examples.",
+                "evidence": "The student only mentioned cucumber and carrot in the first response.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student's response includes simple vocabulary but lacks proper sentence structure and grammar.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue or respond.",
+                "evidence": "The student initially provided a short response and required examiner follow-up to elicit more information.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for trying to identify some healthy foods in the boy's lunchbox. However, the lunchbox actually contains avocado, red bell pepper, cherry tomatoes, and black olives, not cucumber and carrot. Next time, try to use specific details from the image for a more accurate response. Your answer was a bit brief and lacked elaboration, so remember to provide more details and examples to support your ideas. A good sentence starter could be, \"I noticed that the lunchbox contains...\" Keep practicing to improve your language use and confidence in responding to prompts. Let's work on expanding your answers and using more descriptive language in our next session.",
+            "total_score": 10,
+            "max_score": 25,
+            "percentage": 40.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what kinds of foods are in the boy's lunchbox and why they might be good choices for a healthy meal?",
+            "answer": "First response: The boy got cucumber, carrot.\n\nResponse after examiner follow-up: I'm going to eat a banana  I'm going to eat a banana",
+            "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus and a clear personal viewpoint.",
+                "evidence": "The student mentions cucumber and carrot, which are not present in the lunchbox shown in the image. The response lacks specific details from the stimulus and does not provide a clear personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or examples.",
+                "evidence": "The student only mentioned cucumber and carrot in the first response.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student's response includes simple vocabulary but lacks proper sentence structure and grammar.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue or respond.",
+                "evidence": "The student initially provided a short response and required examiner follow-up to elicit more information.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for trying to identify some healthy foods in the boy's lunchbox. However, the lunchbox actually contains avocado, red bell pepper, cherry tomatoes, and black olives, not cucumber and carrot. Next time, try to use specific details from the image for a more accurate response. Your answer was a bit brief and lacked elaboration, so remember to provide more details and examples to support your ideas. A good sentence starter could be, \"I noticed that the lunchbox contains...\" Keep practicing to improve your language use and confidence in responding to prompts. Let's work on expanding your answers and using more descriptive language in our next session.",
+            "total_score": 10,
+            "max_score": 25,
+            "percentage": 40.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for attempting to identify healthy foods in the boy's lunchbox. However, the lunchbox actually contains avocado, red bell pepper, cherry tomatoes, and black olives, not cucumber and carrot. To improve, try to use specific details from the image for a more accurate response. Remember to provide more details and examples to support your ideas. A helpful sentence starter for your next attempt could be, \"I noticed that the lunchbox contains...\" Work on expanding your answers, using descriptive language, and practicing to enhance your language use and confidence in responding to prompts. Keep up the effort, and we'll focus on these areas to make your responses even stronger in our next session.",
+          "guided_attempt": {
+            "original_response": "The boy got cucumber, carrot.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260622_072911_5600aced.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260622_072911_5600aced.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 5.2,
+              "words_per_minute": 58.1,
+              "pitch_range_semitones": 12.1,
+              "notes": [
+                "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "Can you take another look at the image and try to describe all the foods in the boy's lunchbox? What makes these foods good choices for a healthy meal?",
+            "reason": "The response is incomplete and lacks sufficient detail.",
+            "created_at": "2026-06-22T07:29:57.236141+00:00",
+            "follow_up_response": "I'm going to eat a banana  I'm going to eat a banana"
+          }
+        },
+        {
+          "result_id": "2b17c645da86",
+          "question_id": 2,
+          "question": "What do you think the boy might be planning to do after eating his lunch? Why?",
+          "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+          "student_response": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260622_073244_2030767a.wav",
+          "transcription_path": "data\\sessions\\speech_20260622_073244_2030767a.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 8.8,
+            "words_per_minute": 170.1,
+            "pitch_range_semitones": 9.2,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "e25785af",
+          "created_at": "2026-06-22T07:33:14.046037+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What do you think the boy might be planning to do after eating his lunch? Why?",
+            "answer": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+            "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant, referencing the boy's need to rest or take a walk after eating to digest his food. However, more specific details from the stimulus could enhance the response.",
+                "evidence": "The student mentions the boy planning to rest or take a walk after eating to digest his food.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer provides clear ideas about what the boy might do after eating his lunch, mentioning resting, taking a walk, or talking to the teacher. However, more elaboration or examples could further strengthen the response.",
+                "evidence": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+                "evidence": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, showing willingness to continue speaking about the boy's plans after eating.",
+                "evidence": "The student speculates on the boy's post-lunch activities, mentioning resting, taking a walk, or talking to the teacher.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job on providing a clear response about what the boy might do after eating his lunch. However, it's important to make sure your answer aligns with the visual stimulus facts, as there was no mention of the specific healthy foods in the lunchbox. The biggest area for improvement is to include more specific details from the image to enhance your response. Next time, you can start by saying, \"Based on the image, I think the boy might be planning to...\" Keep up the good work and continue to be attentive to the details in the visual stimulus.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What do you think the boy might be planning to do after eating his lunch? Why?",
+            "answer": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+            "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant, referencing the boy's need to rest or take a walk after eating to digest his food. However, more specific details from the stimulus could enhance the response.",
+                "evidence": "The student mentions the boy planning to rest or take a walk after eating to digest his food.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer provides clear ideas about what the boy might do after eating his lunch, mentioning resting, taking a walk, or talking to the teacher. However, more elaboration or examples could further strengthen the response.",
+                "evidence": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors present.",
+                "evidence": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, showing willingness to continue speaking about the boy's plans after eating.",
+                "evidence": "The student speculates on the boy's post-lunch activities, mentioning resting, taking a walk, or talking to the teacher.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job on providing a clear response about what the boy might do after eating his lunch. However, it's important to make sure your answer aligns with the visual stimulus facts, as there was no mention of the specific healthy foods in the lunchbox. The biggest area for improvement is to include more specific details from the image to enhance your response. Next time, you can start by saying, \"Based on the image, I think the boy might be planning to...\" Keep up the good work and continue to be attentive to the details in the visual stimulus.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great job on providing a clear response about what the boy might do after eating his lunch. However, it's important to make sure your answer aligns with the visual stimulus facts, as there was no mention of the specific healthy foods in the lunchbox. The biggest area for improvement is to include more specific details from the image to enhance your response. Next time, you can start by saying, \"Based on the image, I think the boy might be planning to...\" Keep up the good work and continue to be attentive to the details in the visual stimulus."
+        },
+        {
+          "result_id": "57a764b7ccf5",
+          "question_id": 3,
+          "question": "How important do you think it is to have a variety of foods in a meal like this, and why?",
+          "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "e25785af",
+          "created_at": "2026-06-22T07:33:46.189587+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "How important do you think it is to have a variety of foods in a meal like this, and why?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "How important do you think it is to have a variety of foods in a meal like this, and why?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy wearing glasses and a blue shirt with a vest, sitting at a table. In front of him is a bento-style lunchbox filled with various healthy foods: sliced avocado, cucumber, red bell pepper, cherry tomatoes, and black olives. Beside the lunchbox are a banana, a bottle of yellow liquid, and a dark bottle, possibly containing a drink. An unpeeled orange and a partially visible lunch container are on the left side of the table. Another person's hand is visible reaching for an item on the table.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "54b50dff06c1": {
+      "assignment_id": "54b50dff06c1",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice4",
+      "subject": "assignment_001_96d9a5a3",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-06-22T07:38:04.433570+00:00",
+      "updated_at": "2026-06-22T08:37:07.484021+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "image-45-1024x683.webp",
+        "path": "data\\input\\assignment_001_96d9a5a3\\image-45-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what kinds of food are visible in the boy's lunchbox and on the table?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_96d9a5a3_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby."
+        },
+        {
+          "id": 2,
+          "text": "Why do you think having a variety of fruits and vegetables like those in the picture is important for our health?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_96d9a5a3_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby."
+        },
+        {
+          "id": 3,
+          "text": "What might you pack in your own lunchbox for a healthy meal, and why?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_96d9a5a3_images\\page_1.webp",
+          "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby."
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "32c78730711e",
+          "question_id": 1,
+          "question": "Can you describe what kinds of food are visible in the boy's lunchbox and on the table?",
+          "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+          "student_response": "First response: I don't know\n\nResponse after examiner follow-up: [No response after guidance]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c3bb5b38",
+          "created_at": "2026-06-22T08:28:28.349065+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Can you describe what kinds of food are visible in the boy's lunchbox and on the table?",
+            "answer": "First response: I don't know\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what kinds of food are visible in the boy's lunchbox and on the table?",
+            "answer": "First response: I don't know\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-06-22T08:36:53.515727+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 0,
+              "Idea Development": 0,
+              "Spoken Language Use": 0,
+              "Interaction And Confidence": 0
+            }
+          },
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0.",
+          "guided_attempt": {
+            "original_response": "I don't know",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260622_073907_bdceebe2.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260622_073907_bdceebe2.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 2.0,
+              "words_per_minute": 90.9,
+              "pitch_range_semitones": 10.9,
+              "notes": [
+                "Pace falls within a broad conversational range; listen to the recording for clarity.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-22T07:39:16.995472+00:00",
+            "follow_up_response": "[No response after guidance]"
+          }
+        },
+        {
+          "result_id": "8aa2f9acd4da",
+          "question_id": 2,
+          "question": "Why do you think having a variety of fruits and vegetables like those in the picture is important for our health?",
+          "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+          "student_response": "Yes, I think it's very important because it provides different vitamins.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260622_082907_b8ab70e3.wav",
+          "transcription_path": "data\\sessions\\speech_20260622_082907_b8ab70e3.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 5.3,
+            "words_per_minute": 123.6,
+            "pitch_range_semitones": 8.5,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "c3bb5b38",
+          "created_at": "2026-06-22T08:30:08.724756+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Why do you think having a variety of fruits and vegetables like those in the picture is important for our health?",
+            "answer": "Yes, I think it's very important because it provides different vitamins.",
+            "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they mention the importance of different vitamins, which is related to health benefits. However, the answer could be improved by providing more specific details or examples.",
+                "evidence": "Yes, I think it's very important because it provides different vitamins.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea about the importance of fruits and vegetables for health but lacks elaboration or examples.",
+                "evidence": "The student mentions that having a variety of fruits and vegetables is important because it provides different vitamins.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's answer is understandable and conveys the idea that fruits and vegetables provide different vitamins. However, there are noticeable errors in the sentence structure and grammar.",
+                "evidence": "Yes, I think it's very important because it provides different vitamins.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by acknowledging the importance of fruits and vegetables for health.",
+                "evidence": "The student states, 'Yes, I think it's very important because it provides different vitamins.'",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for acknowledging the importance of having a variety of fruits and vegetables for our health. It's great that you mentioned they provide different vitamins. However, remember to provide more specific details or examples to support your answer. Try to elaborate on how these vitamins benefit our bodies. For example, you could say, \"Fruits and vegetables like the ones in the picture are important for our health because they provide essential nutrients like Vitamin C for a strong immune system.\" Keep practicing to improve your sentence structure and grammar to make your answer more clear and precise. Let's work on adding more depth to your responses next time.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Why do you think having a variety of fruits and vegetables like those in the picture is important for our health?",
+            "answer": "Yes, I think it's very important because it provides different vitamins.",
+            "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they mention the importance of different vitamins, which is related to health benefits. However, the answer could be improved by providing more specific details or examples.",
+                "evidence": "Yes, I think it's very important because it provides different vitamins.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea about the importance of fruits and vegetables for health but lacks elaboration or examples.",
+                "evidence": "The student mentions that having a variety of fruits and vegetables is important because it provides different vitamins.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's answer is understandable and conveys the idea that fruits and vegetables provide different vitamins. However, there are noticeable errors in the sentence structure and grammar.",
+                "evidence": "Yes, I think it's very important because it provides different vitamins.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by acknowledging the importance of fruits and vegetables for health.",
+                "evidence": "The student states, 'Yes, I think it's very important because it provides different vitamins.'",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for acknowledging the importance of having a variety of fruits and vegetables for our health. It's great that you mentioned they provide different vitamins. However, remember to provide more specific details or examples to support your answer. Try to elaborate on how these vitamins benefit our bodies. For example, you could say, \"Fruits and vegetables like the ones in the picture are important for our health because they provide essential nutrients like Vitamin C for a strong immune system.\" Keep practicing to improve your sentence structure and grammar to make your answer more clear and precise. Let's work on adding more depth to your responses next time.",
+            "total_score": 11,
+            "max_score": 25,
+            "percentage": 44.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-06-22T08:35:28.969048+00:00",
+            "reviewed_by": "001",
+            "note": "more speaking",
+            "score_changes": {
+              "Stimulus Response Relevance": 2,
+              "Idea Development": 4,
+              "Spoken Language Use": 3,
+              "Interaction And Confidence": 2
+            }
+          },
+          "crew_analysis": "Well done for acknowledging the importance of having a variety of fruits and vegetables for our health. It's great that you mentioned they provide different vitamins. However, remember to provide more specific details or examples to support your answer. Try to elaborate on how these vitamins benefit our bodies. For example, you could say, \"Fruits and vegetables like the ones in the picture are important for our health because they provide essential nutrients like Vitamin C for a strong immune system.\" Keep practicing to improve your sentence structure and grammar to make your answer more clear and precise. Let's work on adding more depth to your responses next time. Remember, when discussing the vitamins in fruits and vegetables, think about how they contribute to our overall well-being and energy levels. Give it a try by explaining how these vitamins play a role in keeping us healthy and strong. Keep up the good work!"
+        },
+        {
+          "result_id": "15369e738ffa",
+          "question_id": 3,
+          "question": "What might you pack in your own lunchbox for a healthy meal, and why?",
+          "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c3bb5b38",
+          "created_at": "2026-06-22T08:31:41.765975+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "What might you pack in your own lunchbox for a healthy meal, and why?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "What might you pack in your own lunchbox for a healthy meal, and why?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a young boy sitting at a table with a lunchbox containing healthy food items like sliced cucumbers, red bell pepper, grape tomatoes, avocado, and black olives. On the table, there are also a yellow drink bottle, a banana, an orange, and a chocolate milk carton. The boy is wearing glasses and a school uniform with a vest and a tie. He is looking at the lunchbox. There is a person sitting next to him, partially visible, wearing a blue shirt with a watch. The lunchbox is open, and a container lid is placed nearby.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-06-22T08:36:29.526708+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 0,
+              "Idea Development": 0,
+              "Spoken Language Use": 0,
+              "Interaction And Confidence": 0
+            }
+          },
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "results_released_at": "2026-06-22T08:37:07.483993+00:00",
+      "results_released_by": "001"
+    },
+    "947cb97c1a9e": {
+      "assignment_id": "947cb97c1a9e",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice43",
+      "subject": "assignment_001_d82788dd",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-06-24T02:10:43.807286+00:00",
+      "updated_at": "2026-06-24T04:05:08.365132+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "helping.webp",
+        "path": "data\\input\\assignment_001_d82788dd\\helping.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_001_d82788dd\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "For our name, ending, bracket or space, constant integer change to follow up.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260624_035800_184ec439.wav",
+        "transcription_path": "data\\sessions\\speech_20260624_035800_184ec439.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 6.2,
+          "words_per_minute": 125.0,
+          "pitch_range_semitones": 11.8,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "For our name, ending, bracket or space, constant integer change to follow up.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 6.2, \"words_per_minute\": 125.0, \"pitch_range_semitones\": 11.8, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "The student's reading had a broad conversational pace and some pitch variation, indicating a mostly clear and fluent delivery.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job on your reading delivery, you showed good clarity and fluency overall. However, there were some minor pronunciation and pacing issues that could be improved upon. Remember to maintain a consistent pace and work on pronouncing words clearly. A sentence starter you can use next time is \"To begin with,\" to help organize your thoughts. Keep practicing and you'll continue to improve!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "For our name, ending, bracket or space, constant integer change to follow up.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 6.2, \"words_per_minute\": 125.0, \"pitch_range_semitones\": 11.8, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "The student's reading had a broad conversational pace and some pitch variation, indicating a mostly clear and fluent delivery.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job on your reading delivery, you showed good clarity and fluency overall. However, there were some minor pronunciation and pacing issues that could be improved upon. Remember to maintain a consistent pace and work on pronouncing words clearly. A sentence starter you can use next time is \"To begin with,\" to help organize your thoughts. Keep practicing and you'll continue to improve!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Great job on your reading delivery! You showed good clarity and fluency overall, with a broad conversational pace and some pitch variation. To further improve, focus on maintaining a consistent pace and pronouncing words clearly. Remember, practice makes perfect! A helpful sentence starter for your next attempt is \"To begin with,\" which can assist you in organizing your thoughts effectively. Keep up the good work, and with continued practice, you will see even more progress in your oral English skills!",
+        "submitted_at": "2026-06-24T03:59:25.923312+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what you see the person doing in the picture?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_d82788dd_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+          "generated_text": "Can you describe what you see the person doing in the picture?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "What would you do if you were beside the person now",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_d82788dd_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+          "generated_text": "What might be some reasons the person is wearing a mask outside, based on what you observe?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 3,
+          "text": "How do you think the person feels about doing their shopping in this way, considering the environment you see in the image?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_d82788dd_images\\page_1.webp",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+          "generated_text": "How do you think the person feels about doing their shopping in this way, considering the environment you see in the image?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-06-24T03:59:25.923330+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "1065b9927e83",
+          "question_id": 1,
+          "question": "Can you describe what you see the person doing in the picture?",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+          "student_response": "First response: bushing a trolley\n\nResponse after examiner follow-up: Hello, hello.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260624_040030_9132a98a.wav",
+          "transcription_path": "data\\sessions\\speech_20260624_040030_9132a98a.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 1.5,
+            "words_per_minute": 80.0,
+            "pitch_range_semitones": 9.0,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "4218f44e",
+          "created_at": "2026-06-24T04:00:48.108631+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe what you see the person doing in the picture?",
+            "answer": "First response: bushing a trolley\n\nResponse after examiner follow-up: Hello, hello.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant as it mentions the person pushing a trolley, but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student's answer 'bushing a trolley' shows some relevance to the stimulus, but lacks specific details or a personal response.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or detail.",
+                "evidence": "The student's initial response was 'bushing a trolley.'",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response shows frequent language errors and limited vocabulary, affecting clarity.",
+                "evidence": "The student's response 'bushing a trolley' contains a spelling error and lacks clarity in communication.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue responding.",
+                "evidence": "The student's initial response was incomplete and required follow-up from the examiner.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for identifying that the person in the picture is pushing a trolley, showing some relevance to the stimulus. However, the correct action is 'pushing' instead of 'bushing.' Remember to pay attention to details like spelling and accuracy. Your answer lacked elaboration and detail, so try to provide more specific information next time. A good sentence starter could be, \"I see the person in the picture...\" Work on improving your language use and vocabulary to enhance clarity in your responses. Keep practicing and pay attention to the details in the stimulus to give a more detailed and accurate answer next time.",
+            "total_score": 8,
+            "max_score": 25,
+            "percentage": 32.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what you see the person doing in the picture?",
+            "answer": "First response: bushing a trolley\n\nResponse after examiner follow-up: Hello, hello.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant as it mentions the person pushing a trolley, but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student's answer 'bushing a trolley' shows some relevance to the stimulus, but lacks specific details or a personal response.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or detail.",
+                "evidence": "The student's initial response was 'bushing a trolley.'",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response shows frequent language errors and limited vocabulary, affecting clarity.",
+                "evidence": "The student's response 'bushing a trolley' contains a spelling error and lacks clarity in communication.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue responding.",
+                "evidence": "The student's initial response was incomplete and required follow-up from the examiner.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for identifying that the person in the picture is pushing a trolley, showing some relevance to the stimulus. However, the correct action is 'pushing' instead of 'bushing.' Remember to pay attention to details like spelling and accuracy. Your answer lacked elaboration and detail, so try to provide more specific information next time. A good sentence starter could be, \"I see the person in the picture...\" Work on improving your language use and vocabulary to enhance clarity in your responses. Keep practicing and pay attention to the details in the stimulus to give a more detailed and accurate answer next time.",
+            "total_score": 8,
+            "max_score": 25,
+            "percentage": 32.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for identifying that the person in the picture is pushing a trolley, showing some relevance to the stimulus. However, the correct action is 'pushing' instead of 'bushing.' Remember to pay attention to details like spelling and accuracy. Your answer lacked elaboration and detail, so try to provide more specific information next time. A good sentence starter could be, \"I see the person in the picture...\" Work on improving your language use and vocabulary to enhance clarity in your responses. Keep practicing and pay attention to the details in the stimulus to give a more detailed and accurate answer next time. Remember, \"I see the person in the picture...\" to start adding more descriptive details. Keep up the effort, you're making progress!",
+          "guided_attempt": {
+            "original_response": "bushing a trolley",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260624_035955_67fd6487.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260624_035955_67fd6487.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 2.0,
+              "words_per_minute": 90.9,
+              "pitch_range_semitones": 7.3,
+              "notes": [
+                "Pace falls within a broad conversational range; listen to the recording for clarity.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-24T04:00:11.893438+00:00",
+            "follow_up_response": "Hello, hello."
+          }
+        },
+        {
+          "result_id": "f6398d74dfe5",
+          "question_id": 2,
+          "question": "What would you do if you were beside the person now",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+          "student_response": "First response: I think one thing I will do is to help la. Yeah, because it looks heavy.\n\nResponse after examiner follow-up: If I were beside the person, I would definitely ask, like, how she do it, you know? Yeah.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260624_040308_07bf76b9.wav",
+          "transcription_path": "data\\sessions\\speech_20260624_040308_07bf76b9.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 14.4,
+            "words_per_minute": 75.0,
+            "pitch_range_semitones": 12.5,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "4218f44e",
+          "created_at": "2026-06-24T04:03:30.812275+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What would you do if you were beside the person now",
+            "answer": "First response: I think one thing I will do is to help la. Yeah, because it looks heavy.\n\nResponse after examiner follow-up: If I were beside the person, I would definitely ask, like, how she do it, you know? Yeah.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal response.",
+                "evidence": "The student mentions helping the person because the groceries look heavy and expresses curiosity about how the person manages to push the trolley.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student demonstrates clear ideas with some useful reasons and examples in their response.",
+                "evidence": "The student mentions wanting to help the elderly person because the groceries look heavy and expresses curiosity about how the person manages to do it.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary and minor errors.",
+                "evidence": "The student's response shows a good grasp of spoken English with minor errors in grammar and sentence structure.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and engages with the examiner's follow-up question.",
+                "evidence": "The student shows willingness to continue speaking and responds confidently to the examiner's question about how they would interact with the elderly person.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on showing empathy and a willingness to help the elderly person in the image. However, the person in the picture is described as focused on pushing the trolley, not necessarily struggling with the weight. Your response could be more aligned with the visual details provided. To improve, try to incorporate more specific details from the image into your answer next time. For example, you could say, \"If I were beside the person, I would ask how they manage to push the trolley with such determination.\" Keep up the effort in connecting your responses to the stimulus, and you'll see improvement in your oral skills.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What would you do if you were beside the person now",
+            "answer": "First response: I think one thing I will do is to help la. Yeah, because it looks heavy.\n\nResponse after examiner follow-up: If I were beside the person, I would definitely ask, like, how she do it, you know? Yeah.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal response.",
+                "evidence": "The student mentions helping the person because the groceries look heavy and expresses curiosity about how the person manages to push the trolley.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student demonstrates clear ideas with some useful reasons and examples in their response.",
+                "evidence": "The student mentions wanting to help the elderly person because the groceries look heavy and expresses curiosity about how the person manages to do it.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary and minor errors.",
+                "evidence": "The student's response shows a good grasp of spoken English with minor errors in grammar and sentence structure.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and engages with the examiner's follow-up question.",
+                "evidence": "The student shows willingness to continue speaking and responds confidently to the examiner's question about how they would interact with the elderly person.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on showing empathy and a willingness to help the elderly person in the image. However, the person in the picture is described as focused on pushing the trolley, not necessarily struggling with the weight. Your response could be more aligned with the visual details provided. To improve, try to incorporate more specific details from the image into your answer next time. For example, you could say, \"If I were beside the person, I would ask how they manage to push the trolley with such determination.\" Keep up the effort in connecting your responses to the stimulus, and you'll see improvement in your oral skills.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done on showing empathy and a willingness to help the elderly person in the image. However, the person in the picture is described as focused on pushing the trolley, not necessarily struggling with the weight. Your response could be more aligned with the visual details provided. To improve, try to incorporate more specific details from the image into your answer next time. For example, you could say, \"If I were beside the person, I would ask how they manage to push the trolley with such determination.\" Keep up the effort in connecting your responses to the stimulus, and you'll see improvement in your oral skills. Remember to observe the details in the image carefully before responding. Keep it up!",
+          "guided_attempt": {
+            "original_response": "I think one thing I will do is to help la. Yeah, because it looks heavy.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260624_040123_042eadc0.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260624_040123_042eadc0.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 7.7,
+              "words_per_minute": 124.0,
+              "pitch_range_semitones": 22.4,
+              "notes": [
+                "Pace falls within a broad conversational range; listen to the recording for clarity.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-24T04:02:36.037941+00:00",
+            "follow_up_response": "If I were beside the person, I would definitely ask, like, how she do it, you know? Yeah."
+          }
+        },
+        {
+          "result_id": "4bf11eb80c57",
+          "question_id": 3,
+          "question": "How do you think the person feels about doing their shopping in this way, considering the environment you see in the image?",
+          "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+          "student_response": "I think that shopping this way can be difficult because it can be an uneven path and there is a lot of rocks and obstacles. I will go to a safer path to push the trolley properly, yeah, that's what I will do.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260624_040427_3e87c397.wav",
+          "transcription_path": "data\\sessions\\speech_20260624_040427_3e87c397.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 22.7,
+            "words_per_minute": 113.5,
+            "pitch_range_semitones": 9.2,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "4218f44e",
+          "created_at": "2026-06-24T04:05:07.619605+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "How do you think the person feels about doing their shopping in this way, considering the environment you see in the image?",
+            "answer": "I think that shopping this way can be difficult because it can be an uneven path and there is a lot of rocks and obstacles. I will go to a safer path to push the trolley properly, yeah, that's what I will do.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant to the prompt, mentioning the difficulty of shopping on an uneven path and the need to find a safer route. However, more specific details from the image could be included to strengthen the response.",
+                "evidence": "I think that shopping this way can be difficult because it can be an uneven path and there is a lot of rocks and obstacles.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea about the challenges of shopping in the environment shown but lacks elaboration or examples to support their point.",
+                "evidence": "The student mentions that shopping this way can be difficult due to an uneven path and obstacles.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student demonstrates understandable language with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student's answer contains some language errors and simple vocabulary, such as 'difficult,' 'uneven path,' and 'pushing the trolley.'",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence to the prompt about how the person feels about shopping in the park.",
+                "evidence": "The student provides their opinion on the challenges of shopping in the park and expresses their decision to find a safer path to push the trolley.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for sharing your thoughts on how shopping in the park can be difficult due to the uneven path and obstacles. Remember to include more specific details from the image next time to strengthen your response. Your grammar and sentence control could use some improvement, so try to focus on that in your next practice. A sentence starter you can use next time is \"In the image, I can see that...\" Keep practicing and paying attention to the details in the picture to improve your oral responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "How do you think the person feels about doing their shopping in this way, considering the environment you see in the image?",
+            "answer": "I think that shopping this way can be difficult because it can be an uneven path and there is a lot of rocks and obstacles. I will go to a safer path to push the trolley properly, yeah, that's what I will do.",
+            "visual_context": "The image shows an elderly person wearing a blue coat, beige hat, and face mask, pushing a trolley filled with groceries along a paved path in a park. The park is sunny, with green grass and trees in the background. The person appears focused on pushing the trolley, which contains several bags, one of which has some text visible.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant to the prompt, mentioning the difficulty of shopping on an uneven path and the need to find a safer route. However, more specific details from the image could be included to strengthen the response.",
+                "evidence": "I think that shopping this way can be difficult because it can be an uneven path and there is a lot of rocks and obstacles.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea about the challenges of shopping in the environment shown but lacks elaboration or examples to support their point.",
+                "evidence": "The student mentions that shopping this way can be difficult due to an uneven path and obstacles.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student demonstrates understandable language with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student's answer contains some language errors and simple vocabulary, such as 'difficult,' 'uneven path,' and 'pushing the trolley.'",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence to the prompt about how the person feels about shopping in the park.",
+                "evidence": "The student provides their opinion on the challenges of shopping in the park and expresses their decision to find a safer path to push the trolley.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for sharing your thoughts on how shopping in the park can be difficult due to the uneven path and obstacles. Remember to include more specific details from the image next time to strengthen your response. Your grammar and sentence control could use some improvement, so try to focus on that in your next practice. A sentence starter you can use next time is \"In the image, I can see that...\" Keep practicing and paying attention to the details in the picture to improve your oral responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for sharing your thoughts on how shopping in the park can be difficult due to the uneven path and obstacles. Remember to include more specific details from the image next time to strengthen your response. Your grammar and sentence control could use some improvement, so try to focus on that in your next practice. A sentence starter you can use next time is \"In the image, I can see that...\" Keep practicing and paying attention to the details in the picture to improve your oral responses."
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

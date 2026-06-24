@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260622_073244_2030767a.wav",
+  "transcript": "I think the boy plans to rest or take a walk around after eating to digest his food or maybe even talk to the teacher.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 8.8,
+    "words_per_minute": 170.1,
+    "pitch_range_semitones": 9.2,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-22T07:32:49.073574+00:00"
+}

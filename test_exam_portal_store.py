@@ -97,6 +97,30 @@ class ExamPortalStoreTests(unittest.TestCase):
         self.assertEqual(saved_result["final_grading"]["percentage"], 87.5)
         self.assertEqual(saved_result["examiner_review"]["reviewed_by"], "e1")
 
+    def test_assignment_preserves_examiner_approved_question_text(self) -> None:
+        assignment = store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Picture discussion",
+            subject="assignment_s1_test",
+            rubric="psle_oral_english",
+            visual={},
+            questions=[
+                {
+                    "id": "q1",
+                    "text": "What groceries is the person carrying, and why?",
+                    "generated_text": "Describe the picture.",
+                    "edited_by_examiner": True,
+                }
+            ],
+            reading=None,
+            examiner_id="e1",
+        )
+
+        question = assignment["questions"][0]
+        self.assertEqual(question["text"], "What groceries is the person carrying, and why?")
+        self.assertEqual(question["generated_text"], "Describe the picture.")
+        self.assertTrue(question["edited_by_examiner"])
+
     def test_completed_assignment_is_not_returned_as_active(self) -> None:
         assignment = store.create_assignment(
             student={"id": "s1", "name": "Ada Student"},

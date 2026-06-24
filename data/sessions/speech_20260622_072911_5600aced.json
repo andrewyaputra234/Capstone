@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260622_072911_5600aced.wav",
+  "transcript": "The boy got cucumber, carrot.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 5.2,
+    "words_per_minute": 58.1,
+    "pitch_range_semitones": 12.1,
+    "notes": [
+      "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-22T07:29:22.755959+00:00"
+}

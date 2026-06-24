@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260624_035800_184ec439.wav",
+  "transcript": "For our name, ending, bracket or space, constant integer change to follow up.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 6.2,
+    "words_per_minute": 125.0,
+    "pitch_range_semitones": 11.8,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-24T03:58:14.220753+00:00"
+}

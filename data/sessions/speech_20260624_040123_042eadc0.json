@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260624_040123_042eadc0.wav",
+  "transcript": "I think one thing I will do is to help la. Yeah, because it looks heavy.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 7.7,
+    "words_per_minute": 124.0,
+    "pitch_range_semitones": 22.4,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-24T04:01:27.813535+00:00"
+}
