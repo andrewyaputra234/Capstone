@@ -1,16 +1,16 @@
 {
-  "audio_path": "data\\sessions\\speech_20260621_042831_e480cb31.wav",
-  "transcript": "Good morning, students.",
+  "audio_path": "data\\sessions\\speech_20260624_083859_fe19900a.wav",
+  "transcript": "to keep healthy and stay fit.",
   "delivery_indicators": {
     "status": "available",
     "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
-    "duration_seconds": 2.6,
-    "words_per_minute": 68.2,
-    "pitch_range_semitones": 11.7,
+    "duration_seconds": 4.6,
+    "words_per_minute": 78.9,
+    "pitch_range_semitones": 6.1,
     "notes": [
       "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
       "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
     ]
   },
-  "created_at": "2026-06-21T04:28:57.304868+00:00"
+  "created_at": "2026-06-24T08:39:03.648603+00:00"
 }

@@ -31,6 +31,7 @@ from exam_portal_store import (
     apply_reading_examiner_review,
     authenticate,
     create_assignment,
+    delete_assignment,
     list_assignments,
     list_english_oral_rubrics,
     list_students,
@@ -40,6 +41,7 @@ from exam_portal_store import (
     save_guidance_attempt,
     save_english_oral_rubric,
     save_reading_submission,
+    reset_assignment_results,
 )
 from subject_manager import SubjectManager
 from voice_assessment import transcribe_streamlit_audio
@@ -786,31 +788,113 @@ def render_examiner_review() -> None:
 def render_assignment_overview() -> None:
     assignments = list_assignments()
     st.subheader("Assignment overview")
+    delete_notice = st.session_state.pop("assignment_delete_notice", None)
+    if delete_notice:
+        if delete_notice.get("errors"):
+            st.warning(delete_notice["message"])
+        else:
+            st.success(delete_notice["message"])
     if not assignments:
         st.info("Create an assessment to see it here.")
         return
-    for assignment in assignments:
-        results = assignment.get("results", [])
-        score = sum((result.get("final_grading") or {}).get("total_score", 0) for result in results)
-        maximum = sum((result.get("final_grading") or {}).get("max_score", 0) for result in results)
-        with st.expander(_assignment_label(assignment)):
-            col1, col2, col3 = st.columns(3)
-            col1.metric("Questions graded", f"{len(results)}/{len(assignment.get('questions', []))}")
-            col2.metric("Current score", f"{score}/{maximum}")
-            col3.metric("Reading", "done" if assignment.get("reading_completed_at") else "not required" if not assignment.get("reading") else "pending")
-            st.caption(f"Assigned: {assignment.get('created_at') or 'legacy record'} | Rubric: {assignment.get('rubric', '')}")
+    assignments.sort(key=lambda record: record.get("updated_at") or record.get("created_at") or "", reverse=True)
+    assignments_by_id = {assignment["assignment_id"]: assignment for assignment in assignments}
+    assignment_ids = list(assignments_by_id)
+    if st.session_state.get("overview_assignment_picker") not in assignments_by_id:
+        st.session_state["overview_assignment_picker"] = assignment_ids[0]
+    selected_assignment_id = st.selectbox(
+        "Select a student's assessment",
+        assignment_ids,
+        format_func=lambda assignment_id: _assignment_label(assignments_by_id[assignment_id]),
+        key="overview_assignment_picker",
+    )
+    assignment = assignments_by_id[selected_assignment_id]
+    results = assignment.get("results", [])
+    score = sum((result.get("final_grading") or {}).get("total_score", 0) for result in results)
+    maximum = sum((result.get("final_grading") or {}).get("max_score", 0) for result in results)
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Questions graded", f"{len(results)}/{len(assignment.get('questions', []))}")
+    col2.metric("Current score", f"{score}/{maximum}")
+    col3.metric("Reading", "done" if assignment.get("reading_completed_at") else "not required" if not assignment.get("reading") else "pending")
+    st.caption(f"Assigned: {assignment.get('created_at') or 'legacy record'} | Rubric: {assignment.get('rubric', '')}")
+    st.divider()
+    st.markdown("#### Reset student attempt")
+    st.caption(
+        "Remove the student's results, recordings, transcripts, and sessions, while keeping the "
+        "assessment questions and materials ready for a fresh attempt."
+    )
+    reset_confirmed = st.checkbox(
+        "I understand this resets the student's submitted attempt.",
+        key=f"confirm_reset_results_{assignment['assignment_id']}",
+    )
+    if st.button(
+        "Reset student results and sessions",
+        type="secondary",
+        disabled=not reset_confirmed,
+        use_container_width=True,
+        key=f"reset_results_{assignment['assignment_id']}",
+    ):
+        try:
+            reset = reset_assignment_results(assignment["assignment_id"], st.session_state.user_id)
+        except Exception as error:
+            st.error(f"The student's attempt could not be reset: {error}")
+        else:
+            message = "Student results and sessions were reset. The assessment is ready for another attempt."
+            if reset["errors"]:
+                message += " Some related files could not be removed; see the application log."
+            st.session_state["assignment_delete_notice"] = {
+                "message": message,
+                "errors": reset["errors"],
+            }
+            st.rerun()
+
+    st.markdown("#### Delete entire test")
+    st.warning(
+        "Permanently delete this assessment, including its questions, materials, student results, "
+        "recordings, transcripts, and sessions."
+    )
+    delete_confirmed = st.checkbox(
+        "I understand this permanently deletes the student's entire test.",
+        key=f"confirm_delete_assignment_{assignment['assignment_id']}",
+    )
+    if st.button(
+        "Delete entire assessment",
+        type="secondary",
+        disabled=not delete_confirmed,
+        use_container_width=True,
+        key=f"delete_assignment_{assignment['assignment_id']}",
+    ):
+        try:
+            deleted = delete_assignment(assignment["assignment_id"], st.session_state.user_id)
+        except Exception as error:
+            st.error(f"The assessment could not be deleted: {error}")
+        else:
+            message = "The assessment and its student submissions were deleted."
+            if deleted["errors"]:
+                message += " Some related files could not be removed; see the application log."
+            st.session_state["assignment_delete_notice"] = {
+                "message": message,
+                "errors": deleted["errors"],
+            }
+            st.rerun()
 
 
 def render_examiner_portal() -> None:
     render_account_sidebar("Examiner")
     st.title("Examiner Dashboard")
     st.caption("Upload one image, optionally add a reading passage, assign it to a registered student, then verify AI grading.")
-    create_tab, review_tab, overview_tab = st.tabs(["Assign assessment", "Results and review", "Overview"])
-    with create_tab:
+    section = st.radio(
+        "Examiner section",
+        ["Assign assessment", "Results and review", "Overview"],
+        horizontal=True,
+        key="examiner_section",
+        label_visibility="collapsed",
+    )
+    if section == "Assign assessment":
         render_create_assignment()
-    with review_tab:
+    elif section == "Results and review":
         render_examiner_review()
-    with overview_tab:
+    else:
         render_assignment_overview()
 
 

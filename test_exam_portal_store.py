@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
@@ -22,6 +23,7 @@ class ExamPortalStoreTests(unittest.TestCase):
         self.original_assignments_path = store.ASSIGNMENTS_PATH
         self.original_users_path = store.USERS_PATH
         self.original_rubrics_dir = store.RUBRICS_DIR
+        self.original_data_dir = store.DATA_DIR
         store.ASSIGNMENTS_PATH = self.assignments_path
         store.USERS_PATH = self.users_path
         store.RUBRICS_DIR = self.rubrics_dir
@@ -40,6 +42,7 @@ class ExamPortalStoreTests(unittest.TestCase):
         store.ASSIGNMENTS_PATH = self.original_assignments_path
         store.USERS_PATH = self.original_users_path
         store.RUBRICS_DIR = self.original_rubrics_dir
+        store.DATA_DIR = self.original_data_dir
         self.temp_dir.cleanup()
 
     def test_registered_users_can_be_listed_and_authenticated(self) -> None:
@@ -120,6 +123,95 @@ class ExamPortalStoreTests(unittest.TestCase):
         self.assertEqual(question["text"], "What groceries is the person carrying, and why?")
         self.assertEqual(question["generated_text"], "Describe the picture.")
         self.assertTrue(question["edited_by_examiner"])
+
+    def test_examiner_can_delete_an_entire_assignment_and_its_submission_artifacts(self) -> None:
+        data_dir = Path(self.temp_dir.name) / "data"
+        sessions_dir = data_dir / "sessions"
+        sessions_dir.mkdir(parents=True)
+        audio_path = sessions_dir / "response.wav"
+        transcript_path = sessions_dir / "response.json"
+        audio_path.write_bytes(b"audio")
+        transcript_path.write_text("{}", encoding="utf-8")
+        store.DATA_DIR = data_dir
+
+        assignment = store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Picture discussion",
+            subject="not_shared_subject",
+            rubric="psle_oral_english",
+            visual={},
+            questions=[{"id": "q1", "text": "What do you see?"}],
+            reading=None,
+            examiner_id="e1",
+        )
+        store.add_assessment_result(
+            assignment["assignment_id"],
+            question={"id": "q1", "text": "What do you see?"},
+            student_response="I see a park.",
+            grading_result={"scores": [], "total_score": 0, "max_score": 0, "percentage": 0},
+            session_id="session-1",
+            audio_path=str(audio_path),
+            transcription_path=str(transcript_path),
+        )
+        session_manager = MagicMock()
+        session_manager.list_sessions.return_value = []
+        session_manager.delete_session.return_value = True
+
+        with patch("agent_a6_session_manager.SessionManager", return_value=session_manager):
+            deleted = store.delete_assignment(assignment["assignment_id"], "e1")
+
+        self.assertIsNone(store.get_assignment(assignment["assignment_id"]))
+        self.assertEqual(deleted["deleted_sessions"], ["session-1"])
+        self.assertFalse(audio_path.exists())
+        self.assertFalse(transcript_path.exists())
+
+    def test_examiner_can_reset_results_and_keep_the_assignment_materials(self) -> None:
+        data_dir = Path(self.temp_dir.name) / "data"
+        sessions_dir = data_dir / "sessions"
+        sessions_dir.mkdir(parents=True)
+        audio_path = sessions_dir / "response.wav"
+        transcript_path = sessions_dir / "response.json"
+        audio_path.write_bytes(b"audio")
+        transcript_path.write_text("{}", encoding="utf-8")
+        store.DATA_DIR = data_dir
+
+        assignment = store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Picture discussion",
+            subject="not_shared_subject",
+            rubric="psle_oral_english",
+            visual={"name": "picture.png", "path": "data/picture.png"},
+            questions=[{"id": "q1", "text": "What do you see?"}],
+            reading={"name": "passage.txt", "text": "A short passage."},
+            examiner_id="e1",
+        )
+        store.add_assessment_result(
+            assignment["assignment_id"],
+            question={"id": "q1", "text": "What do you see?"},
+            student_response="I see a park.",
+            grading_result={"scores": [], "total_score": 0, "max_score": 0, "percentage": 0},
+            session_id="session-1",
+            audio_path=str(audio_path),
+            transcription_path=str(transcript_path),
+        )
+        store.mark_assignment_status(assignment["assignment_id"], "completed")
+        session_manager = MagicMock()
+        session_manager.list_sessions.return_value = []
+        session_manager.delete_session.return_value = True
+
+        with patch("agent_a6_session_manager.SessionManager", return_value=session_manager):
+            reset = store.reset_assignment_results(assignment["assignment_id"], "e1")
+
+        retained = store.get_assignment(assignment["assignment_id"])
+        self.assertIsNotNone(retained)
+        self.assertEqual(retained["status"], "assigned")
+        self.assertEqual(retained["questions"], assignment["questions"])
+        self.assertEqual(retained["visual"], assignment["visual"])
+        self.assertEqual(retained["reading"], assignment["reading"])
+        self.assertEqual(retained["results"], [])
+        self.assertEqual(reset["deleted_sessions"], ["session-1"])
+        self.assertFalse(audio_path.exists())
+        self.assertFalse(transcript_path.exists())
 
     def test_completed_assignment_is_not_returned_as_active(self) -> None:
         assignment = store.create_assignment(

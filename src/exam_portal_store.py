@@ -682,3 +682,149 @@ def release_final_results(assignment_id: str, examiner_id: str) -> dict[str, Any
         record["results_released_by"] = examiner_id
 
     return _update_assignment(assignment_id, release)
+
+
+def delete_assignment(assignment_id: str, examiner_id: str) -> dict[str, Any]:
+    """Permanently remove an assessment, its submissions, sessions, and unique materials."""
+    store = load_assignments()
+    record = store["assignments"].get(assignment_id)
+    if not record:
+        raise KeyError(f"Assignment {assignment_id} was not found")
+
+    artifact_paths: set[str] = set()
+    session_ids: set[str] = set()
+
+    def collect_artifacts(item: dict[str, Any], keys: tuple[str, ...]) -> None:
+        for key in keys:
+            value = item.get(key)
+            if value:
+                artifact_paths.add(str(value))
+
+    reading_submission = record.get("reading_submission") or {}
+    collect_artifacts(reading_submission, ("audio_path", "transcription_path"))
+    for guidance in (record.get("guidance_attempts") or {}).values():
+        collect_artifacts(guidance, ("original_audio_path", "original_transcription_path"))
+    for result in record.get("results", []):
+        collect_artifacts(result, ("audio_path", "transcription_path"))
+        if result.get("session_id"):
+            session_ids.add(str(result["session_id"]))
+        guided_attempt = result.get("guided_attempt") or {}
+        collect_artifacts(guided_attempt, ("original_audio_path", "original_transcription_path"))
+
+    errors: list[str] = []
+    deleted_sessions: list[str] = []
+    try:
+        from agent_a6_session_manager import SessionManager
+
+        sessions = SessionManager()
+        for session_id in sessions.list_sessions():
+            session = sessions.get_session(session_id)
+            if session and (session.metadata or {}).get("assignment_id") == assignment_id:
+                session_ids.add(session_id)
+        for session_id in session_ids:
+            if sessions.delete_session(session_id, include_artifacts=True):
+                deleted_sessions.append(session_id)
+    except Exception as error:
+        errors.append(f"session cleanup: {error}")
+
+    sessions_dir = (DATA_DIR / "sessions").resolve()
+    deleted_artifacts: list[str] = []
+    for value in artifact_paths:
+        try:
+            path = Path(value).resolve()
+            path.relative_to(sessions_dir)
+            if path.is_file():
+                path.unlink()
+                deleted_artifacts.append(str(path))
+        except (OSError, ValueError) as error:
+            errors.append(f"artifact cleanup ({value}): {error}")
+
+    subject = str(record.get("subject") or "")
+    if subject.startswith("assignment_"):
+        try:
+            from subject_manager import SubjectManager
+
+            SubjectManager().delete_subject_data(subject)
+        except Exception as error:
+            errors.append(f"material cleanup: {error}")
+
+    del store["assignments"][assignment_id]
+    save_assignments(store)
+    return {
+        "assignment_id": assignment_id,
+        "deleted_by": examiner_id,
+        "deleted_sessions": deleted_sessions,
+        "deleted_artifacts": deleted_artifacts,
+        "errors": errors,
+    }
+
+
+def reset_assignment_results(assignment_id: str, examiner_id: str) -> dict[str, Any]:
+    """Clear a student's attempt while retaining the assigned questions and materials."""
+    record = get_assignment(assignment_id)
+    if not record:
+        raise KeyError(f"Assignment {assignment_id} was not found")
+
+    artifact_paths: set[str] = set()
+    session_ids: set[str] = set()
+
+    def collect_artifacts(item: dict[str, Any], keys: tuple[str, ...]) -> None:
+        for key in keys:
+            value = item.get(key)
+            if value:
+                artifact_paths.add(str(value))
+
+    collect_artifacts(record.get("reading_submission") or {}, ("audio_path", "transcription_path"))
+    for guidance in (record.get("guidance_attempts") or {}).values():
+        collect_artifacts(guidance, ("original_audio_path", "original_transcription_path"))
+    for result in record.get("results", []):
+        collect_artifacts(result, ("audio_path", "transcription_path"))
+        if result.get("session_id"):
+            session_ids.add(str(result["session_id"]))
+        collect_artifacts(result.get("guided_attempt") or {}, ("original_audio_path", "original_transcription_path"))
+
+    errors: list[str] = []
+    deleted_sessions: list[str] = []
+    try:
+        from agent_a6_session_manager import SessionManager
+
+        sessions = SessionManager()
+        for session_id in sessions.list_sessions():
+            session = sessions.get_session(session_id)
+            if session and (session.metadata or {}).get("assignment_id") == assignment_id:
+                session_ids.add(session_id)
+        for session_id in session_ids:
+            if sessions.delete_session(session_id, include_artifacts=True):
+                deleted_sessions.append(session_id)
+    except Exception as error:
+        errors.append(f"session cleanup: {error}")
+
+    sessions_dir = (DATA_DIR / "sessions").resolve()
+    deleted_artifacts: list[str] = []
+    for value in artifact_paths:
+        try:
+            path = Path(value).resolve()
+            path.relative_to(sessions_dir)
+            if path.is_file():
+                path.unlink()
+                deleted_artifacts.append(str(path))
+        except (OSError, ValueError) as error:
+            errors.append(f"artifact cleanup ({value}): {error}")
+
+    def clear_attempt(target: dict[str, Any]) -> None:
+        target["status"] = "assigned"
+        target["reading_submission"] = None
+        target["reading_completed_at"] = None
+        target["guidance_attempts"] = {}
+        target["results"] = []
+        target["results_released_at"] = None
+        target["results_released_by"] = None
+
+    _update_assignment(assignment_id, clear_attempt)
+    return {
+        "assignment_id": assignment_id,
+        "reset_by": examiner_id,
+        "deleted_sessions": deleted_sessions,
+        "deleted_artifacts": deleted_artifacts,
+        "errors": errors,
+    }
