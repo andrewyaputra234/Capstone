@@ -407,10 +407,32 @@ def apply_portal_theme() -> None:
         p, li, label, [data-testid="stMarkdownContainer"] { color: var(--portal-ink); }
         [data-testid="stVerticalBlockBorderWrapper"],
         [data-testid="stExpander"] {
-            background: rgba(255, 255, 255, 0.83);
-            border-color: #d6e7da;
-            border-radius: 14px;
-            box-shadow: 0 6px 18px rgba(37, 72, 53, 0.05);
+            background: rgba(255, 255, 253, 0.88) !important;
+            border-color: #d6e7da !important;
+            border-radius: 14px !important;
+            box-shadow: 0 6px 18px rgba(37, 72, 53, 0.05) !important;
+        }
+        [data-testid="stExpander"] details,
+        [data-testid="stExpander"] details > summary,
+        [data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+            background: transparent !important;
+            color: var(--portal-ink) !important;
+        }
+        [data-testid="stExpander"] details > summary:hover {
+            background: rgba(223, 242, 230, 0.65) !important;
+            border-radius: 12px !important;
+        }
+        [data-testid="stExpander"] summary *,
+        [data-testid="stExpander"] [data-testid="stMarkdownContainer"] *,
+        [data-testid="stExpander"] p,
+        [data-testid="stExpander"] li {
+            color: var(--portal-ink) !important;
+        }
+        [data-testid="stForm"],
+        [data-testid="stForm"] > div {
+            background: rgba(255, 255, 253, 0.72) !important;
+            border-color: #d8eadc !important;
+            border-radius: 12px !important;
         }
         [data-testid="stMetric"] {
             background: #f8fffa;
@@ -438,7 +460,8 @@ def apply_portal_theme() -> None:
         }
         .stButton > button:disabled { background: #c8d5cd; color: #77877d; }
         [data-baseweb="input"] > div,
-        [data-baseweb="select"] > div {
+        [data-baseweb="select"] > div,
+        [data-baseweb="textarea"] > div {
             background: rgba(255, 255, 253, 0.96) !important;
             border-color: #cedfd3 !important;
             border-radius: 8px !important;
@@ -453,6 +476,96 @@ def apply_portal_theme() -> None:
         [data-baseweb="textarea"] textarea::placeholder {
             color: #7d9388 !important;
             opacity: 1;
+        }
+        [data-testid="stNumberInput"] [data-baseweb="input"],
+        [data-testid="stNumberInput"] [data-baseweb="input"] > div,
+        [data-testid="stTextArea"] [data-baseweb="textarea"],
+        [data-testid="stTextArea"] [data-baseweb="textarea"] > div {
+            background: rgba(255, 255, 253, 0.96) !important;
+            border-color: #cedfd3 !important;
+            color: var(--portal-ink) !important;
+        }
+        [data-testid="stNumberInput"] button {
+            background: #eff9f2 !important;
+            border-color: #bfd8c7 !important;
+            color: #2f5a45 !important;
+            box-shadow: none !important;
+        }
+        [data-testid="stNumberInput"] button:hover {
+            background: #dff2e6 !important;
+            border-color: #83b996 !important;
+        }
+        [data-testid="stFileUploader"] section {
+            background: rgba(255, 255, 253, 0.92) !important;
+            border: 1px solid #cfe3d5 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 20px rgba(37, 72, 53, 0.05) !important;
+        }
+        [data-testid="stFileUploader"] section:hover {
+            border-color: #8fc7a3 !important;
+            background: #fbfffc !important;
+        }
+        [data-testid="stFileUploader"] section *,
+        [data-testid="stFileUploader"] [data-testid="stMarkdownContainer"] p {
+            color: var(--portal-ink) !important;
+        }
+        [data-testid="stFileUploader"] section small,
+        [data-testid="stFileUploader"] section span {
+            color: var(--portal-muted) !important;
+        }
+        [data-testid="stFileUploader"] section button {
+            background: #eff9f2 !important;
+            border: 1px solid #bfd8c7 !important;
+            border-radius: 8px !important;
+            color: #2f5a45 !important;
+            box-shadow: none !important;
+        }
+        [data-testid="stFileUploader"] section button:hover {
+            background: #dff2e6 !important;
+            border-color: #83b996 !important;
+            color: #234a38 !important;
+        }
+        [data-testid="stFileUploader"] svg,
+        [data-testid="stFileUploader"] svg path {
+            color: #4f8b68 !important;
+            fill: #4f8b68 !important;
+        }
+        [data-testid="stTooltipIcon"],
+        [data-testid="stTooltipIcon"] svg,
+        [data-testid="stTooltipIcon"] svg path {
+            color: #5f9f78 !important;
+            fill: #5f9f78 !important;
+        }
+        [data-baseweb="tooltip"],
+        [role="tooltip"] {
+            background: #fbfffc !important;
+            border: 1px solid #cfe3d5 !important;
+            border-radius: 10px !important;
+            box-shadow: 0 10px 24px rgba(37, 72, 53, 0.12) !important;
+            color: var(--portal-ink) !important;
+        }
+        [data-baseweb="tooltip"] *,
+        [role="tooltip"] * {
+            color: var(--portal-ink) !important;
+        }
+        [data-baseweb="popover"],
+        [data-baseweb="popover"] > div,
+        [data-baseweb="popover"] [data-testid="stTooltipContent"],
+        [data-testid="stTooltipContent"] {
+            background: #fbfffc !important;
+            background-color: #fbfffc !important;
+            border-color: #cfe3d5 !important;
+            color: var(--portal-ink) !important;
+            box-shadow: 0 10px 24px rgba(37, 72, 53, 0.12) !important;
+        }
+        [data-baseweb="popover"] *,
+        [data-testid="stTooltipContent"] * {
+            color: var(--portal-ink) !important;
+        }
+        [data-baseweb="popover"] svg,
+        [data-baseweb="popover"] svg path {
+            color: #fbfffc !important;
+            fill: #fbfffc !important;
         }
         [data-testid="stTextInputRootElement"]:has(input[type="password"]),
         [data-testid="stTextInputRootElement"]:has(input[type="password"]) [data-baseweb="base-input"] {
