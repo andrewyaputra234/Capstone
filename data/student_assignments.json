@@ -457,9 +457,9 @@
       "title": "PSLE English Oral Practice1",
       "subject": "assignment_001_09355b7d",
       "rubric": "psle_oral_english",
-      "status": "assigned",
+      "status": "completed",
       "created_at": "2026-06-21T04:13:12.886853+00:00",
-      "updated_at": "2026-06-24T08:35:15.754802+00:00",
+      "updated_at": "2026-06-25T03:39:13.317711+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "helping.webp",
@@ -503,12 +503,504 @@
           "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping."
         }
       ],
-      "reading_completed_at": null,
+      "reading_completed_at": "2026-06-25T03:27:48.326688+00:00",
       "guidance_attempts": {},
-      "results": [],
-      "reading_submission": null,
-      "results_released_at": null,
-      "results_released_by": null
+      "results": [
+        {
+          "result_id": "3c7706184df8",
+          "question_id": 1,
+          "question": "Tell me what you notice about what the person is carrying and why it might be important for them.",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+          "student_response": "I think that the person is carrying a lot of groceries and food.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260625_032828_3cb90f1d.wav",
+          "transcription_path": "data\\sessions\\speech_20260625_032828_3cb90f1d.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 6.0,
+            "words_per_minute": 130.0,
+            "pitch_range_semitones": 14.8,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "5019609e",
+          "created_at": "2026-06-25T03:31:04.191885+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Tell me what you notice about what the person is carrying and why it might be important for them.",
+            "answer": "I think that the person is carrying a lot of groceries and food.",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant as it mentions groceries and food, which are items commonly carried in shopping bags. However, the answer could be improved by including more specific details from the stimulus, such as the shopping cart and backpack.",
+                "evidence": "I think that the person is carrying a lot of groceries and food.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or specific examples.",
+                "evidence": "The student mentions that the person is carrying groceries and food.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+                "evidence": "The student's use of 'I think that the person is carrying a lot of groceries and food.' shows simple vocabulary and noticeable errors in grammar.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by identifying that the person is carrying groceries.",
+                "evidence": "I think that the person is carrying a lot of groceries and food.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You did a good job in identifying that the person is carrying groceries, showing good observation skills. However, there was a slight mismatch with the facts as the person is actually pushing a shopping cart filled with grocery bags rather than carrying them. To improve, try to include more specific details from the stimulus in your response. For example, you could mention the shopping cart and backpack to make your answer more detailed and accurate. Next time, you can start your sentence with \"I noticed that the person is pushing a shopping cart filled with groceries.\" Keep up the effort in paying attention to details and providing specific responses based on what you see.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Tell me what you notice about what the person is carrying and why it might be important for them.",
+            "answer": "I think that the person is carrying a lot of groceries and food.",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant as it mentions groceries and food, which are items commonly carried in shopping bags. However, the answer could be improved by including more specific details from the stimulus, such as the shopping cart and backpack.",
+                "evidence": "I think that the person is carrying a lot of groceries and food.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or specific examples.",
+                "evidence": "The student mentions that the person is carrying groceries and food.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+                "evidence": "The student's use of 'I think that the person is carrying a lot of groceries and food.' shows simple vocabulary and noticeable errors in grammar.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by identifying that the person is carrying groceries.",
+                "evidence": "I think that the person is carrying a lot of groceries and food.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You did a good job in identifying that the person is carrying groceries, showing good observation skills. However, there was a slight mismatch with the facts as the person is actually pushing a shopping cart filled with grocery bags rather than carrying them. To improve, try to include more specific details from the stimulus in your response. For example, you could mention the shopping cart and backpack to make your answer more detailed and accurate. Next time, you can start your sentence with \"I noticed that the person is pushing a shopping cart filled with groceries.\" Keep up the effort in paying attention to details and providing specific responses based on what you see.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-06-25T03:38:36.824826+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 6,
+              "Idea Development": 4,
+              "Spoken Language Use": 3,
+              "Interaction And Confidence": 2
+            }
+          },
+          "crew_analysis": "You did a good job in identifying that the person is carrying groceries, showing good observation skills. However, there was a slight mismatch with the facts as the person is actually pushing a shopping cart filled with grocery bags rather than carrying them. To improve, try to include more specific details from the stimulus in your response. For example, you could mention the shopping cart and backpack to make your answer more detailed and accurate. Next time, you can start your sentence with \"I noticed that the person is pushing a shopping cart filled with groceries.\" Keep up the effort in paying attention to details and providing specific responses based on what you see."
+        },
+        {
+          "result_id": "524a088ae494",
+          "question_id": 2,
+          "question": "How do you think the person feels while they are walking through the park with their shopping cart?",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+          "student_response": "First response: That is all.\n\nResponse after examiner follow-up: [No response after guidance]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "5019609e",
+          "created_at": "2026-06-25T03:36:45.908978+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "How do you think the person feels while they are walking through the park with their shopping cart?",
+            "answer": "First response: That is all.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "How do you think the person feels while they are walking through the park with their shopping cart?",
+            "answer": "First response: That is all.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-06-25T03:38:30.834938+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 0,
+              "Idea Development": 0,
+              "Spoken Language Use": 0,
+              "Interaction And Confidence": 0
+            }
+          },
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0.",
+          "guided_attempt": {
+            "original_response": "That is all.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260625_033628_c395c4c4.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260625_033628_c395c4c4.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 1.9,
+              "words_per_minute": 96.8,
+              "pitch_range_semitones": 11.8,
+              "notes": [
+                "Pace falls within a broad conversational range; listen to the recording for clarity.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-25T03:36:38.568854+00:00",
+            "follow_up_response": "[No response after guidance]"
+          }
+        },
+        {
+          "result_id": "41ced19b114e",
+          "question_id": 3,
+          "question": "Can you share your thoughts on the environment in the park and how it might affect people who visit it?",
+          "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "5019609e",
+          "created_at": "2026-06-25T03:36:48.659849+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Can you share your thoughts on the environment in the park and how it might affect people who visit it?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Can you share your thoughts on the environment in the park and how it might affect people who visit it?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows an elderly person wearing a light blue jacket, a beige beanie, and a face mask. They are pushing a shopping cart filled with grocery bags along a pathway in a park. The park is green and well-maintained, with grass and trees visible in the background. The person also carries a backpack, suggesting they might be returning from shopping.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-06-25T03:38:46.343569+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 0,
+              "Idea Development": 0,
+              "Spoken Language Use": 0,
+              "Interaction And Confidence": 0
+            }
+          },
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "reading_submission": {
+        "transcript": "Good morning students, I hope you are all well and ready for the exciting week ahead. I would like to remind everyone",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260625_032551_c086f2a5.wav",
+        "transcription_path": "data\\sessions\\speech_20260625_032551_c086f2a5.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 10.0,
+          "words_per_minute": 131.7,
+          "pitch_range_semitones": 8.9,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Good morning students, I hope you are all well and ready for the exciting week ahead. I would like to remind everyone",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 10.0, \"words_per_minute\": 131.7, \"pitch_range_semitones\": 8.9, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and some pronunciation issues.",
+              "evidence": "Good morning students, I hope you are all well and ready for the exciting week ahead. I would like to remind everyone",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Good effort on your reading aloud, I could understand your message clearly. However, there were some pace and pronunciation issues that affected the overall delivery. Remember to speak at a steady pace and work on pronouncing words accurately to improve your oral presentation. Next time, try starting with a confident and clear introduction to engage your audience right away. Keep practicing, and you'll see improvements in no time!",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Good morning students, I hope you are all well and ready for the exciting week ahead. I would like to remind everyone",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 10.0, \"words_per_minute\": 131.7, \"pitch_range_semitones\": 8.9, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and some pronunciation issues.",
+              "evidence": "Good morning students, I hope you are all well and ready for the exciting week ahead. I would like to remind everyone",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Good effort on your reading aloud, I could understand your message clearly. However, there were some pace and pronunciation issues that affected the overall delivery. Remember to speak at a steady pace and work on pronouncing words accurately to improve your oral presentation. Next time, try starting with a confident and clear introduction to engage your audience right away. Keep practicing, and you'll see improvements in no time!",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": {
+          "reviewed_at": "2026-06-25T03:39:08.613604+00:00",
+          "reviewed_by": "001",
+          "note": "",
+          "score_changes": {
+            "Reading Aloud Delivery": 10
+          }
+        },
+        "crew_analysis": "Good effort on your reading aloud, I could understand your message clearly. However, there were some pace and pronunciation issues that affected the overall delivery. Remember to speak at a steady pace and work on pronouncing words accurately to improve your oral presentation. Next time, try starting with a confident and clear introduction to engage your audience right away. Keep practicing, and you'll see improvements in no time!\n\nSentence Starter: \"Good morning everyone, I am excited to share with you today...\"",
+        "submitted_at": "2026-06-25T03:27:48.326661+00:00"
+      },
+      "results_released_at": "2026-06-25T03:39:13.317697+00:00",
+      "results_released_by": "001"
     }
   }
 }

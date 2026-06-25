@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260625_032828_3cb90f1d.wav",
+  "transcript": "I think that the person is carrying a lot of groceries and food.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 6.0,
+    "words_per_minute": 130.0,
+    "pitch_range_semitones": 14.8,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-25T03:28:31.753267+00:00"
+}

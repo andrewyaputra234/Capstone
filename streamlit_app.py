@@ -24,7 +24,6 @@ from env_fix import apply_runtime_fixes
 
 apply_runtime_fixes()
 
-from crew_orchestrator import DEFAULT_PSLE_RUBRIC, EducationCrew
 from exam_portal_store import (
     add_assessment_result,
     apply_examiner_review,
@@ -48,6 +47,11 @@ from voice_assessment import transcribe_streamlit_audio
 
 load_dotenv()
 
+# Keep the portal shell fast. The CrewAI stack imports PyTorch and LangChain, so
+# it is loaded only when a student begins an assessment or an examiner generates
+# a new one.
+DEFAULT_PSLE_RUBRIC = "psle_oral_english"
+
 st.set_page_config(
     page_title="Examination Portal",
     page_icon="🎓",
@@ -70,6 +74,8 @@ for key, default in [
     ("assignment_draft", None),
     ("preparation_deadline", None),
     ("preparation_complete", False),
+    ("student_portal_stage", "selection"),
+    ("student_selected_assignment_id", None),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -93,6 +99,8 @@ def logout() -> None:
     reset_runtime_state()
     st.session_state.preparation_deadline = None
     st.session_state.preparation_complete = False
+    st.session_state.student_portal_stage = "selection"
+    st.session_state.student_selected_assignment_id = None
     st.session_state.authenticated = False
     st.session_state.user_role = None
     st.session_state.user_id = ""
@@ -101,6 +109,8 @@ def logout() -> None:
 
 
 def init_crew(subject: str, rubric: str, student_id: str) -> EducationCrew:
+    from crew_orchestrator import EducationCrew
+
     return EducationCrew(
         subject=subject,
         rubric_name=rubric,
@@ -361,17 +371,166 @@ def capture_student_response(key_suffix: str, submit_label: str, *, allow_skip: 
     return {"text": preview["text"], "skipped": False, **preview}
 
 
+def apply_portal_theme() -> None:
+    st.markdown(
+        """
+        <style>
+        :root {
+            --portal-ink: #203b36;
+            --portal-muted: #587267;
+            --portal-mint: #5b9d73;
+            --portal-paper: #fbfdf9;
+        }
+        html, body, [class*="css"] {
+            font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif;
+        }
+        [data-testid="stAppViewContainer"] {
+            background: radial-gradient(circle at 14% 12%, #dff4e4 0, #eff8f0 30%, #fbfcf8 67%, #eaf4ec 100%);
+            color: var(--portal-ink);
+        }
+        [data-testid="stHeader"] { background: transparent; }
+        [data-testid="stMainBlockContainer"] {
+            max-width: 1180px;
+        }
+        [data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #f7fffa, #e3f5e8);
+            border-right: 1px solid #cce4d3;
+        }
+        [data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+        [data-testid="stSidebar"] p { color: #294238; }
+        h1, h2, h3 {
+            color: var(--portal-ink) !important;
+            font-family: "Trebuchet MS", "Aptos Display", "Segoe UI", sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+        p, li, label, [data-testid="stMarkdownContainer"] { color: var(--portal-ink); }
+        [data-testid="stVerticalBlockBorderWrapper"],
+        [data-testid="stExpander"] {
+            background: rgba(255, 255, 255, 0.83);
+            border-color: #d6e7da;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(37, 72, 53, 0.05);
+        }
+        [data-testid="stMetric"] {
+            background: #f8fffa;
+            border: 1px solid #d9eadc;
+            border-radius: 12px;
+            padding: 0.7rem 0.85rem;
+        }
+        [data-testid="stMetricLabel"], [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {
+            color: var(--portal-muted) !important;
+        }
+        .stButton > button, .stFormSubmitButton > button {
+            min-height: 2.65rem;
+            border: 0;
+            border-radius: 8px;
+            background: #273940;
+            color: #ffffff;
+            font-weight: 600;
+            transition: background 0.18s ease, transform 0.18s ease;
+        }
+        .stButton > button *, .stFormSubmitButton > button * { color: #ffffff !important; }
+        .stButton > button:hover, .stFormSubmitButton > button:hover {
+            background: #365e4a;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .stButton > button:disabled { background: #c8d5cd; color: #77877d; }
+        [data-baseweb="input"] > div,
+        [data-baseweb="select"] > div {
+            background: rgba(255, 255, 253, 0.96) !important;
+            border-color: #cedfd3 !important;
+            border-radius: 8px !important;
+        }
+        [data-baseweb="input"] input,
+        [data-baseweb="textarea"] textarea,
+        [data-baseweb="select"] * {
+            color: var(--portal-ink) !important;
+            font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif !important;
+        }
+        [data-baseweb="input"] input::placeholder,
+        [data-baseweb="textarea"] textarea::placeholder {
+            color: #7d9388 !important;
+            opacity: 1;
+        }
+        [data-testid="stWidgetLabel"],
+        [data-testid="stWidgetLabel"] p,
+        [data-testid="stWidgetLabel"] label,
+        [data-testid="stTextInput"] label,
+        [data-testid="stRadio"] label,
+        [data-testid="stRadio"] label p {
+            color: #365248 !important;
+            font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif !important;
+            font-weight: 600;
+        }
+        [data-testid="stTabs"] [role="tab"] { color: #5b7165; font-weight: 600; }
+        [data-testid="stTabs"] [aria-selected="true"] { color: #2f7752; }
+        [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #62a77d; }
+        [data-testid="stRadio"] [data-checked="true"] { color: #3f875e; }
+        [data-testid="stAlert"] { border-radius: 10px; }
+        hr { border-color: #d9e9dd; }
+        .portal-shell { margin-top: 1rem; }
+        .portal-hero {
+            min-height: 540px;
+            box-sizing: border-box;
+            padding: 3.25rem 2.7rem;
+            border-radius: 22px;
+            background: linear-gradient(150deg, #edfff2, #c9eed7);
+            color: #21343b;
+            box-shadow: 0 16px 38px rgba(31, 78, 52, 0.12);
+        }
+        .portal-eyebrow { color: #4c906d; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; }
+        .portal-hero h1 { font-size: 2.35rem; line-height: 1.08; margin: 1.2rem 0 1rem; }
+        .portal-hero p { color: #49685c; font-size: 1.05rem; line-height: 1.65; max-width: 24rem; }
+        .portal-orb {
+            display: grid; place-items: center; width: 142px; height: 142px; margin: 2.7rem auto 2.4rem;
+            border: 1px solid rgba(70, 137, 99, 0.28); border-radius: 50%;
+            background: rgba(255, 255, 255, 0.54); color: #376d50; font-size: 3.5rem;
+        }
+        .portal-feature { margin-top: 0.75rem; color: #365f4b; font-size: 0.95rem; }
+        .portal-brand { color: #203b36; font-family: "Trebuchet MS", "Aptos Display", sans-serif; font-size: 2rem; font-weight: 750; letter-spacing: -0.04em; margin: 2.3rem 0 0.1rem; }
+        .portal-brand span { color: #59a276; }
+        .portal-subtitle { color: #587267; margin-bottom: 1.8rem; }
+        @media (max-width: 800px) {
+            [data-testid="stMainBlockContainer"] { padding-top: 1rem; }
+            .portal-hero { min-height: auto; padding: 2rem; }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def render_login() -> None:
-    st.title("Examination Portal")
-    st.caption("A local prototype for assigning PSLE-style oral practice and reviewing AI grades.")
-    role = st.radio("Login as", ["Student", "Examiner"], horizontal=True)
-    with st.form("login_form"):
-        user_id = st.text_input("Student ID" if role == "Student" else "Examiner ID")
-        submitted = st.form_submit_button(f"Enter {role} portal", type="primary", use_container_width=True)
+    left, right = st.columns([1.1, 0.95], gap="large")
+    with left:
+        st.markdown(
+            """
+            <section class="portal-hero">
+              <div class="portal-eyebrow">PSLE English Oral</div>
+              <div class="portal-orb">&#127908;</div>
+              <h1>Speak with confidence.</h1>
+              <p>Prepare, respond, and grow through a guided oral assessment experience built for students and examiners.</p>
+              <div class="portal-feature">&#10003; Student preparation and timed practice</div>
+              <div class="portal-feature">&#10003; Examiner review and verified feedback</div>
+            </section>
+            """,
+            unsafe_allow_html=True,
+        )
+    with right:
+        st.markdown('<div class="portal-brand">ORAL <span>HUB</span></div>', unsafe_allow_html=True)
+        st.markdown('<div class="portal-subtitle">Sign in to your assessment workspace.</div>', unsafe_allow_html=True)
+        role = st.radio("Portal", ["Student", "Examiner"], horizontal=True, key="login_role")
+        with st.form("login_form"):
+            user_id = st.text_input("Student ID" if role == "Student" else "Examiner ID", placeholder="e.g. 001")
+            password = st.text_input("Password", type="password", placeholder="Enter your password")
+            submitted = st.form_submit_button("Sign in", type="primary", use_container_width=True)
+        st.caption("Demo access: Student or Examiner ID `001` with password `002`.")
     if submitted:
-        user = authenticate(role, user_id)
+        user = authenticate(role, user_id, password)
         if not user:
-            st.error("That ID is not in the local user register.")
+            st.error("Your ID, password, or selected role is incorrect.")
             return
         st.session_state.authenticated = True
         st.session_state.user_role = role.lower()
@@ -380,13 +539,15 @@ def render_login() -> None:
         if role == "Student":
             st.session_state.preparation_deadline = time.time() + 10 * 60
             st.session_state.preparation_complete = False
+            st.session_state.student_portal_stage = "selection"
+            st.session_state.student_selected_assignment_id = None
         else:
             st.session_state.preparation_deadline = None
             st.session_state.preparation_complete = False
         st.rerun()
 
-    with st.expander("Where do registered students come from?"):
-        st.write("This prototype reads registered student and examiner IDs from `data/users.json`.")
+    with st.expander("About these accounts"):
+        st.write("This prototype reads role-specific IDs and passwords from `data/users.json`. Do not use these demo credentials for a deployed application.")
 
 
 def render_account_sidebar(role: str) -> None:
@@ -1206,29 +1367,65 @@ def render_student_portal() -> None:
     def student_assignment_label(record: dict) -> str:
         status = record.get("status", "assigned").replace("_", " ").title()
         if record.get("results_released_at"):
-            status = "Final results released"
+            status = "Completed - results available"
         elif record.get("status") == "completed":
             status = "Submitted — awaiting examiner"
         return f"{record.get('title', 'Assessment')} — {status}"
 
     assignments_by_id = {record["assignment_id"]: record for record in assignments}
     assignment_ids = list(assignments_by_id)
-    active_assignment_id = st.session_state.active_assignment_id
-    initial_index = assignment_ids.index(active_assignment_id) if active_assignment_id in assignments_by_id else 0
-    selected_assignment_id = st.selectbox(
-        "Your assessment",
-        assignment_ids,
-        index=initial_index,
-        format_func=lambda assignment_id: student_assignment_label(assignments_by_id[assignment_id]),
-        key="student_assignment_id_picker",
-        disabled=bool(st.session_state.session_id and active_assignment_id in assignments_by_id),
-    )
-    assignment = assignments_by_id[selected_assignment_id]
+    if st.session_state.student_portal_stage == "selection":
+        st.subheader("Select your assessment")
+        st.caption("Choose the assessment assigned by your examiner before opening its preparation materials.")
+        if st.session_state.get("student_assignment_id_picker") not in assignments_by_id:
+            st.session_state.student_assignment_id_picker = assignment_ids[0]
+        selected_assignment_id = st.selectbox(
+            "Assigned assessment",
+            assignment_ids,
+            format_func=lambda assignment_id: student_assignment_label(assignments_by_id[assignment_id]),
+            key="student_assignment_id_picker",
+        )
+        selected_assignment = assignments_by_id[selected_assignment_id]
+        completed = selected_assignment.get("status") == "completed"
+        if completed:
+            if selected_assignment.get("results_released_at"):
+                st.success("This assessment is complete and your examiner has released the final results.")
+            else:
+                st.info("This assessment is complete and is awaiting your examiner's verified results.")
+        st.info(
+            f"**{selected_assignment.get('title', 'Assessment')}** — "
+            f"{len(selected_assignment.get('questions', []))} image question(s) assigned."
+        )
+        next_step_label = "View assessment results" if completed else "Continue to preparation materials"
+        if st.button(next_step_label, type="primary", use_container_width=True):
+            if st.session_state.active_assignment_id != selected_assignment_id:
+                reset_runtime_state()
+            st.session_state.active_assignment_id = selected_assignment_id
+            st.session_state.student_selected_assignment_id = selected_assignment_id
+            st.session_state.student_portal_stage = "results" if completed else "preparation"
+            st.rerun()
+        return
 
+    selected_assignment_id = st.session_state.student_selected_assignment_id
+    if selected_assignment_id not in assignments_by_id:
+        st.session_state.student_portal_stage = "selection"
+        st.session_state.student_selected_assignment_id = None
+        st.warning("That assessment is no longer available. Please select another assessment.")
+        st.rerun()
+
+    assignment = assignments_by_id[selected_assignment_id]
     if st.session_state.active_assignment_id != assignment["assignment_id"]:
         reset_runtime_state()
         st.session_state.active_assignment_id = assignment["assignment_id"]
     st.caption(f"Status: {assignment.get('status', 'assigned').replace('_', ' ').title()}")
+    if assignment.get("status") == "completed":
+        st.subheader("Assessment complete")
+        if assignment.get("results_released_at"):
+            st.success("Your examiner has verified and released your final results.")
+        else:
+            st.info("You have completed this assessment. Your examiner is reviewing the results.")
+        render_student_results(assignment)
+        return
     if st.session_state.preparation_complete:
         st.info("Preparation materials are locked. Continue with the assessment or view results.")
         assessment_tab, results_tab = st.tabs(["Take assessment", "Results"])
@@ -1238,14 +1435,9 @@ def render_student_portal() -> None:
             render_student_results(assignment)
     else:
         render_preparation_timer()
-        materials_tab, assessment_tab, results_tab = st.tabs(["Materials", "Take assessment", "Results"])
-        with materials_tab:
-            render_student_materials(assignment)
-        with assessment_tab:
-            render_student_assessment(assignment)
-        with results_tab:
-            render_student_results(assignment)
+        render_student_materials(assignment)
 
+apply_portal_theme()
 
 if not st.session_state.authenticated:
     render_login()

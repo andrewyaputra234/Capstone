@@ -1,9 +1,10 @@
 numpy>=1.24.0
-langchain>=0.1.0
-langchain-core>=0.1.0
-langchain-openai>=0.0.3
-langchain-community>=0.0.1
-langchain-chroma>=0.1.0
+langchain==0.3.27
+langchain-core==0.3.80
+langchain-openai==0.3.35
+langchain-community==0.3.31
+langchain-chroma==0.2.6
+langsmith==0.4.60
 python-dotenv>=1.0.0
 openai>=0.27.0
 crewai>=0.50.0

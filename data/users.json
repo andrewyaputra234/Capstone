@@ -2,13 +2,15 @@
   "students": [
     {
       "id": "001",
-      "name": "Student 001"
+      "name": "Student 001",
+      "password": "002"
     }
   ],
   "examiners": [
     {
       "id": "001",
-      "name": "Examiner 001"
+      "name": "Examiner 001",
+      "password": "002"
     }
   ]
 }

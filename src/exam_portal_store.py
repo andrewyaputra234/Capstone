@@ -9,6 +9,7 @@ keeps student records separate from subject-level ingestion data.
 from __future__ import annotations
 
 import copy
+import hmac
 import json
 import os
 import re
@@ -125,11 +126,23 @@ def list_students() -> list[dict[str, str]]:
     return sorted(students, key=lambda student: (student["name"].lower(), student["id"]))
 
 
-def authenticate(role: str, user_id: str) -> dict[str, str] | None:
+def authenticate(role: str, user_id: str, password: str) -> dict[str, str] | None:
+    """Authenticate a local portal user against the role-specific register.
+
+    This is deliberately small-scale prototype authentication. Passwords are kept
+    in the local development register and must be replaced by hashed credentials
+    before any public deployment.
+    """
     group = "examiners" if role.lower() == "examiner" else "students"
     normalized_id = user_id.strip()
+    supplied_password = password.strip()
     for user in load_users()[group]:
-        if str(user.get("id", "")).strip() == normalized_id:
+        registered_password = str(user.get("password", ""))
+        if (
+            str(user.get("id", "")).strip() == normalized_id
+            and registered_password
+            and hmac.compare_digest(registered_password, supplied_password)
+        ):
             return {"id": normalized_id, "name": str(user.get("name") or normalized_id)}
     return None
 

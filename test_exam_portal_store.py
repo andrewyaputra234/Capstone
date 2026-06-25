@@ -31,8 +31,8 @@ class ExamPortalStoreTests(unittest.TestCase):
         self.users_path.write_text(
             json.dumps(
                 {
-                    "students": [{"id": "s1", "name": "Ada Student"}],
-                    "examiners": [{"id": "e1", "name": "Evan Examiner"}],
+                    "students": [{"id": "s1", "name": "Ada Student", "password": "student-pass"}],
+                    "examiners": [{"id": "e1", "name": "Evan Examiner", "password": "examiner-pass"}],
                 }
             ),
             encoding="utf-8",
@@ -47,9 +47,14 @@ class ExamPortalStoreTests(unittest.TestCase):
 
     def test_registered_users_can_be_listed_and_authenticated(self) -> None:
         self.assertEqual(store.list_students(), [{"id": "s1", "name": "Ada Student"}])
-        self.assertEqual(store.authenticate("student", "s1"), {"id": "s1", "name": "Ada Student"})
-        self.assertEqual(store.authenticate("examiner", "e1"), {"id": "e1", "name": "Evan Examiner"})
-        self.assertIsNone(store.authenticate("student", "unknown"))
+        self.assertEqual(
+            store.authenticate("student", "s1", "student-pass"), {"id": "s1", "name": "Ada Student"}
+        )
+        self.assertEqual(
+            store.authenticate("examiner", "e1", "examiner-pass"), {"id": "e1", "name": "Evan Examiner"}
+        )
+        self.assertIsNone(store.authenticate("student", "s1", "wrong-password"))
+        self.assertIsNone(store.authenticate("student", "unknown", "student-pass"))
 
     def test_legacy_assignment_map_remains_readable(self) -> None:
         self.assignments_path.write_text(
