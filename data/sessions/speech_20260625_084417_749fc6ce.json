@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260625_084417_749fc6ce.wav",
+  "transcript": "Yes, I think it's going to keep my gym.",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 5.4,
+    "words_per_minute": 100.0,
+    "pitch_range_semitones": 12.2,
+    "notes": [
+      "Pace falls within a broad conversational range; listen to the recording for clarity.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-25T08:44:22.899599+00:00"
+}

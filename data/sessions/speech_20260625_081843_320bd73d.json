@@ -1,0 +1,16 @@
+{
+  "audio_path": "data\\sessions\\speech_20260625_081843_320bd73d.wav",
+  "transcript": "when I'm eating food",
+  "delivery_indicators": {
+    "status": "available",
+    "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+    "duration_seconds": 4.9,
+    "words_per_minute": 48.8,
+    "pitch_range_semitones": 9.4,
+    "notes": [
+      "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+      "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+    ]
+  },
+  "created_at": "2026-06-25T08:18:50.631423+00:00"
+}

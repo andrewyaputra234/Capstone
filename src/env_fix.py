@@ -6,8 +6,17 @@ import sys
 
 def apply_runtime_fixes() -> None:
     """Apply platform fixes before importing aiohttp/crewai and other heavy deps."""
+    _disable_noisy_local_telemetry()
     _fix_ssl_keylog()
     _fix_windows_stdout()
+
+
+def _disable_noisy_local_telemetry() -> None:
+    """Keep optional tracing exporters from timing out during local Streamlit demos."""
+    os.environ.setdefault("OTEL_SDK_DISABLED", "true")
+    os.environ.setdefault("CREWAI_DISABLE_TELEMETRY", "true")
+    os.environ.setdefault("CREWAI_TELEMETRY_DISABLED", "true")
+    os.environ.setdefault("LANGCHAIN_TRACING_V2", "false")
 
 
 def _fix_ssl_keylog() -> None:

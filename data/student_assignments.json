@@ -1001,6 +1001,151 @@
       },
       "results_released_at": "2026-06-25T03:39:13.317697+00:00",
       "results_released_by": "001"
+    },
+    "405a8bfb7ea4": {
+      "assignment_id": "405a8bfb7ea4",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice4",
+      "subject": "assignment_001_5eb1e889",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-25T07:51:01.605017+00:00",
+      "updated_at": "2026-06-25T08:19:45.656981+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_001_5eb1e889\\aa.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Tell me about a time when you had to wash your hands before doing something important. 123",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_5eb1e889_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+          "generated_text": "Tell me about a time when you had to wash your hands before doing something important.",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Why do you think it's important for people to wash their hands regularly?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_5eb1e889_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+          "generated_text": "Why do you think it's important for people to wash their hands regularly?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Have you ever learned about hygiene practices in school? Can you share what you were taught?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_5eb1e889_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+          "generated_text": "Have you ever learned about hygiene practices in school? Can you share what you were taught?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {
+        "1": {
+          "original_response": "when I'm eating food",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260625_081843_320bd73d.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260625_081843_320bd73d.json",
+          "original_delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 4.9,
+            "words_per_minute": 48.8,
+            "pitch_range_semitones": 9.4,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "follow_up_question": "Can you try to remember a specific time when you had to wash your hands before doing something important?",
+          "reason": "The student's response is too brief and lacks specific details related to the visual stimulus.",
+          "created_at": "2026-06-25T08:19:45.656958+00:00"
+        }
+      },
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "ebbf871ff48e": {
+      "assignment_id": "ebbf871ff48e",
+      "student_id": "001",
+      "student_name": "Student 001",
+      "title": "PSLE English Oral Practice washing hands",
+      "subject": "assignment_001_c937fe23",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-25T08:42:10.803267+00:00",
+      "updated_at": "2026-06-25T08:42:39.330172+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_001_c937fe23\\aa.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the children are doing in this picture? Is this a common thing to do",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_c937fe23_images\\page_1.webp",
+          "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+          "generated_text": "What do you think the children are doing in this picture?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Why is it important to wash our hands, especially in a public place like this?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_c937fe23_images\\page_1.webp",
+          "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+          "generated_text": "Why is it important to wash our hands, especially in a public place like this?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Can you describe a time when you had to wait your turn to use something, like in this picture?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_001_c937fe23_images\\page_1.webp",
+          "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+          "generated_text": "Can you describe a time when you had to wait your turn to use something, like in this picture?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import shutil
 import sys
@@ -16,6 +17,7 @@ import uuid
 from pathlib import Path
 
 import streamlit as st
+import streamlit.components.v1 as components
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -72,6 +74,8 @@ for key, default in [
     ("session_id", None),
     ("active_assignment_id", None),
     ("assignment_draft", None),
+    ("simli_avatar_cache", {}),
+    ("simli_avatar_errors", {}),
     ("preparation_deadline", None),
     ("preparation_complete", False),
     ("student_portal_stage", "selection"),
@@ -215,6 +219,116 @@ def assessment_question_with_visual_context(question: dict) -> str:
     if not visual_context:
         return question.get("text", "")
     return f"Visual stimulus facts: {visual_context}\n\nQuestion: {question.get('text', '')}"
+
+
+def simli_avatar_requested() -> bool:
+    return os.getenv("ENABLE_SIMLI_AVATAR", "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def render_examiner_avatar(text: str, *, cache_key: str) -> None:
+    """Render a Simli examiner avatar for already-selected examiner text.
+
+    Simli is intentionally presentation-only: the app still decides the
+    question, guidance, grading, and whether the student moves on.
+    """
+    if not simli_avatar_requested():
+        return
+
+    try:
+        from simli_avatar import SimliAvatarError, create_avatar_video_url, load_config
+    except Exception as error:
+        st.caption(f"Examiner avatar unavailable: {error}")
+        return
+
+    if not load_config():
+        st.info("Simli avatar is enabled, but SIMLI_API_KEY, SIMLI_FACE_ID, and OPENAI_API_KEY are not all set.")
+        return
+
+    clean_text = " ".join((text or "").split())
+    if not clean_text:
+        return
+
+    cache = st.session_state.setdefault("simli_avatar_cache", {})
+    text_hash = hashlib.sha256(clean_text.encode("utf-8")).hexdigest()[:16]
+    avatar_cache_key = f"{cache_key}:{text_hash}"
+    cached = cache.get(avatar_cache_key)
+    errors = st.session_state.setdefault("simli_avatar_errors", {})
+
+    st.markdown("#### AI examiner")
+    if cached:
+        render_avatar_video(cached, element_key=f"simli_{avatar_cache_key}")
+        return
+
+    if avatar_cache_key in errors:
+        st.warning(f"Examiner avatar could not be prepared: {errors[avatar_cache_key]}")
+        if st.button("Try avatar again", key=f"retry_avatar_{avatar_cache_key}", use_container_width=True):
+            errors.pop(avatar_cache_key, None)
+            st.rerun()
+        return
+
+    st.caption("Press play when you are ready to hear the examiner.")
+    if not st.button("Play examiner avatar", key=f"play_avatar_{avatar_cache_key}", use_container_width=True):
+        return
+
+    try:
+        with st.spinner("The AI examiner is preparing to speak..."):
+            url = create_avatar_video_url(clean_text)
+    except SimliAvatarError as error:
+        errors[avatar_cache_key] = str(error)
+        st.warning(f"Examiner avatar could not be prepared: {error}")
+        return
+    except Exception as error:
+        errors[avatar_cache_key] = str(error)
+        st.warning(f"Examiner avatar is unavailable right now: {error}")
+        return
+    cache[avatar_cache_key] = url
+    render_avatar_video(url, element_key=f"simli_{avatar_cache_key}")
+
+
+def render_examiner_transition(message: str, *, cache_key: str) -> None:
+    clean_message = " ".join((message or "").split())
+    if not clean_message:
+        return
+    st.success(clean_message)
+    render_examiner_avatar(clean_message, cache_key=cache_key)
+
+
+def render_avatar_video(url: str, *, element_key: str) -> None:
+    safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", element_key)
+    safe_id_json = json.dumps(safe_id)
+    url_json = json.dumps(url)
+    is_hls = ".m3u8" in url.lower()
+    is_hls_json = json.dumps(is_hls)
+    components.html(
+        f"""
+        <div style="border:1px solid #cfe3d5;border-radius:16px;overflow:hidden;background:#fbfffc;box-shadow:0 10px 24px rgba(37,72,53,.08);">
+          <video id="{safe_id}" controls autoplay playsinline style="width:100%;display:block;background:#eef7f0;"></video>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+        <script>
+          const video = document.getElementById({safe_id_json});
+          const src = {url_json};
+          const isHls = {is_hls_json};
+          const playWhenReady = () => video.play().catch(() => {{}});
+          if (!isHls) {{
+            video.src = src;
+            video.addEventListener("canplay", playWhenReady, {{ once: true }});
+          }} else if (video.canPlayType("application/vnd.apple.mpegurl")) {{
+            video.src = src;
+            video.addEventListener("canplay", playWhenReady, {{ once: true }});
+          }} else if (window.Hls && window.Hls.isSupported()) {{
+            const hls = new Hls();
+            hls.loadSource(src);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, playWhenReady);
+          }} else {{
+            video.outerHTML = '<p style="padding:1rem;color:#203b36;font-family:Segoe UI,sans-serif;">Avatar video is ready, but this browser cannot play the stream.</p>';
+          }}
+        </script>
+        """,
+        height=360,
+        scrolling=False,
+    )
 
 
 def combined_guided_response(guidance: dict, follow_up_response: str) -> str:
@@ -472,6 +586,35 @@ def apply_portal_theme() -> None:
             color: var(--portal-ink) !important;
             font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif !important;
         }
+        [data-baseweb="select"] svg,
+        [data-baseweb="select"] svg path {
+            color: #4f8b68 !important;
+            fill: #4f8b68 !important;
+        }
+        [data-baseweb="popover"] [role="listbox"],
+        [data-baseweb="popover"] [data-baseweb="menu"],
+        [role="listbox"],
+        ul[role="listbox"] {
+            background: #fbfffc !important;
+            border: 1px solid #cfe3d5 !important;
+            border-radius: 10px !important;
+            box-shadow: 0 12px 26px rgba(37, 72, 53, 0.12) !important;
+            color: var(--portal-ink) !important;
+        }
+        [data-baseweb="popover"] [role="option"],
+        [data-baseweb="menu"] li,
+        [role="listbox"] [role="option"],
+        li[role="option"] {
+            background: #fbfffc !important;
+            color: var(--portal-ink) !important;
+        }
+        [data-baseweb="popover"] [role="option"]:hover,
+        [data-baseweb="popover"] [aria-selected="true"],
+        [role="listbox"] [role="option"]:hover,
+        [role="listbox"] [aria-selected="true"] {
+            background: #e6f5eb !important;
+            color: #234a38 !important;
+        }
         [data-baseweb="input"] input::placeholder,
         [data-baseweb="textarea"] textarea::placeholder {
             color: #7d9388 !important;
@@ -484,6 +627,20 @@ def apply_portal_theme() -> None:
             background: rgba(255, 255, 253, 0.96) !important;
             border-color: #cedfd3 !important;
             color: var(--portal-ink) !important;
+        }
+        [data-testid="stTextArea"] textarea:disabled,
+        [data-testid="stTextArea"] textarea[disabled],
+        [data-testid="stTextArea"] [data-baseweb="textarea"] textarea:disabled,
+        [data-testid="stTextArea"] [data-baseweb="textarea"] textarea[disabled] {
+            color: var(--portal-ink) !important;
+            -webkit-text-fill-color: var(--portal-ink) !important;
+            opacity: 1 !important;
+            background: transparent !important;
+        }
+        [data-testid="stTextArea"] [data-baseweb="textarea"]:has(textarea:disabled),
+        [data-testid="stTextArea"] [data-baseweb="textarea"]:has(textarea[disabled]) {
+            background: rgba(255, 255, 253, 0.96) !important;
+            opacity: 1 !important;
         }
         [data-testid="stNumberInput"] button {
             background: #eff9f2 !important;
@@ -524,6 +681,34 @@ def apply_portal_theme() -> None:
             background: #dff2e6 !important;
             border-color: #83b996 !important;
             color: #234a38 !important;
+        }
+        [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+        [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] > div,
+        [data-testid="stFileUploader"] li,
+        [data-testid="stFileUploader"] li > div {
+            background: #f7fff9 !important;
+            border-color: #cfe3d5 !important;
+            color: var(--portal-ink) !important;
+            box-shadow: none !important;
+        }
+        [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] *,
+        [data-testid="stFileUploader"] li * {
+            color: var(--portal-ink) !important;
+        }
+        [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button,
+        [data-testid="stFileUploader"] [data-testid="stFileUploaderDropzoneInstructions"] + button,
+        [data-testid="stFileUploader"] [aria-label*="Remove"],
+        [data-testid="stFileUploader"] [aria-label*="Delete"] {
+            background: #eef9f2 !important;
+            border: 1px solid #bfd8c7 !important;
+            color: #2f5a45 !important;
+            box-shadow: none !important;
+        }
+        [data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] button:hover,
+        [data-testid="stFileUploader"] [aria-label*="Remove"]:hover,
+        [data-testid="stFileUploader"] [aria-label*="Delete"]:hover {
+            background: #dff2e6 !important;
+            border-color: #83b996 !important;
         }
         [data-testid="stFileUploader"] svg,
         [data-testid="stFileUploader"] svg path {
@@ -1394,6 +1579,10 @@ def render_student_assessment(assignment: dict) -> None:
 
     current_number = len(answered_ids) + 1
     st.progress(current_number / len(questions), text=f"Question {current_number} of {len(questions)}")
+    render_examiner_avatar(
+        question.get("text", ""),
+        cache_key=f"{assignment['assignment_id']}_{question.get('id', current_number)}_question",
+    )
     st.write(f"### {question.get('text', '')}")
     image = visual_path(assignment)
     if image:
@@ -1403,6 +1592,10 @@ def render_student_assessment(assignment: dict) -> None:
 
     if guidance:
         st.info("Your examiner has given one guiding question. Use it to improve your answer; there will not be another prompt for this item.")
+        render_examiner_avatar(
+            guidance.get("follow_up_question", ""),
+            cache_key=f"{assignment['assignment_id']}_{question_id}_guidance",
+        )
         st.write(f"**Examiner:** {guidance.get('follow_up_question', '')}")
         captured = capture_student_response(
             f"follow_up_{assignment['assignment_id']}_{question_id}", "Submit final response"
@@ -1413,6 +1606,7 @@ def render_student_assessment(assignment: dict) -> None:
         follow_up_answer = captured["text"] if not skipped else "[No response after guidance]"
         answer_for_grading = combined_guided_response(guidance, follow_up_answer)
         grading_context = json.dumps({"examiner_guidance": guidance}, indent=2)
+        examiner_transition = "Thank you, let's move on to the next question."
     else:
         captured = capture_student_response(
             f"response_{assignment['assignment_id']}_{question_id}", "Submit response"
@@ -1447,13 +1641,27 @@ def render_student_assessment(assignment: dict) -> None:
                     st.error(f"The guiding question could not be saved: {error}")
                     return
                 st.rerun()
+            examiner_transition = decision.get("examiner_reply") or "Thank you, let's move on to the next question."
             follow_up_answer = None
             answer_for_grading = captured["text"]
             grading_context = None
         else:
+            examiner_transition = "Thank you. I have recorded that response."
             follow_up_answer = None
             answer_for_grading = "[Skipped question]"
             grading_context = None
+
+    transition_key = f"examiner_transition_ready_{assignment['assignment_id']}_{question_id}"
+    if not st.session_state.get(transition_key):
+        render_examiner_transition(
+            examiner_transition,
+            cache_key=f"{assignment['assignment_id']}_{question_id}_transition",
+        )
+        if st.button("Continue", type="primary", use_container_width=True, key=f"continue_after_avatar_{assignment['assignment_id']}_{question_id}"):
+            st.session_state[transition_key] = True
+            st.rerun()
+        st.caption("Continue after the examiner response has played.")
+        return
 
     with st.spinner("AI is grading your response..."):
         try:
@@ -1485,6 +1693,7 @@ def render_student_assessment(assignment: dict) -> None:
         except Exception as error:
             st.error(f"Your response was not saved: {error}")
             return
+    st.session_state.pop(transition_key, None)
     st.rerun()
 
 
