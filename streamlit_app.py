@@ -454,6 +454,55 @@ def apply_portal_theme() -> None:
             color: #7d9388 !important;
             opacity: 1;
         }
+        [data-testid="stTextInputRootElement"]:has(input[type="password"]),
+        [data-testid="stTextInputRootElement"]:has(input[type="password"]) [data-baseweb="base-input"] {
+            background: rgba(255, 255, 253, 0.96) !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+        }
+        [data-testid="stTextInputRootElement"] input[type="password"] {
+            background: transparent !important;
+            width: 100% !important;
+            padding-right: 2.35rem !important;
+        }
+        [data-testid="stTextInputRootElement"] input[type="password"] + button,
+        [data-testid="stTextInputRootElement"]:has(input[type="password"]) button,
+        [data-testid="stTextInputRootElement"] button[aria-label="Show password text"],
+        [data-testid="stTextInputRootElement"] button[aria-label="Hide password text"],
+        [data-testid="stTextInputRootElement"] button[title="Show password text"],
+        [data-testid="stTextInputRootElement"] button[title="Hide password text"] {
+            display: inline-flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 2.2rem !important;
+            min-width: 2.2rem !important;
+            flex: 0 0 2.2rem !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            color: #789086 !important;
+        }
+        [data-testid="stTextInputRootElement"]:has(input[type="password"]) button:hover,
+        [data-testid="stTextInputRootElement"]:has(input[type="password"]) button:focus {
+            background: rgba(91, 157, 115, 0.10) !important;
+            background-color: rgba(91, 157, 115, 0.10) !important;
+            border-radius: 7px !important;
+            outline: none !important;
+        }
+        [data-testid="stTextInputRootElement"]:has(input[type="password"]) button svg,
+        [data-testid="stTextInputRootElement"]:has(input[type="password"]) button svg path {
+            color: #789086 !important;
+            fill: #789086 !important;
+        }
+        [data-testid="stTextInputRootElement"] input[type="password"]::-ms-reveal,
+        [data-testid="stTextInputRootElement"] input[type="password"]::-ms-clear {
+            display: none;
+        }
         [data-testid="stWidgetLabel"],
         [data-testid="stWidgetLabel"] p,
         [data-testid="stWidgetLabel"] label,
