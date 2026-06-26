@@ -56,6 +56,24 @@ class ExamPortalStoreTests(unittest.TestCase):
         self.assertIsNone(store.authenticate("student", "s1", "wrong-password"))
         self.assertIsNone(store.authenticate("student", "unknown", "student-pass"))
 
+    def test_student_can_register_with_own_id_and_password(self) -> None:
+        registered = store.register_student("student_002", "new-pass", "New Student")
+
+        self.assertEqual(registered, {"id": "student_002", "name": "New Student"})
+        self.assertIn({"id": "student_002", "name": "New Student"}, store.list_students())
+        self.assertEqual(
+            store.authenticate("student", "student_002", "new-pass"),
+            {"id": "student_002", "name": "New Student"},
+        )
+        with self.assertRaisesRegex(ValueError, "already exists"):
+            store.register_student("STUDENT_002", "another-pass", "Duplicate")
+
+        raw_users = json.loads(self.users_path.read_text(encoding="utf-8"))
+        saved_student = next(user for user in raw_users["students"] if user["id"] == "student_002")
+        self.assertNotIn("password", saved_student)
+        self.assertIn("password_hash", saved_student)
+        self.assertIn("password_salt", saved_student)
+
     def test_legacy_assignment_map_remains_readable(self) -> None:
         self.assignments_path.write_text(
             json.dumps({"s1": {"subject": "old_subject", "rubric": "old_rubric"}}), encoding="utf-8"

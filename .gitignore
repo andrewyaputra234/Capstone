@@ -6,3 +6,10 @@ __pycache__/
 .env.local
 chroma_db/
 data/chroma_db/
+data/avatar_videos/
+data/streamlit_*.log
+data/sessions/speech_*.json
+data/sessions/speech_*.wav
+data/assignment_*_images/
+data/input/assignment_*/
+data/output/assignment_*/

@@ -790,6 +790,9 @@ class EducationCrew:
             raw = self.llm.invoke(prompt).content
             decision = self._parse_json_object(raw)
             accepted = bool(decision.get("accepted"))
+            reason = str(decision.get("reason", "")).strip()
+            if not accepted and not self._follow_up_is_allowed(response, reason):
+                accepted = True
             if attempt_number >= max_attempts and response and decision.get("status") != "struggling":
                 accepted = True
 
@@ -801,13 +804,63 @@ class EducationCrew:
 
             return {
                 "accepted": accepted,
-                "status": decision.get("status", "accepted" if accepted else "needs_prompt"),
+                "status": "accepted" if accepted else decision.get("status", "needs_prompt"),
                 "examiner_reply": examiner_reply,
-                "reason": decision.get("reason", ""),
+                "reason": reason,
                 "rubric_focus": decision.get("rubric_focus", []),
             }
         except Exception as e:
             return self._fallback_oral_turn_decision(response, attempt_number, max_attempts, str(e))
+
+    @staticmethod
+    def _follow_up_is_allowed(response: str, reason: str) -> bool:
+        """Return whether a first answer is weak enough to justify the one follow-up.
+
+        The live oral flow should not trap a student on the same prompt merely
+        because a passable answer could be stronger. A follow-up is reserved for
+        near-fail cases: unrelated, contradictory, empty, or unclear answers.
+        """
+        normalized_response = (response or "").strip().lower()
+        normalized_reason = (reason or "").strip().lower()
+        word_count = len(normalized_response.split())
+
+        if word_count < 4:
+            return True
+
+        hard_prompt_markers = [
+            "unrelated",
+            "off-topic",
+            "off topic",
+            "irrelevant",
+            "contradict",
+            "wrong visible",
+            "incorrect visible",
+            "no meaningful",
+            "empty",
+            "very short",
+            "impossible to understand",
+            "unclear",
+            "cannot understand",
+            "does not address",
+            "fails to address",
+        ]
+        if any(marker in normalized_reason for marker in hard_prompt_markers):
+            return True
+
+        improvement_only_markers = [
+            "needs more elaboration",
+            "needs elaboration",
+            "more elaboration",
+            "add another detail",
+            "could provide more detail",
+            "could be improved",
+            "limited elaboration",
+            "connection to the visual stimulus",
+        ]
+        if word_count >= 5 and any(marker in normalized_reason for marker in improvement_only_markers):
+            return False
+
+        return False
 
     def _looks_like_struggling_response(self, response: str) -> bool:
         if len(response.split()) < 4:

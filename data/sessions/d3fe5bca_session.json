@@ -3,11 +3,241 @@
   "paper_id": "assignment_001_c937fe23",
   "student_id": "001",
   "date_created": "2026-06-25T16:42:39.315329",
-  "state": "ACTIVE",
-  "turns": [],
-  "scores": null,
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-26T13:44:09.789308",
+      "speaker": "avatar",
+      "text": "What do you think the children are doing in this picture? Is this a common thing to do",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-26T13:44:09.804648",
+      "speaker": "student",
+      "text": "First response: Yes, very.\n\nResponse after examiner follow-up: [No response after guidance]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-06-26T13:46:55.201255",
+      "speaker": "avatar",
+      "text": "Why is it important to wash our hands, especially in a public place like this?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-06-26T13:46:55.211225",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-06-26T13:47:47.452272",
+      "speaker": "avatar",
+      "text": "Can you describe a time when you had to wait your turn to use something, like in this picture?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-06-26T13:47:47.468837",
+      "speaker": "student",
+      "text": "yes when i queue up for the toilet",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you think the children are doing in this picture? Is this a common thing to do",
+        "answer": "First response: Yes, very.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Why is it important to wash our hands, especially in a public place like this?",
+        "answer": "[Skipped question]",
+        "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Can you describe a time when you had to wait your turn to use something, like in this picture?",
+        "answer": "yes when i queue up for the toilet",
+        "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The response is mostly relevant as the student mentions queuing up for the toilet, which aligns with the concept of waiting their turn. However, more specific details from the stimulus could enhance the response.",
+            "evidence": "The student mentions queuing up for the toilet.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+            "evidence": "The student briefly mentions queuing up for the toilet without providing further details or examples.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's answer demonstrates understandable language with simple vocabulary, but there are noticeable errors in grammar and sentence structure.",
+            "evidence": "The student's response 'yes when i queue up for the toilet' shows simple vocabulary and understandable language, but the lack of capitalization and punctuation are noticeable errors.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence, mentioning queuing up for the toilet.",
+            "evidence": "The student acknowledges waiting their turn to use something, similar to the scenario in the picture.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Great job mentioning waiting your turn to use something, like queuing up for the toilet. However, the picture actually shows children in a washroom, not specifically for a toilet. To improve, try to include more details from the picture next time to make your response more specific and engaging. For example, you could describe the clean, bright washroom with multiple sinks and soap dispensers. Remember to expand on your ideas and provide examples to make your answer more detailed and interesting. Next time, you could start your sentence with \"In the picture, I can see...\" to help you include more specific details. Keep it up and continue to practice adding more descriptive elements to your responses.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
   "start_time": "2026-06-25T16:42:39.323215",
-  "end_time": null,
+  "end_time": "2026-06-26T13:47:58.544694",
   "metadata": {
     "assignment_id": "ebbf871ff48e",
     "component": "student_assessment",

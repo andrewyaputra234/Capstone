@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import base64
 import os
+import time
 from dataclasses import dataclass
 from typing import Any
 
@@ -27,6 +28,8 @@ class SimliAvatarConfig:
     tts_model: str = "tts-1"
     tts_voice: str = "alloy"
     audio_sample_rate: int = 24000
+    mp4_wait_seconds: float = 35.0
+    poll_interval_seconds: float = 1.5
 
 
 def avatar_enabled() -> bool:
@@ -49,6 +52,8 @@ def load_config() -> SimliAvatarConfig | None:
         tts_model=os.getenv("SIMLI_TTS_MODEL", "tts-1").strip() or "tts-1",
         tts_voice=os.getenv("SIMLI_TTS_VOICE", "alloy").strip() or "alloy",
         audio_sample_rate=_int_env("SIMLI_AUDIO_SAMPLE_RATE", 24000),
+        mp4_wait_seconds=max(0.0, _float_env("SIMLI_MP4_WAIT_SECONDS", 35.0)),
+        poll_interval_seconds=max(0.5, _float_env("SIMLI_POLL_INTERVAL_SECONDS", 1.5)),
     )
 
 
@@ -83,10 +88,48 @@ def create_avatar_video_url(text: str, *, config: SimliAvatarConfig | None = Non
         timeout=90,
     )
     data = _response_data(response, "generate static avatar video")
-    video_url = data.get("mp4_url") or data.get("hls_url")
+    video_url = _select_playable_video_url(data, config=config)
     if not video_url:
         raise SimliAvatarError("Simli did not return an avatar video URL.")
     return str(video_url)
+
+
+def _select_playable_video_url(data: dict[str, Any], *, config: SimliAvatarConfig) -> str | None:
+    """Prefer MP4 for Streamlit playback, but fall back to HLS while MP4 is cooking."""
+    mp4_url = data.get("mp4_url")
+    hls_url = data.get("hls_url")
+    if mp4_url:
+        eta = _extract_mp4_eta(data)
+        wait_seconds = max(config.mp4_wait_seconds, min(60.0, eta + 8.0 if eta else 0.0))
+        if _wait_until_url_available(str(mp4_url), timeout_seconds=wait_seconds, poll_interval=config.poll_interval_seconds):
+            return str(mp4_url)
+    return str(hls_url) if hls_url else (str(mp4_url) if mp4_url else None)
+
+
+def _extract_mp4_eta(data: dict[str, Any]) -> float:
+    """Simli currently exposes this with a misspelled key in some responses."""
+    for key in ("mp4_availability_eta_seconds", "mp4_availablility_eta_seconds"):
+        value = data.get(key)
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            continue
+    return 0.0
+
+
+def _wait_until_url_available(url: str, *, timeout_seconds: float, poll_interval: float) -> bool:
+    deadline = time.monotonic() + timeout_seconds
+    while time.monotonic() <= deadline:
+        try:
+            response = requests.get(url, timeout=10, stream=True)
+            ok = response.status_code == 200
+            response.close()
+            if ok:
+                return True
+        except requests.RequestException:
+            pass
+        time.sleep(poll_interval)
+    return False
 
 
 def _create_tts_audio(text: str, *, config: SimliAvatarConfig) -> bytes:
@@ -135,5 +178,12 @@ def _response_data(response: requests.Response, action: str) -> dict[str, Any]:
 def _int_env(name: str, default: int) -> int:
     try:
         return int(os.getenv(name, default))
+    except (TypeError, ValueError):
+        return default
+
+
+def _float_env(name: str, default: float) -> float:
+    try:
+        return float(os.getenv(name, default))
     except (TypeError, ValueError):
         return default

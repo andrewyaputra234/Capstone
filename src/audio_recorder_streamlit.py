@@ -70,7 +70,7 @@ class StreamlitAudioRecorder:
                         start_prompt="🎤 Start Recording",
                         stop_prompt="⏹️ Stop Recording",
                         just_once=False,
-                        use_container_width=True,
+                        width="stretch",
                         key=f"mic_recorder_{key_suffix}"
                     )
                     

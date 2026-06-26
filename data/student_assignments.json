@@ -1011,7 +1011,7 @@
       "rubric": "psle_oral_english",
       "status": "in_progress",
       "created_at": "2026-06-25T07:51:01.605017+00:00",
-      "updated_at": "2026-06-25T08:19:45.656981+00:00",
+      "updated_at": "2026-06-26T06:14:02.108087+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "aa.webp",
@@ -1059,29 +1059,160 @@
         }
       ],
       "reading_completed_at": null,
-      "guidance_attempts": {
-        "1": {
-          "original_response": "when I'm eating food",
-          "original_response_mode": "voice",
-          "original_audio_path": "data\\sessions\\speech_20260625_081843_320bd73d.wav",
-          "original_transcription_path": "data\\sessions\\speech_20260625_081843_320bd73d.json",
-          "original_delivery_indicators": {
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "1bba2faf47e7",
+          "question_id": 1,
+          "question": "Tell me about a time when you had to wash your hands before doing something important. 123",
+          "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+          "student_response": "First response: when I'm eating food\n\nResponse after examiner follow-up: Yes, when I'm preparing food.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260626_061233_885b2753.wav",
+          "transcription_path": "data\\sessions\\speech_20260626_061233_885b2753.json",
+          "delivery_indicators": {
             "status": "available",
             "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
-            "duration_seconds": 4.9,
-            "words_per_minute": 48.8,
-            "pitch_range_semitones": 9.4,
+            "duration_seconds": 7.1,
+            "words_per_minute": 42.4,
+            "pitch_range_semitones": 11.8,
             "notes": [
               "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
               "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
             ]
           },
-          "follow_up_question": "Can you try to remember a specific time when you had to wash your hands before doing something important?",
-          "reason": "The student's response is too brief and lacks specific details related to the visual stimulus.",
-          "created_at": "2026-06-25T08:19:45.656958+00:00"
+          "session_id": "c92bca55",
+          "created_at": "2026-06-26T06:14:02.069319+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Tell me about a time when you had to wash your hands before doing something important. 123",
+            "answer": "First response: when I'm eating food\n\nResponse after examiner follow-up: Yes, when I'm preparing food.",
+            "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they mention washing hands before preparing food, which is a common scenario that aligns with the stimulus of children washing hands in a public setting.",
+                "evidence": "The student mentioned washing hands before preparing food, which is a relevant response to the prompt.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student provides a basic idea about washing hands before eating or preparing food, but the response lacks elaboration or examples.",
+                "evidence": "when I'm eating food",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+                "evidence": "The student's response 'when I'm preparing food' shows basic language use with some errors.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and provides additional information when prompted.",
+                "evidence": "The student initially mentioned washing hands before eating food but then provided a more specific response when prompted by the examiner.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job mentioning the importance of washing your hands before preparing food, which is a crucial hygiene practice. However, the visual stimulus showed children washing their hands in a public bathroom, not at home. Your answer could be more closely related to the given setting. Your response lacked elaboration and examples, so next time, try to add more details to make your answer stronger. A good sentence starter could be \"In the picture, I see children washing their hands in a public bathroom, so...\" Keep practicing to improve your language use and remember to stay focused on the prompt for a more complete response.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Tell me about a time when you had to wash your hands before doing something important. 123",
+            "answer": "First response: when I'm eating food\n\nResponse after examiner follow-up: Yes, when I'm preparing food.",
+            "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they mention washing hands before preparing food, which is a common scenario that aligns with the stimulus of children washing hands in a public setting.",
+                "evidence": "The student mentioned washing hands before preparing food, which is a relevant response to the prompt.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student provides a basic idea about washing hands before eating or preparing food, but the response lacks elaboration or examples.",
+                "evidence": "when I'm eating food",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+                "evidence": "The student's response 'when I'm preparing food' shows basic language use with some errors.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and provides additional information when prompted.",
+                "evidence": "The student initially mentioned washing hands before eating food but then provided a more specific response when prompted by the examiner.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job mentioning the importance of washing your hands before preparing food, which is a crucial hygiene practice. However, the visual stimulus showed children washing their hands in a public bathroom, not at home. Your answer could be more closely related to the given setting. Your response lacked elaboration and examples, so next time, try to add more details to make your answer stronger. A good sentence starter could be \"In the picture, I see children washing their hands in a public bathroom, so...\" Keep practicing to improve your language use and remember to stay focused on the prompt for a more complete response.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great job mentioning the importance of washing your hands before preparing food, which is a crucial hygiene practice. However, the visual stimulus showed children washing their hands in a public bathroom, not at home. Your answer could be more closely related to the given setting. Your response lacked elaboration and examples, so next time, try to add more details to make your answer stronger. A good sentence starter could be \"In the picture, I see children washing their hands in a public bathroom, so...\" Keep practicing to improve your language use and remember to stay focused on the prompt for a more complete response.",
+          "guided_attempt": {
+            "original_response": "when I'm eating food",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260625_081843_320bd73d.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260625_081843_320bd73d.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 4.9,
+              "words_per_minute": 48.8,
+              "pitch_range_semitones": 9.4,
+              "notes": [
+                "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "Can you try to remember a specific time when you had to wash your hands before doing something important?",
+            "reason": "The student's response is too brief and lacks specific details related to the visual stimulus.",
+            "created_at": "2026-06-25T08:19:45.656958+00:00",
+            "follow_up_response": "Yes, when I'm preparing food."
+          }
         }
-      },
-      "results": [],
+      ],
       "results_released_at": null,
       "results_released_by": null
     },
@@ -1092,9 +1223,9 @@
       "title": "PSLE English Oral Practice washing hands",
       "subject": "assignment_001_c937fe23",
       "rubric": "psle_oral_english",
-      "status": "in_progress",
+      "status": "completed",
       "created_at": "2026-06-25T08:42:10.803267+00:00",
-      "updated_at": "2026-06-25T08:42:39.330172+00:00",
+      "updated_at": "2026-06-26T05:47:58.520208+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "aa.webp",
@@ -1143,7 +1274,393 @@
       ],
       "reading_completed_at": null,
       "guidance_attempts": {},
-      "results": [],
+      "results": [
+        {
+          "result_id": "95d5c620099a",
+          "question_id": 1,
+          "question": "What do you think the children are doing in this picture? Is this a common thing to do",
+          "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+          "student_response": "First response: Yes, very.\n\nResponse after examiner follow-up: [No response after guidance]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "d3fe5bca",
+          "created_at": "2026-06-26T05:44:09.834251+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "What do you think the children are doing in this picture? Is this a common thing to do",
+            "answer": "First response: Yes, very.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "What do you think the children are doing in this picture? Is this a common thing to do",
+            "answer": "First response: Yes, very.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0.",
+          "guided_attempt": {
+            "original_response": "Yes, very.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260626_015208_d34a626b.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260626_015208_d34a626b.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 2.2,
+              "words_per_minute": 54.1,
+              "pitch_range_semitones": 10.2,
+              "notes": [
+                "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "What is one person, object, or action you can see in the picture?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-06-26T01:52:59.260603+00:00",
+            "follow_up_response": "[No response after guidance]"
+          }
+        },
+        {
+          "result_id": "d14a61b2080f",
+          "question_id": 2,
+          "question": "Why is it important to wash our hands, especially in a public place like this?",
+          "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+          "student_response": "[Skipped question]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "d3fe5bca",
+          "created_at": "2026-06-26T05:46:55.228148+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Why is it important to wash our hands, especially in a public place like this?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Why is it important to wash our hands, especially in a public place like this?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "45922ee655f9",
+          "question_id": 3,
+          "question": "Can you describe a time when you had to wait your turn to use something, like in this picture?",
+          "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+          "student_response": "yes when i queue up for the toilet",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "d3fe5bca",
+          "created_at": "2026-06-26T05:47:58.078644+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe a time when you had to wait your turn to use something, like in this picture?",
+            "answer": "yes when i queue up for the toilet",
+            "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant as the student mentions queuing up for the toilet, which aligns with the concept of waiting their turn. However, more specific details from the stimulus could enhance the response.",
+                "evidence": "The student mentions queuing up for the toilet.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+                "evidence": "The student briefly mentions queuing up for the toilet without providing further details or examples.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's answer demonstrates understandable language with simple vocabulary, but there are noticeable errors in grammar and sentence structure.",
+                "evidence": "The student's response 'yes when i queue up for the toilet' shows simple vocabulary and understandable language, but the lack of capitalization and punctuation are noticeable errors.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, mentioning queuing up for the toilet.",
+                "evidence": "The student acknowledges waiting their turn to use something, similar to the scenario in the picture.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job mentioning waiting your turn to use something, like queuing up for the toilet. However, the picture actually shows children in a washroom, not specifically for a toilet. To improve, try to include more details from the picture next time to make your response more specific and engaging. For example, you could describe the clean, bright washroom with multiple sinks and soap dispensers. Remember to expand on your ideas and provide examples to make your answer more detailed and interesting. Next time, you could start your sentence with \"In the picture, I can see...\" to help you include more specific details. Keep it up and continue to practice adding more descriptive elements to your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe a time when you had to wait your turn to use something, like in this picture?",
+            "answer": "yes when i queue up for the toilet",
+            "visual_context": "The image shows a group of children in a bright, clean washroom. There are three children visible, with one child in the foreground turning on a tap over a white sink. The child is wearing a blue shirt and glasses. Behind, two other children are also at sinks, one wearing a white blouse with a red checkered skirt and the other in a white shirt. There are white tile walls and several soap dispensers are mounted above the sinks.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant as the student mentions queuing up for the toilet, which aligns with the concept of waiting their turn. However, more specific details from the stimulus could enhance the response.",
+                "evidence": "The student mentions queuing up for the toilet.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+                "evidence": "The student briefly mentions queuing up for the toilet without providing further details or examples.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's answer demonstrates understandable language with simple vocabulary, but there are noticeable errors in grammar and sentence structure.",
+                "evidence": "The student's response 'yes when i queue up for the toilet' shows simple vocabulary and understandable language, but the lack of capitalization and punctuation are noticeable errors.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, mentioning queuing up for the toilet.",
+                "evidence": "The student acknowledges waiting their turn to use something, similar to the scenario in the picture.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job mentioning waiting your turn to use something, like queuing up for the toilet. However, the picture actually shows children in a washroom, not specifically for a toilet. To improve, try to include more details from the picture next time to make your response more specific and engaging. For example, you could describe the clean, bright washroom with multiple sinks and soap dispensers. Remember to expand on your ideas and provide examples to make your answer more detailed and interesting. Next time, you could start your sentence with \"In the picture, I can see...\" to help you include more specific details. Keep it up and continue to practice adding more descriptive elements to your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great job mentioning waiting in line for something like queuing up for the toilet! To enhance your response next time, try to include more specific details from the picture, such as the bright, clean washroom with multiple sinks and soap dispensers. Remember to elaborate on your ideas and provide examples to make your answer more engaging. You could start your sentence with \"In the picture, I can see...\" to help you include those specific details. Keep up the good work, and continue practicing to add more descriptive elements to your responses. Remember, the more details you include, the more interesting your answer will be for the listener!"
+        }
+      ],
       "results_released_at": null,
       "results_released_by": null
     }

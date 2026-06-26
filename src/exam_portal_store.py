@@ -9,10 +9,12 @@ keeps student records separate from subject-level ingestion data.
 from __future__ import annotations
 
 import copy
+import hashlib
 import hmac
 import json
 import os
 import re
+import secrets
 import tempfile
 import uuid
 from datetime import datetime, timezone
@@ -126,6 +128,63 @@ def list_students() -> list[dict[str, str]]:
     return sorted(students, key=lambda student: (student["name"].lower(), student["id"]))
 
 
+def _hash_password(password: str, salt: str | None = None) -> dict[str, str]:
+    salt = salt or secrets.token_hex(16)
+    digest = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt.encode("utf-8"), 200_000)
+    return {
+        "password_hash": digest.hex(),
+        "password_salt": salt,
+        "password_algorithm": "pbkdf2_sha256",
+    }
+
+
+def _password_matches(user: dict[str, Any], supplied_password: str) -> bool:
+    password_hash = str(user.get("password_hash", ""))
+    password_salt = str(user.get("password_salt", ""))
+    if password_hash and password_salt:
+        candidate = _hash_password(supplied_password, password_salt)["password_hash"]
+        return hmac.compare_digest(password_hash, candidate)
+
+    # Legacy compatibility for the original local demo register.
+    registered_password = str(user.get("password", ""))
+    return bool(registered_password) and hmac.compare_digest(registered_password, supplied_password)
+
+
+def register_student(student_id: str, password: str, name: str = "") -> dict[str, str]:
+    """Create a local student account in the prototype user register."""
+    normalized_id = student_id.strip()
+    normalized_name = name.strip() or f"Student {normalized_id}"
+    normalized_password = password.strip()
+
+    if not normalized_id:
+        raise ValueError("Student ID is required.")
+    if not re.fullmatch(r"[A-Za-z0-9._-]{1,40}", normalized_id):
+        raise ValueError("Student ID can use letters, numbers, dots, underscores, or hyphens only.")
+    if not normalized_password:
+        raise ValueError("Password is required.")
+    if len(normalized_password) < 3:
+        raise ValueError("Password must be at least 3 characters.")
+
+    users = _read_json(USERS_PATH, {"students": [], "examiners": []}, fail_on_invalid=True)
+    students = users.get("students") if isinstance(users.get("students"), list) else []
+    examiners = users.get("examiners") if isinstance(users.get("examiners"), list) else []
+
+    for user in students:
+        if str(user.get("id", "")).strip().lower() == normalized_id.lower():
+            raise ValueError("A student with this ID already exists.")
+
+    record = {
+        "id": normalized_id,
+        "name": normalized_name,
+        "registered_at": _now(),
+        **_hash_password(normalized_password),
+    }
+    users["students"] = [*students, record]
+    users["examiners"] = examiners
+    _write_json(USERS_PATH, users)
+    return {"id": normalized_id, "name": normalized_name}
+
+
 def authenticate(role: str, user_id: str, password: str) -> dict[str, str] | None:
     """Authenticate a local portal user against the role-specific register.
 
@@ -137,11 +196,9 @@ def authenticate(role: str, user_id: str, password: str) -> dict[str, str] | Non
     normalized_id = user_id.strip()
     supplied_password = password.strip()
     for user in load_users()[group]:
-        registered_password = str(user.get("password", ""))
         if (
             str(user.get("id", "")).strip() == normalized_id
-            and registered_password
-            and hmac.compare_digest(registered_password, supplied_password)
+            and _password_matches(user, supplied_password)
         ):
             return {"id": normalized_id, "name": str(user.get("name") or normalized_id)}
     return None
