@@ -406,12 +406,18 @@ def render_examiner_avatar(text: str, *, cache_key: str) -> None:
 
     st.markdown("#### AI examiner")
     if cached:
-        render_avatar_video(cached, element_key=f"simli_{avatar_cache_key}", subtitle=clean_text)
+        if not render_avatar_video(cached, element_key=f"simli_{avatar_cache_key}", subtitle=clean_text):
+            st.markdown(f"**Examiner says:** {clean_text}")
+            if st.button("Reload examiner video", key=f"reload_bad_avatar_{avatar_cache_key}", width="stretch"):
+                st.rerun()
         return
 
     if avatar_cache_key in futures and not futures[avatar_cache_key].done():
         st.info("The examiner video is still getting ready. You can read the question below while it finishes.")
         st.markdown(f"**Examiner says:** {clean_text}")
+        if st.button("Load examiner video", key=f"load_avatar_{avatar_cache_key}", width="stretch"):
+            collect_avatar_preload_results()
+            st.rerun()
         return
 
     if avatar_cache_key in errors:
@@ -430,7 +436,10 @@ def render_examiner_avatar(text: str, *, cache_key: str) -> None:
         else:
             st.caption("Examiner avatar is not configured, so the question is shown as text.")
         return
-    render_avatar_video(url, element_key=f"simli_{avatar_cache_key}", subtitle=clean_text)
+    if not render_avatar_video(url, element_key=f"simli_{avatar_cache_key}", subtitle=clean_text):
+        st.markdown(f"**Examiner says:** {clean_text}")
+        if st.button("Reload examiner video", key=f"reload_new_avatar_{avatar_cache_key}", width="stretch"):
+            st.rerun()
 
 
 def render_examiner_transition(message: str, *, cache_key: str) -> None:
@@ -447,8 +456,10 @@ def cache_avatar_video_file(url: str) -> Path:
     video_dir.mkdir(parents=True, exist_ok=True)
     filename = hashlib.sha256(url.encode("utf-8")).hexdigest()[:24] + ".mp4"
     path = video_dir / filename
-    if path.exists() and path.stat().st_size > 0:
+    if path.exists() and path.stat().st_size > 0 and is_probably_mp4(path):
         return path
+    if path.exists():
+        path.unlink(missing_ok=True)
 
     import requests
 
@@ -457,11 +468,35 @@ def cache_avatar_video_file(url: str) -> Path:
         raise RuntimeError(f"Simli video download failed with status {response.status_code}.")
     if not response.content:
         raise RuntimeError("Simli video download returned an empty file.")
+    content_type = response.headers.get("Content-Type", "").lower()
+    content_preview = response.content[:200].strip()
+    if "json" in content_type or content_preview.startswith(b"{"):
+        try:
+            error_payload = response.json()
+        except ValueError:
+            error_payload = response.text[:200]
+        raise RuntimeError(f"Simli video file is not available yet: {error_payload}")
     path.write_bytes(response.content)
+    if not is_probably_mp4(path):
+        path.unlink(missing_ok=True)
+        raise RuntimeError("Simli returned a file that is not a playable MP4 video yet.")
     return path
 
 
-def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> None:
+def is_probably_mp4(path: Path) -> bool:
+    """Reject cached JSON/API error files that were saved with a .mp4 extension."""
+    try:
+        header = path.read_bytes()[:64]
+    except OSError:
+        return False
+    if not header:
+        return False
+    if header.lstrip().startswith(b"{"):
+        return False
+    return b"ftyp" in header or header.startswith(b"\x00\x00")
+
+
+def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bool:
     subtitle_html = html_escape(subtitle)
     is_hls = ".m3u8" in url.lower()
     if not is_hls:
@@ -469,10 +504,13 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> No
             local_video = cache_avatar_video_file(url)
             video_base64 = base64.b64encode(local_video.read_bytes()).decode("ascii")
         except Exception as error:
+            cache = st.session_state.setdefault("simli_avatar_cache", {})
+            for cached_key, cached_url in list(cache.items()):
+                if cached_url == url:
+                    cache.pop(cached_key, None)
             st.warning(f"The examiner video was generated but could not be loaded into the page: {error}")
-            st.caption("Your browser may download the source video if opened directly because Simli serves it as a raw file.")
-            st.link_button("Download examiner video", url, width="stretch")
-            return
+            st.caption("The question is still shown below so the assessment can continue. Try reloading the examiner video in a moment.")
+            return False
         components.html(
             f"""
             <style>
@@ -538,7 +576,7 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> No
             height=520,
             scrolling=False,
         )
-        return
+        return True
 
     safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", element_key)
     safe_id_json = json.dumps(safe_id)
@@ -623,6 +661,7 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> No
     )
     st.caption("If the examiner video does not load, open the returned Simli stream in a new tab.")
     st.link_button("Open examiner stream", url, width="stretch")
+    return True
 
 
 def combined_guided_response(guidance: dict, follow_up_response: str) -> str:

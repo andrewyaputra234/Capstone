@@ -1795,7 +1795,7 @@
       "rubric": "psle_oral_english",
       "status": "in_progress",
       "created_at": "2026-06-29T03:09:50.655695+00:00",
-      "updated_at": "2026-06-29T03:12:27.667107+00:00",
+      "updated_at": "2026-06-29T04:09:33.400299+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "aa.webp",
@@ -1843,7 +1843,28 @@
         }
       ],
       "reading_completed_at": null,
-      "guidance_attempts": {},
+      "guidance_attempts": {
+        "1": {
+          "original_response": "I don't know.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260629_040914_f815ed13.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260629_040914_f815ed13.json",
+          "original_delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 3.0,
+            "words_per_minute": 60.0,
+            "pitch_range_semitones": 11.2,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "follow_up_question": "What is one person, object, or action you can see in the picture?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-06-29T04:09:33.400284+00:00"
+        }
+      },
       "results": [],
       "results_released_at": null,
       "results_released_by": null

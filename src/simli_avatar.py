@@ -110,7 +110,13 @@ def _select_playable_video_url(data: dict[str, Any], *, config: SimliAvatarConfi
             _log("MP4 is available")
             return str(mp4_url)
         _log("MP4 not ready before timeout; falling back if HLS is available")
-    return str(hls_url) if hls_url else (str(mp4_url) if mp4_url else None)
+    if hls_url:
+        _log("checking HLS stream availability")
+        if _wait_until_url_available(str(hls_url), timeout_seconds=8.0, poll_interval=config.poll_interval_seconds):
+            _log("HLS stream is available")
+            return str(hls_url)
+        _log("HLS stream was not available")
+    return None
 
 
 def _extract_mp4_eta(data: dict[str, Any]) -> float:
@@ -131,7 +137,8 @@ def _wait_until_url_available(url: str, *, timeout_seconds: float, poll_interval
         attempt += 1
         try:
             response = requests.get(url, timeout=10, stream=True)
-            ok = response.status_code == 200
+            content_type = response.headers.get("Content-Type", "").lower()
+            ok = response.status_code == 200 and "json" not in content_type
             response.close()
             if ok:
                 return True
