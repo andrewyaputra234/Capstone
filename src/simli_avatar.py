@@ -73,6 +73,7 @@ def create_avatar_video_asset(
     *,
     config: SimliAvatarConfig | None = None,
     allow_unready: bool = True,
+    check_readiness: bool = True,
 ) -> dict[str, Any]:
     """Generate an avatar and return the best video asset information available.
 
@@ -113,7 +114,11 @@ def create_avatar_video_asset(
     data = _response_data(response, "generate static avatar video")
     _log("Simli response received; selecting playable video")
     _log(f"Simli response URL fields: mp4_url={bool(data.get('mp4_url'))}, hls_url={bool(data.get('hls_url'))}")
-    video_url = _select_playable_video_url(data, config=config)
+    if check_readiness:
+        video_url = _select_playable_video_url(data, config=config)
+    else:
+        video_url = None
+        _log("skipping immediate URL readiness check; app will poll returned URLs")
     if video_url:
         _log("avatar video URL ready")
         return {
@@ -126,7 +131,7 @@ def create_avatar_video_asset(
     if allow_unready:
         fallback_url = data.get("hls_url") or data.get("mp4_url")
         if fallback_url:
-            _log("avatar URL returned by Simli but not playable yet; saving as pending")
+            _log("avatar URL returned by Simli; saving as pending for app-level readiness polling")
             return {
                 "url": str(fallback_url),
                 "ready": False,
@@ -195,9 +200,19 @@ def _wait_until_url_available(url: str, *, timeout_seconds: float, poll_interval
                 )
             if ok:
                 return True
-        except requests.RequestException:
-            pass
-        _log(f"video URL not ready yet; poll {attempt}")
+        except requests.RequestException as error:
+            _log(f"video URL poll {attempt} request error: {error}")
+            time.sleep(poll_interval)
+            continue
+        preview_text = ""
+        try:
+            preview_text = preview[:80].decode("utf-8", errors="replace")
+        except Exception:
+            preview_text = repr(preview[:40])
+        _log(
+            f"video URL not ready yet; poll {attempt}; "
+            f"status={response.status_code}; content_type={content_type or 'unknown'}; preview={preview_text!r}"
+        )
         time.sleep(poll_interval)
     return False
 

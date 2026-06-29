@@ -473,6 +473,14 @@ def prepare_persistent_question_avatars(
     persistent_config = replace(config, prefer_hls=True, mp4_wait_seconds=max(config.mp4_wait_seconds, 35.0))
     prepared_questions: list[dict] = []
     warnings: list[str] = []
+
+    try:
+        question_wait_seconds = float(os.getenv("AVATAR_PREVIEW_PER_QUESTION_WAIT_SECONDS", "150"))
+    except ValueError:
+        question_wait_seconds = 150.0
+    question_wait_seconds = max(30.0, question_wait_seconds)
+
+    total = len(questions)
     for index, question in enumerate(questions, 1):
         prepared = {**question}
         text = " ".join(str(question.get("text", "")).split())
@@ -480,10 +488,15 @@ def prepare_persistent_question_avatars(
             prepared_questions.append(prepared)
             continue
         if progress_callback:
-            progress_callback(index - 1, len(questions), f"Preparing examiner avatar for question {index}...")
+            progress_callback(index - 1, total, f"Preparing examiner avatar for question {index} of {total}...")
         try:
             avatar_terminal_log(f"precreating assigned question {index}: {text[:90]}")
-            asset = create_avatar_video_asset(text, config=persistent_config, allow_unready=True)
+            asset = create_avatar_video_asset(
+                text,
+                config=persistent_config,
+                allow_unready=True,
+                check_readiness=False,
+            )
             url = str(asset["url"])
             avatar_video = {
                 "source_url": url,
@@ -510,14 +523,46 @@ def prepare_persistent_question_avatars(
                 if asset.get("ready"):
                     avatar_terminal_log(f"stored assigned question {index} as ready HLS stream")
                 else:
-                    warnings.append(f"Question {index} avatar URL is pending and may need preview/retry before it plays.")
                     avatar_terminal_log(f"stored assigned question {index} as pending HLS stream")
             prepared["avatar_video"] = avatar_video
         except Exception as error:
             warnings.append(f"Question {index} avatar was not pre-created: {error}")
+            prepared_questions.append(prepared)
+            continue
+
+        if not (prepared.get("avatar_video") or {}).get("ready"):
+            if progress_callback:
+                progress_callback(
+                    index - 1,
+                    total,
+                    f"Waiting for question {index} avatar to become playable before continuing...",
+                )
+            ready_questions, readiness_warnings = wait_until_question_avatars_ready(
+                [prepared],
+                timeout_seconds=question_wait_seconds,
+                progress_callback=lambda ready, _total, message, index=index, total=total: progress_callback(
+                    index - 1 + ready,
+                    total,
+                    message.replace("1/1", f"{ready}/1") if message else f"Waiting for question {index}...",
+                )
+                if progress_callback
+                else None,
+            )
+            warnings.extend(f"Question {index}: {warning}" for warning in readiness_warnings)
+            prepared = ready_questions[0]
+
+        if not (prepared.get("avatar_video") or {}).get("ready"):
+            warnings.append(f"Question {index} avatar did not become playable in time. Stopping avatar preparation here.")
+            prepared_questions.append(prepared)
+            break
+
         prepared_questions.append(prepared)
+        avatar_terminal_log(f"question {index} avatar is playable; moving to next question")
         if progress_callback:
-            progress_callback(index, len(questions), f"Finished avatar check for question {index}.")
+            progress_callback(index, total, f"Question {index} avatar is ready.")
+
+    if len(prepared_questions) < len(questions):
+        prepared_questions.extend({**question} for question in questions[len(prepared_questions):])
 
     return prepared_questions, warnings
 
@@ -555,7 +600,13 @@ def cache_avatar_video_file(url: str) -> Path:
     return path
 
 
-def avatar_url_is_ready(url: str, *, timeout_seconds: float = 5.0, poll_interval: float = 1.0) -> bool:
+def avatar_url_is_ready(
+    url: str,
+    *,
+    label: str = "avatar",
+    timeout_seconds: float = 5.0,
+    poll_interval: float = 1.0,
+) -> bool:
     """Return True only when a saved Simli URL currently serves video/playlist data."""
     if not url:
         return False
@@ -563,7 +614,9 @@ def avatar_url_is_ready(url: str, *, timeout_seconds: float = 5.0, poll_interval
     import requests
 
     deadline = time.monotonic() + timeout_seconds
+    attempt = 0
     while time.monotonic() <= deadline:
+        attempt += 1
         try:
             with requests.get(url, timeout=10, stream=True) as response:
                 content_type = response.headers.get("Content-Type", "").lower()
@@ -577,9 +630,21 @@ def avatar_url_is_ready(url: str, *, timeout_seconds: float = 5.0, poll_interval
                     and "json" not in content_type
                     and not preview.lstrip().startswith(b"{")
                 ):
+                    avatar_terminal_log(
+                        f"{label} URL ready after poll {attempt}: status={response.status_code}, content_type={content_type or 'unknown'}"
+                    )
                     return True
-        except requests.RequestException:
-            pass
+                try:
+                    preview_text = preview[:80].decode("utf-8", errors="replace")
+                except Exception:
+                    preview_text = repr(preview[:40])
+                avatar_terminal_log(
+                    f"{label} URL still pending; "
+                    f"poll={attempt}, status={response.status_code}, "
+                    f"content_type={content_type or 'unknown'}, preview={preview_text!r}"
+                )
+        except requests.RequestException as error:
+            avatar_terminal_log(f"{label} URL poll {attempt} request error: {error}")
         time.sleep(poll_interval)
     return False
 
@@ -595,13 +660,22 @@ def refresh_avatar_video_reference(avatar_video: dict | None) -> dict:
         refreshed["kind"] = "mp4_file"
         return refreshed
 
-    candidate_urls = [
-        refreshed.get("source_url"),
-        refreshed.get("hls_url"),
-        refreshed.get("mp4_url"),
-    ]
-    for url in [str(item) for item in candidate_urls if item]:
-        if not avatar_url_is_ready(url, timeout_seconds=4.0):
+    candidate_urls: list[tuple[str, str]] = []
+    seen_urls: set[str] = set()
+    for label, value in (
+        ("source", refreshed.get("source_url")),
+        ("hls", refreshed.get("hls_url")),
+        ("mp4", refreshed.get("mp4_url")),
+    ):
+        if not value:
+            continue
+        url = str(value)
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+        candidate_urls.append((label, url))
+    for label, url in candidate_urls:
+        if not avatar_url_is_ready(url, label=label, timeout_seconds=4.0):
             continue
         refreshed["source_url"] = url
         refreshed["ready"] = True
@@ -621,6 +695,54 @@ def refresh_avatar_video_reference(avatar_video: dict | None) -> dict:
     if refreshed.get("kind") in {"hls", "mp4"}:
         refreshed["kind"] = f"{refreshed['kind']}_pending"
     return refreshed
+
+
+def wait_until_question_avatars_ready(
+    questions: list[dict],
+    *,
+    timeout_seconds: float = 150.0,
+    progress_callback=None,
+) -> tuple[list[dict], list[str]]:
+    """Keep checking prepared avatar URLs until every question is playable or timeout expires."""
+    deadline = time.monotonic() + max(0.0, timeout_seconds)
+    warnings: list[str] = []
+    total = len(questions)
+
+    while True:
+        ready_count = 0
+        refreshed_questions: list[dict] = []
+        pending_numbers: list[str] = []
+
+        for index, question in enumerate(questions, 1):
+            refreshed = {**question}
+            avatar_video = refresh_avatar_video_reference(refreshed.get("avatar_video") or {})
+            refreshed["avatar_video"] = avatar_video
+            if avatar_video.get("ready"):
+                ready_count += 1
+            else:
+                pending_numbers.append(str(index))
+            refreshed_questions.append(refreshed)
+
+        questions = refreshed_questions
+        if progress_callback:
+            progress_callback(
+                ready_count,
+                total,
+                f"{ready_count}/{total} examiner avatar video(s) ready"
+                + (f" — still waiting for question(s) {', '.join(pending_numbers)}" if pending_numbers else ""),
+            )
+
+        if ready_count == total:
+            return questions, warnings
+
+        if time.monotonic() >= deadline:
+            warnings.append(
+                "Avatar preparation timed out before every question became playable. "
+                f"Still pending: question(s) {', '.join(pending_numbers)}."
+            )
+            return questions, warnings
+
+        time.sleep(5)
 
 
 def render_avatar_video_file(path: str | Path, *, element_key: str, subtitle: str = "") -> bool:
@@ -1983,11 +2105,59 @@ def render_create_assignment() -> None:
         if draft.get("avatar_preview_questions"):
             preview_questions = draft["avatar_preview_questions"]
             preview_changed = False
+            refreshed_preview_questions = []
+            pending_numbers = []
+            for number, question in enumerate(preview_questions, 1):
+                refreshed_question = {**question}
+                original_avatar_video = refreshed_question.get("avatar_video") or {}
+                avatar_video = refresh_avatar_video_reference(original_avatar_video)
+                refreshed_question["avatar_video"] = avatar_video
+                if avatar_video != original_avatar_video:
+                    preview_changed = True
+                if not avatar_video.get("ready"):
+                    pending_numbers.append(str(number))
+                refreshed_preview_questions.append(refreshed_question)
+
+            preview_questions = refreshed_preview_questions
+            if preview_changed:
+                draft["avatar_preview_questions"] = preview_questions
+                st.session_state.assignment_draft = draft
+
+            if pending_numbers:
+                st.markdown("#### Preparing examiner avatars")
+                st.markdown(
+                    """
+                    <div class="prep-loading-card">
+                      <div class="prep-loader"></div>
+                      <div>
+                        <h3>Still preparing avatar videos</h3>
+                        <p>The preview will appear only after all examiner avatar videos are playable.</p>
+                      </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                st.warning(f"Still waiting for question(s): {', '.join(pending_numbers)}")
+                st.caption(
+                    "This delay is coming from Simli: it has returned video URLs, but those URLs are still serving "
+                    "`File not found` instead of playable video. Press Refresh preview after a short wait."
+                )
+                refresh_column, edit_column = st.columns(2)
+                if refresh_column.button("Refresh preview", width="stretch"):
+                    for question in preview_questions:
+                        question["avatar_video"] = refresh_avatar_video_reference(question.get("avatar_video") or {})
+                    draft["avatar_preview_questions"] = preview_questions
+                    st.session_state.assignment_draft = draft
+                    st.rerun()
+                if edit_column.button("Back to edit questions", width="stretch"):
+                    draft.pop("avatar_preview_questions", None)
+                    draft.pop("avatar_preview_warnings", None)
+                    st.session_state.assignment_draft = draft
+                    st.rerun()
+                return
+
             st.markdown("#### Preview examiner avatars")
-            st.info(
-                "Check the examiner avatar videos for the final questions. If a video is still pending, "
-                "wait a moment and use Refresh preview before assigning."
-            )
+            st.info("All examiner avatar videos are ready. Check them before assigning the assessment.")
             for warning in draft.get("avatar_preview_warnings", []):
                 st.caption(warning)
 
@@ -1996,11 +2166,7 @@ def render_create_assignment() -> None:
                     question_text = str(question.get("text", ""))
                     st.markdown(f"##### Question {number}")
                     st.write(question_text)
-                    original_avatar_video = question.get("avatar_video") or {}
-                    avatar_video = refresh_avatar_video_reference(original_avatar_video)
-                    if avatar_video != original_avatar_video:
-                        question["avatar_video"] = avatar_video
-                        preview_changed = True
+                    avatar_video = question.get("avatar_video") or {}
                     avatar_path = avatar_video.get("path")
                     avatar_url = avatar_video.get("source_url")
                     avatar_ready = avatar_video.get("ready")
@@ -2023,10 +2189,6 @@ def render_create_assignment() -> None:
                             st.caption("Use Refresh preview in a moment. This avoids showing the raw File not found response.")
                     else:
                         st.warning("No avatar video was prepared for this question. The student will still see the written question.")
-
-            if preview_changed:
-                draft["avatar_preview_questions"] = preview_questions
-                st.session_state.assignment_draft = draft
 
             assign_column, refresh_column, edit_column = st.columns(3)
             if assign_column.button("Assign to student", type="primary", width="stretch"):
@@ -2144,7 +2306,22 @@ def render_create_assignment() -> None:
                     asset_prefix=draft["draft_id"],
                     progress_callback=update_avatar_progress,
                 )
-            avatar_progress.progress(1.0, text="Examiner avatar preparation finished.")
+                try:
+                    wait_seconds = float(os.getenv("AVATAR_PREVIEW_WAIT_SECONDS", "150"))
+                except ValueError:
+                    wait_seconds = 150.0
+                wait_seconds = max(30.0, wait_seconds)
+                final_questions, readiness_warnings = wait_until_question_avatars_ready(
+                    final_questions,
+                    timeout_seconds=wait_seconds,
+                    progress_callback=update_avatar_progress,
+                )
+                avatar_warnings.extend(readiness_warnings)
+            ready_count = sum(1 for question in final_questions if (question.get("avatar_video") or {}).get("ready"))
+            avatar_progress.progress(
+                ready_count / max(len(final_questions), 1),
+                text=f"{ready_count}/{len(final_questions)} examiner avatar video(s) ready.",
+            )
 
         if not simli_avatar_requested():
             avatar_warnings = ["Simli avatar is disabled, so this preview only confirms the question text."]
@@ -2152,6 +2329,15 @@ def render_create_assignment() -> None:
             st.error("No examiner avatar videos were prepared. Please check the Simli/OpenAI settings, then try preparing the preview again.")
             for warning in avatar_warnings:
                 st.caption(warning)
+            return
+        elif not all((question.get("avatar_video") or {}).get("ready") for question in final_questions):
+            st.error("The avatar preview is not ready yet. I will not show the preview until all question videos are playable.")
+            for warning in avatar_warnings:
+                st.caption(warning)
+            st.caption(
+                "Try Prepare avatar preview again in a moment. You can increase AVATAR_PREVIEW_WAIT_SECONDS in .env "
+                "if Simli often takes longer for your clips."
+            )
             return
         draft["avatar_preview_questions"] = final_questions
         draft["avatar_preview_warnings"] = avatar_warnings
@@ -2931,7 +3117,7 @@ def render_student_assessment(assignment: dict) -> None:
         answer_for_grading = pending_response["answer_for_grading"]
         grading_context = pending_response.get("grading_context")
         examiner_transition = pending_response.get(
-            "examiner_transition", "Thank you, let's move on to the next question."
+            "examiner_transition", ""
         )
     elif guidance:
         with st.container(border=True):
@@ -2946,7 +3132,7 @@ def render_student_assessment(assignment: dict) -> None:
         follow_up_answer = captured["text"] if not skipped else "[No response after guidance]"
         answer_for_grading = combined_guided_response(guidance, follow_up_answer)
         grading_context = json.dumps({"examiner_guidance": guidance}, indent=2)
-        examiner_transition = "Thank you, let's move on to the next question."
+        examiner_transition = ""
     else:
         with st.container(border=True):
             st.markdown("### Step 3 - Give your answer")
@@ -2991,12 +3177,12 @@ def render_student_assessment(assignment: dict) -> None:
                 st.session_state.pop(pending_key, None)
                 st.session_state.pop(transition_key, None)
                 st.rerun()
-            examiner_transition = decision.get("examiner_reply") or "Thank you, let's move on to the next question."
+            examiner_transition = ""
             follow_up_answer = None
             answer_for_grading = captured["text"]
             grading_context = None
         else:
-            examiner_transition = "Thank you. I have recorded that response."
+            examiner_transition = ""
             follow_up_answer = None
             answer_for_grading = "[Skipped question]"
             grading_context = None
@@ -3011,7 +3197,7 @@ def render_student_assessment(assignment: dict) -> None:
             "examiner_transition": examiner_transition,
         }
 
-    if not st.session_state.get(transition_key):
+    if examiner_transition and not st.session_state.get(transition_key):
         render_examiner_transition(
             examiner_transition,
             cache_key=f"{assignment['assignment_id']}_{question_id}_transition",
@@ -3021,6 +3207,8 @@ def render_student_assessment(assignment: dict) -> None:
             st.rerun()
         st.caption("Continue after the examiner response has played.")
         return
+    if not examiner_transition:
+        st.session_state[transition_key] = True
 
     with st.spinner("AI is grading your response..."):
         try:

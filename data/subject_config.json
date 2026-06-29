@@ -11,12 +11,6 @@
       "pdf_path": "data\\input\\assignment_001_bee4f5be\\helping.webp",
       "visual_path": "data\\input\\assignment_001_bee4f5be\\helping.webp"
     },
-    "assignment_001_09355b7d": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_001_09355b7d\\helping.webp",
-      "visual_path": "data\\input\\assignment_001_09355b7d\\helping.webp",
-      "reading_path": "data\\input\\assignment_001_09355b7d\\Good morning, students. I hope you.txt"
-    },
     "assignment_001_c8cf70ae": {
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_001_c8cf70ae\\helping.webp",
@@ -32,26 +26,6 @@
       "pdf_path": "data\\input\\assignment_001_5eb1e889\\aa.webp",
       "visual_path": "data\\input\\assignment_001_5eb1e889\\aa.webp"
     },
-    "assignment_001_c937fe23": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_001_c937fe23\\aa.webp",
-      "visual_path": "data\\input\\assignment_001_c937fe23\\aa.webp"
-    },
-    "assignment_002_755df201": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_002_755df201\\aa.webp",
-      "visual_path": "data\\input\\assignment_002_755df201\\aa.webp"
-    },
-    "assignment_002_04971e7e": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_002_04971e7e\\aa.webp",
-      "visual_path": "data\\input\\assignment_002_04971e7e\\aa.webp"
-    },
-    "assignment_002_c077f8b1": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_002_c077f8b1\\aa.webp",
-      "visual_path": "data\\input\\assignment_002_c077f8b1\\aa.webp"
-    },
     "assignment_230_1c2a7869": {
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_230_1c2a7869\\image-45-1024x683.webp",
@@ -66,6 +40,56 @@
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_230_a4bac118\\aa.webp",
       "visual_path": "data\\input\\assignment_230_a4bac118\\aa.webp"
+    },
+    "assignment_230_5bf5c19c": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_230_5bf5c19c\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_230_5bf5c19c\\o_1ivs60ia8816jac11v3k6v9khc.png"
+    },
+    "assignment_002_ed588d8e": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_ed588d8e\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_ed588d8e\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "reading_path": "data\\input\\assignment_002_ed588d8e\\Good morning, students. I hope you.txt"
+    },
+    "assignment_002_694493ca": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_694493ca\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_694493ca\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "reading_path": "data\\input\\assignment_002_694493ca\\Good morning, students. I hope you.txt"
+    },
+    "assignment_002_eb7cd7fb": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_eb7cd7fb\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_eb7cd7fb\\o_1ivs60ia8816jac11v3k6v9khc.png"
+    },
+    "assignment_002_b872c1b6": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_b872c1b6\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_b872c1b6\\o_1ivs60ia8816jac11v3k6v9khc.png"
+    },
+    "assignment_002_50d462fd": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_50d462fd\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_50d462fd\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "reading_path": "data\\input\\assignment_002_50d462fd\\Good morning, students. I hope you.txt"
+    },
+    "assignment_002_7463391b": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_7463391b\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_7463391b\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "reading_path": "data\\input\\assignment_002_7463391b\\Good morning, students. I hope you.txt"
+    },
+    "assignment_002_ede29287": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_ede29287\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_ede29287\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "reading_path": "data\\input\\assignment_002_ede29287\\Good morning, students. I hope you.txt"
+    },
+    "assignment_002_c403a534": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_c403a534\\o_1ivs60ia8816jac11v3k6v9khc.png",
+      "visual_path": "data\\input\\assignment_002_c403a534\\o_1ivs60ia8816jac11v3k6v9khc.png"
     }
   }
 }

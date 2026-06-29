@@ -2,6 +2,7 @@
 
 import os
 import sys
+import asyncio
 
 
 def apply_runtime_fixes() -> None:
@@ -9,6 +10,7 @@ def apply_runtime_fixes() -> None:
     _disable_noisy_local_telemetry()
     _fix_ssl_keylog()
     _fix_windows_stdout()
+    _fix_windows_event_loop_policy()
 
 
 def _disable_noisy_local_telemetry() -> None:
@@ -47,3 +49,17 @@ def _fix_windows_stdout() -> None:
                 reconfigure(encoding="utf-8", errors="replace")
             except Exception:
                 pass
+
+
+def _fix_windows_event_loop_policy() -> None:
+    """Prefer selector loop on Windows to avoid noisy proactor connection-reset callbacks."""
+    if sys.platform != "win32":
+        return
+    try:
+        policy = asyncio.WindowsSelectorEventLoopPolicy()
+    except AttributeError:
+        return
+    try:
+        asyncio.set_event_loop_policy(policy)
+    except Exception:
+        pass
