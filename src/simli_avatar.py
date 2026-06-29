@@ -69,7 +69,9 @@ def create_avatar_video_url(text: str, *, config: SimliAvatarConfig | None = Non
             "Simli avatar is not configured. Set SIMLI_API_KEY, SIMLI_FACE_ID, and OPENAI_API_KEY."
         )
 
+    _log(f"creating TTS audio ({len(clean_text)} chars)")
     audio = _create_tts_audio(clean_text, config=config)
+    _log(f"TTS audio ready ({len(audio) / 1024:.1f} KB); sending to Simli")
     payload = {
         "faceId": config.face_id,
         "audioBase64": base64.b64encode(audio).decode("ascii"),
@@ -88,9 +90,11 @@ def create_avatar_video_url(text: str, *, config: SimliAvatarConfig | None = Non
         timeout=90,
     )
     data = _response_data(response, "generate static avatar video")
+    _log("Simli response received; selecting playable video")
     video_url = _select_playable_video_url(data, config=config)
     if not video_url:
         raise SimliAvatarError("Simli did not return an avatar video URL.")
+    _log("avatar video URL ready")
     return str(video_url)
 
 
@@ -101,8 +105,11 @@ def _select_playable_video_url(data: dict[str, Any], *, config: SimliAvatarConfi
     if mp4_url:
         eta = _extract_mp4_eta(data)
         wait_seconds = max(config.mp4_wait_seconds, min(60.0, eta + 8.0 if eta else 0.0))
+        _log(f"MP4 URL returned; waiting up to {wait_seconds:.1f}s for browser-ready file")
         if _wait_until_url_available(str(mp4_url), timeout_seconds=wait_seconds, poll_interval=config.poll_interval_seconds):
+            _log("MP4 is available")
             return str(mp4_url)
+        _log("MP4 not ready before timeout; falling back if HLS is available")
     return str(hls_url) if hls_url else (str(mp4_url) if mp4_url else None)
 
 
@@ -119,7 +126,9 @@ def _extract_mp4_eta(data: dict[str, Any]) -> float:
 
 def _wait_until_url_available(url: str, *, timeout_seconds: float, poll_interval: float) -> bool:
     deadline = time.monotonic() + timeout_seconds
+    attempt = 0
     while time.monotonic() <= deadline:
+        attempt += 1
         try:
             response = requests.get(url, timeout=10, stream=True)
             ok = response.status_code == 200
@@ -128,6 +137,7 @@ def _wait_until_url_available(url: str, *, timeout_seconds: float, poll_interval
                 return True
         except requests.RequestException:
             pass
+        _log(f"MP4 not ready yet; poll {attempt}")
         time.sleep(poll_interval)
     return False
 
@@ -187,3 +197,11 @@ def _float_env(name: str, default: float) -> float:
         return float(os.getenv(name, default))
     except (TypeError, ValueError):
         return default
+
+
+def _log(message: str) -> None:
+    enabled = os.getenv("AVATAR_PRELOAD_TERMINAL_LOG", "true").strip().lower()
+    if enabled in {"0", "false", "no", "off"}:
+        return
+    timestamp = time.strftime("%H:%M:%S")
+    print(f"[{timestamp}] [simli-avatar] {message}", flush=True)

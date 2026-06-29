@@ -1011,7 +1011,7 @@
       "rubric": "psle_oral_english",
       "status": "in_progress",
       "created_at": "2026-06-25T07:51:01.605017+00:00",
-      "updated_at": "2026-06-26T06:14:02.108087+00:00",
+      "updated_at": "2026-06-26T06:42:26.840886+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "aa.webp",
@@ -1211,6 +1211,128 @@
             "created_at": "2026-06-25T08:19:45.656958+00:00",
             "follow_up_response": "Yes, when I'm preparing food."
           }
+        },
+        {
+          "result_id": "badbc30fc255",
+          "question_id": 2,
+          "question": "Why do you think it's important for people to wash their hands regularly?",
+          "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c92bca55",
+          "created_at": "2026-06-26T06:42:26.835189+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Why do you think it's important for people to wash their hands regularly?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Why do you think it's important for people to wash their hands regularly?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows three children washing their hands at a row of sinks in what appears to be a public bathroom or school setting. The children are lined up next to each other; the child in the foreground is operating the tap, and water is flowing from the faucet. All the children seem to be focused on cleaning their hands. There are wall-mounted soap dispensers above the sinks, and the setting is bright with white tiles.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
         }
       ],
       "results_released_at": null,
@@ -1661,6 +1783,68 @@
           "crew_analysis": "Great job mentioning waiting in line for something like queuing up for the toilet! To enhance your response next time, try to include more specific details from the picture, such as the bright, clean washroom with multiple sinks and soap dispensers. Remember to elaborate on your ideas and provide examples to make your answer more engaging. You could start your sentence with \"In the picture, I can see...\" to help you include those specific details. Keep up the good work, and continue practicing to add more descriptive elements to your responses. Remember, the more details you include, the more interesting your answer will be for the listener!"
         }
       ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "56982aaed126": {
+      "assignment_id": "56982aaed126",
+      "student_id": "002",
+      "student_name": "002",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_002_755df201",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-29T03:09:50.655695+00:00",
+      "updated_at": "2026-06-29T03:12:27.667107+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_002_755df201\\aa.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the children might be doing in this picture, and why is it important?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_755df201_images\\page_1.webp",
+          "visual_context": "The image shows three children standing at sinks in what appears to be a public restroom or school washroom. They are each using a tap to wash their hands. The tap in the foreground is being turned on by a child wearing a blue long-sleeve shirt. The sinks have white tiles on the walls above, with soap dispensers visible. The children in the background appear focused on washing their hands.",
+          "generated_text": "What do you think the children might be doing in this picture, and why is it important?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever been in a situation where you needed to wash your hands like this? Can you tell me about it?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_755df201_images\\page_1.webp",
+          "visual_context": "The image shows three children standing at sinks in what appears to be a public restroom or school washroom. They are each using a tap to wash their hands. The tap in the foreground is being turned on by a child wearing a blue long-sleeve shirt. The sinks have white tiles on the walls above, with soap dispensers visible. The children in the background appear focused on washing their hands.",
+          "generated_text": "Have you ever been in a situation where you needed to wash your hands like this? Can you tell me about it?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think it is important to have such facilities in schools and public places?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_755df201_images\\page_1.webp",
+          "visual_context": "The image shows three children standing at sinks in what appears to be a public restroom or school washroom. They are each using a tap to wash their hands. The tap in the foreground is being turned on by a child wearing a blue long-sleeve shirt. The sinks have white tiles on the walls above, with soap dispensers visible. The children in the background appear focused on washing their hands.",
+          "generated_text": "Why do you think it is important to have such facilities in schools and public places?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
       "results_released_at": null,
       "results_released_by": null
     }
