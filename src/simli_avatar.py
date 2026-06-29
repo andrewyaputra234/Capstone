@@ -30,6 +30,7 @@ class SimliAvatarConfig:
     audio_sample_rate: int = 24000
     mp4_wait_seconds: float = 35.0
     poll_interval_seconds: float = 1.5
+    prefer_hls: bool = True
 
 
 def avatar_enabled() -> bool:
@@ -54,11 +55,31 @@ def load_config() -> SimliAvatarConfig | None:
         audio_sample_rate=_int_env("SIMLI_AUDIO_SAMPLE_RATE", 24000),
         mp4_wait_seconds=max(0.0, _float_env("SIMLI_MP4_WAIT_SECONDS", 35.0)),
         poll_interval_seconds=max(0.5, _float_env("SIMLI_POLL_INTERVAL_SECONDS", 1.5)),
+        prefer_hls=_bool_env("SIMLI_PREFER_HLS", True),
     )
 
 
 def create_avatar_video_url(text: str, *, config: SimliAvatarConfig | None = None) -> str:
-    """Generate examiner speech audio, send it to Simli, and return a video URL."""
+    """Generate examiner speech audio, send it to Simli, and return a playable video URL."""
+    asset = create_avatar_video_asset(text, config=config, allow_unready=False)
+    url = asset.get("url")
+    if not url:
+        raise SimliAvatarError("Simli did not return an avatar video URL.")
+    return str(url)
+
+
+def create_avatar_video_asset(
+    text: str,
+    *,
+    config: SimliAvatarConfig | None = None,
+    allow_unready: bool = True,
+) -> dict[str, Any]:
+    """Generate an avatar and return the best video asset information available.
+
+    Simli can return video URLs before the files are actually playable. When
+    allow_unready is true, keep those URLs so the app can retry/preview later
+    instead of throwing the whole avatar preparation away.
+    """
     clean_text = " ".join((text or "").split())
     if not clean_text:
         raise SimliAvatarError("No examiner text was provided for the avatar.")
@@ -91,17 +112,41 @@ def create_avatar_video_url(text: str, *, config: SimliAvatarConfig | None = Non
     )
     data = _response_data(response, "generate static avatar video")
     _log("Simli response received; selecting playable video")
+    _log(f"Simli response URL fields: mp4_url={bool(data.get('mp4_url'))}, hls_url={bool(data.get('hls_url'))}")
     video_url = _select_playable_video_url(data, config=config)
-    if not video_url:
-        raise SimliAvatarError("Simli did not return an avatar video URL.")
-    _log("avatar video URL ready")
-    return str(video_url)
+    if video_url:
+        _log("avatar video URL ready")
+        return {
+            "url": str(video_url),
+            "ready": True,
+            "kind": "hls" if ".m3u8" in str(video_url).lower() else "mp4",
+            "mp4_url": data.get("mp4_url"),
+            "hls_url": data.get("hls_url"),
+        }
+    if allow_unready:
+        fallback_url = data.get("hls_url") or data.get("mp4_url")
+        if fallback_url:
+            _log("avatar URL returned by Simli but not playable yet; saving as pending")
+            return {
+                "url": str(fallback_url),
+                "ready": False,
+                "kind": "hls_pending" if ".m3u8" in str(fallback_url).lower() else "mp4_pending",
+                "mp4_url": data.get("mp4_url"),
+                "hls_url": data.get("hls_url"),
+            }
+    raise SimliAvatarError("Simli did not return an avatar video URL.")
 
 
 def _select_playable_video_url(data: dict[str, Any], *, config: SimliAvatarConfig) -> str | None:
     """Prefer MP4 for Streamlit playback, but fall back to HLS while MP4 is cooking."""
     mp4_url = data.get("mp4_url")
     hls_url = data.get("hls_url")
+    if config.prefer_hls and hls_url:
+        _log("checking HLS stream availability first")
+        if _wait_until_url_available(str(hls_url), timeout_seconds=6.0, poll_interval=config.poll_interval_seconds):
+            _log("HLS stream is available")
+            return str(hls_url)
+        _log("HLS stream was not available yet; checking MP4")
     if mp4_url:
         eta = _extract_mp4_eta(data)
         wait_seconds = max(config.mp4_wait_seconds, min(60.0, eta + 8.0 if eta else 0.0))
@@ -110,7 +155,7 @@ def _select_playable_video_url(data: dict[str, Any], *, config: SimliAvatarConfi
             _log("MP4 is available")
             return str(mp4_url)
         _log("MP4 not ready before timeout; falling back if HLS is available")
-    if hls_url:
+    if hls_url and not config.prefer_hls:
         _log("checking HLS stream availability")
         if _wait_until_url_available(str(hls_url), timeout_seconds=8.0, poll_interval=config.poll_interval_seconds):
             _log("HLS stream is available")
@@ -136,15 +181,23 @@ def _wait_until_url_available(url: str, *, timeout_seconds: float, poll_interval
     while time.monotonic() <= deadline:
         attempt += 1
         try:
-            response = requests.get(url, timeout=10, stream=True)
-            content_type = response.headers.get("Content-Type", "").lower()
-            ok = response.status_code == 200 and "json" not in content_type
-            response.close()
+            with requests.get(url, timeout=10, stream=True) as response:
+                content_type = response.headers.get("Content-Type", "").lower()
+                try:
+                    preview = next(response.iter_content(chunk_size=128), b"").strip()
+                except StopIteration:
+                    preview = b""
+                ok = (
+                    response.status_code == 200
+                    and "json" not in content_type
+                    and not preview.lstrip().startswith(b"{")
+                    and preview
+                )
             if ok:
                 return True
         except requests.RequestException:
             pass
-        _log(f"MP4 not ready yet; poll {attempt}")
+        _log(f"video URL not ready yet; poll {attempt}")
         time.sleep(poll_interval)
     return False
 
@@ -204,6 +257,13 @@ def _float_env(name: str, default: float) -> float:
         return float(os.getenv(name, default))
     except (TypeError, ValueError):
         return default
+
+
+def _bool_env(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
 
 
 def _log(message: str) -> None:

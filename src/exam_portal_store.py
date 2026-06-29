@@ -780,6 +780,9 @@ def delete_assignment(assignment_id: str, examiner_id: str) -> dict[str, Any]:
             session_ids.add(str(result["session_id"]))
         guided_attempt = result.get("guided_attempt") or {}
         collect_artifacts(guided_attempt, ("original_audio_path", "original_transcription_path"))
+    for question in record.get("questions", []):
+        avatar_video = question.get("avatar_video") or {}
+        collect_artifacts(avatar_video, ("path",))
 
     errors: list[str] = []
     deleted_sessions: list[str] = []
@@ -798,11 +801,13 @@ def delete_assignment(assignment_id: str, examiner_id: str) -> dict[str, Any]:
         errors.append(f"session cleanup: {error}")
 
     sessions_dir = (DATA_DIR / "sessions").resolve()
+    avatar_dir = (DATA_DIR / "avatar_videos").resolve()
     deleted_artifacts: list[str] = []
     for value in artifact_paths:
         try:
             path = Path(value).resolve()
-            path.relative_to(sessions_dir)
+            if not _is_relative_to(path, sessions_dir) and not _is_relative_to(path, avatar_dir):
+                raise ValueError("path is outside managed artifact directories")
             if path.is_file():
                 path.unlink()
                 deleted_artifacts.append(str(path))
@@ -852,6 +857,9 @@ def reset_assignment_results(assignment_id: str, examiner_id: str) -> dict[str, 
         if result.get("session_id"):
             session_ids.add(str(result["session_id"]))
         collect_artifacts(result.get("guided_attempt") or {}, ("original_audio_path", "original_transcription_path"))
+    for guidance in (record.get("guidance_attempts") or {}).values():
+        avatar_video = guidance.get("avatar_video") or {}
+        collect_artifacts(avatar_video, ("path",))
 
     errors: list[str] = []
     deleted_sessions: list[str] = []
@@ -870,11 +878,13 @@ def reset_assignment_results(assignment_id: str, examiner_id: str) -> dict[str, 
         errors.append(f"session cleanup: {error}")
 
     sessions_dir = (DATA_DIR / "sessions").resolve()
+    avatar_dir = (DATA_DIR / "avatar_videos").resolve()
     deleted_artifacts: list[str] = []
     for value in artifact_paths:
         try:
             path = Path(value).resolve()
-            path.relative_to(sessions_dir)
+            if not _is_relative_to(path, sessions_dir) and not _is_relative_to(path, avatar_dir):
+                raise ValueError("path is outside managed artifact directories")
             if path.is_file():
                 path.unlink()
                 deleted_artifacts.append(str(path))
@@ -898,3 +908,11 @@ def reset_assignment_results(assignment_id: str, examiner_id: str) -> dict[str, 
         "deleted_artifacts": deleted_artifacts,
         "errors": errors,
     }
+
+
+def _is_relative_to(path: Path, parent: Path) -> bool:
+    try:
+        path.relative_to(parent)
+        return True
+    except ValueError:
+        return False

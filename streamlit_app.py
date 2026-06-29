@@ -16,6 +16,7 @@ import tempfile
 import time
 import uuid
 from concurrent.futures import Future, ThreadPoolExecutor
+from dataclasses import replace
 from pathlib import Path
 
 import streamlit as st
@@ -450,6 +451,77 @@ def render_examiner_transition(message: str, *, cache_key: str) -> None:
     render_examiner_avatar(clean_message, cache_key=cache_key)
 
 
+def prepare_persistent_question_avatars(
+    questions: list[dict],
+    *,
+    asset_prefix: str,
+    progress_callback=None,
+) -> tuple[list[dict], list[str]]:
+    """Create local avatar MP4 assets for final assigned questions when Simli is enabled."""
+    if not simli_avatar_requested():
+        return questions, []
+
+    try:
+        from simli_avatar import create_avatar_video_asset, load_config
+    except Exception as error:
+        return questions, [f"Avatar setup unavailable: {error}"]
+
+    config = load_config()
+    if not config:
+        return questions, ["Avatar credentials are not fully configured, so question videos were not pre-created."]
+
+    persistent_config = replace(config, prefer_hls=True, mp4_wait_seconds=max(config.mp4_wait_seconds, 35.0))
+    prepared_questions: list[dict] = []
+    warnings: list[str] = []
+    for index, question in enumerate(questions, 1):
+        prepared = {**question}
+        text = " ".join(str(question.get("text", "")).split())
+        if not text:
+            prepared_questions.append(prepared)
+            continue
+        if progress_callback:
+            progress_callback(index - 1, len(questions), f"Preparing examiner avatar for question {index}...")
+        try:
+            avatar_terminal_log(f"precreating assigned question {index}: {text[:90]}")
+            asset = create_avatar_video_asset(text, config=persistent_config, allow_unready=True)
+            url = str(asset["url"])
+            avatar_video = {
+                "source_url": url,
+                "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "asset_key": f"{asset_prefix}_q{index}",
+                "kind": asset.get("kind") or ("hls" if ".m3u8" in url.lower() else "mp4"),
+                "ready": bool(asset.get("ready")),
+                "mp4_url": asset.get("mp4_url"),
+                "hls_url": asset.get("hls_url"),
+            }
+            if ".m3u8" not in url.lower():
+                try:
+                    local_video = cache_avatar_video_file(url)
+                    avatar_video["path"] = str(local_video)
+                    avatar_video["kind"] = "mp4_file"
+                    avatar_video["ready"] = True
+                    avatar_terminal_log(f"stored assigned question {index} avatar at {local_video}")
+                except Exception as download_error:
+                    warnings.append(
+                        f"Question {index} avatar URL was created, but the MP4 was not saved locally yet: {download_error}"
+                    )
+                    avatar_terminal_log(f"stored assigned question {index} as URL only: {download_error}")
+            else:
+                if asset.get("ready"):
+                    avatar_terminal_log(f"stored assigned question {index} as ready HLS stream")
+                else:
+                    warnings.append(f"Question {index} avatar URL is pending and may need preview/retry before it plays.")
+                    avatar_terminal_log(f"stored assigned question {index} as pending HLS stream")
+            prepared["avatar_video"] = avatar_video
+        except Exception as error:
+            warnings.append(f"Question {index} avatar was not pre-created: {error}")
+        prepared_questions.append(prepared)
+        if progress_callback:
+            progress_callback(index, len(questions), f"Finished avatar check for question {index}.")
+
+    return prepared_questions, warnings
+
+
 def cache_avatar_video_file(url: str) -> Path:
     """Download Simli MP4 once so Streamlit can serve it with normal video controls."""
     video_dir = Path("data/avatar_videos")
@@ -483,6 +555,152 @@ def cache_avatar_video_file(url: str) -> Path:
     return path
 
 
+def avatar_url_is_ready(url: str, *, timeout_seconds: float = 5.0, poll_interval: float = 1.0) -> bool:
+    """Return True only when a saved Simli URL currently serves video/playlist data."""
+    if not url:
+        return False
+
+    import requests
+
+    deadline = time.monotonic() + timeout_seconds
+    while time.monotonic() <= deadline:
+        try:
+            with requests.get(url, timeout=10, stream=True) as response:
+                content_type = response.headers.get("Content-Type", "").lower()
+                try:
+                    preview = next(response.iter_content(chunk_size=128), b"").strip()
+                except StopIteration:
+                    preview = b""
+                if (
+                    response.status_code == 200
+                    and preview
+                    and "json" not in content_type
+                    and not preview.lstrip().startswith(b"{")
+                ):
+                    return True
+        except requests.RequestException:
+            pass
+        time.sleep(poll_interval)
+    return False
+
+
+def refresh_avatar_video_reference(avatar_video: dict | None) -> dict:
+    """Update a stored/pending avatar reference if Simli has made it playable."""
+    if not avatar_video:
+        return {}
+    refreshed = dict(avatar_video)
+    path = refreshed.get("path")
+    if path and Path(path).exists() and is_probably_mp4(Path(path)):
+        refreshed["ready"] = True
+        refreshed["kind"] = "mp4_file"
+        return refreshed
+
+    candidate_urls = [
+        refreshed.get("source_url"),
+        refreshed.get("hls_url"),
+        refreshed.get("mp4_url"),
+    ]
+    for url in [str(item) for item in candidate_urls if item]:
+        if not avatar_url_is_ready(url, timeout_seconds=4.0):
+            continue
+        refreshed["source_url"] = url
+        refreshed["ready"] = True
+        if ".m3u8" in url.lower():
+            refreshed["kind"] = "hls"
+            return refreshed
+        try:
+            local_video = cache_avatar_video_file(url)
+        except Exception:
+            refreshed["kind"] = "mp4"
+            return refreshed
+        refreshed["path"] = str(local_video)
+        refreshed["kind"] = "mp4_file"
+        return refreshed
+
+    refreshed["ready"] = False
+    if refreshed.get("kind") in {"hls", "mp4"}:
+        refreshed["kind"] = f"{refreshed['kind']}_pending"
+    return refreshed
+
+
+def render_avatar_video_file(path: str | Path, *, element_key: str, subtitle: str = "") -> bool:
+    try:
+        local_video = Path(path)
+        if not local_video.exists() or not is_probably_mp4(local_video):
+            return False
+        video_base64 = base64.b64encode(local_video.read_bytes()).decode("ascii")
+    except Exception:
+        return False
+
+    subtitle_html = html_escape(subtitle)
+    components.html(
+        f"""
+        <style>
+          .avatar-native-card {{
+            max-width: 620px;
+            margin: 0.75rem auto 0.75rem;
+            border: 1px solid #cfe3d5;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #fbfffc;
+            box-shadow: 0 16px 34px rgba(37, 72, 53, 0.12);
+            font-family: Aptos, Segoe UI, sans-serif;
+          }}
+          .avatar-native-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0.95rem;
+            background: linear-gradient(135deg, #effbf3, #dff2e7);
+            color: #203b36;
+            font-weight: 750;
+          }}
+          .avatar-native-header span:last-child {{
+            color: #5b9d73;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+          }}
+          .avatar-native-video {{
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            display: block;
+            background: #eef7f0;
+            object-fit: contain;
+          }}
+          .avatar-native-subtitle {{
+            padding: 0.9rem 1rem;
+            border-top: 1px solid #cfe3d5;
+            background: rgba(255, 255, 253, 0.97);
+            color: #203b36;
+            line-height: 1.45;
+            font-size: 0.98rem;
+          }}
+          .avatar-native-help {{
+            padding: 0 1rem 0.85rem;
+            color: #587267;
+            font-size: 0.82rem;
+          }}
+        </style>
+        <div class="avatar-native-card">
+          <div class="avatar-native-header">
+            <span>AI Examiner</span>
+            <span>Ready</span>
+          </div>
+          <video class="avatar-native-video" controls preload="auto" playsinline>
+            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
+            Your browser cannot play this examiner video.
+          </video>
+          <div class="avatar-native-subtitle"><strong>Subtitles:</strong> {subtitle_html}</div>
+          <div class="avatar-native-help">Press the video play button to hear the examiner. Use the fullscreen control if needed.</div>
+        </div>
+        """,
+        height=520,
+        scrolling=False,
+    )
+    return True
+
+
 def is_probably_mp4(path: Path) -> bool:
     """Reject cached JSON/API error files that were saved with a .mp4 extension."""
     try:
@@ -502,7 +720,7 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bo
     if not is_hls:
         try:
             local_video = cache_avatar_video_file(url)
-            video_base64 = base64.b64encode(local_video.read_bytes()).decode("ascii")
+            return render_avatar_video_file(local_video, element_key=element_key, subtitle=subtitle)
         except Exception as error:
             cache = st.session_state.setdefault("simli_avatar_cache", {})
             for cached_key, cached_url in list(cache.items()):
@@ -511,72 +729,6 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bo
             st.warning(f"The examiner video was generated but could not be loaded into the page: {error}")
             st.caption("The question is still shown below so the assessment can continue. Try reloading the examiner video in a moment.")
             return False
-        components.html(
-            f"""
-            <style>
-              .avatar-native-card {{
-                max-width: 620px;
-                margin: 0.75rem auto 0.75rem;
-                border: 1px solid #cfe3d5;
-                border-radius: 18px;
-                overflow: hidden;
-                background: #fbfffc;
-                box-shadow: 0 16px 34px rgba(37, 72, 53, 0.12);
-                font-family: Aptos, Segoe UI, sans-serif;
-              }}
-              .avatar-native-header {{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0.75rem 0.95rem;
-                background: linear-gradient(135deg, #effbf3, #dff2e7);
-                color: #203b36;
-                font-weight: 750;
-              }}
-              .avatar-native-header span:last-child {{
-                color: #5b9d73;
-                font-size: 0.78rem;
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
-              }}
-              .avatar-native-video {{
-                width: 100%;
-                aspect-ratio: 16 / 10;
-                display: block;
-                background: #eef7f0;
-                object-fit: contain;
-              }}
-              .avatar-native-subtitle {{
-                padding: 0.9rem 1rem;
-                border-top: 1px solid #cfe3d5;
-                background: rgba(255, 255, 253, 0.97);
-                color: #203b36;
-                line-height: 1.45;
-                font-size: 0.98rem;
-              }}
-              .avatar-native-help {{
-                padding: 0 1rem 0.85rem;
-                color: #587267;
-                font-size: 0.82rem;
-              }}
-            </style>
-            <div class="avatar-native-card">
-              <div class="avatar-native-header">
-                <span>AI Examiner</span>
-                <span>Ready</span>
-              </div>
-              <video class="avatar-native-video" controls preload="auto" playsinline>
-                <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-                Your browser cannot play this examiner video.
-              </video>
-              <div class="avatar-native-subtitle"><strong>Subtitles:</strong> {subtitle_html}</div>
-              <div class="avatar-native-help">Press the video play button to hear the examiner. Use the fullscreen control if needed.</div>
-            </div>
-            """,
-            height=520,
-            scrolling=False,
-        )
-        return True
 
     safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", element_key)
     safe_id_json = json.dumps(safe_id)
@@ -1816,6 +1968,11 @@ def render_create_assignment() -> None:
     assignment_notice = st.session_state.pop("assignment_notice", None)
     if assignment_notice:
         st.success(assignment_notice)
+    avatar_warnings = st.session_state.pop("assignment_avatar_warnings", None)
+    if avatar_warnings:
+        st.warning("Some examiner avatar videos could not be pre-created. Students can still read the questions normally.")
+        for warning in avatar_warnings:
+            st.caption(warning)
     render_custom_rubric_upload()
     if not students:
         st.warning("No registered students are available. Add students to `data/users.json` first.")
@@ -1823,6 +1980,96 @@ def render_create_assignment() -> None:
 
     draft = st.session_state.get("assignment_draft")
     if draft:
+        if draft.get("avatar_preview_questions"):
+            preview_questions = draft["avatar_preview_questions"]
+            preview_changed = False
+            st.markdown("#### Preview examiner avatars")
+            st.info(
+                "Check the examiner avatar videos for the final questions. If a video is still pending, "
+                "wait a moment and use Refresh preview before assigning."
+            )
+            for warning in draft.get("avatar_preview_warnings", []):
+                st.caption(warning)
+
+            for number, question in enumerate(preview_questions, 1):
+                with st.container(border=True):
+                    question_text = str(question.get("text", ""))
+                    st.markdown(f"##### Question {number}")
+                    st.write(question_text)
+                    original_avatar_video = question.get("avatar_video") or {}
+                    avatar_video = refresh_avatar_video_reference(original_avatar_video)
+                    if avatar_video != original_avatar_video:
+                        question["avatar_video"] = avatar_video
+                        preview_changed = True
+                    avatar_path = avatar_video.get("path")
+                    avatar_url = avatar_video.get("source_url")
+                    avatar_ready = avatar_video.get("ready")
+                    if avatar_path and render_avatar_video_file(
+                        avatar_path,
+                        element_key=f"draft_avatar_file_{draft['draft_id']}_{number}",
+                        subtitle=question_text,
+                    ):
+                        st.success("Saved local avatar video is ready.")
+                    elif avatar_url:
+                        if avatar_ready:
+                            st.success("Avatar stream is ready.")
+                            render_avatar_video(
+                                avatar_url,
+                                element_key=f"draft_avatar_url_{draft['draft_id']}_{number}",
+                                subtitle=question_text,
+                            )
+                        else:
+                            st.warning("Avatar is still preparing on Simli. It will not be shown until the URL is playable.")
+                            st.caption("Use Refresh preview in a moment. This avoids showing the raw File not found response.")
+                    else:
+                        st.warning("No avatar video was prepared for this question. The student will still see the written question.")
+
+            if preview_changed:
+                draft["avatar_preview_questions"] = preview_questions
+                st.session_state.assignment_draft = draft
+
+            assign_column, refresh_column, edit_column = st.columns(3)
+            if assign_column.button("Assign to student", type="primary", width="stretch"):
+                try:
+                    record = create_assignment(
+                        student=draft["student"],
+                        title=draft["title"],
+                        subject=draft["subject"],
+                        rubric=draft["rubric"],
+                        visual=draft["visual"],
+                        questions=preview_questions,
+                        reading=draft["reading"],
+                        examiner_id=st.session_state.user_id,
+                    )
+                except Exception as error:
+                    st.error(f"The assessment was not assigned: {error}")
+                    return
+
+                st.session_state.assignment_draft = None
+                avatar_count = sum(
+                    1 for question in record["questions"] if (question.get("avatar_video") or {}).get("source_url")
+                )
+                st.session_state["assignment_notice"] = (
+                    f"Assigned '{record['title']}' to {draft['student']['name']} with "
+                    f"{len(record['questions'])} reviewed question(s). Prepared {avatar_count}/{len(record['questions'])} avatar video reference(s)."
+                )
+                st.rerun()
+
+            if refresh_column.button("Refresh preview", width="stretch"):
+                for question in preview_questions:
+                    question["avatar_video"] = refresh_avatar_video_reference(question.get("avatar_video") or {})
+                draft["avatar_preview_questions"] = preview_questions
+                st.session_state.assignment_draft = draft
+                st.rerun()
+
+            if edit_column.button("Back to edit questions", width="stretch"):
+                draft.pop("avatar_preview_questions", None)
+                draft.pop("avatar_preview_warnings", None)
+                st.session_state.assignment_draft = draft
+                st.rerun()
+
+            return
+
         st.markdown("#### Review AI-generated questions")
         st.info(
             "Edit any question before assigning it. The student and grader will use these final examiner-approved questions."
@@ -1841,7 +2088,7 @@ def render_create_assignment() -> None:
 
             assign_column, discard_column = st.columns(2)
             assign = assign_column.form_submit_button(
-                "Assign reviewed assessment", type="primary", width="stretch"
+                "Prepare avatar preview", type="primary", width="stretch"
             )
             discard = discard_column.form_submit_button("Discard draft", width="stretch")
 
@@ -1872,25 +2119,43 @@ def render_create_assignment() -> None:
                 }
             )
 
-        try:
-            record = create_assignment(
-                student=draft["student"],
-                title=draft["title"],
-                subject=draft["subject"],
-                rubric=draft["rubric"],
-                visual=draft["visual"],
-                questions=final_questions,
-                reading=draft["reading"],
-                examiner_id=st.session_state.user_id,
+        avatar_warnings: list[str] = []
+        if simli_avatar_requested():
+            st.markdown(
+                """
+                <div class="prep-loading-card">
+                  <div class="prep-loader"></div>
+                  <div>
+                    <h3>Preparing examiner avatar videos</h3>
+                    <p>Creating the examiner clips for the final approved questions before assigning them to the student.</p>
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
             )
-        except Exception as error:
-            st.error(f"The assessment was not assigned: {error}")
-            return
+            avatar_progress = st.progress(0, text="Starting examiner avatar preparation...")
 
-        st.session_state.assignment_draft = None
-        st.session_state["assignment_notice"] = (
-            f"Assigned '{record['title']}' to {draft['student']['name']} with {len(record['questions'])} reviewed question(s)."
-        )
+            def update_avatar_progress(done: int, total: int, message: str) -> None:
+                avatar_progress.progress(done / max(total, 1), text=message)
+
+            with st.spinner("Please wait while the examiner avatars are prepared..."):
+                final_questions, avatar_warnings = prepare_persistent_question_avatars(
+                    final_questions,
+                    asset_prefix=draft["draft_id"],
+                    progress_callback=update_avatar_progress,
+                )
+            avatar_progress.progress(1.0, text="Examiner avatar preparation finished.")
+
+        if not simli_avatar_requested():
+            avatar_warnings = ["Simli avatar is disabled, so this preview only confirms the question text."]
+        elif not any((question.get("avatar_video") or {}).get("source_url") for question in final_questions):
+            st.error("No examiner avatar videos were prepared. Please check the Simli/OpenAI settings, then try preparing the preview again.")
+            for warning in avatar_warnings:
+                st.caption(warning)
+            return
+        draft["avatar_preview_questions"] = final_questions
+        draft["avatar_preview_warnings"] = avatar_warnings
+        st.session_state.assignment_draft = draft
         st.rerun()
 
     st.markdown("#### Choose the materials for this assessment")
@@ -2596,6 +2861,11 @@ def render_student_assessment(assignment: dict) -> None:
     question_text = question.get("text", "")
     examiner_prompt = guidance.get("follow_up_question", "") if guidance else question_text
     examiner_cache_kind = "guidance" if guidance else "question"
+    examiner_avatar_cache_key = (
+        question_avatar_cache_key(assignment["assignment_id"], question)
+        if examiner_cache_kind == "question"
+        else f"{assignment['assignment_id']}_{question_id}_guidance"
+    )
     image = visual_path(assignment)
 
     st.markdown(
@@ -2615,14 +2885,27 @@ def render_student_assessment(assignment: dict) -> None:
     examiner_col, stimulus_col = st.columns([0.95, 1.05], gap="large", vertical_alignment="top")
     with examiner_col:
         st.markdown('<div class="assessment-panel-label">Step 1 - Listen to the examiner</div>', unsafe_allow_html=True)
-        render_examiner_avatar(
-            examiner_prompt,
-            cache_key=(
-                question_avatar_cache_key(assignment["assignment_id"], question)
-                if examiner_cache_kind == "question"
-                else f"{assignment['assignment_id']}_{question_id}_guidance"
-            ),
-        )
+        stored_avatar = None if guidance else refresh_avatar_video_reference(question.get("avatar_video") or {})
+        stored_avatar_path = stored_avatar.get("path") if stored_avatar else None
+        stored_avatar_url = stored_avatar.get("source_url") if stored_avatar else None
+        stored_avatar_ready = bool(stored_avatar.get("ready")) if stored_avatar else False
+        if stored_avatar_path and render_avatar_video_file(
+            stored_avatar_path,
+            element_key=f"stored_avatar_{assignment['assignment_id']}_{question_id}",
+            subtitle=examiner_prompt,
+        ):
+            pass
+        elif stored_avatar_ready and stored_avatar_url and render_avatar_video(
+            stored_avatar_url,
+            element_key=f"stored_avatar_url_{assignment['assignment_id']}_{question_id}",
+            subtitle=examiner_prompt,
+        ):
+            pass
+        elif guidance:
+            queue_examiner_avatar_preload(examiner_prompt, cache_key=examiner_avatar_cache_key)
+            render_examiner_avatar(examiner_prompt, cache_key=examiner_avatar_cache_key)
+        else:
+            render_examiner_avatar(examiner_prompt, cache_key=examiner_avatar_cache_key)
         if guidance:
             st.markdown(
                 '<div class="assessment-help-card">This is your one guiding question. Answer it clearly; your first response and this response will be assessed together.</div>',
@@ -2683,14 +2966,15 @@ def render_student_assessment(assignment: dict) -> None:
                     max_attempts=2,
                 )
             if not decision.get("accepted"):
+                follow_up_question = decision.get("examiner_reply") or (
+                    "What is one detail you can see in the picture that helps answer the question?"
+                )
                 try:
                     save_guidance_attempt(
                         assignment["assignment_id"],
                         question=question,
                         original_response=captured["text"],
-                        follow_up_question=decision.get("examiner_reply") or (
-                            "What is one detail you can see in the picture that helps answer the question?"
-                        ),
+                        follow_up_question=follow_up_question,
                         reason=decision.get("reason", ""),
                         response_mode=captured.get("mode", "text"),
                         audio_path=captured.get("audio_path"),
@@ -2700,6 +2984,10 @@ def render_student_assessment(assignment: dict) -> None:
                 except Exception as error:
                     st.error(f"The guiding question could not be saved: {error}")
                     return
+                queue_examiner_avatar_preload(
+                    follow_up_question,
+                    cache_key=f"{assignment['assignment_id']}_{question_id}_guidance",
+                )
                 st.session_state.pop(pending_key, None)
                 st.session_state.pop(transition_key, None)
                 st.rerun()

@@ -41,6 +41,31 @@
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_002_755df201\\aa.webp",
       "visual_path": "data\\input\\assignment_002_755df201\\aa.webp"
+    },
+    "assignment_002_04971e7e": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_04971e7e\\aa.webp",
+      "visual_path": "data\\input\\assignment_002_04971e7e\\aa.webp"
+    },
+    "assignment_002_c077f8b1": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_c077f8b1\\aa.webp",
+      "visual_path": "data\\input\\assignment_002_c077f8b1\\aa.webp"
+    },
+    "assignment_230_1c2a7869": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_230_1c2a7869\\image-45-1024x683.webp",
+      "visual_path": "data\\input\\assignment_230_1c2a7869\\image-45-1024x683.webp"
+    },
+    "assignment_230_eafdc0e3": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_230_eafdc0e3\\aa.webp",
+      "visual_path": "data\\input\\assignment_230_eafdc0e3\\aa.webp"
+    },
+    "assignment_230_a4bac118": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_230_a4bac118\\aa.webp",
+      "visual_path": "data\\input\\assignment_230_a4bac118\\aa.webp"
     }
   }
 }

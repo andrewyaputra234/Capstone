@@ -12,6 +12,14 @@
       "password_hash": "d5c59183473378274772a2dfe1e26d96be390f8bed7b6fb08c4588606ab4f15b",
       "password_salt": "e3b742ba38c659add65910179e3737cb",
       "password_algorithm": "pbkdf2_sha256"
+    },
+    {
+      "id": "230",
+      "name": "230",
+      "registered_at": "2026-06-29T06:52:10.272716+00:00",
+      "password_hash": "51874f07135eb95c2e9d841c057adf5e3cbc58e543653c24bf7d591a4a949cf4",
+      "password_salt": "a7e48272ce77ca9e759d2fe0e941229c",
+      "password_algorithm": "pbkdf2_sha256"
     }
   ],
   "examiners": [

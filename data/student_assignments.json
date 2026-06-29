@@ -1868,6 +1868,225 @@
       "results": [],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "a3be8a567c48": {
+      "assignment_id": "a3be8a567c48",
+      "student_id": "002",
+      "student_name": "002",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_002_04971e7e",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": "2026-06-29T06:58:49.363372+00:00",
+      "updated_at": "2026-06-29T06:58:49.363372+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_002_04971e7e\\aa.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think is important about washing hands, as shown in the picture?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_04971e7e_images\\page_1.webp",
+          "visual_context": "The picture shows a close-up of a sink area where three children are washing their hands. The focus is on the child in the foreground turning on the tap, with two other children visible in the background performing the same action. The children are in a clean, well-lit environment, likely a school. There are white tiles on the wall and soap dispensers are mounted above the sinks.",
+          "generated_text": "What do you think is important about washing hands, as shown in the picture?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Can you describe a time at school when you needed to wash your hands? What happened?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_04971e7e_images\\page_1.webp",
+          "visual_context": "The picture shows a close-up of a sink area where three children are washing their hands. The focus is on the child in the foreground turning on the tap, with two other children visible in the background performing the same action. The children are in a clean, well-lit environment, likely a school. There are white tiles on the wall and soap dispensers are mounted above the sinks.",
+          "generated_text": "Can you describe a time at school when you needed to wash your hands? What happened?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think having clean facilities like the one in the picture is important in schools?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_04971e7e_images\\page_1.webp",
+          "visual_context": "The picture shows a close-up of a sink area where three children are washing their hands. The focus is on the child in the foreground turning on the tap, with two other children visible in the background performing the same action. The children are in a clean, well-lit environment, likely a school. There are white tiles on the wall and soap dispensers are mounted above the sinks.",
+          "generated_text": "Why do you think having clean facilities like the one in the picture is important in schools?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "892fe130cb56": {
+      "assignment_id": "892fe130cb56",
+      "student_id": "002",
+      "student_name": "002",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_002_c077f8b1",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": "2026-06-29T07:08:44.825196+00:00",
+      "updated_at": "2026-06-29T07:08:44.825196+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_002_c077f8b1\\aa.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what the children are doing in the picture? 22",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_c077f8b1_images\\page_1.webp",
+          "visual_context": "The image shows three children at a row of sinks, washing their hands. The child in the foreground is turning the faucet on. The children are dressed in school uniforms, and there are soap dispensers on the wall in front of them.",
+          "generated_text": "Can you describe what the children are doing in the picture?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Why do you think it's important to wash your hands, like the children in the image?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_c077f8b1_images\\page_1.webp",
+          "visual_context": "The image shows three children at a row of sinks, washing their hands. The child in the foreground is turning the faucet on. The children are dressed in school uniforms, and there are soap dispensers on the wall in front of them.",
+          "generated_text": "Why do you think it's important to wash your hands, like the children in the image?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA2OQ==/13d29894-287c-4f01-8f8b-380a2438bd11/output.m3u8",
+            "created_at": "2026-06-29T15:07:41",
+            "asset_key": "a69d40fd84954a67acad4570feca5d0f_q2",
+            "kind": "hls"
+          }
+        },
+        {
+          "id": 3,
+          "text": "What are some other places where washing your hands is important, besides the one shown in the picture?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_c077f8b1_images\\page_1.webp",
+          "visual_context": "The image shows three children at a row of sinks, washing their hands. The child in the foreground is turning the faucet on. The children are dressed in school uniforms, and there are soap dispensers on the wall in front of them.",
+          "generated_text": "What are some other places where washing your hands is important, besides the one shown in the picture?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "9fb605373d09": {
+      "assignment_id": "9fb605373d09",
+      "student_id": "230",
+      "student_name": "230",
+      "title": "PSLE English Oral Practice",
+      "subject": "assignment_230_a4bac118",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": "2026-06-29T07:40:20.277765+00:00",
+      "updated_at": "2026-06-29T07:40:20.277765+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_230_a4bac118\\aa.webp",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the children are doing, and why is it important?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_230_a4bac118_images\\page_1.webp",
+          "visual_context": "The image shows three children standing in front of sinks, washing their hands. They appear to be in a school environment, as they are wearing uniforms. The child in the foreground is turning on a faucet, while another child in the background is also washing hands. There are soap dispensers mounted on the wall above the sinks. The setting looks clean and well-lit.",
+          "generated_text": "What do you think the children are doing, and why is it important?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Ng==/2801d521-23d8-4830-bcdc-15c6b37bd156/output.m3u8",
+            "created_at": "2026-06-29T15:38:07",
+            "asset_key": "c1b3cd71f7d249e5a12934dac6583f47_q1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4Ng==/2801d521-23d8-4830-bcdc-15c6b37bd156/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Ng==/2801d521-23d8-4830-bcdc-15c6b37bd156/output.m3u8"
+          }
+        },
+        {
+          "id": 2,
+          "text": "How do you think schools can encourage students to maintain hygiene?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_230_a4bac118_images\\page_1.webp",
+          "visual_context": "The image shows three children standing in front of sinks, washing their hands. They appear to be in a school environment, as they are wearing uniforms. The child in the foreground is turning on a faucet, while another child in the background is also washing hands. There are soap dispensers mounted on the wall above the sinks. The setting looks clean and well-lit.",
+          "generated_text": "How do you think schools can encourage students to maintain hygiene?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4NQ==/b99da800-5eae-4286-8e68-8e3c49de87fa/output.m3u8",
+            "created_at": "2026-06-29T15:38:21",
+            "asset_key": "c1b3cd71f7d249e5a12934dac6583f47_q2",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4NQ==/b99da800-5eae-4286-8e68-8e3c49de87fa/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4NQ==/b99da800-5eae-4286-8e68-8e3c49de87fa/output.m3u8"
+          }
+        },
+        {
+          "id": 3,
+          "text": "Can you describe a situation where you needed to wash your hands before doing something important?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_230_a4bac118_images\\page_1.webp",
+          "visual_context": "The image shows three children standing in front of sinks, washing their hands. They appear to be in a school environment, as they are wearing uniforms. The child in the foreground is turning on a faucet, while another child in the background is also washing hands. There are soap dispensers mounted on the wall above the sinks. The setting looks clean and well-lit.",
+          "generated_text": "Can you describe a situation where you needed to wash your hands before doing something important?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4NQ==/b1a406d2-73bc-4690-9749-c4194e4217e6/output.m3u8",
+            "created_at": "2026-06-29T15:38:33",
+            "asset_key": "c1b3cd71f7d249e5a12934dac6583f47_q3",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4NQ==/b1a406d2-73bc-4690-9749-c4194e4217e6/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4NQ==/b1a406d2-73bc-4690-9749-c4194e4217e6/output.m3u8"
+          }
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }
