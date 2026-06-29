@@ -1,0 +1,249 @@
+{
+  "session_id": "fd48d28e",
+  "paper_id": "assignment_003_9c2731b1",
+  "student_id": "003",
+  "date_created": "2026-06-29T17:54:12.877937",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-06-29T17:55:36.979348",
+      "speaker": "avatar",
+      "text": "Can you describe a memorable birthday celebration you have had? which year",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image depicts a family gathered around a birthday cake. Four people are visible: a child wearing a shirt with a pattern holds a card, while two teenagers and an elderly woman are seated on a couch. They are all smiling and appear to be participating in the celebration. The teenagers and the elderly woman are cutting a chocolate cake with a 'Happy Birthday!' sign on it. The room is furnished with a sofa and several striped cushions in the background."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-06-29T17:55:36.989902",
+      "speaker": "student",
+      "text": "I remember in 2002, it was great with my family.",
+      "audio_path": "data\\sessions\\speech_20260629_095443_09addce0.wav",
+      "transcription_path": "data\\sessions\\speech_20260629_095443_09addce0.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-06-29T17:56:01.118376",
+      "speaker": "avatar",
+      "text": "How do you think celebrating birthdays with family and friends makes the occasion special?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image depicts a family gathered around a birthday cake. Four people are visible: a child wearing a shirt with a pattern holds a card, while two teenagers and an elderly woman are seated on a couch. They are all smiling and appear to be participating in the celebration. The teenagers and the elderly woman are cutting a chocolate cake with a 'Happy Birthday!' sign on it. The room is furnished with a sofa and several striped cushions in the background."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-06-29T17:56:01.125025",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-06-29T17:56:07.827016",
+      "speaker": "avatar",
+      "text": "What are some other ways people can celebrate special occasions aside from having a cake?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image depicts a family gathered around a birthday cake. Four people are visible: a child wearing a shirt with a pattern holds a card, while two teenagers and an elderly woman are seated on a couch. They are all smiling and appear to be participating in the celebration. The teenagers and the elderly woman are cutting a chocolate cake with a 'Happy Birthday!' sign on it. The room is furnished with a sofa and several striped cushions in the background."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-06-29T17:56:07.835262",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Can you describe a memorable birthday celebration you have had? which year",
+        "answer": "I remember in 2002, it was great with my family.",
+        "visual_context": "The image depicts a family gathered around a birthday cake. Four people are visible: a child wearing a shirt with a pattern holds a card, while two teenagers and an elderly woman are seated on a couch. They are all smiling and appear to be participating in the celebration. The teenagers and the elderly woman are cutting a chocolate cake with a 'Happy Birthday!' sign on it. The room is furnished with a sofa and several striped cushions in the background.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The response is partly relevant as it mentions a birthday celebration with family in 2002, but lacks specific details or a clear personal viewpoint.",
+            "evidence": "The student mentions a birthday celebration with family in 2002.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea of a birthday celebration in 2002 with family, but lacks elaboration or specific details.",
+            "evidence": "The student mentions a birthday celebration in 2002 with family.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors.",
+            "evidence": "The student's answer is clear but lacks detail and complexity, with a simple sentence structure.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 1,
+            "max_score": 3,
+            "feedback": "The student's answer lacks detail and does not provide any specific information about the birthday celebration, needing repeated support to continue.",
+            "evidence": "The student simply mentions the year 2002 and that it was great with their family.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for mentioning the year 2002 in your response, showing good attention to detail. However, the image depicts a family cutting a chocolate cake, not just a general celebration with family. To improve, try to include specific details from the visual stimulus next time. Your answer lacked elaboration and specific examples, so remember to add more details to make your story more engaging. A better sentence starter could be, \"One of the most memorable birthday celebrations I had was in 2002 when my family and I gathered around a delicious chocolate cake.\" Keep practicing to enhance your storytelling skills and include more vivid descriptions in your responses.",
+        "total_score": 12,
+        "max_score": 25,
+        "percentage": 48.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "How do you think celebrating birthdays with family and friends makes the occasion special?",
+        "answer": "[Skipped question]",
+        "visual_context": "The image depicts a family gathered around a birthday cake. Four people are visible: a child wearing a shirt with a pattern holds a card, while two teenagers and an elderly woman are seated on a couch. They are all smiling and appear to be participating in the celebration. The teenagers and the elderly woman are cutting a chocolate cake with a 'Happy Birthday!' sign on it. The room is furnished with a sofa and several striped cushions in the background.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "What are some other ways people can celebrate special occasions aside from having a cake?",
+        "answer": "[Skipped question]",
+        "visual_context": "The image depicts a family gathered around a birthday cake. Four people are visible: a child wearing a shirt with a pattern holds a card, while two teenagers and an elderly woman are seated on a couch. They are all smiling and appear to be participating in the celebration. The teenagers and the elderly woman are cutting a chocolate cake with a 'Happy Birthday!' sign on it. The room is furnished with a sofa and several striped cushions in the background.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    }
+  ],
+  "start_time": "2026-06-29T17:54:12.884921",
+  "end_time": "2026-06-29T17:56:08.362967",
+  "metadata": {
+    "assignment_id": "84a882014592",
+    "component": "student_assessment",
+    "subject": "assignment_003_9c2731b1",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

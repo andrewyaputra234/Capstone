@@ -480,79 +480,111 @@ def prepare_persistent_question_avatars(
         question_wait_seconds = 150.0
     question_wait_seconds = max(30.0, question_wait_seconds)
 
+    try:
+        generation_attempts = int(os.getenv("AVATAR_PREVIEW_GENERATION_ATTEMPTS", "2"))
+    except ValueError:
+        generation_attempts = 2
+    generation_attempts = max(1, generation_attempts)
+
     total = len(questions)
     for index, question in enumerate(questions, 1):
-        prepared = {**question}
         text = " ".join(str(question.get("text", "")).split())
         if not text:
-            prepared_questions.append(prepared)
-            continue
-        if progress_callback:
-            progress_callback(index - 1, total, f"Preparing examiner avatar for question {index} of {total}...")
-        try:
-            avatar_terminal_log(f"precreating assigned question {index}: {text[:90]}")
-            asset = create_avatar_video_asset(
-                text,
-                config=persistent_config,
-                allow_unready=True,
-                check_readiness=False,
-            )
-            url = str(asset["url"])
-            avatar_video = {
-                "source_url": url,
-                "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
-                "asset_key": f"{asset_prefix}_q{index}",
-                "kind": asset.get("kind") or ("hls" if ".m3u8" in url.lower() else "mp4"),
-                "ready": bool(asset.get("ready")),
-                "mp4_url": asset.get("mp4_url"),
-                "hls_url": asset.get("hls_url"),
-            }
-            if ".m3u8" not in url.lower():
-                try:
-                    local_video = cache_avatar_video_file(url)
-                    avatar_video["path"] = str(local_video)
-                    avatar_video["kind"] = "mp4_file"
-                    avatar_video["ready"] = True
-                    avatar_terminal_log(f"stored assigned question {index} avatar at {local_video}")
-                except Exception as download_error:
-                    warnings.append(
-                        f"Question {index} avatar URL was created, but the MP4 was not saved locally yet: {download_error}"
-                    )
-                    avatar_terminal_log(f"stored assigned question {index} as URL only: {download_error}")
-            else:
-                if asset.get("ready"):
-                    avatar_terminal_log(f"stored assigned question {index} as ready HLS stream")
-                else:
-                    avatar_terminal_log(f"stored assigned question {index} as pending HLS stream")
-            prepared["avatar_video"] = avatar_video
-        except Exception as error:
-            warnings.append(f"Question {index} avatar was not pre-created: {error}")
-            prepared_questions.append(prepared)
+            prepared_questions.append({**question})
             continue
 
-        if not (prepared.get("avatar_video") or {}).get("ready"):
+        prepared = {**question}
+        question_ready = False
+        last_readiness_warnings: list[str] = []
+
+        for attempt in range(1, generation_attempts + 1):
+            prepared = {**question}
             if progress_callback:
                 progress_callback(
                     index - 1,
                     total,
-                    f"Waiting for question {index} avatar to become playable before continuing...",
+                    f"Preparing examiner avatar for question {index} of {total} "
+                    f"(attempt {attempt}/{generation_attempts})...",
                 )
-            ready_questions, readiness_warnings = wait_until_question_avatars_ready(
-                [prepared],
-                timeout_seconds=question_wait_seconds,
-                progress_callback=lambda ready, _total, message, index=index, total=total: progress_callback(
-                    index - 1 + ready,
-                    total,
-                    message.replace("1/1", f"{ready}/1") if message else f"Waiting for question {index}...",
+            try:
+                avatar_terminal_log(
+                    f"precreating assigned question {index} attempt {attempt}/{generation_attempts}: {text[:90]}"
                 )
-                if progress_callback
-                else None,
-            )
-            warnings.extend(f"Question {index}: {warning}" for warning in readiness_warnings)
-            prepared = ready_questions[0]
+                asset = create_avatar_video_asset(
+                    text,
+                    config=persistent_config,
+                    allow_unready=True,
+                    check_readiness=False,
+                )
+                url = str(asset["url"])
+                avatar_video = {
+                    "source_url": url,
+                    "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "asset_key": f"{asset_prefix}_q{index}_attempt{attempt}",
+                    "kind": asset.get("kind") or ("hls" if ".m3u8" in url.lower() else "mp4"),
+                    "ready": bool(asset.get("ready")),
+                    "mp4_url": asset.get("mp4_url"),
+                    "hls_url": asset.get("hls_url"),
+                    "generation_attempt": attempt,
+                }
+                if ".m3u8" not in url.lower():
+                    try:
+                        local_video = cache_avatar_video_file(url)
+                        avatar_video["path"] = str(local_video)
+                        avatar_video["kind"] = "mp4_file"
+                        avatar_video["ready"] = True
+                        avatar_terminal_log(f"stored assigned question {index} avatar at {local_video}")
+                    except Exception as download_error:
+                        warnings.append(
+                            f"Question {index} attempt {attempt} avatar URL was created, "
+                            f"but the MP4 was not saved locally yet: {download_error}"
+                        )
+                        avatar_terminal_log(f"stored assigned question {index} as URL only: {download_error}")
+                elif asset.get("ready"):
+                    avatar_terminal_log(f"stored assigned question {index} as ready HLS stream")
+                else:
+                    avatar_terminal_log(f"stored assigned question {index} as pending HLS stream")
+                prepared["avatar_video"] = avatar_video
+            except Exception as error:
+                last_readiness_warnings = [f"Question {index} attempt {attempt} avatar was not created: {error}"]
+                avatar_terminal_log(last_readiness_warnings[0])
+                continue
 
-        if not (prepared.get("avatar_video") or {}).get("ready"):
-            warnings.append(f"Question {index} avatar did not become playable in time. Stopping avatar preparation here.")
+            if not (prepared.get("avatar_video") or {}).get("ready"):
+                if progress_callback:
+                    progress_callback(
+                        index - 1,
+                        total,
+                        f"Waiting for question {index} avatar to become playable "
+                        f"(attempt {attempt}/{generation_attempts})...",
+                    )
+                ready_questions, readiness_warnings = wait_until_question_avatars_ready(
+                    [prepared],
+                    timeout_seconds=question_wait_seconds,
+                    progress_callback=lambda ready, _total, message, index=index, total=total: progress_callback(
+                        index - 1 + ready,
+                        total,
+                        message.replace("1/1", f"{ready}/1") if message else f"Waiting for question {index}...",
+                    )
+                    if progress_callback
+                    else None,
+                )
+                last_readiness_warnings = readiness_warnings
+                prepared = ready_questions[0]
+
+            if (prepared.get("avatar_video") or {}).get("ready"):
+                question_ready = True
+                break
+
+            if attempt < generation_attempts:
+                avatar_terminal_log(
+                    f"question {index} avatar URLs stayed unavailable; retrying with a fresh Simli generation"
+                )
+                time.sleep(2)
+
+        if not question_ready:
+            warnings.extend(f"Question {index}: {warning}" for warning in last_readiness_warnings)
+            warnings.append(f"Question {index} avatar did not become playable after {generation_attempts} generation attempt(s).")
             prepared_questions.append(prepared)
             break
 

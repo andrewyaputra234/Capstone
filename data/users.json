@@ -20,6 +20,14 @@
       "password_hash": "51874f07135eb95c2e9d841c057adf5e3cbc58e543653c24bf7d591a4a949cf4",
       "password_salt": "a7e48272ce77ca9e759d2fe0e941229c",
       "password_algorithm": "pbkdf2_sha256"
+    },
+    {
+      "id": "003",
+      "name": "003",
+      "registered_at": "2026-06-29T09:40:32.966371+00:00",
+      "password_hash": "5021eacc7ba6eb34f31723fb057fc85257a7ffa8cfdacee7b12040bfe1db75f5",
+      "password_salt": "904bcb328a73c68e6503aa8878053490",
+      "password_algorithm": "pbkdf2_sha256"
     }
   ],
   "examiners": [
