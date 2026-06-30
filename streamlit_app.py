@@ -977,9 +977,9 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bo
         <div class="avatar-pop-card">
           <div class="avatar-pop-header">
             <span>AI Examiner</span>
-            <span class="avatar-pop-label">Speaking</span>
+            <span class="avatar-pop-label">Ready</span>
           </div>
-          <video id="{safe_id}" class="avatar-pop-video" controls autoplay playsinline></video>
+          <video id="{safe_id}" class="avatar-pop-video" controls preload="metadata" playsinline></video>
           <div class="avatar-pop-subtitle">{subtitle_html}</div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -987,18 +987,14 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bo
           const video = document.getElementById({safe_id_json});
           const src = {url_json};
           const isHls = {is_hls_json};
-          const playWhenReady = () => video.play().catch(() => {{}});
           if (!isHls) {{
             video.src = src;
-            video.addEventListener("canplay", playWhenReady, {{ once: true }});
           }} else if (video.canPlayType("application/vnd.apple.mpegurl")) {{
             video.src = src;
-            video.addEventListener("canplay", playWhenReady, {{ once: true }});
           }} else if (window.Hls && window.Hls.isSupported()) {{
             const hls = new Hls();
             hls.loadSource(src);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, playWhenReady);
           }} else {{
             video.outerHTML = '<p style="padding:1rem;color:#203b36;font-family:Segoe UI,sans-serif;">Avatar video is ready, but this browser cannot play the stream.</p>';
           }}
@@ -1076,7 +1072,13 @@ def discard_voice_preview(preview_key: str) -> None:
             continue
 
 
-def capture_student_response(key_suffix: str, submit_label: str, *, allow_skip: bool = True) -> dict | None:
+def capture_student_response(
+    key_suffix: str,
+    submit_label: str,
+    *,
+    allow_skip: bool = True,
+    skip_label: str = "Skip question",
+) -> dict | None:
     """Offer typing or browser microphone recording, returning text plus audio evidence."""
     response_mode_key = f"response_mode_{key_suffix}"
     if st.session_state.get(response_mode_key) not in {"Type response", "Speak into microphone"}:
@@ -1103,7 +1105,7 @@ def capture_student_response(key_suffix: str, submit_label: str, *, allow_skip: 
             )
             columns = st.columns(2) if allow_skip else st.columns(1)
             submitted = columns[0].form_submit_button(submit_label, type="primary", width="stretch")
-            skipped = columns[1].form_submit_button("Skip question", width="stretch") if allow_skip else False
+            skipped = columns[1].form_submit_button(skip_label, width="stretch") if allow_skip else False
         if not submitted and not skipped:
             return None
         if submitted and not text.strip():
@@ -1133,7 +1135,7 @@ def capture_student_response(key_suffix: str, submit_label: str, *, allow_skip: 
         transcribe = columns[0].button(
             "Transcribe recording", type="primary", width="stretch", key=f"transcribe_voice_{key_suffix}"
         )
-        skipped = columns[1].button("Skip question", width="stretch", key=f"skip_voice_{key_suffix}") if allow_skip else False
+        skipped = columns[1].button(skip_label, width="stretch", key=f"skip_voice_{key_suffix}") if allow_skip else False
         if skipped:
             return {"text": "[Skipped question]", "skipped": True, "mode": "voice"}
         if not transcribe:
@@ -1162,7 +1164,7 @@ def capture_student_response(key_suffix: str, submit_label: str, *, allow_skip: 
     columns = st.columns(3) if allow_skip else st.columns(2)
     use_transcript = columns[0].button(submit_label, type="primary", width="stretch", key=f"use_voice_{key_suffix}")
     retry = columns[1].button("Record again", width="stretch", key=f"retry_voice_{key_suffix}")
-    skipped = columns[2].button("Skip question", width="stretch", key=f"skip_review_voice_{key_suffix}") if allow_skip else False
+    skipped = columns[2].button(skip_label, width="stretch", key=f"skip_review_voice_{key_suffix}") if allow_skip else False
     if retry:
         discard_voice_preview(preview_key)
         st.info("Record a replacement answer, then choose Transcribe recording again.")
@@ -2997,7 +2999,7 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         return True
 
     st.markdown("### Reading Aloud")
-    st.caption("Read this passage aloud, record it, review its transcript, then submit before moving on to the three image questions.")
+    st.caption("Read this passage aloud, record it, review its transcript, then submit before moving on to the three image questions. If needed, you may skip this reading-aloud task.")
     st.text_area(
         "Reading passage",
         value=reading.get("text", ""),
@@ -3016,7 +3018,10 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         return True
 
     captured = capture_student_response(
-        f"reading_{assignment['assignment_id']}", "Submit reading aloud", allow_skip=False
+        f"reading_{assignment['assignment_id']}",
+        "Submit reading aloud",
+        allow_skip=True,
+        skip_label="Skip reading aloud",
     )
     if not captured:
         return False
@@ -3024,11 +3029,18 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         reading_criteria = crew.get_reading_criterion_names()
         if not reading_criteria:
             raise ValueError("The selected rubric does not contain a reading-aloud delivery criterion.")
-        evidence = {
-            "audio_evidence": "A student recording was submitted for examiner review.",
-            "delivery_indicators": captured.get("delivery_indicators"),
-            "limitation": "Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.",
-        }
+        if captured.get("skipped"):
+            evidence = {
+                "audio_evidence": "The student skipped the reading-aloud task.",
+                "delivery_indicators": None,
+                "limitation": "No reading-aloud recording was submitted.",
+            }
+        else:
+            evidence = {
+                "audio_evidence": "A student recording was submitted for examiner review.",
+                "delivery_indicators": captured.get("delivery_indicators"),
+                "limitation": "Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.",
+            }
         with st.spinner("AI is preparing a provisional reading-aloud grade..."):
             workflow = crew.run_assessment_workflow(
                 question="Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
@@ -3040,6 +3052,7 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
                 transcription_path=captured.get("transcription_path"),
                 delivery_indicators=captured.get("delivery_indicators"),
                 criterion_names=reading_criteria,
+                skipped=bool(captured.get("skipped")),
             )
         save_reading_submission(
             assignment["assignment_id"],
@@ -3093,11 +3106,11 @@ def render_student_assessment(assignment: dict) -> None:
         st.info("Your assessment session is being prepared.")
         return
 
-    if not render_reading_before_questions(assignment, crew):
-        return
-
     if _finish_if_complete(assignment, crew):
         st.success("Assessment submitted. Your examiner will verify the grades before releasing your final results.")
+        return
+
+    if not render_reading_before_questions(assignment, crew):
         return
 
     question = next((item for item in questions if item.get("id") not in answered_ids), None)
