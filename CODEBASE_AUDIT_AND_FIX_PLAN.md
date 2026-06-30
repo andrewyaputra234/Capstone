@@ -1,6 +1,6 @@
 # Oral Focus codebase audit, progress, and fix plan
 
-Last updated: 2026-06-29  
+Last updated: 2026-06-30  
 Scope: Streamlit student/examiner portal, oral-assessment workflow, assignment persistence, AI grading, avatar examiner integration, testing, and deployment readiness.
 
 ## Current project status
@@ -13,7 +13,7 @@ Overall status: **local prototype working, not yet production-ready**.
 | --- | ---: | --- |
 | Student login and account registration | 90% | Working locally |
 | Examiner login | 85% | Working locally |
-| Examiner assignment creation | 85% | Working, depends on AI/image ingestion |
+| Examiner assignment creation | 88% | Working, depends on AI/image ingestion and avatar provider |
 | Examiner question review/editing | 90% | Working |
 | Student preparation materials page | 90% | Working with timer |
 | Student oral assessment flow | 85% | Working, recently cleaned up |
@@ -21,7 +21,7 @@ Overall status: **local prototype working, not yet production-ready**.
 | AI grading and examiner verification | 90% | Working and persisted |
 | Result release to student | 85% | Working |
 | Delete/reset assessment attempts | 85% | Working |
-| Simli avatar examiner | 65% | Integrated, still provider/browser dependent |
+| Simli avatar examiner | 70% | Integrated with preview/retry, still Simli-provider dependent |
 | UI theme consistency | 80% | Mostly light theme, still needs visual QA |
 | Automated regression tests | 80% | 28 tests passing |
 | Deployment/security readiness | 35% | Needs database/auth/data-retention work |
@@ -66,12 +66,22 @@ Overall status: **local prototype working, not yet production-ready**.
 
 - Simli avatar support is integrated behind environment variables.
 - Avatar generation is presentation-only; app logic still controls the question, grading, and navigation.
-- Main question avatar videos can be warmed up while the student is viewing preparation materials.
-- The assessment loading screen still prepares the next avatar as a backup.
+- Main question avatars are now prepared during examiner assignment review, before the student receives the assessment.
+- Examiner avatar preview was added before final assignment.
+- The preview screen now waits for all question avatars to be playable before showing the final preview.
+- Avatar preparation is now conservative and step-by-step: question 1 must become playable before question 2 starts, then question 3.
+- If a Simli URL repeatedly returns `404 {"error":"File not found"}`, the app can retry by creating a fresh Simli generation for the same question.
+- Main question avatar videos can still be warmed up while the student is viewing preparation materials as a fallback.
+- The assessment loading screen still prepares the next avatar as a backup if no saved playable avatar is available.
 - Avatar videos are cached locally under `data/avatar_videos/`.
 - The video player was changed to a custom embedded MP4 player because some Simli MP4s showed as black `0:00` in Streamlit's default player.
+- Terminal-only avatar diagnostics now show URL readiness status, HTTP status, content type, and `File not found` responses.
 
-Known limitation: guiding-question avatars cannot be preloaded because the guiding question only exists after the student answers.
+Known limitations:
+
+- Guiding-question avatars cannot be preloaded because the guiding question only exists after the student answers.
+- Simli sometimes returns `mp4_url`/`hls_url` before the underlying video file is available. In that case the returned URL may temporarily or persistently respond with `404 {"error":"File not found"}`.
+- Avatar preview reliability is currently limited by Simli URL readiness, not by local question generation.
 
 ### Persistence and data handling
 
@@ -100,6 +110,10 @@ Result: **28 tests OK**.
 | 2026-06-29 | Student assessment page reorganised into clearer steps. | Less scrolling/confusion during assessment. |
 | 2026-06-29 | Avatar videos warm up during preparation materials. | Reduces waiting time during assessment. |
 | 2026-06-29 | Avatar MP4 rendering changed to embedded HTML video. | Avoids black `0:00` Streamlit video issue. |
+| 2026-06-30 | Added examiner avatar preview before assignment. | Examiner can verify avatar playback before students receive the assessment. |
+| 2026-06-30 | Changed avatar creation to safer step-by-step preparation. | Reduces Simli connection resets and avoids half-ready preview pages. |
+| 2026-06-30 | Added Simli URL readiness diagnostics and retry settings. | Terminal logs now reveal `404 File not found`, content type, and retry behavior. |
+| 2026-06-30 | Removed unnecessary post-submit “thank you/recorded response” transition. | Student flow moves forward faster after submit or skip. |
 | 2026-06-26 | Oral-guidance threshold restored. | Good-enough answers move on instead of receiving unnecessary prompts. |
 | 2026-06-26 | `testopenai.py` made manual-only. | Test discovery no longer makes real OpenAI API calls. |
 | 2026-06-26 | Streamlit deprecated `use_container_width` replaced with `width`. | Removes future Streamlit compatibility risk. |
@@ -152,12 +166,27 @@ Current mitigation:
 - Avatar is optional.
 - Questions are still shown as text.
 - Avatar generation is cached.
-- Question avatars warm up during preparation.
+- Question avatars are prepared and previewed before assignment when possible.
+- The preview waits for playable URLs instead of showing broken `File not found` streams.
+- The app retries a fresh Simli generation if a returned URL does not become playable.
+- Question avatars still warm up during preparation as fallback.
+- Developer terminal logs show detailed avatar URL readiness diagnostics.
 
 Remaining work:
 
-- Add clearer avatar failure diagnostics for examiner/developer mode.
-- Consider pre-generating avatar videos when the examiner assigns the assessment, not only when the student opens preparation.
+- Decide whether Simli is reliable enough for the final demo or whether avatar should remain a bonus/toggle feature.
+- Consider switching to a provider/API mode that gives stable completed-video assets instead of temporary URLs.
+- Consider adding a "skip avatar preview and assign text-only" examiner option for demos when Simli is slow.
+
+Recommended `.env` tuning for local testing:
+
+```env
+AVATAR_PREVIEW_PER_QUESTION_WAIT_SECONDS=150
+AVATAR_PREVIEW_GENERATION_ATTEMPTS=2
+AVATAR_PRECREATE_WORKERS=1
+```
+
+Use `AVATAR_PREVIEW_GENERATION_ATTEMPTS=3` only if Simli frequently returns permanent `404 File not found` URLs and the extra wait is acceptable.
 
 ### 5. Full end-to-end UI still needs manual QA
 
@@ -171,7 +200,8 @@ Manual test checklist:
 - Examiner edits AI questions and assigns.
 - Student selects assignment.
 - Student preparation timer starts.
-- Avatar warm-up appears.
+- Examiner avatar preview appears before assignment only after all question avatars are playable.
+- Student preparation page still works if avatar is unavailable.
 - Student enters assessment.
 - Avatar video plays.
 - Student submits answer.
@@ -191,6 +221,10 @@ Manual test checklist:
 - [x] Improve student assessment layout.
 - [x] Add visible examiner submit feedback.
 - [x] Warm up avatar videos during preparation.
+- [x] Add examiner-side avatar preview before final assignment.
+- [x] Add step-by-step avatar preparation and retry for broken Simli URLs.
+- [x] Add terminal diagnostics for Simli URL readiness.
+- [x] Remove unnecessary post-submit thank-you transition.
 - [x] Keep full test suite passing.
 - [ ] Manually QA the complete examiner-to-student-to-results flow.
 - [ ] Capture screenshots for report/demo documentation.
@@ -198,7 +232,8 @@ Manual test checklist:
 ### Phase 2 - Improve examiner and student UX
 
 - [ ] Add clearer loading/progress messages during AI question generation.
-- [ ] Add examiner preview of assigned student experience.
+- [x] Add examiner preview of assigned avatar questions.
+- [ ] Add examiner option to assign text-only if avatar provider is slow.
 - [ ] Add a compact avatar/video mode to reduce scrolling.
 - [ ] Add clearer "awaiting examiner verification" student result screen.
 - [ ] Add a dashboard count of pending reviews.

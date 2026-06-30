@@ -1431,6 +1431,653 @@
       ],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "bb2a26ef3197": {
+      "assignment_id": "bb2a26ef3197",
+      "student_id": "002",
+      "student_name": "002",
+      "title": "PSLE English Oral Practice3245",
+      "subject": "assignment_002_7be40245",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-06-30T06:23:43.460623+00:00",
+      "updated_at": "2026-06-30T06:24:37.769563+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "o_1ivs60ia8816jac11v3k6v9khc.png",
+        "path": "data\\input\\assignment_002_7be40245\\o_1ivs60ia8816jac11v3k6v9khc.png",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_002_7be40245\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what you think is happening in this birthday celebration?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_7be40245_images\\page_1.png",
+          "visual_context": "The image shows a joyful birthday celebration with four people gathered around a chocolate cake. There is a 'Happy Birthday!' sign on the cake, and several lit candles. A young woman and a young man are both holding a knife, ready to cut the cake. An elderly woman between them is smiling, and there’s a young boy who seems ready to assist. They are sitting on a couch, with several cushions in the background.",
+          "generated_text": "Can you describe what you think is happening in this birthday celebration?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Nw==/95f3b62b-ae2b-4aa4-9d77-ea1d62dbb8a4/output.m3u8",
+            "created_at": "2026-06-30T14:20:22",
+            "asset_key": "9c31273c7cec41acbef9e49185e9cefb_q1_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4Nw==/95f3b62b-ae2b-4aa4-9d77-ea1d62dbb8a4/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Nw==/95f3b62b-ae2b-4aa4-9d77-ea1d62dbb8a4/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 2,
+          "text": "What kinds of occasions do you gather with your family and friends, similar to what you see in the image?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_7be40245_images\\page_1.png",
+          "visual_context": "The image shows a joyful birthday celebration with four people gathered around a chocolate cake. There is a 'Happy Birthday!' sign on the cake, and several lit candles. A young woman and a young man are both holding a knife, ready to cut the cake. An elderly woman between them is smiling, and there’s a young boy who seems ready to assist. They are sitting on a couch, with several cushions in the background.",
+          "generated_text": "What kinds of occasions do you gather with your family and friends, similar to what you see in the image?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Nw==/1b91ae90-3779-4608-b896-05ea04cb1df0/output.m3u8",
+            "created_at": "2026-06-30T14:20:30",
+            "asset_key": "9c31273c7cec41acbef9e49185e9cefb_q2_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4Nw==/1b91ae90-3779-4608-b896-05ea04cb1df0/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Nw==/1b91ae90-3779-4608-b896-05ea04cb1df0/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 3,
+          "text": "Why do you think celebrating birthdays with loved ones is important?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_7be40245_images\\page_1.png",
+          "visual_context": "The image shows a joyful birthday celebration with four people gathered around a chocolate cake. There is a 'Happy Birthday!' sign on the cake, and several lit candles. A young woman and a young man are both holding a knife, ready to cut the cake. An elderly woman between them is smiling, and there’s a young boy who seems ready to assist. They are sitting on a couch, with several cushions in the background.",
+          "generated_text": "Why do you think celebrating birthdays with loved ones is important?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Nw==/8dd12fab-994d-4f16-9711-a928ea5611a0/output.m3u8",
+            "created_at": "2026-06-30T14:21:02",
+            "asset_key": "9c31273c7cec41acbef9e49185e9cefb_q3_attempt2",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4Nw==/8dd12fab-994d-4f16-9711-a928ea5611a0/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4Nw==/8dd12fab-994d-4f16-9711-a928ea5611a0/output.m3u8",
+            "generation_attempt": 2
+          }
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "4ccfb298ab7e": {
+      "assignment_id": "4ccfb298ab7e",
+      "student_id": "002",
+      "student_name": "002",
+      "title": "PSLE English Oral Practice176543",
+      "subject": "assignment_002_bf7c7f80",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-06-30T06:40:05.377150+00:00",
+      "updated_at": "2026-06-30T06:48:52.505024+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "o_1ivs60ia8816jac11v3k6v9khc.png",
+        "path": "data\\input\\assignment_002_bf7c7f80\\o_1ivs60ia8816jac11v3k6v9khc.png",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_002_bf7c7f80\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "and will be called.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260630_064441_649618be.wav",
+        "transcription_path": "data\\sessions\\speech_20260630_064441_649618be.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 1.3,
+          "words_per_minute": 190.5,
+          "pitch_range_semitones": 12.2,
+          "notes": [
+            "Pace appears fast; check whether words remain clear and well-paced.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "and will be called.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.3, \"words_per_minute\": 190.5, \"pitch_range_semitones\": 12.2, \"notes\": [\"Pace appears fast; check whether words remain clear and well-paced.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "and will be called.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on your reading delivery, it was mostly clear and fluent. However, there were some minor issues with pronunciation, pacing, or expression that can be improved upon. Remember to pay attention to these areas in future practice sessions. A helpful sentence starter you can use next time is \"The story began with...\". Keep practicing and paying attention to your pronunciation and expression for even better results next time.",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "and will be called.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.3, \"words_per_minute\": 190.5, \"pitch_range_semitones\": 12.2, \"notes\": [\"Pace appears fast; check whether words remain clear and well-paced.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "and will be called.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on your reading delivery, it was mostly clear and fluent. However, there were some minor issues with pronunciation, pacing, or expression that can be improved upon. Remember to pay attention to these areas in future practice sessions. A helpful sentence starter you can use next time is \"The story began with...\". Keep practicing and paying attention to your pronunciation and expression for even better results next time.",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Well done on your reading delivery! Your reading was mostly clear and fluent, showing good pace and expression. However, there were some minor issues with pronunciation, pacing, or expression that you can work on to further enhance your oral skills. Remember, even small improvements can make a big difference. A helpful sentence starter for your next attempt is \"The story began with...\" Try using this to kickstart your reading with confidence and expression. Keep practicing, pay attention to details, and focus on improving your pronunciation and expression for even better results next time. You're making progress, keep up the good work!",
+        "submitted_at": "2026-06-30T06:45:23.596295+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe how the people in the picture might be feeling during this birthday celebration?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_bf7c7f80_images\\page_1.png",
+          "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+          "generated_text": "Can you describe how the people in the picture might be feeling during this birthday celebration?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3NA==/24ebdb40-75f4-4f4f-b2f3-1acccc3b71b0/output.m3u8",
+            "created_at": "2026-06-30T14:37:26",
+            "asset_key": "70d9daff38de4c3e983cd2b5b310ead0_q1_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA3NA==/24ebdb40-75f4-4f4f-b2f3-1acccc3b71b0/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3NA==/24ebdb40-75f4-4f4f-b2f3-1acccc3b71b0/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 2,
+          "text": "What do you think makes a birthday celebration enjoyable for everyone involved?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_bf7c7f80_images\\page_1.png",
+          "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+          "generated_text": "What do you think makes a birthday celebration enjoyable for everyone involved?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA2OQ==/aae1a72b-38ec-4294-aae9-a74cce67c0cc/output.m3u8",
+            "created_at": "2026-06-30T14:37:36",
+            "asset_key": "70d9daff38de4c3e983cd2b5b310ead0_q2_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA2OQ==/aae1a72b-38ec-4294-aae9-a74cce67c0cc/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA2OQ==/aae1a72b-38ec-4294-aae9-a74cce67c0cc/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 3,
+          "text": "Have you ever helped in preparing for a birthday party like the one shown? Tell me about it.",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_bf7c7f80_images\\page_1.png",
+          "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+          "generated_text": "Have you ever helped in preparing for a birthday party like the one shown? Tell me about it.",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA2OQ==/9a1aba00-dac2-43d9-9f8a-ffe67480062b/output.m3u8",
+            "created_at": "2026-06-30T14:38:12",
+            "asset_key": "70d9daff38de4c3e983cd2b5b310ead0_q3_attempt2",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA2OQ==/9a1aba00-dac2-43d9-9f8a-ffe67480062b/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA2OQ==/9a1aba00-dac2-43d9-9f8a-ffe67480062b/output.m3u8",
+            "generation_attempt": 2
+          }
+        }
+      ],
+      "reading_completed_at": "2026-06-30T06:45:23.596322+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "7ba17811b932",
+          "question_id": 1,
+          "question": "Can you describe how the people in the picture might be feeling during this birthday celebration?",
+          "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+          "student_response": "First response: Okay, I'm here to seek your permission for the clues to actually...\n\nResponse after examiner follow-up: So he got very angry.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260630_064734_cc06b571.wav",
+          "transcription_path": "data\\sessions\\speech_20260630_064734_cc06b571.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 4.3,
+            "words_per_minute": 69.4,
+            "pitch_range_semitones": 12.0,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "c703d099",
+          "created_at": "2026-06-30T06:48:03.266733+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe how the people in the picture might be feeling during this birthday celebration?",
+            "answer": "First response: Okay, I'm here to seek your permission for the clues to actually...\n\nResponse after examiner follow-up: So he got very angry.",
+            "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's response does not provide a meaningful answer to the prompt.",
+                "evidence": "The student's response does not address the feelings of the people in the picture during the birthday celebration.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and underdeveloped, lacking any clear ideas or elaboration.",
+                "evidence": "First response: Okay, I'm here to seek your permission for the clues to actually...",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response lacks clarity and coherence, with frequent language errors affecting understanding.",
+                "evidence": "First response: Okay, I'm here to seek your permission for the clues to actually...",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's answer does not demonstrate any meaningful interaction with the assessor or the question. The response provided is not relevant to the prompt.",
+                "evidence": "First response: Okay, I'm here to seek your permission for the clues to actually... Response after examiner follow-up: So he got very angry.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Your willingness to engage in the conversation is a strength I appreciate. However, your response did not address the feelings of the people in the picture during the birthday celebration, so there was a mismatch with the visual stimulus facts. The biggest area for improvement is providing more details and explanations in your responses to fully answer the prompt. Next time, you could start your sentence with \"I believe the people in the picture might be feeling...\" to help structure your response. Let's work on expanding your answers and staying focused on the given stimulus in our future practice sessions.",
+            "total_score": 3,
+            "max_score": 25,
+            "percentage": 12.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe how the people in the picture might be feeling during this birthday celebration?",
+            "answer": "First response: Okay, I'm here to seek your permission for the clues to actually...\n\nResponse after examiner follow-up: So he got very angry.",
+            "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's response does not provide a meaningful answer to the prompt.",
+                "evidence": "The student's response does not address the feelings of the people in the picture during the birthday celebration.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and underdeveloped, lacking any clear ideas or elaboration.",
+                "evidence": "First response: Okay, I'm here to seek your permission for the clues to actually...",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response lacks clarity and coherence, with frequent language errors affecting understanding.",
+                "evidence": "First response: Okay, I'm here to seek your permission for the clues to actually...",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student's answer does not demonstrate any meaningful interaction with the assessor or the question. The response provided is not relevant to the prompt.",
+                "evidence": "First response: Okay, I'm here to seek your permission for the clues to actually... Response after examiner follow-up: So he got very angry.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Your willingness to engage in the conversation is a strength I appreciate. However, your response did not address the feelings of the people in the picture during the birthday celebration, so there was a mismatch with the visual stimulus facts. The biggest area for improvement is providing more details and explanations in your responses to fully answer the prompt. Next time, you could start your sentence with \"I believe the people in the picture might be feeling...\" to help structure your response. Let's work on expanding your answers and staying focused on the given stimulus in our future practice sessions.",
+            "total_score": 3,
+            "max_score": 25,
+            "percentage": 12.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Your willingness to engage in the conversation is a strength I appreciate. However, your response did not address the feelings of the people in the picture during the birthday celebration, so there was a mismatch with the visual stimulus facts. The biggest area for improvement is providing more details and explanations in your responses to fully answer the prompt. Next time, you could start your sentence with \"I believe the people in the picture might be feeling...\" to help structure your response. Let's work on expanding your answers and staying focused on the given stimulus in our future practice sessions. Your effort to participate is commendable. To improve, focus on providing more details and explanations that directly address the given prompt. Remember to structure your response by starting with \"I believe the people in the picture might be feeling...\" to help guide your answer. Keep practicing, and you will see progress in your oral responses.",
+          "guided_attempt": {
+            "original_response": "Okay, I'm here to seek your permission for the clues to actually...",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260630_064618_fd505ed1.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260630_064618_fd505ed1.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 4.9,
+              "words_per_minute": 148.1,
+              "pitch_range_semitones": 18.0,
+              "notes": [
+                "Pace falls within a broad conversational range; listen to the recording for clarity.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "Can you try describing how the people in the picture might be feeling during the birthday celebration?",
+            "reason": "The student's response was unrelated to the prompt and did not address the question.",
+            "created_at": "2026-06-30T06:47:01.250069+00:00",
+            "follow_up_response": "So he got very angry."
+          }
+        },
+        {
+          "result_id": "870f062f617b",
+          "question_id": 2,
+          "question": "What do you think makes a birthday celebration enjoyable for everyone involved?",
+          "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c703d099",
+          "created_at": "2026-06-30T06:48:34.644902+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "What do you think makes a birthday celebration enjoyable for everyone involved?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "What do you think makes a birthday celebration enjoyable for everyone involved?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "22ab6db761d1",
+          "question_id": 3,
+          "question": "Have you ever helped in preparing for a birthday party like the one shown? Tell me about it.",
+          "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+          "student_response": "[Skipped question]",
+          "response_mode": "text",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "c703d099",
+          "created_at": "2026-06-30T06:48:51.831577+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Have you ever helped in preparing for a birthday party like the one shown? Tell me about it.",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Have you ever helped in preparing for a birthday party like the one shown? Tell me about it.",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of four people sitting on a couch around a table with a birthday cake on it. There is a young boy on the left, a woman and an elderly lady in the center, and a young man on the right. They are all reaching towards the cake, which is chocolate with several lit candles and a card that says 'HAPPY BIRTHDAY!'. The setting appears to be a living room with a sofa in the background and various cushions.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

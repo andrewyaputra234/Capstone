@@ -632,25 +632,28 @@ def cache_avatar_video_file(url: str) -> Path:
     return path
 
 
-def avatar_url_is_ready(
+def probe_avatar_url(
     url: str,
     *,
     label: str = "avatar",
     timeout_seconds: float = 5.0,
     poll_interval: float = 1.0,
-) -> bool:
-    """Return True only when a saved Simli URL currently serves video/playlist data."""
+) -> dict:
+    """Probe a saved Simli URL and describe whether it currently serves playable media."""
     if not url:
-        return False
+        return {"ready": False, "file_not_found": False, "checked": False}
 
     import requests
 
     deadline = time.monotonic() + timeout_seconds
     attempt = 0
+    saw_file_not_found = False
+    checked = False
     while time.monotonic() <= deadline:
         attempt += 1
         try:
             with requests.get(url, timeout=10, stream=True) as response:
+                checked = True
                 content_type = response.headers.get("Content-Type", "").lower()
                 try:
                     preview = next(response.iter_content(chunk_size=128), b"").strip()
@@ -665,11 +668,13 @@ def avatar_url_is_ready(
                     avatar_terminal_log(
                         f"{label} URL ready after poll {attempt}: status={response.status_code}, content_type={content_type or 'unknown'}"
                     )
-                    return True
+                    return {"ready": True, "file_not_found": False, "checked": True}
                 try:
                     preview_text = preview[:80].decode("utf-8", errors="replace")
                 except Exception:
                     preview_text = repr(preview[:40])
+                if response.status_code == 404 and "File not found" in preview_text:
+                    saw_file_not_found = True
                 avatar_terminal_log(
                     f"{label} URL still pending; "
                     f"poll={attempt}, status={response.status_code}, "
@@ -678,7 +683,25 @@ def avatar_url_is_ready(
         except requests.RequestException as error:
             avatar_terminal_log(f"{label} URL poll {attempt} request error: {error}")
         time.sleep(poll_interval)
-    return False
+    return {"ready": False, "file_not_found": saw_file_not_found, "checked": checked}
+
+
+def avatar_url_is_ready(
+    url: str,
+    *,
+    label: str = "avatar",
+    timeout_seconds: float = 5.0,
+    poll_interval: float = 1.0,
+) -> bool:
+    """Return True only when a saved Simli URL currently serves video/playlist data."""
+    return bool(
+        probe_avatar_url(
+            url,
+            label=label,
+            timeout_seconds=timeout_seconds,
+            poll_interval=poll_interval,
+        ).get("ready")
+    )
 
 
 def refresh_avatar_video_reference(avatar_video: dict | None) -> dict:
@@ -706,11 +729,19 @@ def refresh_avatar_video_reference(avatar_video: dict | None) -> dict:
             continue
         seen_urls.add(url)
         candidate_urls.append((label, url))
+    file_not_found_count = 0
+    checked_count = 0
     for label, url in candidate_urls:
-        if not avatar_url_is_ready(url, label=label, timeout_seconds=4.0):
+        probe = probe_avatar_url(url, label=label, timeout_seconds=4.0)
+        if probe.get("checked"):
+            checked_count += 1
+        if probe.get("file_not_found"):
+            file_not_found_count += 1
+        if not probe.get("ready"):
             continue
         refreshed["source_url"] = url
         refreshed["ready"] = True
+        refreshed.pop("terminal_file_not_found", None)
         if ".m3u8" in url.lower():
             refreshed["kind"] = "hls"
             return refreshed
@@ -724,6 +755,7 @@ def refresh_avatar_video_reference(avatar_video: dict | None) -> dict:
         return refreshed
 
     refreshed["ready"] = False
+    refreshed["terminal_file_not_found"] = bool(candidate_urls and checked_count == len(candidate_urls) and file_not_found_count == len(candidate_urls))
     if refreshed.get("kind") in {"hls", "mp4"}:
         refreshed["kind"] = f"{refreshed['kind']}_pending"
     return refreshed
@@ -744,6 +776,7 @@ def wait_until_question_avatars_ready(
         ready_count = 0
         refreshed_questions: list[dict] = []
         pending_numbers: list[str] = []
+        terminal_file_not_found_numbers: list[str] = []
 
         for index, question in enumerate(questions, 1):
             refreshed = {**question}
@@ -753,6 +786,8 @@ def wait_until_question_avatars_ready(
                 ready_count += 1
             else:
                 pending_numbers.append(str(index))
+                if avatar_video.get("terminal_file_not_found"):
+                    terminal_file_not_found_numbers.append(str(index))
             refreshed_questions.append(refreshed)
 
         questions = refreshed_questions
@@ -765,6 +800,13 @@ def wait_until_question_avatars_ready(
             )
 
         if ready_count == total:
+            return questions, warnings
+
+        if pending_numbers and set(terminal_file_not_found_numbers) == set(pending_numbers):
+            warnings.append(
+                "Avatar URLs returned `404 File not found` for every pending candidate. "
+                f"Pending question(s): {', '.join(pending_numbers)}."
+            )
             return questions, warnings
 
         if time.monotonic() >= deadline:
@@ -2837,20 +2879,8 @@ def render_assessment_loading(assignment: dict) -> None:
         (item for item in assignment.get("questions", []) if item.get("id") not in answered_ids),
         None,
     )
-    if next_question:
-        collect_avatar_preload_results()
-        clean_text, avatar_cache_key = avatar_cache_key_for(
-            next_question.get("text", ""),
-            question_avatar_cache_key(assignment["assignment_id"], next_question),
-        )
-        cache = st.session_state.setdefault("simli_avatar_cache", {})
-        futures: dict[str, Future] = st.session_state.setdefault("simli_avatar_futures", {})
-        if clean_text and not cache.get(avatar_cache_key) and avatar_cache_key not in futures:
-            queue_examiner_avatar_preload(
-                next_question.get("text", ""),
-                cache_key=question_avatar_cache_key(assignment["assignment_id"], next_question),
-            )
-    else:
+    collect_avatar_preload_results()
+    if not next_question:
         time.sleep(0.4)
     st.session_state.preparation_complete = True
     st.session_state.student_portal_stage = "assessment"
@@ -2860,6 +2890,16 @@ def render_assessment_loading(assignment: dict) -> None:
 def question_avatar_cache_key(assignment_id: str, question: dict) -> str:
     question_id = str(question.get("id", ""))
     return f"{assignment_id}_{question_id}_question"
+
+
+def question_has_saved_avatar(question: dict) -> bool:
+    avatar_video = question.get("avatar_video") or {}
+    if not avatar_video:
+        return False
+    path = avatar_video.get("path")
+    if path and Path(path).exists() and is_probably_mp4(Path(path)):
+        return True
+    return bool(avatar_video.get("ready") and avatar_video.get("source_url"))
 
 
 def avatar_preload_entries(assignment: dict) -> list[dict]:
@@ -2888,22 +2928,17 @@ def avatar_preload_entries(assignment: dict) -> list[dict]:
 
 @st.fragment(run_every=12)
 def render_examiner_avatar_warmup(assignment: dict) -> None:
-    """Prepare known question avatars while the student is viewing materials."""
-    if not simli_avatar_requested():
-        return
-    try:
-        from simli_avatar import load_config
-    except Exception:
-        return
-    if not load_config():
-        st.caption("Examiner video warm-up is enabled but avatar credentials are not fully configured.")
-        return
-
+    """Only collect already-running avatar jobs; do not create new avatars during student prep."""
     collect_avatar_preload_results()
-    for entry in avatar_preload_entries(assignment):
-        if entry["ready"] or entry["error"]:
-            continue
-        queue_examiner_avatar_preload(entry["text"], cache_key=entry["cache_key"])
+    saved_count = sum(1 for question in assignment.get("questions", []) if question_has_saved_avatar(question))
+    total = len(assignment.get("questions", []))
+    if total and saved_count == total:
+        st.caption("Examiner avatar videos are already prepared for this assessment.")
+    elif total:
+        st.caption(
+            f"{saved_count}/{total} examiner avatar video(s) were pre-prepared. "
+            "Any missing avatar will fall back to the written question during assessment."
+        )
 
 
 def render_student_materials(assignment: dict) -> None:
@@ -3387,12 +3422,8 @@ def render_student_portal() -> None:
         render_student_results(assignment)
         return
     if st.session_state.preparation_complete or st.session_state.student_portal_stage == "assessment":
-        st.info("Preparation materials are locked. Continue with the assessment or view results.")
-        assessment_tab, results_tab = st.tabs(["Take assessment", "Results"])
-        with assessment_tab:
-            render_student_assessment(assignment)
-        with results_tab:
-            render_student_results(assignment)
+        st.info("Preparation materials are locked. Continue with the assessment.")
+        render_student_assessment(assignment)
     else:
         render_preparation_timer()
         render_student_materials(assignment)
