@@ -1039,6 +1039,22 @@ def render_recorded_response(result: dict) -> None:
     render_delivery_indicators(result.get("delivery_indicators"))
 
 
+def render_examiner_feedback_note(review: dict | None) -> None:
+    """Show the examiner's typed feedback in the released student results view."""
+    note = str((review or {}).get("note") or "").strip()
+    if not note:
+        return
+    st.markdown(
+        f"""
+        <div class="assessment-help-card">
+            <strong>Examiner feedback:</strong><br>
+            {html_escape(note)}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def render_delivery_indicators(indicators: dict | None) -> None:
     if not indicators:
         return
@@ -3337,6 +3353,7 @@ def render_student_results(assignment: dict) -> None:
     if reading_submission and (reading_submission.get("final_grading") or reading_submission.get("ai_grading")):
         with st.expander("Reading aloud", expanded=True):
             render_grading_result(reading_submission.get("final_grading") or reading_submission.get("ai_grading"))
+            render_examiner_feedback_note(reading_submission.get("examiner_review"))
     results = assignment.get("results", [])
     if not results:
         st.info("Submit an image-question response to see its AI grade here.")
@@ -3348,6 +3365,7 @@ def render_student_results(assignment: dict) -> None:
             render_grading_result(result.get("final_grading") or result.get("ai_grading") or {})
             if result.get("examiner_review"):
                 st.caption("An examiner has verified or adjusted this grade.")
+                render_examiner_feedback_note(result.get("examiner_review"))
 
 
 def render_student_portal() -> None:

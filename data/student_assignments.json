@@ -2674,6 +2674,229 @@
       ],
       "results_released_at": "2026-06-30T07:20:01.231194+00:00",
       "results_released_by": "001"
+    },
+    "e398287e867e": {
+      "assignment_id": "e398287e867e",
+      "student_id": "002",
+      "student_name": "002",
+      "title": "PSLE English Oral Practice69",
+      "subject": "assignment_002_e7361912",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-01T01:52:37.788335+00:00",
+      "updated_at": "2026-07-01T01:59:20.587586+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "o_1ivs60ia8816jac11v3k6v9khc.png",
+        "path": "data\\input\\assignment_002_e7361912\\o_1ivs60ia8816jac11v3k6v9khc.png",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what is happening in this picture and how the people might be feeling?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_e7361912_images\\page_1.png",
+          "visual_context": "The image shows a group of four people gathered around a birthday cake. The cake is chocolate with a sign that reads 'HAPPY BIRTHDAY!' and has several lit candles on it. An elderly woman, sitting on a couch, is smiling beside a young girl and a young boy who are both reaching over to hold a knife together to cut the cake. Another young boy is standing nearby, holding a plate. There are cushioned pillows behind them on the couch, and other people can be seen in the background.",
+          "generated_text": "Can you describe what is happening in this picture and how the people might be feeling?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4MA==/1530f0ac-027e-42d0-8372-ea07de12f0df/output.m3u8",
+            "created_at": "2026-07-01T09:49:30",
+            "asset_key": "18325ecd9a3f498c9d7cb25e6650d646_q1_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4MA==/1530f0ac-027e-42d0-8372-ea07de12f0df/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4MA==/1530f0ac-027e-42d0-8372-ea07de12f0df/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 2,
+          "text": "Have you ever celebrated a birthday with your family or friends? What did you do?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_e7361912_images\\page_1.png",
+          "visual_context": "The image shows a group of four people gathered around a birthday cake. The cake is chocolate with a sign that reads 'HAPPY BIRTHDAY!' and has several lit candles on it. An elderly woman, sitting on a couch, is smiling beside a young girl and a young boy who are both reaching over to hold a knife together to cut the cake. Another young boy is standing nearby, holding a plate. There are cushioned pillows behind them on the couch, and other people can be seen in the background.",
+          "generated_text": "Have you ever celebrated a birthday with your family or friends? What did you do?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3MA==/312b9066-d9b8-49ca-b295-e29974eb8d42/output.m3u8",
+            "created_at": "2026-07-01T09:49:40",
+            "asset_key": "18325ecd9a3f498c9d7cb25e6650d646_q2_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA3MA==/312b9066-d9b8-49ca-b295-e29974eb8d42/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3MA==/312b9066-d9b8-49ca-b295-e29974eb8d42/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 3,
+          "text": "What do you think makes birthdays special for people?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_002_e7361912_images\\page_1.png",
+          "visual_context": "The image shows a group of four people gathered around a birthday cake. The cake is chocolate with a sign that reads 'HAPPY BIRTHDAY!' and has several lit candles on it. An elderly woman, sitting on a couch, is smiling beside a young girl and a young boy who are both reaching over to hold a knife together to cut the cake. Another young boy is standing nearby, holding a plate. There are cushioned pillows behind them on the couch, and other people can be seen in the background.",
+          "generated_text": "What do you think makes birthdays special for people?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA5Mg==/c9d7599c-6d73-4809-9263-cc44969ac796/output.m3u8",
+            "created_at": "2026-07-01T09:49:52",
+            "asset_key": "18325ecd9a3f498c9d7cb25e6650d646_q3_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA5Mg==/c9d7599c-6d73-4809-9263-cc44969ac796/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA5Mg==/c9d7599c-6d73-4809-9263-cc44969ac796/output.m3u8",
+            "generation_attempt": 1
+          }
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "1b076c65d735",
+          "question_id": 1,
+          "question": "Can you describe what is happening in this picture and how the people might be feeling?",
+          "visual_context": "The image shows a group of four people gathered around a birthday cake. The cake is chocolate with a sign that reads 'HAPPY BIRTHDAY!' and has several lit candles on it. An elderly woman, sitting on a couch, is smiling beside a young girl and a young boy who are both reaching over to hold a knife together to cut the cake. Another young boy is standing nearby, holding a plate. There are cushioned pillows behind them on the couch, and other people can be seen in the background.",
+          "student_response": "I think everyone is having a good time. I think it's a birthday party.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260701_015832_6a71412b.wav",
+          "transcription_path": "data\\sessions\\speech_20260701_015832_6a71412b.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 7.1,
+            "words_per_minute": 118.6,
+            "pitch_range_semitones": 7.6,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "fb063232",
+          "created_at": "2026-07-01T01:59:20.582321+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe what is happening in this picture and how the people might be feeling?",
+            "answer": "I think everyone is having a good time. I think it's a birthday party.",
+            "visual_context": "The image shows a group of four people gathered around a birthday cake. The cake is chocolate with a sign that reads 'HAPPY BIRTHDAY!' and has several lit candles on it. An elderly woman, sitting on a couch, is smiling beside a young girl and a young boy who are both reaching over to hold a knife together to cut the cake. Another young boy is standing nearby, holding a plate. There are cushioned pillows behind them on the couch, and other people can be seen in the background.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant, mentioning a birthday party and people having a good time. However, more specific details from the stimulus could be included to strengthen the response.",
+                "evidence": "The student mentions that it's a birthday party and that everyone is having a good time.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea that everyone is having a good time at a birthday party, but lacks elaboration or specific examples.",
+                "evidence": "The student mentions that everyone is having a good time and identifies it as a birthday party.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student uses simple language to describe the situation in the picture.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, indicating that everyone is having a good time and it's a birthday party.",
+                "evidence": "I think everyone is having a good time. I think it's a birthday party.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for identifying that everyone is having a good time in the picture. However, you missed mentioning the birthday cake and the candles, which are important details in the image. To improve, try to include specific details from the picture in your response. For example, you could say, \"I see a chocolate cake with candles and people celebrating.\" Keep practicing using more descriptive language to paint a clearer picture for your listener. Great effort, let's work on adding more details next time to make your response even stronger.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what is happening in this picture and how the people might be feeling?",
+            "answer": "I think everyone is having a good time. I think it's a birthday party.",
+            "visual_context": "The image shows a group of four people gathered around a birthday cake. The cake is chocolate with a sign that reads 'HAPPY BIRTHDAY!' and has several lit candles on it. An elderly woman, sitting on a couch, is smiling beside a young girl and a young boy who are both reaching over to hold a knife together to cut the cake. Another young boy is standing nearby, holding a plate. There are cushioned pillows behind them on the couch, and other people can be seen in the background.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant, mentioning a birthday party and people having a good time. However, more specific details from the stimulus could be included to strengthen the response.",
+                "evidence": "The student mentions that it's a birthday party and that everyone is having a good time.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea that everyone is having a good time at a birthday party, but lacks elaboration or specific examples.",
+                "evidence": "The student mentions that everyone is having a good time and identifies it as a birthday party.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student uses simple language to describe the situation in the picture.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, indicating that everyone is having a good time and it's a birthday party.",
+                "evidence": "I think everyone is having a good time. I think it's a birthday party.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for identifying that everyone is having a good time in the picture. However, you missed mentioning the birthday cake and the candles, which are important details in the image. To improve, try to include specific details from the picture in your response. For example, you could say, \"I see a chocolate cake with candles and people celebrating.\" Keep practicing using more descriptive language to paint a clearer picture for your listener. Great effort, let's work on adding more details next time to make your response even stronger.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for identifying that everyone is having a good time in the picture. However, you missed mentioning the birthday cake and the candles, which are important details in the image. To improve, try to include specific details from the picture in your response. For example, you could say, \"I see a chocolate cake with candles and people celebrating.\" Keep practicing using more descriptive language to paint a clearer picture for your listener. Great effort, let's work on adding more details next time to make your response even stronger.\n\nScaffolded Follow-up Question or Sentence Starter: \"Can you describe what the birthday cake looks like and what the people are doing around it?\"\n\nEncouragement: Well done for recognizing the happy atmosphere in the picture! Next time, remember to include specific details like the birthday cake and candles to paint a clearer picture for your listener. Keep practicing and adding more descriptive language to make your response even stronger. Great effort, and I encourage you to keep improving your oral responses!"
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }
