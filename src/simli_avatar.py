@@ -53,8 +53,8 @@ def load_config() -> SimliAvatarConfig | None:
         tts_model=os.getenv("SIMLI_TTS_MODEL", "tts-1").strip() or "tts-1",
         tts_voice=os.getenv("SIMLI_TTS_VOICE", "alloy").strip() or "alloy",
         audio_sample_rate=_int_env("SIMLI_AUDIO_SAMPLE_RATE", 24000),
-        mp4_wait_seconds=max(0.0, _float_env("SIMLI_MP4_WAIT_SECONDS", 35.0)),
-        poll_interval_seconds=max(0.5, _float_env("SIMLI_POLL_INTERVAL_SECONDS", 1.5)),
+        mp4_wait_seconds=max(0.0, _float_env("SIMLI_MP4_WAIT_SECONDS", 90.0)),
+        poll_interval_seconds=max(0.5, _float_env("SIMLI_POLL_INTERVAL_SECONDS", 3.0)),
         prefer_hls=_bool_env("SIMLI_PREFER_HLS", True),
     )
 
@@ -148,7 +148,7 @@ def _select_playable_video_url(data: dict[str, Any], *, config: SimliAvatarConfi
     hls_url = data.get("hls_url")
     if config.prefer_hls and hls_url:
         _log("checking HLS stream availability first")
-        if _wait_until_url_available(str(hls_url), timeout_seconds=6.0, poll_interval=config.poll_interval_seconds):
+        if _wait_until_url_available(str(hls_url), timeout_seconds=15.0, poll_interval=config.poll_interval_seconds):
             _log("HLS stream is available")
             return str(hls_url)
         _log("HLS stream was not available yet; checking MP4")
@@ -162,7 +162,7 @@ def _select_playable_video_url(data: dict[str, Any], *, config: SimliAvatarConfi
         _log("MP4 not ready before timeout; falling back if HLS is available")
     if hls_url and not config.prefer_hls:
         _log("checking HLS stream availability")
-        if _wait_until_url_available(str(hls_url), timeout_seconds=8.0, poll_interval=config.poll_interval_seconds):
+        if _wait_until_url_available(str(hls_url), timeout_seconds=15.0, poll_interval=config.poll_interval_seconds):
             _log("HLS stream is available")
             return str(hls_url)
         _log("HLS stream was not available")

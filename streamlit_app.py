@@ -376,7 +376,7 @@ def queue_examiner_avatar_preload(text: str, *, cache_key: str) -> None:
     avatar_terminal_log(f"queued {cache_key}: {clean_text[:90]}")
 
 
-def render_examiner_avatar(text: str, *, cache_key: str) -> None:
+def render_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = False) -> None:
     """Render a Simli examiner avatar for already-selected examiner text.
 
     Simli is intentionally presentation-only: the app still decides the
@@ -408,16 +408,31 @@ def render_examiner_avatar(text: str, *, cache_key: str) -> None:
 
     st.markdown("#### AI examiner")
     if cached:
-        if not render_avatar_video(cached, element_key=f"simli_{avatar_cache_key}", subtitle=clean_text):
+        if not render_avatar_video(
+            cached,
+            element_key=f"simli_{avatar_cache_key}",
+            subtitle=clean_text,
+            auto_play=auto_play,
+        ):
             st.markdown(f"**Examiner says:** {clean_text}")
             if st.button("Reload examiner video", key=f"reload_bad_avatar_{avatar_cache_key}", width="stretch"):
                 st.rerun()
         return
 
     if avatar_cache_key in futures and not futures[avatar_cache_key].done():
-        st.info("The examiner video is still getting ready. You can read the question below while it finishes.")
-        st.markdown(f"**Examiner says:** {clean_text}")
-        if st.button("Load examiner video", key=f"load_avatar_{avatar_cache_key}", width="stretch"):
+        st.markdown(
+            """
+            <div class="prep-loading-card">
+              <div class="prep-loader"></div>
+              <div>
+                <h3>Preparing examiner follow-up</h3>
+                <p>The examiner is getting the guiding question ready.</p>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        if st.button("Refresh examiner follow-up", key=f"load_avatar_{avatar_cache_key}", width="stretch"):
             collect_avatar_preload_results()
             st.rerun()
         return
@@ -438,7 +453,12 @@ def render_examiner_avatar(text: str, *, cache_key: str) -> None:
         else:
             st.caption("Examiner avatar is not configured, so the question is shown as text.")
         return
-    if not render_avatar_video(url, element_key=f"simli_{avatar_cache_key}", subtitle=clean_text):
+    if not render_avatar_video(
+        url,
+        element_key=f"simli_{avatar_cache_key}",
+        subtitle=clean_text,
+        auto_play=auto_play,
+    ):
         st.markdown(f"**Examiner says:** {clean_text}")
         if st.button("Reload examiner video", key=f"reload_new_avatar_{avatar_cache_key}", width="stretch"):
             st.rerun()
@@ -476,10 +496,10 @@ def prepare_persistent_question_avatars(
     warnings: list[str] = []
 
     try:
-        question_wait_seconds = float(os.getenv("AVATAR_PREVIEW_PER_QUESTION_WAIT_SECONDS", "150"))
+        question_wait_seconds = float(os.getenv("AVATAR_PREVIEW_PER_QUESTION_WAIT_SECONDS", "240"))
     except ValueError:
-        question_wait_seconds = 150.0
-    question_wait_seconds = max(30.0, question_wait_seconds)
+        question_wait_seconds = 240.0
+    question_wait_seconds = max(60.0, question_wait_seconds)
 
     try:
         generation_attempts = int(os.getenv("AVATAR_PREVIEW_GENERATION_ATTEMPTS", "2"))
@@ -765,11 +785,17 @@ def refresh_avatar_video_reference(avatar_video: dict | None) -> dict:
 def wait_until_question_avatars_ready(
     questions: list[dict],
     *,
-    timeout_seconds: float = 150.0,
+    timeout_seconds: float = 240.0,
     progress_callback=None,
 ) -> tuple[list[dict], list[str]]:
     """Keep checking prepared avatar URLs until every question is playable or timeout expires."""
-    deadline = time.monotonic() + max(0.0, timeout_seconds)
+    started_at = time.monotonic()
+    deadline = started_at + max(0.0, timeout_seconds)
+    try:
+        file_not_found_retry_seconds = float(os.getenv("AVATAR_FILE_NOT_FOUND_RETRY_SECONDS", "60"))
+    except ValueError:
+        file_not_found_retry_seconds = 60.0
+    file_not_found_retry_seconds = max(15.0, file_not_found_retry_seconds)
     warnings: list[str] = []
     total = len(questions)
 
@@ -804,11 +830,17 @@ def wait_until_question_avatars_ready(
             return questions, warnings
 
         if pending_numbers and set(terminal_file_not_found_numbers) == set(pending_numbers):
-            warnings.append(
-                "Avatar URLs returned `404 File not found` for every pending candidate. "
+            elapsed = time.monotonic() - started_at
+            if elapsed >= file_not_found_retry_seconds:
+                warnings.append(
+                    "`404 File not found` persisted long enough to retry with a fresh Simli generation. "
+                    f"Pending question(s): {', '.join(pending_numbers)}."
+                )
+                return questions, warnings
+            avatar_terminal_log(
+                "Avatar URLs are still returning `404 File not found`; waiting briefly before retrying. "
                 f"Pending question(s): {', '.join(pending_numbers)}."
             )
-            return questions, warnings
 
         if time.monotonic() >= deadline:
             warnings.append(
@@ -820,7 +852,13 @@ def wait_until_question_avatars_ready(
         time.sleep(5)
 
 
-def render_avatar_video_file(path: str | Path, *, element_key: str, subtitle: str = "") -> bool:
+def render_avatar_video_file(
+    path: str | Path,
+    *,
+    element_key: str,
+    subtitle: str = "",
+    auto_play: bool = False,
+) -> bool:
     try:
         local_video = Path(path)
         if not local_video.exists() or not is_probably_mp4(local_video):
@@ -830,6 +868,24 @@ def render_avatar_video_file(path: str | Path, *, element_key: str, subtitle: st
         return False
 
     subtitle_html = html_escape(subtitle)
+    safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", element_key)
+    safe_id_json = json.dumps(safe_id)
+    autoplay_attr = "autoplay" if auto_play else ""
+    autoplay_script = (
+        f"""
+        <script>
+          const video = document.getElementById({safe_id_json});
+          if (video) {{
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === "function") {{
+              playPromise.catch(() => {{}});
+            }}
+          }}
+        </script>
+        """
+        if auto_play
+        else ""
+    )
     components.html(
         f"""
         <style>
@@ -882,15 +938,16 @@ def render_avatar_video_file(path: str | Path, *, element_key: str, subtitle: st
         <div class="avatar-native-card">
           <div class="avatar-native-header">
             <span>AI Examiner</span>
-            <span>Ready</span>
+            <span>{'Speaking' if auto_play else 'Ready'}</span>
           </div>
-          <video class="avatar-native-video" controls preload="auto" playsinline>
+          <video id="{safe_id}" class="avatar-native-video" controls preload="auto" playsinline {autoplay_attr}>
             <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
             Your browser cannot play this examiner video.
           </video>
           <div class="avatar-native-subtitle"><strong>Subtitles:</strong> {subtitle_html}</div>
-          <div class="avatar-native-help">Press the video play button to hear the examiner. Use the fullscreen control if needed.</div>
+          <div class="avatar-native-help">{'If the examiner does not start automatically, press play.' if auto_play else 'Press the video play button to hear the examiner. Use the fullscreen control if needed.'}</div>
         </div>
+        {autoplay_script}
         """,
         height=520,
         scrolling=False,
@@ -911,13 +968,18 @@ def is_probably_mp4(path: Path) -> bool:
     return b"ftyp" in header or header.startswith(b"\x00\x00")
 
 
-def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bool:
+def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_play: bool = False) -> bool:
     subtitle_html = html_escape(subtitle)
     is_hls = ".m3u8" in url.lower()
     if not is_hls:
         try:
             local_video = cache_avatar_video_file(url)
-            return render_avatar_video_file(local_video, element_key=element_key, subtitle=subtitle)
+            return render_avatar_video_file(
+                local_video,
+                element_key=element_key,
+                subtitle=subtitle,
+                auto_play=auto_play,
+            )
         except Exception as error:
             cache = st.session_state.setdefault("simli_avatar_cache", {})
             for cached_key, cached_url in list(cache.items()):
@@ -931,6 +993,7 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bo
     safe_id_json = json.dumps(safe_id)
     url_json = json.dumps(url)
     is_hls_json = json.dumps(is_hls)
+    autoplay_json = json.dumps(auto_play)
     components.html(
         f"""
         <style>
@@ -978,7 +1041,7 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bo
         <div class="avatar-pop-card">
           <div class="avatar-pop-header">
             <span>AI Examiner</span>
-            <span class="avatar-pop-label">Ready</span>
+            <span class="avatar-pop-label">{'Speaking' if auto_play else 'Ready'}</span>
           </div>
           <video id="{safe_id}" class="avatar-pop-video" controls preload="metadata" playsinline></video>
           <div class="avatar-pop-subtitle">{subtitle_html}</div>
@@ -988,14 +1051,26 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "") -> bo
           const video = document.getElementById({safe_id_json});
           const src = {url_json};
           const isHls = {is_hls_json};
+          const shouldAutoplay = {autoplay_json};
+          function tryAutoplay() {{
+            if (!shouldAutoplay || !video) return;
+            video.autoplay = true;
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === "function") {{
+              playPromise.catch(() => {{}});
+            }}
+          }}
           if (!isHls) {{
             video.src = src;
+            video.addEventListener("loadedmetadata", tryAutoplay, {{ once: true }});
           }} else if (video.canPlayType("application/vnd.apple.mpegurl")) {{
             video.src = src;
+            video.addEventListener("loadedmetadata", tryAutoplay, {{ once: true }});
           }} else if (window.Hls && window.Hls.isSupported()) {{
             const hls = new Hls();
             hls.loadSource(src);
             hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, tryAutoplay);
           }} else {{
             video.outerHTML = '<p style="padding:1rem;color:#203b36;font-family:Segoe UI,sans-serif;">Avatar video is ready, but this browser cannot play the stream.</p>';
           }}
@@ -2456,10 +2531,10 @@ def render_create_assignment() -> None:
                     progress_callback=update_avatar_progress,
                 )
                 try:
-                    wait_seconds = float(os.getenv("AVATAR_PREVIEW_WAIT_SECONDS", "150"))
+                    wait_seconds = float(os.getenv("AVATAR_PREVIEW_WAIT_SECONDS", "360"))
                 except ValueError:
-                    wait_seconds = 150.0
-                wait_seconds = max(30.0, wait_seconds)
+                    wait_seconds = 360.0
+                wait_seconds = max(60.0, wait_seconds)
                 final_questions, readiness_warnings = wait_until_question_avatars_ready(
                     final_questions,
                     timeout_seconds=wait_seconds,
@@ -3223,12 +3298,12 @@ def render_student_assessment(assignment: dict) -> None:
             pass
         elif guidance:
             queue_examiner_avatar_preload(examiner_prompt, cache_key=examiner_avatar_cache_key)
-            render_examiner_avatar(examiner_prompt, cache_key=examiner_avatar_cache_key)
+            render_examiner_avatar(examiner_prompt, cache_key=examiner_avatar_cache_key, auto_play=True)
         else:
             render_examiner_avatar(examiner_prompt, cache_key=examiner_avatar_cache_key)
         if guidance:
             st.markdown(
-                '<div class="assessment-help-card">This is your one guiding question. Answer it clearly; your first response and this response will be assessed together.</div>',
+                '<div class="assessment-help-card">Listen to the examiner guiding question, then record your final response. Your first response and this response will be assessed together.</div>',
                 unsafe_allow_html=True,
             )
         else:
@@ -3304,10 +3379,22 @@ def render_student_assessment(assignment: dict) -> None:
                 except Exception as error:
                     st.error(f"The guiding question could not be saved: {error}")
                     return
-                queue_examiner_avatar_preload(
-                    follow_up_question,
-                    cache_key=f"{assignment['assignment_id']}_{question_id}_guidance",
-                )
+                guidance_avatar_cache_key = f"{assignment['assignment_id']}_{question_id}_guidance"
+                if simli_avatar_requested():
+                    st.markdown(
+                        """
+                        <div class="prep-loading-card">
+                          <div class="prep-loader"></div>
+                          <div>
+                            <h3>Preparing examiner guidance</h3>
+                            <p>The examiner is preparing a spoken guiding question for your next attempt.</p>
+                          </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                    with st.spinner("Preparing the examiner's guiding question..."):
+                        prepare_examiner_avatar(follow_up_question, cache_key=guidance_avatar_cache_key)
                 st.session_state.pop(pending_key, None)
                 st.session_state.pop(transition_key, None)
                 st.rerun()
