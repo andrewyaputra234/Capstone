@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
@@ -49,6 +50,28 @@ class PersistenceSafetyTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 SubjectManager(base_path=directory)
             self.assertEqual((base / "subject_config.json").read_text(encoding="utf-8"), "not json")
+
+    def test_subject_config_save_retries_transient_windows_replace_error(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            manager = SubjectManager(base_path=directory)
+            real_replace = __import__("os").replace
+            calls = {"count": 0}
+
+            def flaky_replace(source: Path, target: Path) -> None:
+                calls["count"] += 1
+                if calls["count"] == 1:
+                    raise PermissionError(5, "Access is denied", str(target))
+                real_replace(source, target)
+
+            with patch("subject_manager.os.replace", side_effect=flaky_replace), patch(
+                "subject_manager.time.sleep",
+                return_value=None,
+            ):
+                manager.set_subject_rubric("assignment_retry", "psle_oral_english")
+
+            saved = json.loads((Path(directory) / "subject_config.json").read_text(encoding="utf-8"))
+            self.assertEqual(saved["subjects"]["assignment_retry"]["rubric"], "psle_oral_english")
+            self.assertEqual(calls["count"], 2)
 
 
 if __name__ == "__main__":

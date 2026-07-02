@@ -1,0 +1,211 @@
+{
+  "session_id": "4db26e82",
+  "paper_id": "assignment_123_11231b6c",
+  "student_id": "123",
+  "date_created": "2026-07-01T14:25:37.893698",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-01T14:26:59.093808",
+      "speaker": "avatar",
+      "text": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.5, \"words_per_minute\": 95.2, \"pitch_range_semitones\": 4.4, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}"
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-01T14:26:59.104288",
+      "speaker": "student",
+      "text": "Why I need man",
+      "audio_path": "data\\sessions\\speech_20260701_062552_c1e2047b.wav",
+      "transcription_path": "data\\sessions\\speech_20260701_062552_c1e2047b.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-01T14:29:27.164932",
+      "speaker": "avatar",
+      "text": "Can you describe a memorable birthday celebration you've had and what made it special?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of four people gathered around a coffee table in a living room setting. There is a chocolate cake on the table with lit candles and a decoration that reads 'HAPPY BIRTHDAY!'. A young boy on the left is holding a matchbox, two people in the middle are holding a knife to cut the cake, and a person on the right is watching. Behind them is a couch with several striped cushions."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-01T14:29:27.173396",
+      "speaker": "student",
+      "text": "I went on boat, on a boat.",
+      "audio_path": "data\\sessions\\speech_20260701_062858_0ea80468.wav",
+      "transcription_path": "data\\sessions\\speech_20260701_062858_0ea80468.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-07-01T14:31:05.662457",
+      "speaker": "avatar",
+      "text": "Why do you think celebrating birthdays is important for people?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of four people gathered around a coffee table in a living room setting. There is a chocolate cake on the table with lit candles and a decoration that reads 'HAPPY BIRTHDAY!'. A young boy on the left is holding a matchbox, two people in the middle are holding a knife to cut the cake, and a person on the right is watching. Behind them is a couch with several striped cushions."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-07-01T14:31:05.678435",
+      "speaker": "student",
+      "text": "Not very sure. I did not have one.",
+      "audio_path": "data\\sessions\\speech_20260701_063018_54d102da.wav",
+      "transcription_path": "data\\sessions\\speech_20260701_063018_54d102da.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+        "answer": "Why I need man",
+        "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.5, \"words_per_minute\": 95.2, \"pitch_range_semitones\": 4.4, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 5,
+            "max_score": 20,
+            "feedback": "The reading is unclear and lacks fluency and expression.",
+            "evidence": "The student's reading of 'Why I need man' lacks clarity and fluency.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for attempting the reading aloud task. I noticed that you read with a good pace, which is important for clarity. However, the reading lacked fluency and expression, leading to some unclear parts. Remember to vary your pitch and add emotion to your delivery for a more engaging performance. Next time, try starting with a strong, clear sentence like \"One reason I believe men are important is...\" to set the tone for your response. Keep practicing to improve your oral reading skills.",
+        "total_score": 5,
+        "max_score": 20,
+        "percentage": 25.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Can you describe a memorable birthday celebration you've had and what made it special?",
+        "answer": "I went on boat, on a boat.",
+        "visual_context": "The image shows a group of four people gathered around a coffee table in a living room setting. There is a chocolate cake on the table with lit candles and a decoration that reads 'HAPPY BIRTHDAY!'. A young boy on the left is holding a matchbox, two people in the middle are holding a knife to cut the cake, and a person on the right is watching. Behind them is a couch with several striped cushions.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The response is limited in relevance and lacks specific details from the stimulus.",
+            "evidence": "The student's answer does not directly address the prompt or provide any details from the visual stimulus.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The answer is very brief and lacks elaboration or details.",
+            "evidence": "I went on boat, on a boat.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 1,
+            "max_score": 6,
+            "feedback": "Frequent language errors affect clarity.",
+            "evidence": "I went on boat, on a boat.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "The student's answer does not demonstrate any meaningful interaction with the prompt or the visual stimulus.",
+            "evidence": "The student's response 'I went on boat, on a boat' does not address the prompt about describing a memorable birthday celebration or engage with the visual stimulus of a birthday cake in a living room.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for attempting to respond to the prompt. I see you have a creative mind. However, your answer about going on a boat doesn't match the birthday celebration in the picture with a cake. Your response lacked details and didn't fully address the question. Going forward, try to include more specific information about the birthday celebration and connect it to the visual stimulus. Next time, you can start with \"One memorable birthday celebration I had was...\" to provide a clearer and more relevant response. Let's work on adding more details and staying on topic for our next practice session.",
+        "total_score": 5,
+        "max_score": 25,
+        "percentage": 20.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Why do you think celebrating birthdays is important for people?",
+        "answer": "Not very sure. I did not have one.",
+        "visual_context": "The image shows a group of four people gathered around a coffee table in a living room setting. There is a chocolate cake on the table with lit candles and a decoration that reads 'HAPPY BIRTHDAY!'. A young boy on the left is holding a matchbox, two people in the middle are holding a knife to cut the cake, and a person on the right is watching. Behind them is a couch with several striped cushions.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "The student did not provide a meaningful answer to the prompt.",
+            "evidence": "Not very sure. I did not have one.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The answer is very brief and lacks development.",
+            "evidence": "Not very sure. I did not have one.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "The student's answer does not provide any usable spoken language evidence.",
+            "evidence": "Not very sure. I did not have one.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "The student did not engage in meaningful interaction or provide a response to the question.",
+            "evidence": "Not very sure. I did not have one.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "I appreciate your honesty in admitting that you were not sure about celebrating birthdays. It's important to remember to always refer back to the visual stimulus to provide a relevant answer. In this case, the image clearly shows a birthday celebration with a cake and decorations. Your biggest improvement area is in providing more elaboration and examples to support your answer. Next time, you can start your response with \"I believe celebrating birthdays is important because...\" to help structure your answer. Let's work on developing your ideas further in our next practice session.",
+        "total_score": 2,
+        "max_score": 25,
+        "percentage": 8.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-07-01T14:25:37.900237",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "f2847bb878e7",
+    "component": "student_assessment",
+    "subject": "assignment_123_11231b6c",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

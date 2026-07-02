@@ -144,10 +144,32 @@ class SubjectManager:
             with os.fdopen(fd, "w", encoding="utf-8") as f:
                 json.dump(self.config, f, indent=2)
                 f.write("\n")
-            os.replace(temporary_path, self.config_file)
+            self._replace_config_with_retry(temporary_path)
         finally:
             if temporary_path.exists():
                 temporary_path.unlink(missing_ok=True)
+
+    def _replace_config_with_retry(self, temporary_path: Path) -> None:
+        """Replace the config file, retrying transient Windows file-lock errors."""
+        last_error: OSError | None = None
+        for attempt in range(8):
+            try:
+                os.replace(temporary_path, self.config_file)
+                return
+            except PermissionError as exc:
+                last_error = exc
+            except OSError as exc:
+                if getattr(exc, "winerror", None) not in {5, 32}:
+                    raise
+                last_error = exc
+
+            gc.collect()
+            time.sleep(0.15 * (attempt + 1))
+
+        raise PermissionError(
+            f"Could not update {self.config_file} because Windows is still blocking the file. "
+            "Close any editor/preview pane using it, pause sync/antivirus if needed, and try again."
+        ) from last_error
     
     def set_subject_rubric(self, subject: str, rubric_name: str):
         """Map a rubric to a subject."""

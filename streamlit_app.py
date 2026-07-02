@@ -78,6 +78,7 @@ for key, default in [
     ("session_id", None),
     ("active_assignment_id", None),
     ("assignment_draft", None),
+    ("assignment_generation_request", None),
     ("simli_avatar_cache", {}),
     ("simli_avatar_errors", {}),
     ("simli_avatar_futures", {}),
@@ -195,11 +196,11 @@ def render_grading_result(grading: dict, *, heading: str | None = None) -> None:
         st.info(grading["tutoring_feedback"])
 
 
-def save_uploaded_file(uploaded_file, directory: Path) -> Path:
-    """Save an upload under a controlled temporary directory."""
-    safe_name = Path(uploaded_file.name).name
+def save_queued_upload(upload: dict, directory: Path) -> Path:
+    """Save an upload captured in session state under a controlled temporary directory."""
+    safe_name = Path(str(upload.get("name") or "uploaded-material")).name
     path = directory / safe_name
-    path.write_bytes(uploaded_file.getbuffer())
+    path.write_bytes(upload.get("bytes") or b"")
     return path
 
 
@@ -2171,6 +2172,89 @@ def render_custom_rubric_upload() -> None:
             st.rerun()
 
 
+def render_assignment_generation_loading(request: dict) -> None:
+    """Prepare assignment questions while showing a dedicated loading screen."""
+    st.markdown(
+        """
+        <div class="prep-loading-card">
+          <div class="prep-loader"></div>
+          <div>
+            <h3>Generating questions for review</h3>
+            <p>Saving the materials, reading the picture stimulus, and preparing the examiner review draft.</p>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    progress = st.progress(0, text="Starting question preparation...")
+    temporary_directory = Path(tempfile.mkdtemp(prefix="exam-upload-"))
+    subject = request["subject"]
+    try:
+        progress.progress(0.12, text="Starting the AI examiner...")
+        crew = init_crew(subject, request["rubric"], request["student"]["id"])
+
+        progress.progress(0.25, text="Saving the picture stimulus...")
+        visual_file = save_queued_upload(request["visual_upload"], temporary_directory)
+
+        progress.progress(0.45, text="Reading the image and generating oral questions...")
+        visual_result = crew.run_ingestion_workflow(
+            str(visual_file), material_type="visual", extract_questions=True
+        )
+        questions = visual_result.get("questions", [])[:3]
+        if not questions:
+            raise RuntimeError(
+                "No image questions were generated. Try a clearer image or check the AI service configuration."
+            )
+
+        visual_info = {
+            "name": request["visual_upload"]["name"],
+            "path": visual_result.get("ingest_result", {}).get("file_path"),
+            "image_count": visual_result.get("ingest_result", {}).get("image_count", 0),
+        }
+        reading_info = None
+        if request.get("reading_upload"):
+            progress.progress(0.65, text="Saving and reading the reading passage...")
+            reading_file = save_queued_upload(request["reading_upload"], temporary_directory)
+            reading_result = crew.run_ingestion_workflow(
+                str(reading_file), material_type="reading", extract_questions=False
+            )
+            stored_path = reading_result.get("ingest_result", {}).get("file_path")
+            reading_info = {
+                "name": request["reading_upload"]["name"],
+                "path": stored_path,
+                "text": extract_reading_passage(stored_path) if stored_path else "",
+            }
+
+        progress.progress(0.88, text="Preparing the review draft...")
+        prepared_questions = [
+            {**question, "generated_text": question.get("text", ""), "edited_by_examiner": False}
+            for question in questions
+        ]
+        st.session_state.assignment_draft = {
+            "draft_id": uuid.uuid4().hex,
+            "student": request["student"],
+            "title": request["title"],
+            "subject": subject,
+            "rubric": request["rubric"],
+            "visual": visual_info,
+            "questions": prepared_questions,
+            "reading": reading_info,
+        }
+        st.session_state.assignment_generation_request = None
+        progress.progress(1.0, text="Questions are ready for review.")
+        st.rerun()
+    except Exception as error:
+        try:
+            SubjectManager().delete_subject_data(subject)
+        except Exception:
+            pass
+        st.session_state.assignment_generation_request = None
+        st.error(f"The questions could not be prepared for review: {error}")
+        st.caption("Please check that the uploaded image is readable and try Generate questions for review again.")
+    finally:
+        shutil.rmtree(temporary_directory, ignore_errors=True)
+
+
 def render_create_assignment() -> None:
     students = list_students()
     rubrics = list_rubrics() or [DEFAULT_PSLE_RUBRIC]
@@ -2190,6 +2274,11 @@ def render_create_assignment() -> None:
     render_custom_rubric_upload()
     if not students:
         st.warning("No registered students are available. Add students to `data/users.json` first.")
+        return
+
+    generation_request = st.session_state.get("assignment_generation_request")
+    if generation_request:
+        render_assignment_generation_loading(generation_request)
         return
 
     draft = st.session_state.get("assignment_draft")
@@ -2471,64 +2560,25 @@ def render_create_assignment() -> None:
 
     student = student_by_label[selected_label]
     subject = assignment_subject(student["id"])
-    temporary_directory = Path(tempfile.mkdtemp(prefix="exam-upload-"))
-    try:
-        with st.spinner("Saving the materials and generating image questions..."):
-            crew = init_crew(subject, rubric, student["id"])
-            visual_file = save_uploaded_file(visual_upload, temporary_directory)
-            visual_result = crew.run_ingestion_workflow(
-                str(visual_file), material_type="visual", extract_questions=True
-            )
-            questions = visual_result.get("questions", [])[:3]
-            if not questions:
-                raise RuntimeError(
-                    "No image questions were generated. Try a clearer image or check the AI service configuration."
-                )
-
-            visual_info = {
-                "name": visual_upload.name,
-                "path": visual_result.get("ingest_result", {}).get("file_path"),
-                "image_count": visual_result.get("ingest_result", {}).get("image_count", 0),
+    st.session_state.assignment_generation_request = {
+        "request_id": uuid.uuid4().hex,
+        "student": student,
+        "title": title,
+        "subject": subject,
+        "rubric": rubric,
+        "visual_upload": {
+            "name": visual_upload.name,
+            "bytes": visual_upload.getvalue(),
+        },
+        "reading_upload": (
+            {
+                "name": reading_upload.name,
+                "bytes": reading_upload.getvalue(),
             }
-            reading_info = None
-            if reading_upload:
-                reading_file = save_uploaded_file(reading_upload, temporary_directory)
-                reading_result = crew.run_ingestion_workflow(
-                    str(reading_file), material_type="reading", extract_questions=False
-                )
-                stored_path = reading_result.get("ingest_result", {}).get("file_path")
-                reading_info = {
-                    "name": reading_upload.name,
-                    "path": stored_path,
-                    "text": extract_reading_passage(stored_path) if stored_path else "",
-                }
-
-            prepared_questions = [
-                {**question, "generated_text": question.get("text", ""), "edited_by_examiner": False}
-                for question in questions
-            ]
-            st.session_state.assignment_draft = {
-                "draft_id": uuid.uuid4().hex,
-                "student": student,
-                "title": title,
-                "subject": subject,
-                "rubric": rubric,
-                "visual": visual_info,
-                "questions": prepared_questions,
-                "reading": reading_info,
-            }
-    except Exception as error:
-        # Ingestion creates subject folders before the JSON assignment is saved.
-        # Remove those orphaned artifacts when the assignment cannot be completed.
-        try:
-            SubjectManager().delete_subject_data(subject)
-        except Exception:
-            pass
-        st.error(f"The questions could not be prepared for review: {error}")
-        return
-    finally:
-        shutil.rmtree(temporary_directory, ignore_errors=True)
-
+            if reading_upload
+            else None
+        ),
+    }
     st.rerun()
 
 
@@ -3013,6 +3063,9 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
     reading = assignment.get("reading")
     if not reading:
         return True
+    submission = assignment.get("reading_submission")
+    if submission:
+        return True
 
     st.markdown("### Reading Aloud")
     st.caption("Read this passage aloud, record it, review its transcript, then submit before moving on to the three image questions. If needed, you may skip this reading-aloud task.")
@@ -3023,15 +3076,6 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         disabled=True,
         key=f"assessment_reading_{assignment['assignment_id']}",
     )
-    submission = assignment.get("reading_submission")
-    if submission:
-        st.success("Reading aloud submitted. Continue to the image questions below.")
-        st.write("**Submitted transcript:**", submission.get("transcript", ""))
-        if submission.get("audio_path"):
-            st.audio(submission["audio_path"])
-        render_delivery_indicators(submission.get("delivery_indicators"))
-        st.caption("Your recording has been sent to the examiner for review. Your final grade will be released after verification.")
-        return True
 
     captured = capture_student_response(
         f"reading_{assignment['assignment_id']}",
@@ -3455,9 +3499,10 @@ def render_student_portal() -> None:
     if st.session_state.preparation_complete or st.session_state.student_portal_stage == "assessment":
         st.info("Preparation materials are locked. Continue with the assessment.")
         render_student_assessment(assignment)
-    else:
-        render_preparation_timer()
-        render_student_materials(assignment)
+        return
+
+    render_preparation_timer()
+    render_student_materials(assignment)
 
 apply_portal_theme()
 

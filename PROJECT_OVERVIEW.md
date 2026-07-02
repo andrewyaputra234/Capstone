@@ -54,11 +54,12 @@ The system is designed for a PSLE-style English oral workflow, with one picture 
 9. If a reading passage was assigned, student completes reading aloud first.
 10. Student answers each image question by typing or recording/transcribing.
 11. If the first response is clearly weak or unrelated, the AI gives one guiding question.
-12. Student can answer again after the guiding question.
-13. The first answer and guided follow-up answer are combined for grading.
-14. If the first response is good enough, the app moves to the next question.
-15. After all questions are completed, student waits for examiner release.
-16. Once released, student can view grades, recordings/transcripts, and examiner feedback notes.
+12. The guiding question is adapted to the student's first response. It should briefly refer to what the student said and guide them to clarify, correct, connect to the picture/topic, give a reason, or add one visible detail.
+13. Student can answer again after the guiding question.
+14. The first answer and guided follow-up answer are combined for grading.
+15. If the first response is good enough, the app moves to the next question.
+16. After all questions are completed, student waits for examiner release.
+17. Once released, student can view grades, recordings/transcripts, and examiner feedback notes.
 
 ## Current result and feedback behavior
 
@@ -264,6 +265,7 @@ Important UI goals:
 - Moved avatar creation away from student assessment loading and toward examiner-side preparation.
 - Added terminal-style avatar preparation logs.
 - Added student-visible examiner feedback notes after results are released.
+- Made guiding questions more adaptive to the student's first response instead of generic follow-up prompts.
 
 ## Known issues and risks
 

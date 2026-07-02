@@ -735,8 +735,10 @@ class EducationCrew:
             return {
                 "accepted": False,
                 "status": "struggling",
-                "examiner_reply": (
-                    "What is one person, object, or action you can see in the picture?"
+                "examiner_reply": self._adaptive_follow_up_question(
+                    question,
+                    response,
+                    "The response is empty, very short, or indicates the student is stuck.",
                 ),
                 "reason": "The response is empty, very short, or indicates the student is stuck.",
                 "rubric_focus": ["Stimulus Response Relevance", "Idea Development", "Interaction And Confidence"],
@@ -773,9 +775,18 @@ class EducationCrew:
             "If accepted, the examiner_reply should be a short transition such as "
             "'Thank you, let's move on to the next question.' Do not include hints, "
             "sentence starters, or improvement advice when accepted.\n"
-            "If not accepted, give exactly one short, concrete follow-up QUESTION that "
-            "helps the student look again at the picture. Do not give the answer or a "
-            "sentence starter.\n\n"
+            "If not accepted, give exactly one short, concrete follow-up QUESTION. "
+            "Make it adaptive to the student's first response like a real oral examiner: "
+            "briefly refer to what the student said, then guide the student to clarify, "
+            "correct, connect to the picture/topic, give a reason, or add one visible detail. "
+            "Do not use generic prompts such as 'Can you add another detail?' unless they are "
+            "anchored to the student's answer. Do not give the answer, a full model response, "
+            "or a sentence starter.\n\n"
+            "Good follow-up style examples:\n"
+            "- Student said 'because it is clean': 'You mentioned that it keeps people clean. "
+            "Can you explain what might happen if they do not do this before eating?'\n"
+            "- Student said 'they are at school': 'You said they are at school. Look at their hands "
+            "and the sink: what action are they doing, and why might it matter?'\n\n"
             "Return ONLY valid JSON with this exact shape:\n"
             "{\n"
             '  "accepted": true,\n'
@@ -799,8 +810,8 @@ class EducationCrew:
             examiner_reply = str(decision.get("examiner_reply", "")).strip()
             if accepted:
                 examiner_reply = "Thank you, let's move on to the next question."
-            elif not examiner_reply:
-                examiner_reply = "What is one detail you can see in the picture that helps answer the question?"
+            elif not examiner_reply or self._looks_generic_follow_up(examiner_reply):
+                examiner_reply = self._adaptive_follow_up_question(question, response, reason)
 
             return {
                 "accepted": accepted,
@@ -810,7 +821,7 @@ class EducationCrew:
                 "rubric_focus": decision.get("rubric_focus", []),
             }
         except Exception as e:
-            return self._fallback_oral_turn_decision(response, attempt_number, max_attempts, str(e))
+            return self._fallback_oral_turn_decision(question, response, attempt_number, max_attempts, str(e))
 
     @staticmethod
     def _follow_up_is_allowed(response: str, reason: str) -> bool:
@@ -818,13 +829,14 @@ class EducationCrew:
 
         The live oral flow should not trap a student on the same prompt merely
         because a passable answer could be stronger. A follow-up is reserved for
-        near-fail cases: unrelated, contradictory, empty, or unclear answers.
+        near-fail cases: unrelated, contradictory, empty, unclear, or too minimal
+        to grade fairly.
         """
         normalized_response = (response or "").strip().lower()
         normalized_reason = (reason or "").strip().lower()
         word_count = len(normalized_response.split())
 
-        if word_count < 4:
+        if word_count <= 4:
             return True
 
         hard_prompt_markers = [
@@ -879,8 +891,70 @@ class EducationCrew:
         lowered = response.lower()
         return any(marker in lowered for marker in struggling_markers)
 
+    @staticmethod
+    def _looks_generic_follow_up(reply: str) -> bool:
+        normalized = " ".join((reply or "").strip().lower().split())
+        if not normalized:
+            return True
+        generic_markers = [
+            "can you add another detail",
+            "can you explain more",
+            "can you elaborate",
+            "tell me more",
+            "say more",
+            "what can you see in the picture",
+            "what is one detail you can see",
+            "look at the picture and answer",
+        ]
+        return any(marker in normalized for marker in generic_markers)
+
+    @staticmethod
+    def _student_response_reference(response: str, *, max_words: int = 12) -> str:
+        clean = " ".join((response or "").replace("\n", " ").split())
+        if not clean:
+            return ""
+        words = clean.split()
+        if len(words) > max_words:
+            clean = " ".join(words[:max_words]).rstrip(".,;:") + "..."
+        return clean
+
+    def _adaptive_follow_up_question(self, question: str, response: str, reason: str = "") -> str:
+        """Build a student-specific guiding question when the model is generic or unavailable."""
+        reference = self._student_response_reference(response)
+        normalized_reason = (reason or "").lower()
+
+        if not reference:
+            return (
+                "Take another look at the picture. What is one person, object, or action "
+                "you can mention to begin answering this question?"
+            )
+
+        if any(marker in normalized_reason for marker in ("unrelated", "off-topic", "off topic", "irrelevant")):
+            return (
+                f'You mentioned "{reference}". How can you connect that idea back to the picture '
+                "and the question being asked?"
+            )
+
+        if any(marker in normalized_reason for marker in ("contradict", "wrong visible", "incorrect visible")):
+            return (
+                f'You mentioned "{reference}". Look carefully at the picture again: what visible '
+                "detail might you need to correct or describe more accurately?"
+            )
+
+        if any(marker in normalized_reason for marker in ("unclear", "cannot understand", "impossible to understand")):
+            return (
+                f'I heard "{reference}". Can you say that idea again more clearly and link it to '
+                "one detail in the picture?"
+            )
+
+        return (
+            f'You said "{reference}". Can you add one reason, example, or visible detail from '
+            "the picture to explain your answer further?"
+        )
+
     def _fallback_oral_turn_decision(
         self,
+        question: str,
         response: str,
         attempt_number: int,
         max_attempts: int,
@@ -892,7 +966,11 @@ class EducationCrew:
             reply = "Thank you, let's move on to the next question."
             status = "accepted"
         else:
-            reply = "What is one detail you can see in the picture that helps answer the question?"
+            reply = self._adaptive_follow_up_question(
+                question,
+                response,
+                "Fallback decision used because LLM judgement failed.",
+            )
             status = "needs_prompt"
         return {
             "accepted": accepted,
