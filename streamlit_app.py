@@ -1096,44 +1096,12 @@ def capture_student_response(
     allow_skip: bool = True,
     skip_label: str = "Skip question",
 ) -> dict | None:
-    """Offer typing or browser microphone recording, returning text plus audio evidence."""
-    response_mode_key = f"response_mode_{key_suffix}"
-    if st.session_state.get(response_mode_key) not in {"Type response", "Speak into microphone"}:
-        st.session_state[response_mode_key] = "Type response"
-
-    st.markdown('<div class="portal-field-label">Answer using</div>', unsafe_allow_html=True)
-    mode_columns = st.columns(2, gap="small")
-    with mode_columns[0]:
-        if st.button("Write text", key=f"response_mode_text_{key_suffix}", width="stretch"):
-            st.session_state[response_mode_key] = "Type response"
-            st.rerun()
-    with mode_columns[1]:
-        if st.button("Speak into microphone", key=f"response_mode_voice_{key_suffix}", width="stretch"):
-            st.session_state[response_mode_key] = "Speak into microphone"
-            st.rerun()
-    mode = st.session_state[response_mode_key]
-
-    if mode == "Type response":
-        with st.form(f"typed_response_{key_suffix}"):
-            text = st.text_area(
-                "Your response",
-                height=140,
-                placeholder="Type what you would say to the examiner.",
-            )
-            columns = st.columns(2) if allow_skip else st.columns(1)
-            submitted = columns[0].form_submit_button(submit_label, type="primary", width="stretch")
-            skipped = columns[1].form_submit_button(skip_label, width="stretch") if allow_skip else False
-        if not submitted and not skipped:
-            return None
-        if submitted and not text.strip():
-            st.warning("Please enter a response, record your answer, or choose Skip question.")
-            return None
-        return {"text": text.strip() if submitted else "[Skipped question]", "skipped": skipped, "mode": "text"}
-
+    """Collect a browser microphone recording and transcript for grading."""
     if not hasattr(st, "audio_input"):
         st.error("Microphone answers require a newer Streamlit version with browser audio input.")
         return None
-    st.caption("Record in the browser, transcribe it, then review the captured text before sending it for grading.")
+    st.markdown('<div class="portal-field-label">Speak into the microphone</div>', unsafe_allow_html=True)
+    st.caption("Record your answer, transcribe it, then review what the system heard before submitting.")
     recording = st.audio_input("Record your answer", key=f"voice_response_{key_suffix}")
     preview_key = f"voice_preview_{key_suffix}"
     recording_fingerprint = None
@@ -1192,7 +1160,7 @@ def capture_student_response(
     if not use_transcript:
         return None
     st.session_state.pop(preview_key, None)
-    return {"text": preview["text"], "skipped": False, **preview}
+    return {"text": preview["text"], "skipped": False, "mode": "voice", **preview}
 
 
 def apply_portal_theme() -> None:
@@ -2921,14 +2889,35 @@ def render_preparation_loading(assignment: dict) -> None:
 
 
 def render_assessment_loading(assignment: dict) -> None:
+    st.session_state.preparation_deadline = None
+    st.session_state.preparation_timer_assignment_id = None
+    st.session_state.preparation_complete = True
     st.subheader("Setting up your assessment")
     st.markdown(
         """
-        <div class="prep-loading-card">
-          <div class="prep-loader"></div>
-          <div>
-            <h3>Preparing the exam room</h3>
-            <p>Locking the preparation materials and getting the examiner ready.</p>
+        <style>
+        .assessment-loading-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle at 14% 12%, #dff4e4 0, #eff8f0 34%, #fbfcf8 70%, #eaf4ec 100%);
+        }
+        .assessment-loading-overlay .prep-loading-card {
+            width: min(620px, 92vw);
+            background: rgba(255, 255, 253, 0.98);
+        }
+        </style>
+        <div class="assessment-loading-overlay">
+          <div class="prep-loading-card">
+            <div class="prep-loader"></div>
+            <div>
+              <h3>Preparing the exam room</h3>
+              <p>Preparation materials are locked. Getting the examiner and assessment ready.</p>
+            </div>
           </div>
         </div>
         """,
@@ -3036,6 +3025,9 @@ def render_student_materials(assignment: dict) -> None:
     st.divider()
     st.warning("Continuing starts the assessment phase. You will not be able to return to these preparation materials.")
     if st.button("Continue to assessment", type="primary", width="stretch"):
+        st.session_state.preparation_deadline = None
+        st.session_state.preparation_timer_assignment_id = None
+        st.session_state.preparation_complete = True
         st.session_state.student_portal_stage = "assessment_loading"
         st.rerun()
 
@@ -3049,8 +3041,10 @@ def render_preparation_timer() -> None:
 
     seconds_remaining = max(0, int(deadline - time.time()))
     if seconds_remaining == 0:
+        st.session_state.preparation_deadline = None
+        st.session_state.preparation_timer_assignment_id = None
         st.session_state.preparation_complete = True
-        st.warning("Preparation time has ended. The assessment phase is now open and materials are locked.")
+        st.session_state.student_portal_stage = "assessment_loading"
         st.rerun(scope="app")
 
     minutes, seconds = divmod(seconds_remaining, 60)
@@ -3117,7 +3111,7 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         save_reading_submission(
             assignment["assignment_id"],
             transcript=captured["text"],
-            response_mode=captured.get("mode", "text"),
+            response_mode=captured.get("mode", "voice"),
             audio_path=captured.get("audio_path"),
             transcription_path=captured.get("transcription_path"),
             delivery_indicators=captured.get("delivery_indicators"),
@@ -3261,8 +3255,8 @@ def render_student_assessment(assignment: dict) -> None:
         )
     elif guidance:
         with st.container(border=True):
-            st.markdown("### Step 3 - Record or type your final response")
-            st.caption("Respond to the guiding question. The system will combine this with your first answer for grading.")
+            st.markdown("### Step 3 - Record your final response")
+            st.caption("Respond to the guiding question using the microphone. The system will combine this with your first answer for grading.")
             captured = capture_student_response(
                 f"follow_up_{assignment['assignment_id']}_{question_id}", "Submit final response"
             )
@@ -3276,7 +3270,7 @@ def render_student_assessment(assignment: dict) -> None:
     else:
         with st.container(border=True):
             st.markdown("### Step 3 - Give your answer")
-            st.caption("Choose one answer method. If you speak, transcribe first, check the text, then submit.")
+            st.caption("Record your answer with the microphone, transcribe it, check the text, then submit.")
             captured = capture_student_response(
                 f"response_{assignment['assignment_id']}_{question_id}", "Submit response"
             )
@@ -3302,7 +3296,7 @@ def render_student_assessment(assignment: dict) -> None:
                         original_response=captured["text"],
                         follow_up_question=follow_up_question,
                         reason=decision.get("reason", ""),
-                        response_mode=captured.get("mode", "text"),
+                        response_mode=captured.get("mode", "voice"),
                         audio_path=captured.get("audio_path"),
                         transcription_path=captured.get("transcription_path"),
                         delivery_indicators=captured.get("delivery_indicators"),
@@ -3372,7 +3366,7 @@ def render_student_assessment(assignment: dict) -> None:
                 crew_analysis=workflow.get("crew_analysis", ""),
                 skipped=skipped,
                 follow_up_response=follow_up_answer,
-                response_mode=captured.get("mode", "text"),
+                response_mode=captured.get("mode", "voice"),
                 audio_path=captured.get("audio_path"),
                 transcription_path=captured.get("transcription_path"),
                 delivery_indicators=captured.get("delivery_indicators"),

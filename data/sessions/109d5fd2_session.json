@@ -24,6 +24,26 @@
       "audio_path": "data\\sessions\\speech_20260702_042229_0ab1319e.wav",
       "transcription_path": "data\\sessions\\speech_20260702_042229_0ab1319e.json",
       "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-02T12:45:41.954946",
+      "speaker": "avatar",
+      "text": "Can you describe what the children in the picture are doing and why it might be important?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows three children standing at a row of sinks in what appears to be a restroom or washroom. The focus is on a boy in the foreground wearing a blue long-sleeved shirt, who is turning on a faucet. In the background, there are two girls. One girl is wearing a white top and a red plaid skirt, and they seem to be either washing or drying their hands. There are wall-mounted soap dispensers above the sinks, and the setting appears clean and bright with white tiles lining the walls."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-02T12:45:41.962631",
+      "speaker": "student",
+      "text": "Now I'll wash my hands. It's good for clean hygiene.",
+      "audio_path": "data\\sessions\\speech_20260702_044249_f5b59d0c.wav",
+      "transcription_path": "data\\sessions\\speech_20260702_044249_f5b59d0c.json",
+      "metadata": null
     }
   ],
   "scores": [
@@ -46,6 +66,60 @@
         "total_score": 5,
         "max_score": 20,
         "percentage": 25.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Can you describe what the children in the picture are doing and why it might be important?",
+        "answer": "Now I'll wash my hands. It's good for clean hygiene.",
+        "visual_context": "The image shows three children standing at a row of sinks in what appears to be a restroom or washroom. The focus is on a boy in the foreground wearing a blue long-sleeved shirt, who is turning on a faucet. In the background, there are two girls. One girl is wearing a white top and a red plaid skirt, and they seem to be either washing or drying their hands. There are wall-mounted soap dispensers above the sinks, and the setting appears clean and bright with white tiles lining the walls.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The response is mostly relevant as it mentions washing hands, which is related to the image of children at the sinks. However, the personal viewpoint is somewhat generic.",
+            "evidence": "The student mentions washing hands, which aligns with the image of children at the sinks.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea with limited elaboration by mentioning washing hands for clean hygiene.",
+            "evidence": "Now I'll wash my hands. It's good for clean hygiene.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+            "evidence": "The student's answer includes a simple sentence with a minor error in sentence structure ('Now I'll wash my hands').",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence by acknowledging the action in the picture and its importance for hygiene.",
+            "evidence": "The student mentions washing hands for clean hygiene.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for mentioning the importance of washing hands for clean hygiene in your response. However, the image shows the children already at the sinks, not just about to start washing their hands. Your answer could be more specific to match the visual details. Your biggest area for improvement is in providing more details and explanations to support your ideas. Next time, you could start with a sentence like \"I see the children are already washing their hands to stay clean.\" Keep up the good effort in adding more details to your responses!",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
         "scoring_source": "ai"
       }
     }
