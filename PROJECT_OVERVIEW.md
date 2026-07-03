@@ -74,48 +74,51 @@ The system is designed for a PSLE-style English oral workflow, with one picture 
 
 ## Avatar integration
 
-The app currently uses **Simli** as the avatar presentation layer.
+The app supports two avatar presentation providers:
+
+- **Anam** for live WebRTC examiner avatars that speak the already-selected prompt with `talk()`.
+- **Simli** as the older static-video fallback that pre-generates HLS/MP4 clips.
 
 Important design decision:
 
-- Simli is not the AI examiner brain.
+- The avatar provider is not the AI examiner brain.
 - The app still controls the question text, grading, guiding-question logic, state transitions, and stored transcripts.
-- Simli only turns already-decided examiner text into short talking-avatar videos.
+- The provider only presents already-decided examiner text.
 
-Relevant environment variables:
+Recommended Anam environment variables:
 
 ```env
+AVATAR_PROVIDER=anam
+ENABLE_ANAM_AVATAR=true
+ANAM_API_KEY=...
+ANAM_PERSONA_ID=...
+```
+
+Instead of `ANAM_PERSONA_ID`, you can configure an ephemeral runtime persona:
+
+```env
+ANAM_AVATAR_ID=...
+ANAM_VOICE_ID=...
+ANAM_LLM_ID=...
+ANAM_SYSTEM_PROMPT=You are a calm oral examiner. Speak only the assessment prompt provided by the application.
+```
+
+Simli fallback environment variables:
+
+```env
+AVATAR_PROVIDER=simli
 ENABLE_SIMLI_AVATAR=true
 SIMLI_API_KEY=...
 SIMLI_FACE_ID=...
 OPENAI_API_KEY=...
-SIMLI_TTS_MODEL=tts-1
-SIMLI_TTS_VOICE=alloy
-SIMLI_AUDIO_SAMPLE_RATE=24000
-SIMLI_MP4_WAIT_SECONDS=90
-SIMLI_POLL_INTERVAL_SECONDS=3
-AVATAR_PREVIEW_PER_QUESTION_WAIT_SECONDS=240
-AVATAR_PREVIEW_WAIT_SECONDS=360
-AVATAR_PREVIEW_GENERATION_ATTEMPTS=2
-AVATAR_FILE_NOT_FOUND_RETRY_SECONDS=60
-SIMLI_PREFER_HLS=true
 ```
 
 Current avatar behavior:
 
-- Avatar videos are prepared during examiner assignment/preview, not during the student assessment.
-- Avatar metadata is saved on each question under `question["avatar_video"]`.
-- The app stores Simli HLS/MP4 URLs and readiness status.
-- Simli sometimes returns a URL before the file is playable.
-- When this happens, the app logs `{"error":"File not found"}` or pending HLS/MP4 readiness messages and keeps polling/retrying.
-- The assessment must still work even if avatar generation fails.
-
-Known avatar limitation:
-
-- Simli static avatar clips can take a long time to become playable.
-- Creating several avatar clips too quickly can cause slow pending states or connection reset errors.
-- The safer path is one-by-one preparation, waiting until each clip is playable before moving to the next.
-- For a final demo, avatar should remain a nice enhancement, not a requirement for the assessment to proceed.
+- In Anam mode, examiner questions and guiding follow-ups are spoken live during the assessment.
+- In Anam mode, assignment creation does not wait for static avatar videos.
+- In Simli mode, avatar videos are prepared during examiner assignment/preview, not during the student assessment.
+- The assessment must still work even if avatar playback fails.
 
 ## Data storage
 

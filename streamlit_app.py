@@ -230,8 +230,27 @@ def assessment_question_with_visual_context(question: dict) -> str:
     return f"Visual stimulus facts: {visual_context}\n\nQuestion: {question.get('text', '')}"
 
 
+def active_avatar_provider() -> str:
+    provider = os.getenv("AVATAR_PROVIDER", "").strip().lower()
+    if provider:
+        return provider
+    if bool_env("ENABLE_ANAM_AVATAR", False):
+        return "anam"
+    if bool_env("ENABLE_SIMLI_AVATAR", False):
+        return "simli"
+    return "none"
+
+
 def simli_avatar_requested() -> bool:
-    return os.getenv("ENABLE_SIMLI_AVATAR", "").strip().lower() in {"1", "true", "yes", "on"}
+    return active_avatar_provider() == "simli"
+
+
+def anam_avatar_requested() -> bool:
+    return active_avatar_provider() == "anam"
+
+
+def avatar_requested() -> bool:
+    return active_avatar_provider() in {"simli", "anam"}
 
 
 def html_escape(value: str) -> str:
@@ -248,7 +267,7 @@ def html_escape(value: str) -> str:
 def avatar_cache_key_for(text: str, cache_key: str) -> tuple[str, str]:
     clean_text = " ".join((text or "").split())
     text_hash = hashlib.sha256(clean_text.encode("utf-8")).hexdigest()[:16]
-    return clean_text, f"simli_v2:{cache_key}:{text_hash}"
+    return clean_text, f"{active_avatar_provider()}_v2:{cache_key}:{text_hash}"
 
 
 def prepare_examiner_avatar(text: str, *, cache_key: str) -> str | None:
@@ -307,6 +326,112 @@ def avatar_terminal_log(message: str) -> None:
         return
     timestamp = time.strftime("%H:%M:%S")
     print(f"[{timestamp}] [avatar-preload] {message}", flush=True)
+
+
+def float_env(name: str, default: float, *, minimum: float = 0.0) -> float:
+    try:
+        return max(minimum, float(os.getenv(name, str(default))))
+    except ValueError:
+        return max(minimum, default)
+
+
+def bool_env(name: str, default: bool = False) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def avatar_generation_backoff_seconds(attempt: int) -> float:
+    """Exponential backoff after failed Simli generation attempts."""
+    base = float_env("SIMLI_RETRY_BACKOFF_BASE_SECONDS", 5.0)
+    multiplier = float_env("SIMLI_RETRY_BACKOFF_MULTIPLIER", 3.0, minimum=1.0)
+    maximum = float_env("SIMLI_RETRY_BACKOFF_MAX_SECONDS", 60.0)
+    return min(maximum, base * (multiplier ** max(attempt - 1, 0)))
+
+
+def simli_request_spacing_seconds() -> float:
+    """Small queue delay before new Simli creation requests."""
+    return float_env("SIMLI_REQUEST_SPACING_SECONDS", 1.0)
+
+
+def avatar_asset_cache_enabled() -> bool:
+    return bool_env("AVATAR_ASSET_CACHE_ENABLED", True)
+
+
+def avatar_asset_cache_path() -> Path:
+    return Path("data/avatar_asset_cache.json")
+
+
+def avatar_asset_cache_key(text: str, config) -> str:
+    clean_text = " ".join((text or "").split())
+    identity = "|".join(
+        [
+            "simli-static-audio-v1",
+            getattr(config, "face_id", ""),
+            getattr(config, "tts_model", ""),
+            getattr(config, "tts_voice", ""),
+            clean_text,
+        ]
+    )
+    return hashlib.sha256(identity.encode("utf-8")).hexdigest()
+
+
+def load_avatar_asset_cache() -> dict:
+    if not avatar_asset_cache_enabled():
+        return {}
+    path = avatar_asset_cache_path()
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def save_avatar_asset_cache(cache: dict) -> None:
+    if not avatar_asset_cache_enabled():
+        return
+    try:
+        path = avatar_asset_cache_path()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+    except OSError:
+        return
+
+
+def get_cached_avatar_asset(text: str, config) -> dict:
+    cache = load_avatar_asset_cache()
+    cache_key = avatar_asset_cache_key(text, config)
+    cached = cache.get(cache_key)
+    if not isinstance(cached, dict):
+        return {}
+    avatar_video = refresh_avatar_video_reference(cached.get("avatar_video") or {})
+    if not avatar_video.get("source_url"):
+        return {}
+    if avatar_video.get("terminal_file_not_found"):
+        return {}
+    cache[cache_key] = {
+        **cached,
+        "avatar_video": avatar_video,
+        "last_used_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    }
+    save_avatar_asset_cache(cache)
+    return dict(avatar_video)
+
+
+def store_cached_avatar_asset(text: str, config, avatar_video: dict) -> None:
+    if not avatar_video.get("source_url"):
+        return
+    cache = load_avatar_asset_cache()
+    cache[avatar_asset_cache_key(text, config)] = {
+        "text_hash": hashlib.sha256(" ".join(text.split()).encode("utf-8")).hexdigest()[:16],
+        "avatar_video": avatar_video,
+        "created_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "last_used_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    }
+    save_avatar_asset_cache(cache)
 
 
 def collect_avatar_preload_results() -> None:
@@ -376,12 +501,252 @@ def queue_examiner_avatar_preload(text: str, *, cache_key: str) -> None:
     avatar_terminal_log(f"queued {cache_key}: {clean_text[:90]}")
 
 
-def render_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = False) -> None:
-    """Render a Simli examiner avatar for already-selected examiner text.
+def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = False) -> None:
+    """Render an Anam live avatar and ask it to speak the selected examiner text."""
+    try:
+        from anam_avatar import create_session_token, load_config
+    except Exception as error:
+        st.caption(f"Examiner avatar unavailable: {error}")
+        return
 
-    Simli is intentionally presentation-only: the app still decides the
+    if not load_config():
+        st.info(
+            "Anam avatar is enabled, but ANAM_API_KEY plus ANAM_PERSONA_ID "
+            "or ANAM_AVATAR_ID/ANAM_VOICE_ID/ANAM_LLM_ID are not set."
+        )
+        st.markdown(f"**Examiner says:** {' '.join((text or '').split())}")
+        return
+
+    clean_text = " ".join((text or "").split())
+    if not clean_text:
+        return
+
+    try:
+        session_token = create_session_token()
+    except Exception as error:
+        st.warning(f"Anam examiner avatar could not start: {error}")
+        st.markdown(f"**Examiner says:** {clean_text}")
+        return
+
+    safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", f"anam_{cache_key}_{hashlib.sha256(clean_text.encode('utf-8')).hexdigest()[:10]}")
+    video_id = f"{safe_id}_video"
+    status_id = f"{safe_id}_status"
+    detail_id = f"{safe_id}_detail"
+    start_id = f"{safe_id}_start"
+    button_id = f"{safe_id}_replay"
+    token_json = json.dumps(session_token)
+    text_json = json.dumps(clean_text)
+    video_id_json = json.dumps(video_id)
+    status_id_json = json.dumps(status_id)
+    detail_id_json = json.dumps(detail_id)
+    start_id_json = json.dumps(start_id)
+    button_id_json = json.dumps(button_id)
+    subtitle_html = html_escape(clean_text)
+
+    st.markdown("#### AI examiner")
+    components.html(
+        f"""
+        <style>
+          .anam-card {{
+            max-width: 620px;
+            margin: 0.75rem auto 1rem;
+            border: 1px solid #cfe3d5;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #fbfffc;
+            box-shadow: 0 16px 34px rgba(37, 72, 53, 0.12);
+            font-family: Aptos, Segoe UI, sans-serif;
+          }}
+          .anam-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0.95rem;
+            background: linear-gradient(135deg, #effbf3, #dff2e7);
+            color: #203b36;
+            font-weight: 750;
+          }}
+          .anam-status {{
+            color: #5b9d73;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-align: right;
+          }}
+          .anam-video {{
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            display: block;
+            background: #13201b;
+            object-fit: contain;
+          }}
+          .anam-body {{
+            padding: 0.9rem 1rem;
+            border-top: 1px solid #cfe3d5;
+            color: #203b36;
+            line-height: 1.45;
+            font-size: 0.98rem;
+          }}
+          .anam-actions {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 1rem 0.9rem;
+            color: #587267;
+            font-size: 0.82rem;
+          }}
+          .anam-button {{
+            border: 1px solid #8bc59f;
+            background: #f7fff9;
+            color: #203b36;
+            border-radius: 8px;
+            padding: 0.45rem 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+          }}
+          .anam-button:disabled {{
+            opacity: 0.6;
+            cursor: wait;
+          }}
+          .anam-detail {{
+            padding: 0 1rem 0.65rem;
+            color: #7b5b3f;
+            font-size: 0.8rem;
+            line-height: 1.35;
+            min-height: 1rem;
+          }}
+        </style>
+        <div class="anam-card">
+          <div class="anam-header">
+            <span>AI Examiner</span>
+            <span id="{status_id}" class="anam-status">Starting</span>
+          </div>
+          <video id="{video_id}" class="anam-video" autoplay playsinline></video>
+          <div class="anam-body"><strong>Subtitles:</strong> {subtitle_html}</div>
+          <div id="{detail_id}" class="anam-detail"></div>
+          <div class="anam-actions">
+            <span>Start the examiner if the video does not appear automatically.</span>
+            <div>
+              <button id="{start_id}" class="anam-button" type="button">Start</button>
+              <button id="{button_id}" class="anam-button" type="button" disabled>Replay</button>
+            </div>
+          </div>
+        </div>
+        <script type="module">
+          import {{ createClient }} from "https://esm.sh/@anam-ai/js-sdk@latest";
+          import {{ AnamEvent }} from "https://esm.sh/@anam-ai/js-sdk@latest/dist/module/types";
+
+          const sessionToken = {token_json};
+          const promptText = {text_json};
+          const videoId = {video_id_json};
+          const video = document.getElementById(videoId);
+          const status = document.getElementById({status_id_json});
+          const detail = document.getElementById({detail_id_json});
+          const startButton = document.getElementById({start_id_json});
+          const replay = document.getElementById({button_id_json});
+          let client = null;
+          let busy = false;
+          let streamStarted = false;
+
+          const setStatus = (message) => {{
+            if (status) status.textContent = message;
+          }};
+
+          const setDetail = (message) => {{
+            if (detail) detail.textContent = message || "";
+          }};
+
+          const errorMessage = (error) => {{
+            if (!error) return "Unknown browser-side Anam error.";
+            if (error.message) return error.message;
+            try {{
+              return JSON.stringify(error);
+            }} catch (_) {{
+              return String(error);
+            }}
+          }};
+
+          async function speak() {{
+            if (!client || busy) return;
+            busy = true;
+            if (replay) replay.disabled = true;
+            setStatus("Speaking");
+            setDetail("");
+            try {{
+              await client.talk(promptText);
+              setStatus("Ready");
+            }} catch (error) {{
+              console.error(error);
+              setStatus("Talk error");
+              setDetail(errorMessage(error));
+            }} finally {{
+              busy = false;
+              if (replay) replay.disabled = false;
+            }}
+          }}
+
+          async function start() {{
+            if (streamStarted) {{
+              await speak();
+              return;
+            }}
+            try {{
+              if (startButton) startButton.disabled = true;
+              if (video) {{
+                video.autoplay = true;
+                video.playsInline = true;
+              }}
+              setStatus("Connecting");
+              setDetail("");
+              client = createClient(sessionToken, {{ disableInputAudio: true }});
+              client.addListener(AnamEvent.CONNECTION_ESTABLISHED, () => {{
+                setStatus("Connected");
+              }});
+              client.addListener(AnamEvent.SESSION_READY, async () => {{
+                streamStarted = true;
+                setStatus("Ready");
+                if (startButton) startButton.disabled = false;
+                if (replay) replay.disabled = false;
+                await speak();
+              }});
+              client.addListener(AnamEvent.CONNECTION_CLOSED, (code, details) => {{
+                setStatus("Closed");
+                setDetail(details ? `${{code}}: ${{details}}` : String(code || ""));
+              }});
+              await client.streamToVideoElement(videoId);
+            }} catch (error) {{
+              console.error(error);
+              setStatus("Stream error");
+              setDetail(errorMessage(error));
+              if (startButton) startButton.disabled = false;
+            }}
+          }}
+
+          if (startButton) startButton.addEventListener("click", start);
+          if (replay) replay.addEventListener("click", speak);
+          window.addEventListener("beforeunload", () => {{
+            if (client) client.stopStreaming().catch(() => {{}});
+          }});
+          start();
+        </script>
+        """,
+        height=560,
+        scrolling=False,
+    )
+
+
+def render_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = False) -> None:
+    """Render the configured examiner avatar for already-selected examiner text.
+
+    The avatar is intentionally presentation-only: the app still decides the
     question, guidance, grading, and whether the student moves on.
     """
+    if anam_avatar_requested():
+        render_anam_examiner_avatar(text, cache_key=cache_key, auto_play=auto_play)
+        return
+
     if not simli_avatar_requested():
         return
 
@@ -507,6 +872,7 @@ def prepare_persistent_question_avatars(
         generation_attempts = 2
     generation_attempts = max(1, generation_attempts)
 
+    requests_sent = 0
     total = len(questions)
     for index, question in enumerate(questions, 1):
         text = " ".join(str(question.get("text", "")).split())
@@ -517,6 +883,38 @@ def prepare_persistent_question_avatars(
         prepared = {**question}
         question_ready = False
         last_readiness_warnings: list[str] = []
+
+        cached_avatar_video = get_cached_avatar_asset(text, persistent_config)
+        if cached_avatar_video:
+            avatar_terminal_log(f"using cached avatar asset for assigned question {index}: {text[:90]}")
+            prepared["avatar_video"] = cached_avatar_video
+            if not cached_avatar_video.get("ready"):
+                if progress_callback:
+                    progress_callback(
+                        index - 1,
+                        total,
+                        f"Checking cached examiner avatar for question {index}...",
+                    )
+                ready_questions, readiness_warnings = wait_until_question_avatars_ready(
+                    [prepared],
+                    timeout_seconds=question_wait_seconds,
+                    progress_callback=lambda ready, _total, message, index=index, total=total: progress_callback(
+                        index - 1 + ready,
+                        total,
+                        message.replace("1/1", f"{ready}/1") if message else f"Checking question {index}...",
+                    )
+                    if progress_callback
+                    else None,
+                )
+                last_readiness_warnings = readiness_warnings
+                prepared = ready_questions[0]
+            if (prepared.get("avatar_video") or {}).get("ready"):
+                store_cached_avatar_asset(text, persistent_config, prepared["avatar_video"])
+                prepared_questions.append(prepared)
+                avatar_terminal_log(f"cached avatar for question {index} is playable; moving to next question")
+                if progress_callback:
+                    progress_callback(index, total, f"Question {index} avatar is ready from cache.")
+                continue
 
         for attempt in range(1, generation_attempts + 1):
             prepared = {**question}
@@ -531,6 +929,19 @@ def prepare_persistent_question_avatars(
                 avatar_terminal_log(
                     f"precreating assigned question {index} attempt {attempt}/{generation_attempts}: {text[:90]}"
                 )
+                spacing_seconds = simli_request_spacing_seconds()
+                if requests_sent and spacing_seconds:
+                    avatar_terminal_log(
+                        f"spacing Simli request for {spacing_seconds:.1f}s before question {index} attempt {attempt}"
+                    )
+                    if progress_callback:
+                        progress_callback(
+                            index - 1,
+                            total,
+                            f"Spacing Simli request for {spacing_seconds:.1f}s to avoid rate limits...",
+                        )
+                    time.sleep(spacing_seconds)
+                requests_sent += 1
                 asset = create_avatar_video_asset(
                     text,
                     config=persistent_config,
@@ -566,9 +977,22 @@ def prepare_persistent_question_avatars(
                 else:
                     avatar_terminal_log(f"stored assigned question {index} as pending HLS stream")
                 prepared["avatar_video"] = avatar_video
+                store_cached_avatar_asset(text, persistent_config, avatar_video)
             except Exception as error:
                 last_readiness_warnings = [f"Question {index} attempt {attempt} avatar was not created: {error}"]
                 avatar_terminal_log(last_readiness_warnings[0])
+                if attempt < generation_attempts:
+                    backoff_seconds = avatar_generation_backoff_seconds(attempt)
+                    avatar_terminal_log(
+                        f"backing off for {backoff_seconds:.1f}s before retrying question {index}"
+                    )
+                    if progress_callback:
+                        progress_callback(
+                            index - 1,
+                            total,
+                            f"Simli request failed. Waiting {backoff_seconds:.0f}s before retrying...",
+                        )
+                    time.sleep(backoff_seconds)
                 continue
 
             if not (prepared.get("avatar_video") or {}).get("ready"):
@@ -595,13 +1019,22 @@ def prepare_persistent_question_avatars(
 
             if (prepared.get("avatar_video") or {}).get("ready"):
                 question_ready = True
+                store_cached_avatar_asset(text, persistent_config, prepared["avatar_video"])
                 break
 
             if attempt < generation_attempts:
+                backoff_seconds = avatar_generation_backoff_seconds(attempt)
                 avatar_terminal_log(
-                    f"question {index} avatar URLs stayed unavailable; retrying with a fresh Simli generation"
+                    f"question {index} avatar URLs stayed unavailable; retrying with a fresh Simli generation "
+                    f"after {backoff_seconds:.1f}s"
                 )
-                time.sleep(2)
+                if progress_callback:
+                    progress_callback(
+                        index - 1,
+                        total,
+                        f"Avatar URL stayed unavailable. Waiting {backoff_seconds:.0f}s before retrying...",
+                    )
+                time.sleep(backoff_seconds)
 
         if not question_ready:
             warnings.extend(f"Question {index}: {warning}" for warning in last_readiness_warnings)
@@ -2473,9 +2906,8 @@ def render_create_assignment() -> None:
                 edited_questions.append((question, text))
 
             assign_column, discard_column = st.columns(2)
-            assign = assign_column.form_submit_button(
-                "Prepare avatar preview", type="primary", width="stretch"
-            )
+            primary_label = "Prepare avatar preview" if simli_avatar_requested() else "Assign to student"
+            assign = assign_column.form_submit_button(primary_label, type="primary", width="stretch")
             discard = discard_column.form_submit_button("Discard draft", width="stretch")
 
         if discard:
@@ -2504,6 +2936,33 @@ def render_create_assignment() -> None:
                     "edited_by_examiner": final_text != generated_text,
                 }
             )
+
+        if not simli_avatar_requested():
+            try:
+                record = create_assignment(
+                    student=draft["student"],
+                    title=draft["title"],
+                    subject=draft["subject"],
+                    rubric=draft["rubric"],
+                    visual=draft["visual"],
+                    questions=final_questions,
+                    reading=draft["reading"],
+                    examiner_id=st.session_state.user_id,
+                )
+            except Exception as error:
+                st.error(f"The assessment was not assigned: {error}")
+                return
+
+            st.session_state.assignment_draft = None
+            if anam_avatar_requested():
+                avatar_note = "Anam live examiner avatar will be used during the assessment."
+            else:
+                avatar_note = "Avatar playback is disabled, so students will see the written questions."
+            st.session_state["assignment_notice"] = (
+                f"Assigned '{record['title']}' to {draft['student']['name']} with "
+                f"{len(record['questions'])} reviewed question(s). {avatar_note}"
+            )
+            st.rerun()
 
         avatar_warnings: list[str] = []
         if simli_avatar_requested():
@@ -2547,9 +3006,7 @@ def render_create_assignment() -> None:
                 text=f"{ready_count}/{len(final_questions)} examiner avatar video(s) ready.",
             )
 
-        if not simli_avatar_requested():
-            avatar_warnings = ["Simli avatar is disabled, so this preview only confirms the question text."]
-        elif not any((question.get("avatar_video") or {}).get("source_url") for question in final_questions):
+        if not any((question.get("avatar_video") or {}).get("source_url") for question in final_questions):
             st.error("No examiner avatar videos were prepared. Please check the Simli/OpenAI settings, then try preparing the preview again.")
             for warning in avatar_warnings:
                 st.caption(warning)
@@ -2940,28 +3397,119 @@ def start_preparation_timer(assignment: dict) -> None:
         st.session_state.preparation_timer_assignment_id = assignment_id
 
 
+def preparation_materials_status(assignment: dict) -> tuple[bool, list[str]]:
+    """Verify preparation assets before starting the student's timer."""
+    missing: list[str] = []
+    if not visual_path(assignment):
+        missing.append("picture stimulus")
+
+    reading = assignment.get("reading")
+    if reading:
+        reading_text = str(reading.get("text", "")).strip()
+        if not reading_text:
+            missing.append("reading passage text")
+
+    return not missing, missing
+
+
 def render_preparation_loading(assignment: dict) -> None:
     st.subheader("Preparing your materials")
+    ready, missing = preparation_materials_status(assignment)
+    reading_note = " and reading passage" if assignment.get("reading") else ""
+    if not ready:
+        st.markdown(
+            f"""
+            <div class="prep-loading-card">
+              <div class="prep-loader"></div>
+              <div>
+                <h3>Checking your assessment pack</h3>
+                <p>Looking for the picture stimulus{reading_note} before the timer begins.</p>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        time.sleep(0.8)
+        st.error(
+            "This assessment cannot open yet because the following material is missing: "
+            f"{', '.join(missing)}."
+        )
+        st.caption("Ask your examiner to re-upload or recreate the assessment. The preparation timer has not started.")
+        if st.button("Back to assessment selection", width="stretch"):
+            st.session_state.student_portal_stage = "selection"
+            st.session_state.student_selected_assignment_id = None
+            st.rerun()
+        return
+
     st.markdown(
         f"""
-        <div class="prep-loading-card">
-          <div class="prep-loader"></div>
-          <div>
-            <h3>Opening your assessment pack</h3>
-            <p>Loading the picture stimulus{ " and reading passage" if assignment.get("reading") else "" } before the timer begins.</p>
+        <style>
+        .preparation-loading-overlay {{
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle at 12% 10%, #e3f3e7 0, #f6fbf7 38%, #fbfcf8 74%, #eaf4ec 100%);
+        }}
+        .preparation-loading-shell {{
+            width: min(680px, 92vw);
+        }}
+        .preparation-loading-overlay .prep-loading-card {{
+            background: rgba(255, 255, 253, 0.98);
+            margin-bottom: 0.75rem;
+        }}
+        .preparation-loading-steps {{
+            display: grid;
+            gap: 0.5rem;
+            padding: 0 0.35rem;
+            color: #47665b;
+            font-family: Aptos, Segoe UI, sans-serif;
+            font-size: 0.92rem;
+        }}
+        .preparation-loading-step {{
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+        }}
+        .preparation-loading-dot {{
+            width: 0.55rem;
+            height: 0.55rem;
+            border-radius: 999px;
+            background: #5b9d73;
+            box-shadow: 0 0 0 4px rgba(91, 157, 115, 0.16);
+        }}
+        </style>
+        <div class="preparation-loading-overlay">
+          <div class="preparation-loading-shell">
+            <div class="prep-loading-card">
+              <div class="prep-loader"></div>
+              <div>
+                <h3>Opening your assessment pack</h3>
+                <p>Loading the picture stimulus{reading_note}. Your timer starts only after these materials are ready.</p>
+              </div>
+            </div>
+            <div class="preparation-loading-steps">
+              <div class="preparation-loading-step"><span class="preparation-loading-dot"></span><span>Checking picture stimulus</span></div>
+              <div class="preparation-loading-step"><span class="preparation-loading-dot"></span><span>Checking reading passage</span></div>
+              <div class="preparation-loading-step"><span class="preparation-loading-dot"></span><span>Preparing timed view</span></div>
+            </div>
           </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
+
     with st.spinner("Getting everything ready..."):
         time.sleep(1.1)
+
     st.session_state.preparation_deadline = None
     st.session_state.preparation_timer_assignment_id = None
     st.session_state.preparation_complete = False
     st.session_state.student_portal_stage = "preparation"
     st.rerun()
-
 
 def render_assessment_loading(assignment: dict) -> None:
     st.session_state.preparation_deadline = None
@@ -3061,6 +3609,10 @@ def avatar_preload_entries(assignment: dict) -> list[dict]:
 @st.fragment(run_every=12)
 def render_examiner_avatar_warmup(assignment: dict) -> None:
     """Only collect already-running avatar jobs; do not create new avatars during student prep."""
+    if anam_avatar_requested():
+        st.caption("Anam live examiner avatar is enabled. The examiner will speak each prompt during the assessment.")
+        return
+
     collect_avatar_preload_results()
     saved_count = sum(1 for question in assignment.get("questions", []) if question_has_saved_avatar(question))
     total = len(assignment.get("questions", []))
@@ -3280,7 +3832,7 @@ def render_student_assessment(assignment: dict) -> None:
     examiner_col, stimulus_col = st.columns([0.95, 1.05], gap="large", vertical_alignment="top")
     with examiner_col:
         st.markdown('<div class="assessment-panel-label">Step 1 - Listen to the examiner</div>', unsafe_allow_html=True)
-        stored_avatar = None if guidance else refresh_avatar_video_reference(question.get("avatar_video") or {})
+        stored_avatar = None if guidance or anam_avatar_requested() else refresh_avatar_video_reference(question.get("avatar_video") or {})
         stored_avatar_path = stored_avatar.get("path") if stored_avatar else None
         stored_avatar_url = stored_avatar.get("source_url") if stored_avatar else None
         stored_avatar_ready = bool(stored_avatar.get("ready")) if stored_avatar else False

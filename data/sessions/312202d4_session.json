@@ -1,0 +1,243 @@
+{
+  "session_id": "312202d4",
+  "paper_id": "assignment_123_fba9fe4c",
+  "student_id": "123",
+  "date_created": "2026-07-02T16:55:55.437588",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-02T17:02:47.269814",
+      "speaker": "avatar",
+      "text": "Can you describe the atmosphere in the picture and how u feel if u were inside",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-02T17:02:47.282954",
+      "speaker": "student",
+      "text": "First response: Atmosphere feels weird.\n\nResponse after examiner follow-up: Feels weird because it's not normal to spend time with the family.",
+      "audio_path": "data\\sessions\\speech_20260702_090153_06976157.wav",
+      "transcription_path": "data\\sessions\\speech_20260702_090153_06976157.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-02T17:04:58.914951",
+      "speaker": "avatar",
+      "text": "What are some ways you think people might celebrate birthdays in different families?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-02T17:04:58.932166",
+      "speaker": "student",
+      "text": "I think some ways would be going out to have good food, going for a party and having your time.",
+      "audio_path": "data\\sessions\\speech_20260702_090413_6156498e.wav",
+      "transcription_path": "data\\sessions\\speech_20260702_090413_6156498e.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-07-02T17:12:51.585250",
+      "speaker": "avatar",
+      "text": "Why do you think the boy might be holding a card, and what could it possibly say?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-07-02T17:12:51.611585",
+      "speaker": "student",
+      "text": "First response: I think it's not a card. It looks like a paper to wipe food.\n\nResponse after examiner follow-up: I think preparing to wipe away the mouth",
+      "audio_path": "data\\sessions\\speech_20260702_091217_87599fbc.wav",
+      "transcription_path": "data\\sessions\\speech_20260702_091217_87599fbc.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Can you describe the atmosphere in the picture and how u feel if u were inside",
+        "answer": "First response: Atmosphere feels weird.\n\nResponse after examiner follow-up: Feels weird because it's not normal to spend time with the family.",
+        "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The response is partly relevant but lacks specific details from the stimulus and a clear personal viewpoint.",
+            "evidence": "The student mentions that the atmosphere feels weird and explains it's because it's not normal to spend time with family.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student's answer provides a basic idea but lacks elaboration or examples to support their response.",
+            "evidence": "Atmosphere feels weird.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in their response.",
+            "evidence": "Atmosphere feels weird. Feels weird because it's not normal to spend time with the family.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 1,
+            "max_score": 3,
+            "feedback": "The student needs repeated support to continue responding.",
+            "evidence": "The student's initial response was brief and required follow-up questions from the examiner to provide more information.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "I appreciate your honesty in describing the atmosphere as feeling weird. However, there seems to be a mismatch with the stimulus facts as spending time with family for a birthday celebration should feel warm and joyful. Your biggest improvement area is to provide more specific details and examples to support your response. Next time, try starting with a sentence like \"The family in the picture looks happy celebrating the birthday together.\" Keep up the effort to expand on your ideas and use more precise language in your responses.",
+        "total_score": 12,
+        "max_score": 25,
+        "percentage": 48.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "What are some ways you think people might celebrate birthdays in different families?",
+        "answer": "I think some ways would be going out to have good food, going for a party and having your time.",
+        "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The response is partly relevant but lacks specific details from the stimulus or a clear personal viewpoint.",
+            "evidence": "The student mentions going out for good food and having a party, which are somewhat related to celebrating birthdays, but does not include specific details from the image or provide a clear personal viewpoint.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides basic ideas about celebrating birthdays but lacks elaboration or examples.",
+            "evidence": "The student mentions going out for good food, going to a party, and having your time as ways to celebrate birthdays.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in sentence structure.",
+            "evidence": "The student's answer includes some language errors like 'going out to have good food' instead of 'going out to have good food,' and 'going for a party' instead of 'going to a party.'",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence, but could benefit from providing more specific examples or details.",
+            "evidence": "The student mentions ways people might celebrate birthdays, such as going out for good food and having a party.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Student, you showed good interaction and confidence in responding to the prompt about celebrating birthdays. One strength I see is your willingness to share your ideas. However, your response did not match the visual stimulus facts, as there was no mention of a family gathering around a birthday cake. The biggest area for improvement is providing more specific details and examples to support your ideas. Next time, try starting your sentence with \"In my family, we celebrate birthdays by...\" to give a clearer and more detailed response. Keep practicing to enhance your idea development and spoken language use.",
+        "total_score": 13,
+        "max_score": 25,
+        "percentage": 52.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Why do you think the boy might be holding a card, and what could it possibly say?",
+        "answer": "First response: I think it's not a card. It looks like a paper to wipe food.\n\nResponse after examiner follow-up: I think preparing to wipe away the mouth",
+        "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The response is partly relevant as it mentions using the paper to wipe away food, but lacks specific details from the stimulus or a clear personal viewpoint.",
+            "evidence": "I think preparing to wipe away the mouth",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student provides a basic idea that the boy might be preparing to wipe his mouth, but the answer lacks elaboration or examples to support this reasoning.",
+            "evidence": "I think preparing to wipe away the mouth",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student demonstrates understandable language with simple vocabulary but noticeable errors in grammar and sentence control.",
+            "evidence": "I think preparing to wipe away the mouth",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence and builds on the examiner's prompt.",
+            "evidence": "I think preparing to wipe away the mouth",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for recognizing that the boy might be preparing to wipe his mouth with the paper, showing good observation skills. However, the visual stimulus actually shows him holding a card, not paper for wiping. One area for improvement is to provide more specific details from the image to support your answer. Next time, try starting your response with a sentence like \"I noticed that the boy is holding a card which could possibly say...\" to show a deeper understanding of the visual stimulus. Keep practicing and paying attention to details in the image to enhance your responses.",
+        "total_score": 13,
+        "max_score": 25,
+        "percentage": 52.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-07-02T16:55:55.453647",
+  "end_time": "2026-07-02T17:12:58.137897",
+  "metadata": {
+    "assignment_id": "372f4df3c110",
+    "component": "student_assessment",
+    "subject": "assignment_123_fba9fe4c",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

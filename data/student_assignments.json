@@ -973,7 +973,7 @@
       "rubric": "psle_oral_english",
       "status": "in_progress",
       "created_at": "2026-07-02T04:07:09.635710+00:00",
-      "updated_at": "2026-07-02T04:12:06.477385+00:00",
+      "updated_at": "2026-07-03T05:45:31.704767+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "o_1ivs60ia8816jac11v3k6v9khc.png",
@@ -1114,7 +1114,38 @@
         }
       ],
       "reading_completed_at": "2026-07-02T04:12:06.477381+00:00",
-      "guidance_attempts": {},
+      "guidance_attempts": {
+        "1": {
+          "original_response": "They feel happy.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260703_054403_7461163d.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260703_054403_7461163d.json",
+          "original_delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 3.8,
+            "words_per_minute": 47.6,
+            "pitch_range_semitones": 8.9,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "follow_up_question": "You said \"They feel happy.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/OC4xNy4xNDcuMjQxOjYwNzg=/4b6ee538-7886-4585-bf98-9a3fd87517d5/output.m3u8",
+            "created_at": "2026-07-03T13:45:17",
+            "asset_key": "6069bdc86388_1_guidance",
+            "kind": "hls_pending",
+            "ready": false,
+            "mp4_url": "https://api.simli.ai/mp4/OC4xNy4xNDcuMjQxOjYwNzg=/4b6ee538-7886-4585-bf98-9a3fd87517d5/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/OC4xNy4xNDcuMjQxOjYwNzg=/4b6ee538-7886-4585-bf98-9a3fd87517d5/output.m3u8",
+            "terminal_file_not_found": true
+          },
+          "created_at": "2026-07-03T05:45:31.704746+00:00"
+        }
+      },
       "results": [],
       "results_released_at": null,
       "results_released_by": null
@@ -1423,6 +1454,716 @@
           "crew_analysis": "Well done for mentioning the importance of washing hands for clean hygiene in your response. You're on the right track by connecting the action in the image with hygiene. Next time, try starting with a sentence like \"I notice the children are already washing their hands to stay clean.\" Remember, adding specific details related to the picture can make your response even stronger. Keep up the good work in elaborating on your ideas and providing more explanations to support them!"
         }
       ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "372f4df3c110": {
+      "assignment_id": "372f4df3c110",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practice51234",
+      "subject": "assignment_123_fba9fe4c",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-07-02T08:54:02.834181+00:00",
+      "updated_at": "2026-07-03T05:49:31.533205+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "o_1ivs60ia8816jac11v3k6v9khc.png",
+        "path": "data\\input\\assignment_123_fba9fe4c\\o_1ivs60ia8816jac11v3k6v9khc.png",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe the atmosphere in the picture and how u feel if u were inside",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_fba9fe4c_images\\page_1.png",
+          "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+          "generated_text": "Can you describe the atmosphere in the picture and what makes it special?",
+          "edited_by_examiner": true,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4MA==/b4f1a962-981e-4a3a-b5a3-2d4260666d0c/output.m3u8",
+            "created_at": "2026-07-02T16:49:20",
+            "asset_key": "b6968fa823334fd1b8124c6e70350e75_q1_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA4MA==/b4f1a962-981e-4a3a-b5a3-2d4260666d0c/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA4MA==/b4f1a962-981e-4a3a-b5a3-2d4260666d0c/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 2,
+          "text": "What are some ways you think people might celebrate birthdays in different families?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_fba9fe4c_images\\page_1.png",
+          "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+          "generated_text": "What are some ways you think people might celebrate birthdays in different families?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3OA==/08237cf0-b7ca-49e9-91f0-7c5ec898fb80/output.m3u8",
+            "created_at": "2026-07-02T16:49:31",
+            "asset_key": "b6968fa823334fd1b8124c6e70350e75_q2_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA3OA==/08237cf0-b7ca-49e9-91f0-7c5ec898fb80/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3OA==/08237cf0-b7ca-49e9-91f0-7c5ec898fb80/output.m3u8",
+            "generation_attempt": 1
+          }
+        },
+        {
+          "id": 3,
+          "text": "Why do you think the boy might be holding a card, and what could it possibly say?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_fba9fe4c_images\\page_1.png",
+          "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+          "generated_text": "Why do you think the boy might be holding a card, and what could it possibly say?",
+          "edited_by_examiner": false,
+          "avatar_video": {
+            "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA5MA==/df89d738-55d1-4fe2-beff-99b4d1993ec4/output.m3u8",
+            "created_at": "2026-07-02T16:49:39",
+            "asset_key": "b6968fa823334fd1b8124c6e70350e75_q3_attempt1",
+            "kind": "hls",
+            "ready": true,
+            "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA5MA==/df89d738-55d1-4fe2-beff-99b4d1993ec4/output.mp4",
+            "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA5MA==/df89d738-55d1-4fe2-beff-99b4d1993ec4/output.m3u8",
+            "generation_attempt": 1
+          }
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "8432cbb98d43",
+          "question_id": 1,
+          "question": "Can you describe the atmosphere in the picture and how u feel if u were inside",
+          "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+          "student_response": "First response: Atmosphere feels weird.\n\nResponse after examiner follow-up: Feels weird because it's not normal to spend time with the family.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260702_090153_06976157.wav",
+          "transcription_path": "data\\sessions\\speech_20260702_090153_06976157.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 6.7,
+            "words_per_minute": 107.1,
+            "pitch_range_semitones": 9.5,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "312202d4",
+          "created_at": "2026-07-02T09:03:03.795744+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe the atmosphere in the picture and how u feel if u were inside",
+            "answer": "First response: Atmosphere feels weird.\n\nResponse after examiner follow-up: Feels weird because it's not normal to spend time with the family.",
+            "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus and a clear personal viewpoint.",
+                "evidence": "The student mentions that the atmosphere feels weird and explains it's because it's not normal to spend time with family.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea but lacks elaboration or examples to support their response.",
+                "evidence": "Atmosphere feels weird.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in their response.",
+                "evidence": "Atmosphere feels weird. Feels weird because it's not normal to spend time with the family.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue responding.",
+                "evidence": "The student's initial response was brief and required follow-up questions from the examiner to provide more information.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your honesty in describing the atmosphere as feeling weird. However, there seems to be a mismatch with the stimulus facts as spending time with family for a birthday celebration should feel warm and joyful. Your biggest improvement area is to provide more specific details and examples to support your response. Next time, try starting with a sentence like \"The family in the picture looks happy celebrating the birthday together.\" Keep up the effort to expand on your ideas and use more precise language in your responses.",
+            "total_score": 12,
+            "max_score": 25,
+            "percentage": 48.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe the atmosphere in the picture and how u feel if u were inside",
+            "answer": "First response: Atmosphere feels weird.\n\nResponse after examiner follow-up: Feels weird because it's not normal to spend time with the family.",
+            "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus and a clear personal viewpoint.",
+                "evidence": "The student mentions that the atmosphere feels weird and explains it's because it's not normal to spend time with family.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea but lacks elaboration or examples to support their response.",
+                "evidence": "Atmosphere feels weird.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in their response.",
+                "evidence": "Atmosphere feels weird. Feels weird because it's not normal to spend time with the family.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue responding.",
+                "evidence": "The student's initial response was brief and required follow-up questions from the examiner to provide more information.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your honesty in describing the atmosphere as feeling weird. However, there seems to be a mismatch with the stimulus facts as spending time with family for a birthday celebration should feel warm and joyful. Your biggest improvement area is to provide more specific details and examples to support your response. Next time, try starting with a sentence like \"The family in the picture looks happy celebrating the birthday together.\" Keep up the effort to expand on your ideas and use more precise language in your responses.",
+            "total_score": 10,
+            "max_score": 25,
+            "percentage": 40.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-07-03T05:48:56.946334+00:00",
+            "reviewed_by": "001",
+            "note": "require more detail about",
+            "score_changes": {
+              "Stimulus Response Relevance": 4,
+              "Idea Development": 2,
+              "Spoken Language Use": 3,
+              "Interaction And Confidence": 1
+            }
+          },
+          "crew_analysis": "I appreciate your honesty in describing the atmosphere as feeling weird. However, there seems to be a mismatch with the stimulus facts as spending time with family for a birthday celebration should feel warm and joyful. Your biggest improvement area is to provide more specific details and examples to support your response. Next time, try starting with a sentence like \"The family in the picture looks happy celebrating the birthday together.\" Keep up the effort to expand on your ideas and use more precise language in your responses.\n\nScaffolded Follow-up Question: Can you describe a specific detail from the picture that contributes to the weird atmosphere you mentioned?\n\nEncouragement: Great job on sharing your initial thoughts! Remember to observe the details in the picture carefully and try to use specific examples to support your ideas next time. Keep practicing and elaborating on your responses to show a deeper understanding. You're making progress, so keep up the good work!",
+          "guided_attempt": {
+            "original_response": "Atmosphere feels weird.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260702_085734_5845781b.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260702_085734_5845781b.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 2.6,
+              "words_per_minute": 69.8,
+              "pitch_range_semitones": 11.5,
+              "notes": [
+                "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "You said \"Atmosphere feels weird.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-07-02T08:58:11.070090+00:00",
+            "follow_up_response": "Feels weird because it's not normal to spend time with the family."
+          }
+        },
+        {
+          "result_id": "188727f7c1c5",
+          "question_id": 2,
+          "question": "What are some ways you think people might celebrate birthdays in different families?",
+          "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+          "student_response": "I think some ways would be going out to have good food, going for a party and having your time.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260702_090413_6156498e.wav",
+          "transcription_path": "data\\sessions\\speech_20260702_090413_6156498e.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 11.2,
+            "words_per_minute": 107.5,
+            "pitch_range_semitones": 13.3,
+            "notes": [
+              "Pace falls within a broad conversational range; listen to the recording for clarity.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "312202d4",
+          "created_at": "2026-07-02T09:05:04.918782+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What are some ways you think people might celebrate birthdays in different families?",
+            "answer": "I think some ways would be going out to have good food, going for a party and having your time.",
+            "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student mentions going out for good food and having a party, which are somewhat related to celebrating birthdays, but does not include specific details from the image or provide a clear personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides basic ideas about celebrating birthdays but lacks elaboration or examples.",
+                "evidence": "The student mentions going out for good food, going to a party, and having your time as ways to celebrate birthdays.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in sentence structure.",
+                "evidence": "The student's answer includes some language errors like 'going out to have good food' instead of 'going out to have good food,' and 'going for a party' instead of 'going to a party.'",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, but could benefit from providing more specific examples or details.",
+                "evidence": "The student mentions ways people might celebrate birthdays, such as going out for good food and having a party.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Student, you showed good interaction and confidence in responding to the prompt about celebrating birthdays. One strength I see is your willingness to share your ideas. However, your response did not match the visual stimulus facts, as there was no mention of a family gathering around a birthday cake. The biggest area for improvement is providing more specific details and examples to support your ideas. Next time, try starting your sentence with \"In my family, we celebrate birthdays by...\" to give a clearer and more detailed response. Keep practicing to enhance your idea development and spoken language use.",
+            "total_score": 13,
+            "max_score": 25,
+            "percentage": 52.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What are some ways you think people might celebrate birthdays in different families?",
+            "answer": "I think some ways would be going out to have good food, going for a party and having your time.",
+            "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student mentions going out for good food and having a party, which are somewhat related to celebrating birthdays, but does not include specific details from the image or provide a clear personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides basic ideas about celebrating birthdays but lacks elaboration or examples.",
+                "evidence": "The student mentions going out for good food, going to a party, and having your time as ways to celebrate birthdays.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in sentence structure.",
+                "evidence": "The student's answer includes some language errors like 'going out to have good food' instead of 'going out to have good food,' and 'going for a party' instead of 'going to a party.'",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, but could benefit from providing more specific examples or details.",
+                "evidence": "The student mentions ways people might celebrate birthdays, such as going out for good food and having a party.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Student, you showed good interaction and confidence in responding to the prompt about celebrating birthdays. One strength I see is your willingness to share your ideas. However, your response did not match the visual stimulus facts, as there was no mention of a family gathering around a birthday cake. The biggest area for improvement is providing more specific details and examples to support your ideas. Next time, try starting your sentence with \"In my family, we celebrate birthdays by...\" to give a clearer and more detailed response. Keep practicing to enhance your idea development and spoken language use.",
+            "total_score": 13,
+            "max_score": 25,
+            "percentage": 52.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-07-03T05:49:12.680358+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 4,
+              "Idea Development": 4,
+              "Spoken Language Use": 3,
+              "Interaction And Confidence": 2
+            }
+          },
+          "crew_analysis": "Student, you showed good interaction and confidence in responding to the prompt about celebrating birthdays. One strength I see is your willingness to share your ideas. However, your response did not match the visual stimulus facts, as there was no mention of a family gathering around a birthday cake. The biggest area for improvement is providing more specific details and examples to support your ideas. Next time, try starting your sentence with \"In my family, we celebrate birthdays by...\" to give a clearer and more detailed response. Keep practicing to enhance your idea development and spoken language use. Remember, including personal experiences can make your response more engaging and relevant. Keep up the good work and strive to incorporate these improvements in your next attempt!"
+        },
+        {
+          "result_id": "896a293dd69c",
+          "question_id": 3,
+          "question": "Why do you think the boy might be holding a card, and what could it possibly say?",
+          "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+          "student_response": "First response: I think it's not a card. It looks like a paper to wipe food.\n\nResponse after examiner follow-up: I think preparing to wipe away the mouth",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260702_091217_87599fbc.wav",
+          "transcription_path": "data\\sessions\\speech_20260702_091217_87599fbc.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 9.5,
+            "words_per_minute": 50.6,
+            "pitch_range_semitones": 11.3,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "312202d4",
+          "created_at": "2026-07-02T09:12:57.352453+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Why do you think the boy might be holding a card, and what could it possibly say?",
+            "answer": "First response: I think it's not a card. It looks like a paper to wipe food.\n\nResponse after examiner follow-up: I think preparing to wipe away the mouth",
+            "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant as it mentions using the paper to wipe away food, but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student provides a basic idea that the boy might be preparing to wipe his mouth, but the answer lacks elaboration or examples to support this reasoning.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student demonstrates understandable language with simple vocabulary but noticeable errors in grammar and sentence control.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and builds on the examiner's prompt.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for recognizing that the boy might be preparing to wipe his mouth with the paper, showing good observation skills. However, the visual stimulus actually shows him holding a card, not paper for wiping. One area for improvement is to provide more specific details from the image to support your answer. Next time, try starting your response with a sentence like \"I noticed that the boy is holding a card which could possibly say...\" to show a deeper understanding of the visual stimulus. Keep practicing and paying attention to details in the image to enhance your responses.",
+            "total_score": 13,
+            "max_score": 25,
+            "percentage": 52.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Why do you think the boy might be holding a card, and what could it possibly say?",
+            "answer": "First response: I think it's not a card. It looks like a paper to wipe food.\n\nResponse after examiner follow-up: I think preparing to wipe away the mouth",
+            "visual_context": "The image shows a family gathered around a birthday cake. There are four people visible. An elderly woman with white hair is smiling. Two young adults, one wearing a sleeveless dress and the other in a t-shirt and shorts, are holding a knife together to cut the cake. A younger boy is looking at the cake while holding a small card. The cake is round with a chocolate design and a sign that says 'HAPPY BIRTHDAY!' There are lit candles on the cake. They are seated on a sofa with decorative cushions behind them.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant as it mentions using the paper to wipe away food, but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student provides a basic idea that the boy might be preparing to wipe his mouth, but the answer lacks elaboration or examples to support this reasoning.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student demonstrates understandable language with simple vocabulary but noticeable errors in grammar and sentence control.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and builds on the examiner's prompt.",
+                "evidence": "I think preparing to wipe away the mouth",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for recognizing that the boy might be preparing to wipe his mouth with the paper, showing good observation skills. However, the visual stimulus actually shows him holding a card, not paper for wiping. One area for improvement is to provide more specific details from the image to support your answer. Next time, try starting your response with a sentence like \"I noticed that the boy is holding a card which could possibly say...\" to show a deeper understanding of the visual stimulus. Keep practicing and paying attention to details in the image to enhance your responses.",
+            "total_score": 13,
+            "max_score": 25,
+            "percentage": 52.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": {
+            "reviewed_at": "2026-07-03T05:49:21.853650+00:00",
+            "reviewed_by": "001",
+            "note": "",
+            "score_changes": {
+              "Stimulus Response Relevance": 4,
+              "Idea Development": 4,
+              "Spoken Language Use": 3,
+              "Interaction And Confidence": 2
+            }
+          },
+          "crew_analysis": "Well done for recognizing that the boy might be preparing to wipe his mouth with the paper, showing good observation skills. However, the visual stimulus actually shows him holding a card, not paper for wiping. One area for improvement is to provide more specific details from the image to support your answer. Next time, try starting your response with a sentence like \"I noticed that the boy is holding a card which could possibly say...\" to show a deeper understanding of the visual stimulus. Keep practicing and paying attention to details in the image to enhance your responses.\n\nRemember, \"I noticed that the boy is holding a card which could possibly say...\" - use this sentence starter to connect your response more closely to the visual stimulus provided. Great job on your efforts so far; keep up the good work and strive to include more specific details from the image in your responses. You're making progress, keep practicing!",
+          "guided_attempt": {
+            "original_response": "I think it's not a card. It looks like a paper to wipe food.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260702_090810_fe2b1000.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260702_090810_fe2b1000.json",
+            "original_delivery_indicators": {
+              "status": "available",
+              "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+              "duration_seconds": 5.9,
+              "words_per_minute": 141.4,
+              "pitch_range_semitones": 9.6,
+              "notes": [
+                "Pace falls within a broad conversational range; listen to the recording for clarity.",
+                "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+              ]
+            },
+            "follow_up_question": "Thank you for your response. Can you think of a reason why the boy might be holding something while looking at the cake?",
+            "reason": "The student's response is unrelated to the image and does not address the prompt.",
+            "avatar_video": {
+              "source_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3Ng==/bea7c39f-919a-4282-8800-cc0b3d8ed51c/output.m3u8",
+              "created_at": "2026-07-02T17:09:18",
+              "asset_key": "372f4df3c110_3_guidance",
+              "kind": "hls",
+              "ready": true,
+              "mp4_url": "https://api.simli.ai/mp4/MTkyLjE2OC4xMTguMTA6NjA3Ng==/bea7c39f-919a-4282-8800-cc0b3d8ed51c/output.mp4",
+              "hls_url": "https://api.simli.ai/hls/MTkyLjE2OC4xMTguMTA6NjA3Ng==/bea7c39f-919a-4282-8800-cc0b3d8ed51c/output.m3u8"
+            },
+            "created_at": "2026-07-02T09:09:20.903573+00:00",
+            "follow_up_response": "I think preparing to wipe away the mouth"
+          }
+        }
+      ],
+      "results_released_at": "2026-07-03T05:49:31.533179+00:00",
+      "results_released_by": "001"
+    },
+    "0f32fe464576": {
+      "assignment_id": "0f32fe464576",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiceanam",
+      "subject": "assignment_123_c9b7b1c2",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-03T18:12:48.269509+00:00",
+      "updated_at": "2026-07-03T18:33:44.808676+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_123_c9b7b1c2\\aa.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Filename ending bracket or space ca.txt",
+        "path": "data\\input\\assignment_123_c9b7b1c2\\Filename ending bracket or space ca.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Yeah. Huh.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260703_181437_abeee42c.wav",
+        "transcription_path": "data\\sessions\\speech_20260703_181437_abeee42c.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 1.9,
+          "words_per_minute": 62.5,
+          "pitch_range_semitones": 9.1,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Yeah. Huh.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.9, \"words_per_minute\": 62.5, \"pitch_range_semitones\": 9.1, \"notes\": [\"Pace appears slow; check whether pauses support meaning or interrupt fluency.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is halting and unclear with pronunciation issues.",
+              "evidence": "Yeah. Huh.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Good effort in attempting to read aloud, but there are some areas that we can work on together. Your pronunciation and clarity can be improved to help make your reading more understandable. Remember to take your time and focus on each word. Try saying the sentence with more confidence and expression next time. Let's practice together to strengthen your reading skills. Keep up the effort!",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Yeah. Huh.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.9, \"words_per_minute\": 62.5, \"pitch_range_semitones\": 9.1, \"notes\": [\"Pace appears slow; check whether pauses support meaning or interrupt fluency.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is halting and unclear with pronunciation issues.",
+              "evidence": "Yeah. Huh.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Good effort in attempting to read aloud, but there are some areas that we can work on together. Your pronunciation and clarity can be improved to help make your reading more understandable. Remember to take your time and focus on each word. Try saying the sentence with more confidence and expression next time. Let's practice together to strengthen your reading skills. Keep up the effort!",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Good effort in attempting to read aloud, but there are some areas that we can work on together. Your pronunciation and clarity can be improved to help make your reading more understandable. Remember to take your time and focus on each word. Try saying the sentence with more confidence and expression next time. Let's practice together to strengthen your reading skills. Keep up the effort!\n\nSentence Starter: \"Can you try reading that sentence again, but this time, focus on pronouncing each word clearly and with confidence? You can start by saying, 'The'...\"",
+        "submitted_at": "2026-07-03T18:15:27.650571+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what the children in the picture are doing and why it might be important?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_c9b7b1c2_images\\page_1.webp",
+          "visual_context": "The image shows three children in a restroom area washing their hands at a row of sinks. The child closest to the viewer is wearing a blue long-sleeved shirt and is operating a faucet. There are two other children visible in the background; one is wearing a white shirt and red plaid skirt, and the other is in a pink top. They appear to be at similar sinks, with soap dispensers mounted on the wall above them.",
+          "generated_text": "Can you describe what the children in the picture are doing and why it might be important?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Why do you think there are soap dispensers on the wall, and how do they help",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_c9b7b1c2_images\\page_1.webp",
+          "visual_context": "The image shows three children in a restroom area washing their hands at a row of sinks. The child closest to the viewer is wearing a blue long-sleeved shirt and is operating a faucet. There are two other children visible in the background; one is wearing a white shirt and red plaid skirt, and the other is in a pink top. They appear to be at similar sinks, with soap dispensers mounted on the wall above them.",
+          "generated_text": "Why do you think there are soap dispensers on the wall, and how do they help in washing hands?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 3,
+          "text": "How would you explain the importance of washing hands to a younger child?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_c9b7b1c2_images\\page_1.webp",
+          "visual_context": "The image shows three children in a restroom area washing their hands at a row of sinks. The child closest to the viewer is wearing a blue long-sleeved shirt and is operating a faucet. There are two other children visible in the background; one is wearing a white shirt and red plaid skirt, and the other is in a pink top. They appear to be at similar sinks, with soap dispensers mounted on the wall above them.",
+          "generated_text": "How would you explain the importance of washing hands to a younger child?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-03T18:15:27.650603+00:00",
+      "guidance_attempts": {
+        "1": {
+          "original_response": "Washing hand.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260703_183311_6e4f7a6f.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260703_183311_6e4f7a6f.json",
+          "original_delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 3.8,
+            "words_per_minute": 31.7,
+            "pitch_range_semitones": 19.5,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "follow_up_question": "You said \"Washing hand.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-07-03T18:33:44.808640+00:00"
+        }
+      },
+      "results": [],
       "results_released_at": null,
       "results_released_by": null
     }

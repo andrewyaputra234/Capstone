@@ -7,6 +7,8 @@ __pycache__/
 chroma_db/
 data/chroma_db/
 data/avatar_videos/
+data/avatar_asset_cache.json
+data/avatar_debug.jsonl
 data/streamlit_*.log
 data/sessions/speech_*.json
 data/sessions/speech_*.wav
