@@ -1,0 +1,137 @@
+{
+  "session_id": "401227fb",
+  "paper_id": "assignment_123_7ce3371a",
+  "student_id": "123",
+  "date_created": "2026-07-04T13:00:46.302877",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-04T13:01:51.830033",
+      "speaker": "avatar",
+      "text": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.3, \"words_per_minute\": 102.6, \"pitch_range_semitones\": 15.9, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}"
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-04T13:01:51.843232",
+      "speaker": "student",
+      "text": "file name ending bracket",
+      "audio_path": "data\\sessions\\speech_20260704_050104_799d3892.wav",
+      "transcription_path": "data\\sessions\\speech_20260704_050104_799d3892.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-04T13:03:56.785749",
+      "speaker": "avatar",
+      "text": "What are the children doing at the sink, and why is it important?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-04T13:03:56.800416",
+      "speaker": "student",
+      "text": "The children are washing hands at the scene.",
+      "audio_path": "data\\sessions\\speech_20260704_050333_eafbe08e.wav",
+      "transcription_path": "data\\sessions\\speech_20260704_050333_eafbe08e.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+        "answer": "file name ending bracket",
+        "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.3, \"words_per_minute\": 102.6, \"pitch_range_semitones\": 15.9, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 10,
+            "max_score": 20,
+            "feedback": "The reading is understandable but with uneven pace and some pronunciation issues.",
+            "evidence": "file name ending bracket",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done on making your answer understandable, showing a good effort to communicate clearly. However, there were some pace and pronunciation issues that affected the overall delivery. Next time, try to work on maintaining a more consistent pace and pay attention to your pronunciation. A helpful sentence starter could be, \"I believe that...\" Keep practicing and focus on improving these areas for your next oral practice.",
+        "total_score": 10,
+        "max_score": 20,
+        "percentage": 50.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "What are the children doing at the sink, and why is it important?",
+        "answer": "The children are washing hands at the scene.",
+        "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant as they correctly identify that the children are washing hands at the sink. However, their answer lacks specific details from the visual stimulus and a clear personal viewpoint.",
+            "evidence": "The children are washing hands at the scene.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+            "evidence": "The student's answer states that the children are washing hands at the scene.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+            "evidence": "The children are washing hands at the scene.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence by identifying that the children are washing hands, but could benefit from providing more detail or explanation.",
+            "evidence": "The children are washing hands at the scene.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Great job in identifying that the children are washing their hands at the sink, that shows good observation skills. However, it's important to remember to include specific details from the visual stimulus, like the clothing of the children, to make your answer more detailed and accurate. Your biggest area of improvement is in adding more examples or reasons to support your answer and make it more complete. Next time, you can start by saying, \"In the image, I can see that the children are washing their hands at the sink, and I noticed...\" Keep practicing to include more details and explanations in your responses.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-07-04T13:00:46.318880",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "e78b81ac7a01",
+    "component": "student_assessment",
+    "subject": "assignment_123_7ce3371a",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

@@ -76,7 +76,12 @@ def analyse_delivery(audio_path: str | Path, transcript: str) -> dict[str, Any]:
     return result
 
 
-def transcribe_streamlit_audio(uploaded_audio, session_dir: str | Path = "data/sessions") -> dict[str, Any]:
+def transcribe_streamlit_audio(
+    uploaded_audio,
+    session_dir: str | Path = "data/sessions",
+    *,
+    include_delivery: bool = True,
+) -> dict[str, Any]:
     """Persist a browser recording, transcribe it, and return reviewable metadata."""
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
@@ -102,7 +107,10 @@ def transcribe_streamlit_audio(uploaded_audio, session_dir: str | Path = "data/s
         text = str(transcription.text).strip()
         if not text:
             raise ValueError("No speech was detected in this recording.")
-        delivery = analyse_delivery(audio_path, text)
+        delivery = analyse_delivery(audio_path, text) if include_delivery else {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment.",
+        }
         transcription_path = audio_path.with_suffix(".json")
         transcription_path.write_text(
             json.dumps(

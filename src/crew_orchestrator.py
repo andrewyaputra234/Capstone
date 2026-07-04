@@ -357,6 +357,7 @@ class EducationCrew:
         file_path: str,
         material_type: Optional[str] = None,
         extract_questions: bool = True,
+        run_crew_analysis: bool = True,
     ) -> Dict[str, Any]:
         """
         Full ingestion: real pipeline + question extraction + CrewAI analysis.
@@ -386,6 +387,20 @@ class EducationCrew:
                 "ingest_result": ingest_result,
                 "questions": questions,
                 "crew_analysis": "Material ingested. Question extraction was skipped for this upload.",
+            }
+
+        if not run_crew_analysis:
+            return {
+                "workflow": "ingestion",
+                "subject": self.subject,
+                "file_path": file_path,
+                "ingest_result": ingest_result,
+                "questions": questions,
+                "crew_analysis": (
+                    "Question review used the fast ingestion path: the uploaded material was ingested "
+                    "and vision-grounded questions were generated without the supplemental CrewAI "
+                    "analysis pass."
+                ),
             }
 
         preview = _retrieve_vector_context(
@@ -744,6 +759,9 @@ class EducationCrew:
                 "rubric_focus": ["Stimulus Response Relevance", "Idea Development", "Interaction And Confidence"],
             }
 
+        if os.getenv("FAST_ORAL_TURN_EVALUATION", "true").strip().lower() in {"1", "true", "yes", "on"}:
+            return self._fast_oral_turn_decision(question, response, attempt_number, max_attempts)
+
         context = _retrieve_vector_context(question, num_results=3)
         history = conversation_history or []
         rubric_summary = self._rubric_summary()
@@ -890,6 +908,36 @@ class EducationCrew:
         ]
         lowered = response.lower()
         return any(marker in lowered for marker in struggling_markers)
+
+    def _fast_oral_turn_decision(
+        self,
+        question: str,
+        response: str,
+        attempt_number: int,
+        max_attempts: int,
+    ) -> Dict[str, Any]:
+        """Low-latency first-pass decision for demo-speed oral flow."""
+        word_count = len(response.split())
+        accepted = word_count >= 6 or (attempt_number >= max_attempts and word_count >= 4)
+        if accepted:
+            return {
+                "accepted": True,
+                "status": "accepted",
+                "examiner_reply": "Thank you, let's move on to the next question.",
+                "reason": "Fast oral-turn evaluation accepted a passable-length response.",
+                "rubric_focus": ["Stimulus Response Relevance", "Idea Development"],
+            }
+        return {
+            "accepted": False,
+            "status": "needs_prompt",
+            "examiner_reply": self._adaptive_follow_up_question(
+                question,
+                response,
+                "The response is short and may need one more reason, example, or visible detail.",
+            ),
+            "reason": "Fast oral-turn evaluation requested guidance for a short response.",
+            "rubric_focus": ["Stimulus Response Relevance", "Idea Development", "Interaction And Confidence"],
+        }
 
     @staticmethod
     def _looks_generic_follow_up(reply: str) -> bool:

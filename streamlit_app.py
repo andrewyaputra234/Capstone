@@ -1603,13 +1603,18 @@ def capture_student_response(
     *,
     allow_skip: bool = True,
     skip_label: str = "Skip question",
+    review_transcript: bool = True,
+    include_delivery: bool = True,
 ) -> dict | None:
     """Collect a browser microphone recording and transcript for grading."""
     if not hasattr(st, "audio_input"):
         st.error("Microphone answers require a newer Streamlit version with browser audio input.")
         return None
     st.markdown('<div class="portal-field-label">Speak into the microphone</div>', unsafe_allow_html=True)
-    st.caption("Record your answer, transcribe it, then review what the system heard before submitting.")
+    if review_transcript:
+        st.caption("Record your answer, transcribe it, then review what the system heard before submitting.")
+    else:
+        st.caption("Record your answer, then submit it. The system will process it and continue automatically.")
     recording = st.audio_input("Record your answer", key=f"voice_response_{key_suffix}")
     preview_key = f"voice_preview_{key_suffix}"
     recording_fingerprint = None
@@ -1625,23 +1630,27 @@ def capture_student_response(
 
     if not preview:
         columns = st.columns(2) if allow_skip else st.columns(1)
-        transcribe = columns[0].button(
-            "Transcribe recording", type="primary", width="stretch", key=f"transcribe_voice_{key_suffix}"
+        action_label = "Transcribe recording" if review_transcript else submit_label
+        submit_recording = columns[0].button(
+            action_label, type="primary", width="stretch", key=f"transcribe_voice_{key_suffix}"
         )
         skipped = columns[1].button(skip_label, width="stretch", key=f"skip_voice_{key_suffix}") if allow_skip else False
         if skipped:
             return {"text": "[Skipped question]", "skipped": True, "mode": "voice"}
-        if not transcribe:
+        if not submit_recording:
             return None
         if not recording:
-            st.warning("Record an answer before transcribing it.")
+            st.warning("Record an answer before submitting it.")
             return None
         try:
-            with st.spinner("Transcribing your recording..."):
-                voice = transcribe_streamlit_audio(recording)
+            spinner_text = "Processing your answer..." if not review_transcript else "Transcribing your recording..."
+            with st.spinner(spinner_text):
+                voice = transcribe_streamlit_audio(recording, include_delivery=include_delivery)
         except Exception as error:
             st.error(f"Your recording could not be transcribed: {error}")
             return None
+        if not review_transcript:
+            return {"fingerprint": recording_fingerprint, "skipped": False, **voice}
         st.session_state[preview_key] = {"fingerprint": recording_fingerprint, **voice}
         st.rerun()
 
@@ -2673,8 +2682,12 @@ def render_assignment_generation_loading(request: dict) -> None:
         visual_file = save_queued_upload(request["visual_upload"], temporary_directory)
 
         progress.progress(0.45, text="Reading the image and generating oral questions...")
+        run_review_analysis = bool_env("QUESTION_REVIEW_CREW_ANALYSIS", False)
         visual_result = crew.run_ingestion_workflow(
-            str(visual_file), material_type="visual", extract_questions=True
+            str(visual_file),
+            material_type="visual",
+            extract_questions=True,
+            run_crew_analysis=run_review_analysis,
         )
         questions = visual_result.get("questions", [])[:3]
         if not questions:
@@ -3752,6 +3765,10 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
     return False
 
 
+def fast_assessment_response_flow() -> bool:
+    return bool_env("FAST_ASSESSMENT_RESPONSE_FLOW", True)
+
+
 def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
     question_ids = {question.get("id") for question in assignment.get("questions", [])}
     answered_ids = {result.get("question_id") for result in assignment.get("results", [])}
@@ -3885,7 +3902,10 @@ def render_student_assessment(assignment: dict) -> None:
             st.markdown("### Step 3 - Record your final response")
             st.caption("Respond to the guiding question using the microphone. The system will combine this with your first answer for grading.")
             captured = capture_student_response(
-                f"follow_up_{assignment['assignment_id']}_{question_id}", "Submit final response"
+                f"follow_up_{assignment['assignment_id']}_{question_id}",
+                "Submit final response",
+                review_transcript=not fast_assessment_response_flow(),
+                include_delivery=not fast_assessment_response_flow(),
             )
         if not captured:
             return
@@ -3897,9 +3917,15 @@ def render_student_assessment(assignment: dict) -> None:
     else:
         with st.container(border=True):
             st.markdown("### Step 3 - Give your answer")
-            st.caption("Record your answer with the microphone, transcribe it, check the text, then submit.")
+            if fast_assessment_response_flow():
+                st.caption("Record your answer with the microphone, then submit it. The examiner will respond automatically.")
+            else:
+                st.caption("Record your answer with the microphone, transcribe it, check the text, then submit.")
             captured = capture_student_response(
-                f"response_{assignment['assignment_id']}_{question_id}", "Submit response"
+                f"response_{assignment['assignment_id']}_{question_id}",
+                "Submit response",
+                review_transcript=not fast_assessment_response_flow(),
+                include_delivery=not fast_assessment_response_flow(),
             )
         if not captured:
             return

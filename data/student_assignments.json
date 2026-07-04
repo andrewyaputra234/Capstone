@@ -2166,6 +2166,792 @@
       "results": [],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "e78b81ac7a01": {
+      "assignment_id": "e78b81ac7a01",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practice90",
+      "subject": "assignment_123_7ce3371a",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-04T04:59:58.785707+00:00",
+      "updated_at": "2026-07-04T05:06:01.054839+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_123_7ce3371a\\aa.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_7ce3371a\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "file name ending bracket",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260704_050104_799d3892.wav",
+        "transcription_path": "data\\sessions\\speech_20260704_050104_799d3892.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 2.3,
+          "words_per_minute": 102.6,
+          "pitch_range_semitones": 15.9,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "file name ending bracket",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.3, \"words_per_minute\": 102.6, \"pitch_range_semitones\": 15.9, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and some pronunciation issues.",
+              "evidence": "file name ending bracket",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on making your answer understandable, showing a good effort to communicate clearly. However, there were some pace and pronunciation issues that affected the overall delivery. Next time, try to work on maintaining a more consistent pace and pay attention to your pronunciation. A helpful sentence starter could be, \"I believe that...\" Keep practicing and focus on improving these areas for your next oral practice.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "file name ending bracket",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.3, \"words_per_minute\": 102.6, \"pitch_range_semitones\": 15.9, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and some pronunciation issues.",
+              "evidence": "file name ending bracket",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on making your answer understandable, showing a good effort to communicate clearly. However, there were some pace and pronunciation issues that affected the overall delivery. Next time, try to work on maintaining a more consistent pace and pay attention to your pronunciation. A helpful sentence starter could be, \"I believe that...\" Keep practicing and focus on improving these areas for your next oral practice.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Well done on making your answer understandable, showing a good effort to communicate clearly. However, there were some pace and pronunciation issues that affected the overall delivery. Next time, try to work on maintaining a more consistent pace and pay attention to your pronunciation. A helpful sentence starter could be, \"I believe that...\" Keep practicing and focus on improving these areas for your next oral practice. How can you practice to improve your pace and pronunciation? Remember, each practice session is a step towards improvement. Keep up the good work!",
+        "submitted_at": "2026-07-04T05:02:35.504332+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What are the children doing at the sink, and why is it important?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_7ce3371a_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks.",
+          "generated_text": "What are the children doing at the sink, and why is it important?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Can you describe how the children are positioned and what they might be feeling in this situation?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_7ce3371a_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks.",
+          "generated_text": "Can you describe how the children are positioned and what they might be feeling in this situation?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think handwashing is an important habit?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_7ce3371a_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks.",
+          "generated_text": "Why do you think handwashing is an important habit to practice regularly?",
+          "edited_by_examiner": true
+        }
+      ],
+      "reading_completed_at": "2026-07-04T05:02:35.504347+00:00",
+      "guidance_attempts": {
+        "2": {
+          "original_response": "Sorry, I don't know what the children are doing.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260704_050550_258ea26f.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260704_050550_258ea26f.json",
+          "original_delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 8.3,
+            "words_per_minute": 64.7,
+            "pitch_range_semitones": 21.9,
+            "notes": [
+              "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "follow_up_question": "You said \"Sorry, I don't know what the children are doing.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-07-04T05:06:01.054825+00:00"
+        }
+      },
+      "results": [
+        {
+          "result_id": "19b6e9931d15",
+          "question_id": 1,
+          "question": "What are the children doing at the sink, and why is it important?",
+          "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks.",
+          "student_response": "The children are washing hands at the scene.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260704_050333_eafbe08e.wav",
+          "transcription_path": "data\\sessions\\speech_20260704_050333_eafbe08e.json",
+          "delivery_indicators": {
+            "status": "available",
+            "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+            "duration_seconds": 2.6,
+            "words_per_minute": 181.8,
+            "pitch_range_semitones": 11.6,
+            "notes": [
+              "Pace appears fast; check whether words remain clear and well-paced.",
+              "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+            ]
+          },
+          "session_id": "401227fb",
+          "created_at": "2026-07-04T05:04:12.728068+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What are the children doing at the sink, and why is it important?",
+            "answer": "The children are washing hands at the scene.",
+            "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they correctly identify that the children are washing hands at the sink. However, their answer lacks specific details from the visual stimulus and a clear personal viewpoint.",
+                "evidence": "The children are washing hands at the scene.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+                "evidence": "The student's answer states that the children are washing hands at the scene.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The children are washing hands at the scene.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by identifying that the children are washing hands, but could benefit from providing more detail or explanation.",
+                "evidence": "The children are washing hands at the scene.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job in identifying that the children are washing their hands at the sink, that shows good observation skills. However, it's important to remember to include specific details from the visual stimulus, like the clothing of the children, to make your answer more detailed and accurate. Your biggest area of improvement is in adding more examples or reasons to support your answer and make it more complete. Next time, you can start by saying, \"In the image, I can see that the children are washing their hands at the sink, and I noticed...\" Keep practicing to include more details and explanations in your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What are the children doing at the sink, and why is it important?",
+            "answer": "The children are washing hands at the scene.",
+            "visual_context": "The image shows three children washing their hands at a white sink. There are two girls and one boy, with the boy closest to the camera. He is wearing a long-sleeved blue shirt and appears to be adjusting the tap. The girls, further away, are also engaged in handwashing. One girl is wearing a red and white checked skirt with a white blouse. Soap dispensers are mounted on the wall above the sinks.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they correctly identify that the children are washing hands at the sink. However, their answer lacks specific details from the visual stimulus and a clear personal viewpoint.",
+                "evidence": "The children are washing hands at the scene.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+                "evidence": "The student's answer states that the children are washing hands at the scene.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The children are washing hands at the scene.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence by identifying that the children are washing hands, but could benefit from providing more detail or explanation.",
+                "evidence": "The children are washing hands at the scene.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job in identifying that the children are washing their hands at the sink, that shows good observation skills. However, it's important to remember to include specific details from the visual stimulus, like the clothing of the children, to make your answer more detailed and accurate. Your biggest area of improvement is in adding more examples or reasons to support your answer and make it more complete. Next time, you can start by saying, \"In the image, I can see that the children are washing their hands at the sink, and I noticed...\" Keep practicing to include more details and explanations in your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great job in identifying that the children are washing their hands at the sink, that shows good observation skills. However, it's important to remember to include specific details from the visual stimulus, like the clothing of the children, to make your answer more detailed and accurate. Your biggest area of improvement is in adding more examples or reasons to support your answer and make it more complete. Next time, you can start by saying, \"In the image, I can see that the children are washing their hands at the sink, and I noticed...\" Keep practicing to include more details and explanations in your responses. Remember, the more specific and detailed your response, the better you showcase your understanding. Keep up the good work and continue to enhance your answers with more descriptive elements and examples. Well done!"
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "3eade14a52d5": {
+      "assignment_id": "3eade14a52d5",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicevs",
+      "subject": "assignment_123_b17f9da4",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-07-04T05:13:35.913427+00:00",
+      "updated_at": "2026-07-04T05:18:13.603394+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "soccer-player-action-stadium-1024x683.webp",
+        "path": "data\\input\\assignment_123_b17f9da4\\soccer-player-action-stadium-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Filename ending bracket or space ca.txt",
+        "path": "data\\input\\assignment_123_b17f9da4\\Filename ending bracket or space ca.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "file name ending bracket of space",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260704_051423_6e12373b.wav",
+        "transcription_path": "data\\sessions\\speech_20260704_051423_6e12373b.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 3.4,
+          "words_per_minute": 105.3,
+          "pitch_range_semitones": 19.3,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "file name ending bracket of space",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 3.4, \"words_per_minute\": 105.3, \"pitch_range_semitones\": 19.3, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and some pronunciation issues.",
+              "evidence": "file name ending bracket of space",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "I appreciate your effort in reading aloud the text. You showed good clarity in your delivery, making it understandable. However, there were some pace and pronunciation issues that affected the overall fluency. Remember to focus on maintaining a consistent pace and working on your pronunciation for better clarity. Next time, try starting with a strong opening sentence to set the tone for your reading. Keep practicing to improve your fluency and pronunciation skills.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "file name ending bracket of space",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 3.4, \"words_per_minute\": 105.3, \"pitch_range_semitones\": 19.3, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and some pronunciation issues.",
+              "evidence": "file name ending bracket of space",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "I appreciate your effort in reading aloud the text. You showed good clarity in your delivery, making it understandable. However, there were some pace and pronunciation issues that affected the overall fluency. Remember to focus on maintaining a consistent pace and working on your pronunciation for better clarity. Next time, try starting with a strong opening sentence to set the tone for your reading. Keep practicing to improve your fluency and pronunciation skills.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "I appreciate your effort in reading aloud the text. You showed good clarity in your delivery, making it understandable. However, there were some pace and pronunciation issues that affected the overall fluency. Remember to focus on maintaining a consistent pace and working on your pronunciation for better clarity. Next time, try starting with a strong opening sentence to set the tone for your reading. Keep practicing to improve your fluency and pronunciation skills.\n\nTo address the issue of uneven pace, a scaffolded follow-up question could be: \"How can you adjust your reading speed to make it more consistent and engaging?\"\n\nKeep up the good work on clarity, and focus on practicing to improve pace and pronunciation. Remember, consistent practice will help you enhance your fluency and delivery skills. Great effort so far, keep going!",
+        "submitted_at": "2026-07-04T05:15:05.295074+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the boy might be thinking about as he sits on the steps?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_b17f9da4_images\\page_1.webp",
+          "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+          "generated_text": "What do you think the boy might be thinking about as he sits on the steps?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "How do you feel about playing sports?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_b17f9da4_images\\page_1.webp",
+          "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+          "generated_text": "How do you feel about playing sports, and do you prefer team sports like soccer?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 3,
+          "text": "Can you describe a time when you were preparing for a game or a competition? What was going through your mind?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_b17f9da4_images\\page_1.webp",
+          "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+          "generated_text": "Can you describe a time when you were preparing for a game or a competition? What was going through your mind?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-04T05:15:05.295091+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "37290f971610",
+          "question_id": 1,
+          "question": "What do you think the boy might be thinking about as he sits on the steps?",
+          "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+          "student_response": "I think the boy might be thinking about his match or maybe he's disappointed with his match.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260704_051545_56d9a313.wav",
+          "transcription_path": "data\\sessions\\speech_20260704_051545_56d9a313.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "899defd3",
+          "created_at": "2026-07-04T05:16:07.295573+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What do you think the boy might be thinking about as he sits on the steps?",
+            "answer": "I think the boy might be thinking about his match or maybe he's disappointed with his match.",
+            "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student mentions that the boy might be thinking about his match, which is somewhat relevant to the visual stimulus of the soccer ball next to him.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer provides a clear idea about what the boy might be thinking, mentioning his match and possible disappointment. However, the answer could be further developed with additional reasons or examples.",
+                "evidence": "I think the boy might be thinking about his match or maybe he's disappointed with his match.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "I think the boy might be thinking about his match or maybe he's disappointed with his match.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, showing an attempt to engage with the prompt.",
+                "evidence": "The student attempts to provide an answer by speculating on what the boy might be thinking about.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your attempt to connect the boy's thoughts to his soccer match, showing good relevance to the stimulus. However, there is no indication in the image that the boy is disappointed, so be careful not to add details that are not there. Your language use is understandable, but there are some grammar errors to work on. To improve, try adding more details or examples to your answers next time. A helpful sentence starter could be, \"I believe the boy is thinking about...\" Keep practicing to refine your responses further.",
+            "total_score": 17,
+            "max_score": 25,
+            "percentage": 68.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What do you think the boy might be thinking about as he sits on the steps?",
+            "answer": "I think the boy might be thinking about his match or maybe he's disappointed with his match.",
+            "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student mentions that the boy might be thinking about his match, which is somewhat relevant to the visual stimulus of the soccer ball next to him.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer provides a clear idea about what the boy might be thinking, mentioning his match and possible disappointment. However, the answer could be further developed with additional reasons or examples.",
+                "evidence": "I think the boy might be thinking about his match or maybe he's disappointed with his match.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "I think the boy might be thinking about his match or maybe he's disappointed with his match.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, showing an attempt to engage with the prompt.",
+                "evidence": "The student attempts to provide an answer by speculating on what the boy might be thinking about.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your attempt to connect the boy's thoughts to his soccer match, showing good relevance to the stimulus. However, there is no indication in the image that the boy is disappointed, so be careful not to add details that are not there. Your language use is understandable, but there are some grammar errors to work on. To improve, try adding more details or examples to your answers next time. A helpful sentence starter could be, \"I believe the boy is thinking about...\" Keep practicing to refine your responses further.",
+            "total_score": 17,
+            "max_score": 25,
+            "percentage": 68.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "I appreciate your attempt to connect the boy's thoughts to his soccer match, showing good relevance to the stimulus. However, there is no indication in the image that the boy is disappointed, so be careful not to add details that are not there. Your language use is understandable, but there are some grammar errors to work on. To improve, try adding more details or examples to your answers next time. A helpful sentence starter could be, \"I believe the boy is thinking about...\" Keep practicing to refine your responses further. Remember to be confident and keep engaging with the prompt. Well done!"
+        },
+        {
+          "result_id": "740fbd48047d",
+          "question_id": 2,
+          "question": "How do you feel about playing sports?",
+          "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+          "student_response": "First response: Sports is good.\n\nResponse after examiner follow-up: um I think it's good because he's healthy although the boy feels disappointed or hello hello hello I",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260704_051710_bde0e499.wav",
+          "transcription_path": "data\\sessions\\speech_20260704_051710_bde0e499.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "899defd3",
+          "created_at": "2026-07-04T05:17:25.549138+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "How do you feel about playing sports?",
+            "answer": "First response: Sports is good.\n\nResponse after examiner follow-up: um I think it's good because he's healthy although the boy feels disappointed or hello hello hello I",
+            "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student mentions that sports is good because it makes one healthy, but the connection to the visual stimulus or a personal viewpoint is not clearly articulated.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea about sports being good, but lacks elaboration or examples to support their opinion.",
+                "evidence": "The student briefly mentions that sports is good for health, but does not provide any further explanation or examples.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary and noticeable errors.",
+                "evidence": "um I think it's good because he's healthy although the boy feels disappointed or hello hello hello I",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue or respond.",
+                "evidence": "The student's response after examiner follow-up shows hesitancy and lack of confidence in their answer.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for mentioning that sports is good for health in your response. However, your answer did not fully relate to the visual stimulus of the boy looking contemplative with a soccer ball next to him. Next time, try to connect your response more directly to the image to make it more relevant. The biggest area for improvement is providing more details and examples to support your opinions. For example, you could say, \"Playing sports keeps you active and helps you stay fit.\" Remember to elaborate on your ideas to make your answer more engaging and informative. Keep practicing to build confidence in expressing your thoughts clearly.",
+            "total_score": 12,
+            "max_score": 25,
+            "percentage": 48.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "How do you feel about playing sports?",
+            "answer": "First response: Sports is good.\n\nResponse after examiner follow-up: um I think it's good because he's healthy although the boy feels disappointed or hello hello hello I",
+            "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The response is partly relevant but lacks specific details from the stimulus or a clear personal viewpoint.",
+                "evidence": "The student mentions that sports is good because it makes one healthy, but the connection to the visual stimulus or a personal viewpoint is not clearly articulated.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's answer provides a basic idea about sports being good, but lacks elaboration or examples to support their opinion.",
+                "evidence": "The student briefly mentions that sports is good for health, but does not provide any further explanation or examples.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary and noticeable errors.",
+                "evidence": "um I think it's good because he's healthy although the boy feels disappointed or hello hello hello I",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needs repeated support to continue or respond.",
+                "evidence": "The student's response after examiner follow-up shows hesitancy and lack of confidence in their answer.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for mentioning that sports is good for health in your response. However, your answer did not fully relate to the visual stimulus of the boy looking contemplative with a soccer ball next to him. Next time, try to connect your response more directly to the image to make it more relevant. The biggest area for improvement is providing more details and examples to support your opinions. For example, you could say, \"Playing sports keeps you active and helps you stay fit.\" Remember to elaborate on your ideas to make your answer more engaging and informative. Keep practicing to build confidence in expressing your thoughts clearly.",
+            "total_score": 12,
+            "max_score": 25,
+            "percentage": 48.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for mentioning that sports is good for health in your response. However, your answer did not fully relate to the visual stimulus of the boy looking contemplative with a soccer ball next to him. Next time, try to connect your response more directly to the image to make it more relevant. The biggest area for improvement is providing more details and examples to support your opinions. For example, you could say, \"Playing sports keeps you active and helps you stay fit.\" Remember to elaborate on your ideas to make your answer more engaging and informative. Keep practicing to build confidence in expressing your thoughts clearly.\n\nNext Speaking Move: \"In the picture, the boy could overcome his disappointment by kicking the soccer ball around to clear his mind and focus on the positives.\"",
+          "guided_attempt": {
+            "original_response": "Sports is good.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260704_051624_77e09d26.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260704_051624_77e09d26.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You said \"Sports is good.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-07-04T05:16:28.319952+00:00",
+            "follow_up_response": "um I think it's good because he's healthy although the boy feels disappointed or hello hello hello I"
+          }
+        },
+        {
+          "result_id": "689e415e48d3",
+          "question_id": 3,
+          "question": "Can you describe a time when you were preparing for a game or a competition? What was going through your mind?",
+          "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+          "student_response": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260704_051755_e4bdd7b2.wav",
+          "transcription_path": "data\\sessions\\speech_20260704_051755_e4bdd7b2.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "899defd3",
+          "created_at": "2026-07-04T05:18:12.895472+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe a time when you were preparing for a game or a competition? What was going through your mind?",
+            "answer": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+            "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal response.",
+                "evidence": "The student mentions feeling the intensity of the sport and the support of their team, which shows a connection to the prompt and personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea of feeling intensity and stress while preparing for a game, but lacks elaboration or examples to fully develop the idea.",
+                "evidence": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, mentioning feeling the intensity of the sport and acknowledging the support of their team.",
+                "evidence": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You did a good job connecting your feelings about preparing for a game with the prompt. However, it would be beneficial to provide more details or examples to fully develop your ideas. Remember to focus on elaborating on your thoughts to make your response more engaging. For example, you could say, \"As I prepared for the game, I remembered all the practices we had done as a team to build our skills and confidence.\" Keep practicing expressing your thoughts clearly and with more detail to improve your oral responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe a time when you were preparing for a game or a competition? What was going through your mind?",
+            "answer": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+            "visual_context": "The image shows a young male sitting on concrete steps, wearing a blue sports jersey, black shorts, and black knee-high socks. He is looking straight ahead, appearing thoughtful or contemplative. Next to him, there is a black and white soccer ball. The background includes metal railings, some greenery, and part of a building.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal response.",
+                "evidence": "The student mentions feeling the intensity of the sport and the support of their team, which shows a connection to the prompt and personal viewpoint.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea of feeling intensity and stress while preparing for a game, but lacks elaboration or examples to fully develop the idea.",
+                "evidence": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, mentioning feeling the intensity of the sport and acknowledging the support of their team.",
+                "evidence": "I feel the intensity of the sport. I was going through stress, but I knew that my team got me.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You did a good job connecting your feelings about preparing for a game with the prompt. However, it would be beneficial to provide more details or examples to fully develop your ideas. Remember to focus on elaborating on your thoughts to make your response more engaging. For example, you could say, \"As I prepared for the game, I remembered all the practices we had done as a team to build our skills and confidence.\" Keep practicing expressing your thoughts clearly and with more detail to improve your oral responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "You did a great job in connecting your personal experiences with the prompt about preparing for a game, showing a strong emotional connection. To strengthen your response further, try elaborating by providing specific examples or details to paint a vivid picture for your audience. For instance, you could elaborate on the support your team offered by mentioning a time when they encouraged you during a challenging moment in the game.\n\nRemember, adding more specific details will make your response more engaging and memorable for the listener. Keep practicing expressing your thoughts clearly and work on improving your grammar for a more polished presentation. You're on the right track, and with continued practice, you will enhance your oral communication skills significantly.\n\nSentence Starter: \"One particular moment that stands out during the game was when...\" (Use this to share a specific memory in your next attempt)"
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }
