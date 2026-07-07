@@ -342,6 +342,15 @@ def bool_env(name: str, default: bool = False) -> bool:
     return raw.strip().lower() in {"1", "true", "yes", "on"}
 
 
+def supported_visual_image_path(path: str | Path) -> bool:
+    try:
+        from agent_image_extractor import is_supported_image_file
+
+        return is_supported_image_file(str(path))
+    except Exception:
+        return Path(path).suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+
+
 def avatar_generation_backoff_seconds(attempt: int) -> float:
     """Exponential backoff after failed Simli generation attempts."""
     base = float_env("SIMLI_RETRY_BACKOFF_BASE_SECONDS", 5.0)
@@ -569,7 +578,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           }}
           .anam-status {{
             color: #5b9d73;
-            font-size: 0.78rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             text-align: right;
@@ -585,8 +594,8 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             padding: 0.9rem 1rem;
             border-top: 1px solid #cfe3d5;
             color: #203b36;
-            line-height: 1.45;
-            font-size: 0.98rem;
+            line-height: 1.5;
+            font-size: 1.08rem;
           }}
           .anam-actions {{
             display: flex;
@@ -595,7 +604,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             gap: 0.75rem;
             padding: 0 1rem 0.9rem;
             color: #587267;
-            font-size: 0.82rem;
+            font-size: 0.95rem;
           }}
           .anam-button {{
             border: 1px solid #8bc59f;
@@ -613,7 +622,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           .anam-detail {{
             padding: 0 1rem 0.65rem;
             color: #7b5b3f;
-            font-size: 0.8rem;
+            font-size: 0.92rem;
             line-height: 1.35;
             min-height: 1rem;
           }}
@@ -1614,7 +1623,7 @@ def capture_student_response(
     if review_transcript:
         st.caption("Record your answer, transcribe it, then review what the system heard before submitting.")
     else:
-        st.caption("Record your answer, then submit it. The system will process it and continue automatically.")
+        st.caption("Record once, then submit it. The system will process it and continue automatically.")
     recording = st.audio_input("Record your answer", key=f"voice_response_{key_suffix}")
     preview_key = f"voice_preview_{key_suffix}"
     recording_fingerprint = None
@@ -1692,6 +1701,7 @@ def apply_portal_theme() -> None:
         }
         html, body, [class*="css"] {
             font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif;
+            font-size: 17px;
         }
         [data-testid="stAppViewContainer"] {
             background: radial-gradient(circle at 14% 12%, #dff4e4 0, #eff8f0 30%, #fbfcf8 67%, #eaf4ec 100%);
@@ -1713,7 +1723,15 @@ def apply_portal_theme() -> None:
             font-weight: 700;
             letter-spacing: -0.025em;
         }
-        p, li, label, [data-testid="stMarkdownContainer"] { color: var(--portal-ink); }
+        p, li, label, [data-testid="stMarkdownContainer"] {
+            color: var(--portal-ink);
+            font-size: 1.03rem;
+            line-height: 1.55;
+        }
+        [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {
+            font-size: 0.96rem !important;
+            line-height: 1.45 !important;
+        }
         [data-testid="stVerticalBlockBorderWrapper"],
         [data-testid="stExpander"] {
             background: rgba(255, 255, 253, 0.88) !important;
@@ -1780,6 +1798,8 @@ def apply_portal_theme() -> None:
         [data-baseweb="select"] * {
             color: var(--portal-ink) !important;
             font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif !important;
+            font-size: 1.03rem !important;
+            line-height: 1.5 !important;
         }
         [data-baseweb="select"] svg,
         [data-baseweb="select"] svg path {
@@ -2379,8 +2399,8 @@ def apply_portal_theme() -> None:
         .portal-subtitle { color: #587267; margin-bottom: 1.8rem; }
         .portal-field-label {
             color: #163d37 !important;
-            font-size: 0.92rem;
-            font-weight: 600;
+            font-size: 1.03rem;
+            font-weight: 700;
             margin: 0 0 0.45rem;
         }
         .avatar-native-card {
@@ -2417,7 +2437,8 @@ def apply_portal_theme() -> None:
             border-radius: 0 0 18px 18px;
             background: rgba(255, 255, 253, 0.97);
             color: var(--portal-ink);
-            line-height: 1.45;
+            line-height: 1.5;
+            font-size: 1.04rem;
             box-shadow: 0 16px 34px rgba(37, 72, 53, 0.08);
         }
         .assessment-room-title {
@@ -2434,12 +2455,14 @@ def apply_portal_theme() -> None:
         }
         .assessment-room-title h2 {
             margin: 0.15rem 0 0.25rem;
-            font-size: 1.35rem;
-            line-height: 1.25;
+            font-size: 1.78rem;
+            line-height: 1.22;
         }
         .assessment-room-title p {
             margin: 0;
             color: var(--portal-muted) !important;
+            font-size: 1rem;
+            font-weight: 700;
         }
         .assessment-badge {
             flex: 0 0 auto;
@@ -2448,13 +2471,13 @@ def apply_portal_theme() -> None:
             background: #e8f6ed;
             color: #2f6c4b;
             font-weight: 750;
-            font-size: 0.85rem;
+            font-size: 0.96rem;
             border: 1px solid #cbe4d3;
         }
         .assessment-panel-label {
             margin: 0.35rem 0 0.45rem;
             color: #315348;
-            font-size: 0.78rem;
+            font-size: 0.92rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -2466,8 +2489,8 @@ def apply_portal_theme() -> None:
             border-radius: 14px;
             background: #f7fff9;
             color: var(--portal-muted);
-            font-size: 0.92rem;
-            line-height: 1.45;
+            font-size: 1.02rem;
+            line-height: 1.5;
         }
         .response-panel {
             margin-top: 1.15rem;
@@ -2479,7 +2502,7 @@ def apply_portal_theme() -> None:
         }
         .response-panel h3 {
             margin: 0 0 0.25rem;
-            font-size: 1.12rem;
+            font-size: 1.3rem;
         }
         .response-panel p {
             margin: 0 0 0.85rem;
@@ -2681,14 +2704,38 @@ def render_assignment_generation_loading(request: dict) -> None:
         progress.progress(0.25, text="Saving the picture stimulus...")
         visual_file = save_queued_upload(request["visual_upload"], temporary_directory)
 
-        progress.progress(0.45, text="Reading the image and generating oral questions...")
-        run_review_analysis = bool_env("QUESTION_REVIEW_CREW_ANALYSIS", False)
-        visual_result = crew.run_ingestion_workflow(
-            str(visual_file),
-            material_type="visual",
-            extract_questions=True,
-            run_crew_analysis=run_review_analysis,
+        use_fast_photo_path = bool_env("FAST_PHOTO_QUESTION_GENERATION", True) and supported_visual_image_path(visual_file)
+        progress.progress(
+            0.45,
+            text=(
+                "Reading the photo and generating oral questions..."
+                if use_fast_photo_path
+                else "Reading the image and generating oral questions..."
+            ),
         )
+        if use_fast_photo_path:
+            try:
+                visual_result = crew.run_visual_question_workflow(str(visual_file), num_questions=3)
+            except Exception as fast_error:
+                progress.progress(
+                    0.48,
+                    text=f"Fast photo generation was unavailable; using full ingestion path. Reason: {fast_error}",
+                )
+                run_review_analysis = bool_env("QUESTION_REVIEW_CREW_ANALYSIS", False)
+                visual_result = crew.run_ingestion_workflow(
+                    str(visual_file),
+                    material_type="visual",
+                    extract_questions=True,
+                    run_crew_analysis=run_review_analysis,
+                )
+        else:
+            run_review_analysis = bool_env("QUESTION_REVIEW_CREW_ANALYSIS", False)
+            visual_result = crew.run_ingestion_workflow(
+                str(visual_file),
+                material_type="visual",
+                extract_questions=True,
+                run_crew_analysis=run_review_analysis,
+            )
         questions = visual_result.get("questions", [])[:3]
         if not questions:
             raise RuntimeError(
@@ -3701,8 +3748,9 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
     if submission:
         return True
 
+    reading_lock_key = f"reading_submission_locked_{assignment['assignment_id']}"
     st.markdown("### Reading Aloud")
-    st.caption("Read this passage aloud, record it, review its transcript, then submit before moving on to the three image questions. If needed, you may skip this reading-aloud task.")
+    st.caption("Read this passage aloud and submit your recording once. You will not be able to review the transcript or retake it after submission.")
     st.text_area(
         "Reading passage",
         value=reading.get("text", ""),
@@ -3711,14 +3759,21 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         key=f"assessment_reading_{assignment['assignment_id']}",
     )
 
+    if st.session_state.get(reading_lock_key):
+        st.info("Your reading-aloud recording has been submitted and is being processed.")
+        return False
+
     captured = capture_student_response(
         f"reading_{assignment['assignment_id']}",
         "Submit reading aloud",
-        allow_skip=True,
+        allow_skip=bool_env("ALLOW_READING_SKIP", False),
         skip_label="Skip reading aloud",
+        review_transcript=False,
+        include_delivery=True,
     )
     if not captured:
         return False
+    st.session_state[reading_lock_key] = True
     try:
         reading_criteria = crew.get_reading_criterion_names()
         if not reading_criteria:
@@ -3758,8 +3813,10 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
             grading_result=workflow["grading_result"],
             crew_analysis=workflow.get("crew_analysis", ""),
         )
+        st.session_state.pop(reading_lock_key, None)
         st.rerun()
     except Exception as error:
+        st.session_state.pop(reading_lock_key, None)
         st.error(f"The reading-aloud submission could not be saved: {error}")
     st.info("Submit the reading-aloud recording to unlock the image questions.")
     return False
@@ -3767,6 +3824,73 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
 
 def fast_assessment_response_flow() -> bool:
     return bool_env("FAST_ASSESSMENT_RESPONSE_FLOW", True)
+
+
+def response_nudge_seconds() -> float:
+    return float_env("RESPONSE_NUDGE_SECONDS", 15.0)
+
+
+def response_nudge_state_key(assignment_id: str, question_id: str, kind: str, name: str) -> str:
+    return f"response_nudge_{name}_{assignment_id}_{question_id}_{kind}"
+
+
+@st.fragment(run_every=1)
+def render_response_wait_tracker(
+    assignment_id: str,
+    question_id: str,
+    kind: str,
+    *,
+    disabled: bool = False,
+) -> None:
+    """Start a quiet-response timer without blocking the student's recording controls."""
+    if disabled:
+        return
+
+    wait_seconds = response_nudge_seconds()
+    if wait_seconds <= 0:
+        return
+
+    started_key = response_nudge_state_key(assignment_id, question_id, kind, "started")
+    due_key = response_nudge_state_key(assignment_id, question_id, kind, "due")
+    spoken_key = response_nudge_state_key(assignment_id, question_id, kind, "spoken")
+
+    if st.session_state.get(due_key) or st.session_state.get(spoken_key):
+        return
+
+    started_at = st.session_state.get(started_key)
+    if not started_at:
+        st.session_state[started_key] = time.monotonic()
+        started_at = st.session_state[started_key]
+
+    elapsed = time.monotonic() - started_at
+    remaining = max(0, int(wait_seconds - elapsed))
+    if elapsed >= wait_seconds:
+        st.session_state[due_key] = True
+        st.rerun(scope="app")
+        return
+
+    st.caption(f"The examiner will check in if no answer is submitted in about {remaining}s.")
+
+
+def render_response_nudge_if_due(
+    assignment_id: str,
+    question_id: str,
+    kind: str,
+    *,
+    message: str,
+) -> None:
+    due_key = response_nudge_state_key(assignment_id, question_id, kind, "due")
+    spoken_key = response_nudge_state_key(assignment_id, question_id, kind, "spoken")
+    if not st.session_state.get(due_key) or st.session_state.get(spoken_key):
+        return
+
+    st.session_state[spoken_key] = True
+    st.info(message)
+    render_examiner_avatar(
+        message,
+        cache_key=f"{assignment_id}_{question_id}_{kind}_silence_nudge",
+        auto_play=True,
+    )
 
 
 def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
@@ -3901,8 +4025,26 @@ def render_student_assessment(assignment: dict) -> None:
         with st.container(border=True):
             st.markdown("### Step 3 - Record your final response")
             st.caption("Respond to the guiding question using the microphone. The system will combine this with your first answer for grading.")
+            follow_up_key_suffix = f"follow_up_{assignment['assignment_id']}_{question_id}"
+            follow_up_recording_present = bool(st.session_state.get(f"voice_response_{follow_up_key_suffix}"))
+            render_response_wait_tracker(
+                assignment["assignment_id"],
+                question_id,
+                "guidance",
+                disabled=follow_up_recording_present,
+            )
+            if not follow_up_recording_present:
+                render_response_nudge_if_due(
+                    assignment["assignment_id"],
+                    question_id,
+                    "guidance",
+                    message=(
+                        "I'm still here. Take your time, then answer the guiding question with one clear detail "
+                        "from the picture."
+                    ),
+                )
             captured = capture_student_response(
-                f"follow_up_{assignment['assignment_id']}_{question_id}",
+                follow_up_key_suffix,
                 "Submit final response",
                 review_transcript=not fast_assessment_response_flow(),
                 include_delivery=not fast_assessment_response_flow(),
@@ -3921,8 +4063,26 @@ def render_student_assessment(assignment: dict) -> None:
                 st.caption("Record your answer with the microphone, then submit it. The examiner will respond automatically.")
             else:
                 st.caption("Record your answer with the microphone, transcribe it, check the text, then submit.")
+            response_key_suffix = f"response_{assignment['assignment_id']}_{question_id}"
+            response_recording_present = bool(st.session_state.get(f"voice_response_{response_key_suffix}"))
+            render_response_wait_tracker(
+                assignment["assignment_id"],
+                question_id,
+                "question",
+                disabled=response_recording_present,
+            )
+            if not response_recording_present:
+                render_response_nudge_if_due(
+                    assignment["assignment_id"],
+                    question_id,
+                    "question",
+                    message=(
+                        "I'm still here. Look at the picture and tell me one thing you notice, then explain "
+                        "why it matters."
+                    ),
+                )
             captured = capture_student_response(
-                f"response_{assignment['assignment_id']}_{question_id}",
+                response_key_suffix,
                 "Submit response",
                 review_transcript=not fast_assessment_response_flow(),
                 include_delivery=not fast_assessment_response_flow(),

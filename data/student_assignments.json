@@ -2952,6 +2952,525 @@
       ],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "a827da3c2162": {
+      "assignment_id": "a827da3c2162",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicenvi",
+      "subject": "assignment_123_61feac81",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-04T05:31:52.176881+00:00",
+      "updated_at": "2026-07-04T05:37:04.944848+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "soccer-player-action-stadium-1024x683.webp",
+        "path": "data\\input\\assignment_123_61feac81\\soccer-player-action-stadium-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_61feac81\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "ABCDEFG",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260704_053315_892e8665.wav",
+        "transcription_path": "data\\sessions\\speech_20260704_053315_892e8665.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 2.5,
+          "words_per_minute": 23.8,
+          "pitch_range_semitones": 14.2,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "ABCDEFG",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.5, \"words_per_minute\": 23.8, \"pitch_range_semitones\": 14.2, \"notes\": [\"Pace appears slow; check whether pauses support meaning or interrupt fluency.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is unclear and halting, with frequent pronunciation issues.",
+              "evidence": "ABCDEFG",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on confidently attempting the reading task. Your effort is commendable. However, there are some areas we can work on to improve further. Your pronunciation was unclear, and there were frequent issues with it. Remember to take your time and sound out each word carefully. Try practicing with a mirror to watch your mouth movements. For example, you can start by saying, \"The quick brown fox jumps over the lazy dog.\" Let's focus on improving your pronunciation in our next session.",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "ABCDEFG",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 2.5, \"words_per_minute\": 23.8, \"pitch_range_semitones\": 14.2, \"notes\": [\"Pace appears slow; check whether pauses support meaning or interrupt fluency.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is unclear and halting, with frequent pronunciation issues.",
+              "evidence": "ABCDEFG",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on confidently attempting the reading task. Your effort is commendable. However, there are some areas we can work on to improve further. Your pronunciation was unclear, and there were frequent issues with it. Remember to take your time and sound out each word carefully. Try practicing with a mirror to watch your mouth movements. For example, you can start by saying, \"The quick brown fox jumps over the lazy dog.\" Let's focus on improving your pronunciation in our next session.",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Well done on confidently attempting the reading task. Your effort is commendable. However, there are areas we can work on to enhance your performance further. Your pronunciation was unclear, with frequent issues, impacting fluency. Remember to take your time and sound out each word carefully. To improve, try practicing with a mirror to observe your mouth movements. For example, you can start by saying, \"The quick brown fox jumps over the lazy dog.\" Let's focus on enhancing your pronunciation in our next session. Keep up the determination and practice. \n\nOne short sentence starter for your next attempt: \"Let's work on improving your pronunciation together. Can you try practicing with a mirror to observe your mouth movements and sound out each word more clearly?\"\n\nRemember, practice makes progress! Keep up the good work, and don't hesitate to ask for help when needed.",
+        "submitted_at": "2026-07-04T05:34:40.408146+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what you think the person in the image might be feeling and why?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_61feac81_images\\page_1.webp",
+          "visual_context": "The image shows a young person in a blue sports jersey and black shorts sitting on concrete steps in an outdoor setting. Next to them is a soccer ball. The person appears deep in thought or contemplation, gazing into the distance. The background includes metal railings and a grassy area, suggesting it's in a park or sports facility.",
+          "generated_text": "Can you describe what you think the person in the image might be feeling and why?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "What do you think the person might be waiting for and what is he sitting down thinking about",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_61feac81_images\\page_1.webp",
+          "visual_context": "The image shows a young person in a blue sports jersey and black shorts sitting on concrete steps in an outdoor setting. Next to them is a soccer ball. The person appears deep in thought or contemplation, gazing into the distance. The background includes metal railings and a grassy area, suggesting it's in a park or sports facility.",
+          "generated_text": "What do you think the person might be waiting for?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 3,
+          "text": "Why do you think playing sports, like the one suggested in the image, is important for young people?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_61feac81_images\\page_1.webp",
+          "visual_context": "The image shows a young person in a blue sports jersey and black shorts sitting on concrete steps in an outdoor setting. Next to them is a soccer ball. The person appears deep in thought or contemplation, gazing into the distance. The background includes metal railings and a grassy area, suggesting it's in a park or sports facility.",
+          "generated_text": "Why do you think playing sports, like the one suggested in the image, is important for young people?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-04T05:34:40.408159+00:00",
+      "guidance_attempts": {
+        "2": {
+          "original_response": "Thinking about life.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260704_053700_2bb1024a.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260704_053700_2bb1024a.json",
+          "original_delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "follow_up_question": "You said \"Thinking about life.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-07-04T05:37:04.944823+00:00"
+        }
+      },
+      "results": [
+        {
+          "result_id": "cbc2e9d7268e",
+          "question_id": 1,
+          "question": "Can you describe what you think the person in the image might be feeling and why?",
+          "visual_context": "The image shows a young person in a blue sports jersey and black shorts sitting on concrete steps in an outdoor setting. Next to them is a soccer ball. The person appears deep in thought or contemplation, gazing into the distance. The background includes metal railings and a grassy area, suggesting it's in a park or sports facility.",
+          "student_response": "I think one thing, I think the boy might be feeling stressed about maybe his competition or he has lost.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260704_053553_a27f615f.wav",
+          "transcription_path": "data\\sessions\\speech_20260704_053553_a27f615f.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "f3c184b5",
+          "created_at": "2026-07-04T05:36:17.927064+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you describe what you think the person in the image might be feeling and why?",
+            "answer": "I think one thing, I think the boy might be feeling stressed about maybe his competition or he has lost.",
+            "visual_context": "The image shows a young person in a blue sports jersey and black shorts sitting on concrete steps in an outdoor setting. Next to them is a soccer ball. The person appears deep in thought or contemplation, gazing into the distance. The background includes metal railings and a grassy area, suggesting it's in a park or sports facility.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student mentions that the boy might be feeling stressed about his competition or a loss, which shows some connection to the image.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer provides a clear idea that the boy might be feeling stressed about his competition or a loss, with some reasoning behind it.",
+                "evidence": "The student mentions that the boy might be feeling stressed about his competition or a loss.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student's answer includes some language errors like 'I think one thing' instead of 'I think one thing is that'.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, but may benefit from providing more detailed explanations or reasoning.",
+                "evidence": "The student offers a possible interpretation of the boy's feelings, indicating some level of confidence in their response.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for providing a clear idea that the person in the image might be feeling stressed about his competition or a loss. However, there was a slight mismatch with the visual stimulus facts as there is no indication of a competition or loss in the image. The biggest improvement area for you is in your spoken language use - try to work on improving your grammar and sentence control to make your response smoother. Next time, you could start your sentence with \"One possible feeling the person could be experiencing is...\" to add more depth to your answer. Keep practicing and refining your language skills!",
+            "total_score": 17,
+            "max_score": 25,
+            "percentage": 68.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you describe what you think the person in the image might be feeling and why?",
+            "answer": "I think one thing, I think the boy might be feeling stressed about maybe his competition or he has lost.",
+            "visual_context": "The image shows a young person in a blue sports jersey and black shorts sitting on concrete steps in an outdoor setting. Next to them is a soccer ball. The person appears deep in thought or contemplation, gazing into the distance. The background includes metal railings and a grassy area, suggesting it's in a park or sports facility.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The response is mostly relevant with some stimulus reference and a personal viewpoint.",
+                "evidence": "The student mentions that the boy might be feeling stressed about his competition or a loss, which shows some connection to the image.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's answer provides a clear idea that the boy might be feeling stressed about his competition or a loss, with some reasoning behind it.",
+                "evidence": "The student mentions that the boy might be feeling stressed about his competition or a loss.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "The student's answer includes some language errors like 'I think one thing' instead of 'I think one thing is that'.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, but may benefit from providing more detailed explanations or reasoning.",
+                "evidence": "The student offers a possible interpretation of the boy's feelings, indicating some level of confidence in their response.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for providing a clear idea that the person in the image might be feeling stressed about his competition or a loss. However, there was a slight mismatch with the visual stimulus facts as there is no indication of a competition or loss in the image. The biggest improvement area for you is in your spoken language use - try to work on improving your grammar and sentence control to make your response smoother. Next time, you could start your sentence with \"One possible feeling the person could be experiencing is...\" to add more depth to your answer. Keep practicing and refining your language skills!",
+            "total_score": 17,
+            "max_score": 25,
+            "percentage": 68.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for providing a clear idea that the person in the image might be feeling stressed about his competition or a loss. However, there was a slight mismatch with the visual stimulus facts as there is no indication of a competition or loss in the image. The biggest improvement area for you is in your spoken language use - try to work on improving your grammar and sentence control to make your response smoother. Next time, you could start your sentence with \"One possible feeling the person could be experiencing is...\" to add more depth to your answer. Keep practicing and refining your language skills!\n\nEncouragement:\nGreat effort in connecting the image to the feeling of stress related to competition or loss. To enhance your response, focus on improving your grammar and sentence structure. Remember, practice will help you master your oral skills. Keep it up! \n\nSentence Starter for Next Attempt:\n\"One possible feeling the person could be experiencing is...\""
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "c00c1f555f30": {
+      "assignment_id": "c00c1f555f30",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicebm",
+      "subject": "assignment_123_34d1071e",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-07T02:16:52.245641+00:00",
+      "updated_at": "2026-07-07T02:19:27.671300+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "soccer-player-action-stadium-1024x683.webp",
+        "path": "data\\input\\assignment_123_34d1071e\\soccer-player-action-stadium-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_34d1071e\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "[Skipped question]",
+        "response_mode": "voice",
+        "audio_path": null,
+        "transcription_path": null,
+        "delivery_indicators": null,
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "[Skipped question]",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"The student skipped the reading-aloud task.\", \"delivery_indicators\": null, \"limitation\": \"No reading-aloud recording was submitted.\"}",
+          "skipped": true,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 20,
+              "feedback": "No answer was provided for this criterion.",
+              "evidence": "",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+          "total_score": 0,
+          "max_score": 20,
+          "percentage": 0.0,
+          "scoring_source": "deterministic"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "[Skipped question]",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"The student skipped the reading-aloud task.\", \"delivery_indicators\": null, \"limitation\": \"No reading-aloud recording was submitted.\"}",
+          "skipped": true,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 20,
+              "feedback": "No answer was provided for this criterion.",
+              "evidence": "",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+          "total_score": 0,
+          "max_score": 20,
+          "percentage": 0.0,
+          "scoring_source": "deterministic"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0.",
+        "submitted_at": "2026-07-07T02:17:55.094320+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Can you describe what this young man might be thinking about as he sits there with the soccer ball beside him?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_34d1071e_images\\page_1.webp",
+          "visual_context": "The image shows a young male soccer player sitting on concrete steps in an outdoor area. He is wearing a blue jersey with the number 9, black shorts, black socks, and soccer shoes. He looks thoughtful as he sits with his hands clasped, elbows resting on his knees. A soccer ball rests next to him. In the background, there are metal railings and green foliage.",
+          "generated_text": "Can you describe what this young man might be thinking about as he sits there with the soccer ball beside him?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "What do you think the significance of the soccer ball in this picture might be for the person sitting next to it?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_34d1071e_images\\page_1.webp",
+          "visual_context": "The image shows a young male soccer player sitting on concrete steps in an outdoor area. He is wearing a blue jersey with the number 9, black shorts, black socks, and soccer shoes. He looks thoughtful as he sits with his hands clasped, elbows resting on his knees. A soccer ball rests next to him. In the background, there are metal railings and green foliage.",
+          "generated_text": "What do you think the significance of the soccer ball in this picture might be for the person sitting next to it?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Imagine you are this young player. Can you tell me about a time when you felt like he might be feeling in this moment?",
+          "source": "Vision-extracted from page 1",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_34d1071e_images\\page_1.webp",
+          "visual_context": "The image shows a young male soccer player sitting on concrete steps in an outdoor area. He is wearing a blue jersey with the number 9, black shorts, black socks, and soccer shoes. He looks thoughtful as he sits with his hands clasped, elbows resting on his knees. A soccer ball rests next to him. In the background, there are metal railings and green foliage.",
+          "generated_text": "Imagine you are this young player. Can you tell me about a time when you felt like he might be feeling in this moment?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-07T02:17:55.094369+00:00",
+      "guidance_attempts": {
+        "1": {
+          "original_response": "Playing soccer ball.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260707_021923_644a2e4a.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260707_021923_644a2e4a.json",
+          "original_delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "follow_up_question": "You said \"Playing soccer ball.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-07-07T02:19:27.671283+00:00"
+        }
+      },
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "7a63ad0a1f0c": {
+      "assignment_id": "7a63ad0a1f0c",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiced",
+      "subject": "assignment_123_5a416b4e",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-07T03:58:29.394809+00:00",
+      "updated_at": "2026-07-07T04:09:40.196549+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "o_1ivs60ia8816jac11v3k6v9khc.png",
+        "path": "data\\input\\assignment_123_5a416b4e\\o_1ivs60ia8816jac11v3k6v9khc.png",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Filename ending bracket or space ca.txt",
+        "path": "data\\input\\assignment_123_5a416b4e\\Filename ending bracket or space ca.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Follow me.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260707_040907_fff6d4f5.wav",
+        "transcription_path": "data\\sessions\\speech_20260707_040907_fff6d4f5.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 1.5,
+          "words_per_minute": 80.0,
+          "pitch_range_semitones": 7.1,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Follow me.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.5, \"words_per_minute\": 80.0, \"pitch_range_semitones\": 7.1, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "The student's delivery had a pace within a broad conversational range and some pitch variation, showing awareness of pacing and expression.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on your reading delivery, you showed good clarity and fluency in your reading. I noticed some minor pronunciation and pacing issues, so remember to pay attention to those areas in your next practice. One area to work on is maintaining consistent expression throughout your reading to engage your audience more effectively. Next time, try starting with a strong, clear sentence like \"Come with me\" to capture the listener's attention right from the beginning. Keep practicing and paying attention to your pace and expression to continue improving.",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Follow me.",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.5, \"words_per_minute\": 80.0, \"pitch_range_semitones\": 7.1, \"notes\": [\"Pace falls within a broad conversational range; listen to the recording for clarity.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "The student's delivery had a pace within a broad conversational range and some pitch variation, showing awareness of pacing and expression.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on your reading delivery, you showed good clarity and fluency in your reading. I noticed some minor pronunciation and pacing issues, so remember to pay attention to those areas in your next practice. One area to work on is maintaining consistent expression throughout your reading to engage your audience more effectively. Next time, try starting with a strong, clear sentence like \"Come with me\" to capture the listener's attention right from the beginning. Keep practicing and paying attention to your pace and expression to continue improving.",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Well done on your reading delivery! You demonstrated good clarity and fluency in your reading, showing an awareness of pacing. Remember to pay attention to pronunciation, pacing, and expression in your next practice to further enhance your delivery. Try varying your tone throughout the reading to add more expression and engage your audience effectively. A helpful sentence starter for your next attempt could be \"Join me on this journey.\" Keep practicing with focus on maintaining consistent expression to captivate your listeners from start to finish. Great job so far, keep up the good work!",
+        "submitted_at": "2026-07-07T04:09:40.196510+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the people in the picture are celebrating, and why do you think so?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_5a416b4e_images\\page_1.png",
+          "visual_context": "The image shows a group of people gathered around a chocolate birthday cake with lit candles. There is a 'Happy Birthday!' sign on the cake. A woman, an elderly lady, and a young man are holding a knife together to cut the cake. A young boy is watching them closely. They are sitting on a couch, and there are cushions behind them. The mood appears to be joyful and celebratory.",
+          "generated_text": "What do you think the people in the picture are celebrating, and why do you think so?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Can you share a memorable birthday celebration you had? What made it special?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_5a416b4e_images\\page_1.png",
+          "visual_context": "The image shows a group of people gathered around a chocolate birthday cake with lit candles. There is a 'Happy Birthday!' sign on the cake. A woman, an elderly lady, and a young man are holding a knife together to cut the cake. A young boy is watching them closely. They are sitting on a couch, and there are cushions behind them. The mood appears to be joyful and celebratory.",
+          "generated_text": "Can you share a memorable birthday celebration you had? What made it special?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think celebrating birthdays with family is important?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_5a416b4e_images\\page_1.png",
+          "visual_context": "The image shows a group of people gathered around a chocolate birthday cake with lit candles. There is a 'Happy Birthday!' sign on the cake. A woman, an elderly lady, and a young man are holding a knife together to cut the cake. A young boy is watching them closely. They are sitting on a couch, and there are cushions behind them. The mood appears to be joyful and celebratory.",
+          "generated_text": "Why do you think celebrating birthdays with family and friends is important?",
+          "edited_by_examiner": true
+        }
+      ],
+      "reading_completed_at": "2026-07-07T04:09:40.196540+00:00",
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

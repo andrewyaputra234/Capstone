@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import json
 import os
+import base64
+import shutil
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -351,6 +353,161 @@ class EducationCrew:
             rubric=self.rubric_name,
             material_type=material_type,
         )
+
+    def run_visual_question_workflow(
+        self,
+        file_path: str,
+        *,
+        num_questions: int = 3,
+    ) -> Dict[str, Any]:
+        """Fast path for standalone photo stimuli.
+
+        This avoids chunking, embedding, and vector-store rebuilds for normal
+        image uploads while preserving the vision-grounded question depth.
+        """
+        _set_runtime_context(self)
+
+        from agent_image_extractor import (
+            extract_single_image_as_page,
+            get_image_mime_type,
+            is_supported_image_file,
+        )
+        from langchain_core.messages import HumanMessage
+        from subject_manager import SubjectManager
+
+        source = Path(file_path)
+        if not source.exists():
+            raise FileNotFoundError(f"Visual stimulus not found: {source}")
+        if not is_supported_image_file(str(source)):
+            raise ValueError("Fast visual question workflow only supports standalone image files.")
+
+        subject_manager = SubjectManager()
+        input_dir = subject_manager.get_subject_input_path(self.subject)
+        input_dir.mkdir(parents=True, exist_ok=True)
+        dest = input_dir / source.name
+        if source.resolve() != dest.resolve():
+            shutil.copy2(source, dest)
+
+        images_dir = Path("data") / f"{self.subject}_images"
+        if images_dir.exists():
+            shutil.rmtree(images_dir)
+        page_images = extract_single_image_as_page(str(dest), str(images_dir))
+
+        if self.rubric_name:
+            subject_manager.set_subject_rubric(self.subject, self.rubric_name)
+        subject_manager.set_subject_pdf(self.subject, str(dest))
+        subject_manager.set_subject_material_path(self.subject, "visual", str(dest))
+
+        image_path = Path(page_images.get(1) or dest)
+        with image_path.open("rb") as image_file:
+            image_data = base64.standard_b64encode(image_file.read()).decode("utf-8")
+
+        model = os.getenv("VISION_QUESTION_MODEL", "gpt-4o").strip() or "gpt-4o"
+        vision_llm = ChatOpenAI(model=model, max_tokens=1400, temperature=0.45)
+        message = HumanMessage(
+            content=[
+                {
+                    "type": "text",
+                    "text": (
+                        f"{PSLE_ORAL_CONTEXT}\n\n"
+                        "Analyse this single PSLE English oral picture stimulus accurately. "
+                        "First identify concrete visible facts, actions, setting, mood, and likely topic. "
+                        f"Then create exactly {num_questions} stimulus-based conversation questions. "
+                        "Keep the questions age-appropriate for Primary 6, natural for an oral examiner, "
+                        "and grounded only in what is visible. Maintain depth by covering: "
+                        "1) observation and reason, 2) personal connection or experience, "
+                        "3) broader reflection, values, safety, responsibility, or community. "
+                        "Return ONLY JSON with this shape: "
+                        "{\"visual_description\": \"specific factual description\", "
+                        "\"questions\": [{\"text\": \"Question text\"}]}"
+                    ),
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:{get_image_mime_type(str(image_path))};base64,{image_data}"
+                    },
+                },
+            ]
+        )
+
+        response = vision_llm.invoke([message])
+        payload = self._parse_json_object(str(response.content))
+        visual_description = str(payload.get("visual_description", "")).strip()
+        if not visual_description:
+            visual_description = "Visual stimulus details are available in the displayed image."
+
+        questions: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for item in payload.get("questions", []):
+            if len(questions) >= num_questions:
+                break
+            if isinstance(item, dict):
+                text = str(item.get("text") or item.get("question") or item.get("prompt") or "").strip()
+            else:
+                text = str(item).strip()
+            text = " ".join(text.strip(' "\'').split())
+            if not text or len(text) < 15 or text in seen:
+                continue
+            seen.add(text)
+            questions.append(
+                {
+                    "id": len(questions) + 1,
+                    "text": text,
+                    "source": "Vision-generated from uploaded photo",
+                    "answered": False,
+                    "answer": None,
+                    "scores": None,
+                    "image_path": str(image_path),
+                    "visual_context": visual_description,
+                }
+            )
+
+        if len(questions) < num_questions:
+            fallback_prompts = [
+                "What are the people in the picture doing, and why might this action be important?",
+                "Can you share a time when you experienced something similar, and what did you learn from it?",
+                "What can people learn from this picture about making good choices or caring for others?",
+            ]
+            for text in fallback_prompts:
+                if len(questions) >= num_questions:
+                    break
+                if text in seen:
+                    continue
+                seen.add(text)
+                questions.append(
+                    {
+                        "id": len(questions) + 1,
+                        "text": text,
+                        "source": "Fallback visual prompt",
+                        "answered": False,
+                        "answer": None,
+                        "scores": None,
+                        "image_path": str(image_path),
+                        "visual_context": visual_description,
+                    }
+                )
+
+        return {
+            "workflow": "visual_question_generation",
+            "subject": self.subject,
+            "file_path": str(dest),
+            "ingest_result": {
+                "subject": self.subject,
+                "file_path": str(dest),
+                "chunk_count": 0,
+                "db_path": str(subject_manager.get_subject_chroma_path(self.subject, create=False)),
+                "image_count": len(page_images),
+                "rubric": self.rubric_name,
+                "material_type": "visual",
+                "vector_rebuilt": False,
+            },
+            "questions": questions,
+            "crew_analysis": (
+                "Standalone photo used the fast vision path: no chunking, embeddings, "
+                "or vector-store rebuild was needed."
+            ),
+        }
 
     def run_ingestion_workflow(
         self,
