@@ -3471,6 +3471,131 @@
       "results": [],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "2e5541104bb9": {
+      "assignment_id": "2e5541104bb9",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicec",
+      "subject": "assignment_123_6fb06b45",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-07T05:24:11.676141+00:00",
+      "updated_at": "2026-07-07T05:28:10.662889+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "helping.webp",
+        "path": "data\\input\\assignment_123_6fb06b45\\helping.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_6fb06b45\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Bundy",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260707_052731_63d6c825.wav",
+        "transcription_path": "data\\sessions\\speech_20260707_052731_63d6c825.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 1.9,
+          "words_per_minute": 32.3,
+          "pitch_range_semitones": 9.3,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Bundy",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.9, \"words_per_minute\": 32.3, \"pitch_range_semitones\": 9.3, \"notes\": [\"Pace appears slow; check whether pauses support meaning or interrupt fluency.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "The student correctly read the word 'Bundy' with some minor pronunciation issues.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job on your reading delivery, you showed good clarity and fluency overall. However, there were some minor pronunciation issues with the word 'Bundy'. Remember to pay attention to all the sounds in a word. One improvement area for you is to focus on maintaining a steady pace and adding more expression to your reading. Try starting your sentences with more energy, like \"In the story, Bundy...\" Keep practicing and you'll see improvement in no time!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+          "answer": "Bundy",
+          "visual_context": "Audio evidence: {\"audio_evidence\": \"A student recording was submitted for examiner review.\", \"delivery_indicators\": {\"status\": \"available\", \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\", \"duration_seconds\": 1.9, \"words_per_minute\": 32.3, \"pitch_range_semitones\": 9.3, \"notes\": [\"Pace appears slow; check whether pauses support meaning or interrupt fluency.\", \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"]}, \"limitation\": \"Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.\"}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading was mostly clear and fluent with minor pronunciation, pacing, or expression lapses.",
+              "evidence": "The student correctly read the word 'Bundy' with some minor pronunciation issues.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job on your reading delivery, you showed good clarity and fluency overall. However, there were some minor pronunciation issues with the word 'Bundy'. Remember to pay attention to all the sounds in a word. One improvement area for you is to focus on maintaining a steady pace and adding more expression to your reading. Try starting your sentences with more energy, like \"In the story, Bundy...\" Keep practicing and you'll see improvement in no time!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "ai"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Great job on your reading delivery, Bundy! You demonstrated good clarity and fluency, but there were some minor pronunciation issues with the word 'Bundy'. Remember to pay attention to all the sounds in a word for better accuracy. To improve further, try maintaining a steady pace throughout your reading and adding more expression to make the story come alive. Start your sentences with more energy, like \"In the story, Bundy...\" Keep practicing, and you'll see significant improvement in no time!\n\nOne short sentence starter you can use in your next attempt is: \"Let's dive into the adventure of Bundy and explore his world together.\" Keep up the fantastic effort, Bundy!",
+        "submitted_at": "2026-07-07T05:28:10.662877+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the elderly person might be doing in the park with a shopping cart, and why?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_6fb06b45_images\\page_1.webp",
+          "visual_context": "An elderly person wearing a mask, a beanie, and a blue coat is pushing a shopping cart filled with groceries in a park. The park has green grass and trees, and it is a sunny day.",
+          "generated_text": "What do you think the elderly person might be doing in the park with a shopping cart, and why?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever helped someone with their groceries? Can you tell me about that experience?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_6fb06b45_images\\page_1.webp",
+          "visual_context": "An elderly person wearing a mask, a beanie, and a blue coat is pushing a shopping cart filled with groceries in a park. The park has green grass and trees, and it is a sunny day.",
+          "generated_text": "Have you ever helped someone with their groceries? Can you tell me about that experience?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think it's important to help elderly people in our community, and how can we do that safely?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_6fb06b45_images\\page_1.webp",
+          "visual_context": "An elderly person wearing a mask, a beanie, and a blue coat is pushing a shopping cart filled with groceries in a park. The park has green grass and trees, and it is a sunny day.",
+          "generated_text": "Why do you think it's important to help elderly people in our community, and how can we do that safely?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-07T05:28:10.662887+00:00",
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

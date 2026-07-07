@@ -3187,8 +3187,16 @@ def render_examiner_review() -> None:
                 render_delivery_indicators(reading_submission.get("delivery_indicators"))
                 reading_grade = reading_submission.get("final_grading") or reading_submission.get("ai_grading")
                 if reading_grade:
-                    render_grading_result(reading_grade, heading="Provisional reading-aloud grade")
-                st.caption("The grade uses the selected reading-delivery rubric criteria. Verify it against the recording before relying on it.")
+                    heading = (
+                        "Reading-aloud grade pending examiner review"
+                        if reading_grade.get("scoring_source") == "pending_examiner_review"
+                        else "Provisional reading-aloud grade"
+                    )
+                    render_grading_result(reading_grade, heading=heading)
+                if reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
+                    st.caption("Fast submission saved the recording immediately. Listen to the recording and enter verified reading marks if needed.")
+                else:
+                    st.caption("The grade uses the selected reading-delivery rubric criteria. Verify it against the recording before relying on it.")
                 previous_note = (reading_submission.get("examiner_review") or {}).get("note", "")
                 with st.form(f"review_reading_{assignment['assignment_id']}"):
                     changes: dict[str, int] = {}
@@ -3739,6 +3747,27 @@ def render_preparation_timer() -> None:
     st.progress(seconds_remaining / (10 * 60))
 
 
+def ungraded_reading_result(reading_criteria: list[str]) -> dict:
+    scores = [
+        {
+            "criterion": criterion,
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Pending examiner review.",
+            "evidence": "Fast reading submission saved the recording without provisional AI grading.",
+        }
+        for criterion in reading_criteria
+    ]
+    return {
+        "total_score": 0,
+        "max_score": 0,
+        "percentage": 0,
+        "scores": scores,
+        "tutoring_feedback": "Reading-aloud recording submitted. Examiner review is pending.",
+        "scoring_source": "pending_examiner_review",
+    }
+
+
 def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bool:
     """Collect the reading-aloud submission before image questions begin."""
     reading = assignment.get("reading")
@@ -3769,7 +3798,7 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         allow_skip=bool_env("ALLOW_READING_SKIP", False),
         skip_label="Skip reading aloud",
         review_transcript=False,
-        include_delivery=True,
+        include_delivery=not bool_env("FAST_READING_SUBMISSION", True),
     )
     if not captured:
         return False
@@ -3778,6 +3807,26 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
         reading_criteria = crew.get_reading_criterion_names()
         if not reading_criteria:
             raise ValueError("The selected rubric does not contain a reading-aloud delivery criterion.")
+
+        if bool_env("FAST_READING_SUBMISSION", True) and not captured.get("skipped"):
+            grading_result = ungraded_reading_result(reading_criteria)
+            save_reading_submission(
+                assignment["assignment_id"],
+                transcript=captured["text"],
+                response_mode=captured.get("mode", "voice"),
+                audio_path=captured.get("audio_path"),
+                transcription_path=captured.get("transcription_path"),
+                delivery_indicators=captured.get("delivery_indicators"),
+                grading_result=grading_result,
+                crew_analysis=(
+                    "Fast reading submission was enabled. The student's recording and transcript "
+                    "were saved immediately for examiner review; no provisional AI reading grade "
+                    "was generated during the student flow."
+                ),
+            )
+            st.session_state.pop(reading_lock_key, None)
+            st.rerun()
+
         if captured.get("skipped"):
             evidence = {
                 "audio_evidence": "The student skipped the reading-aloud task.",
@@ -3872,25 +3921,23 @@ def render_response_wait_tracker(
     st.caption(f"The examiner will check in if no answer is submitted in about {remaining}s.")
 
 
-def render_response_nudge_if_due(
+def response_nudge_prompt_if_due(
     assignment_id: str,
     question_id: str,
     kind: str,
     *,
     message: str,
-) -> None:
+    disabled: bool = False,
+) -> tuple[str, str] | None:
+    """Return a due nudge prompt so the existing examiner avatar slot can speak it."""
+    if disabled:
+        return None
     due_key = response_nudge_state_key(assignment_id, question_id, kind, "due")
     spoken_key = response_nudge_state_key(assignment_id, question_id, kind, "spoken")
     if not st.session_state.get(due_key) or st.session_state.get(spoken_key):
-        return
-
+        return None
     st.session_state[spoken_key] = True
-    st.info(message)
-    render_examiner_avatar(
-        message,
-        cache_key=f"{assignment_id}_{question_id}_{kind}_silence_nudge",
-        auto_play=True,
-    )
+    return message, f"{assignment_id}_{question_id}_{kind}_silence_nudge"
 
 
 def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
@@ -3954,6 +4001,28 @@ def render_student_assessment(assignment: dict) -> None:
         if examiner_cache_kind == "question"
         else f"{assignment['assignment_id']}_{question_id}_guidance"
     )
+    response_kind = "guidance" if guidance else "question"
+    response_key_suffix = (
+        f"follow_up_{assignment['assignment_id']}_{question_id}"
+        if guidance
+        else f"response_{assignment['assignment_id']}_{question_id}"
+    )
+    response_recording_present = bool(st.session_state.get(f"voice_response_{response_key_suffix}"))
+    response_nudge_message = (
+        "I'm still here. Take your time, then answer the guiding question with one clear detail from the picture."
+        if guidance
+        else "I'm still here. Look at the picture and tell me one thing you notice, then explain why it matters."
+    )
+    due_nudge = response_nudge_prompt_if_due(
+        assignment["assignment_id"],
+        question_id,
+        response_kind,
+        message=response_nudge_message,
+        disabled=response_recording_present,
+    )
+    avatar_prompt = due_nudge[0] if due_nudge else examiner_prompt
+    avatar_cache_key = due_nudge[1] if due_nudge else examiner_avatar_cache_key
+    avatar_auto_play = bool(guidance or due_nudge)
     image = visual_path(assignment)
 
     st.markdown(
@@ -3973,27 +4042,30 @@ def render_student_assessment(assignment: dict) -> None:
     examiner_col, stimulus_col = st.columns([0.95, 1.05], gap="large", vertical_alignment="top")
     with examiner_col:
         st.markdown('<div class="assessment-panel-label">Step 1 - Listen to the examiner</div>', unsafe_allow_html=True)
-        stored_avatar = None if guidance or anam_avatar_requested() else refresh_avatar_video_reference(question.get("avatar_video") or {})
+        if due_nudge:
+            st.info(response_nudge_message)
+        stored_avatar = None if due_nudge or guidance or anam_avatar_requested() else refresh_avatar_video_reference(question.get("avatar_video") or {})
         stored_avatar_path = stored_avatar.get("path") if stored_avatar else None
         stored_avatar_url = stored_avatar.get("source_url") if stored_avatar else None
         stored_avatar_ready = bool(stored_avatar.get("ready")) if stored_avatar else False
         if stored_avatar_path and render_avatar_video_file(
             stored_avatar_path,
             element_key=f"stored_avatar_{assignment['assignment_id']}_{question_id}",
-            subtitle=examiner_prompt,
+            subtitle=avatar_prompt,
         ):
             pass
         elif stored_avatar_ready and stored_avatar_url and render_avatar_video(
             stored_avatar_url,
             element_key=f"stored_avatar_url_{assignment['assignment_id']}_{question_id}",
-            subtitle=examiner_prompt,
+            subtitle=avatar_prompt,
         ):
             pass
         elif guidance:
-            queue_examiner_avatar_preload(examiner_prompt, cache_key=examiner_avatar_cache_key)
-            render_examiner_avatar(examiner_prompt, cache_key=examiner_avatar_cache_key, auto_play=True)
+            if not due_nudge:
+                queue_examiner_avatar_preload(examiner_prompt, cache_key=examiner_avatar_cache_key)
+            render_examiner_avatar(avatar_prompt, cache_key=avatar_cache_key, auto_play=avatar_auto_play)
         else:
-            render_examiner_avatar(examiner_prompt, cache_key=examiner_avatar_cache_key)
+            render_examiner_avatar(avatar_prompt, cache_key=avatar_cache_key, auto_play=avatar_auto_play)
         if guidance:
             st.markdown(
                 '<div class="assessment-help-card">Listen to the examiner guiding question, then record your final response. Your first response and this response will be assessed together.</div>',
@@ -4025,26 +4097,14 @@ def render_student_assessment(assignment: dict) -> None:
         with st.container(border=True):
             st.markdown("### Step 3 - Record your final response")
             st.caption("Respond to the guiding question using the microphone. The system will combine this with your first answer for grading.")
-            follow_up_key_suffix = f"follow_up_{assignment['assignment_id']}_{question_id}"
-            follow_up_recording_present = bool(st.session_state.get(f"voice_response_{follow_up_key_suffix}"))
             render_response_wait_tracker(
                 assignment["assignment_id"],
                 question_id,
                 "guidance",
-                disabled=follow_up_recording_present,
+                disabled=response_recording_present,
             )
-            if not follow_up_recording_present:
-                render_response_nudge_if_due(
-                    assignment["assignment_id"],
-                    question_id,
-                    "guidance",
-                    message=(
-                        "I'm still here. Take your time, then answer the guiding question with one clear detail "
-                        "from the picture."
-                    ),
-                )
             captured = capture_student_response(
-                follow_up_key_suffix,
+                response_key_suffix,
                 "Submit final response",
                 review_transcript=not fast_assessment_response_flow(),
                 include_delivery=not fast_assessment_response_flow(),
@@ -4063,24 +4123,12 @@ def render_student_assessment(assignment: dict) -> None:
                 st.caption("Record your answer with the microphone, then submit it. The examiner will respond automatically.")
             else:
                 st.caption("Record your answer with the microphone, transcribe it, check the text, then submit.")
-            response_key_suffix = f"response_{assignment['assignment_id']}_{question_id}"
-            response_recording_present = bool(st.session_state.get(f"voice_response_{response_key_suffix}"))
             render_response_wait_tracker(
                 assignment["assignment_id"],
                 question_id,
                 "question",
                 disabled=response_recording_present,
             )
-            if not response_recording_present:
-                render_response_nudge_if_due(
-                    assignment["assignment_id"],
-                    question_id,
-                    "question",
-                    message=(
-                        "I'm still here. Look at the picture and tell me one thing you notice, then explain "
-                        "why it matters."
-                    ),
-                )
             captured = capture_student_response(
                 response_key_suffix,
                 "Submit response",

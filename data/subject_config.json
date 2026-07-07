@@ -347,6 +347,12 @@
       "pdf_path": "data\\input\\assignment_123_5a416b4e\\o_1ivs60ia8816jac11v3k6v9khc.png",
       "visual_path": "data\\input\\assignment_123_5a416b4e\\o_1ivs60ia8816jac11v3k6v9khc.png",
       "reading_path": "data\\input\\assignment_123_5a416b4e\\Filename ending bracket or space ca.txt"
+    },
+    "assignment_123_6fb06b45": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_6fb06b45\\helping.webp",
+      "visual_path": "data\\input\\assignment_123_6fb06b45\\helping.webp",
+      "reading_path": "data\\input\\assignment_123_6fb06b45\\Good morning, students. I hope you.txt"
     }
   }
 }
