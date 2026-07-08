@@ -98,39 +98,16 @@
       "pdf_path": "data\\input\\assignment_002_8654f9bb\\helping.webp",
       "visual_path": "data\\input\\assignment_002_8654f9bb\\helping.webp"
     },
-    "assignment_123_11231b6c": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_11231b6c\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "visual_path": "data\\input\\assignment_123_11231b6c\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "reading_path": "data\\input\\assignment_123_11231b6c\\Good morning, students. I hope you.txt"
-    },
     "assignment_123_7cc6a6dd": {
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_123_7cc6a6dd\\o_1ivs60ia8816jac11v3k6v9khc.png",
       "visual_path": "data\\input\\assignment_123_7cc6a6dd\\o_1ivs60ia8816jac11v3k6v9khc.png"
-    },
-    "assignment_123_196e1c3d": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_196e1c3d\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "visual_path": "data\\input\\assignment_123_196e1c3d\\o_1ivs60ia8816jac11v3k6v9khc.png"
     },
     "assignment_123_2ab034b7": {
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_123_2ab034b7\\o_1ivs60ia8816jac11v3k6v9khc.png",
       "visual_path": "data\\input\\assignment_123_2ab034b7\\o_1ivs60ia8816jac11v3k6v9khc.png",
       "reading_path": "data\\input\\assignment_123_2ab034b7\\Good morning, students. I hope you.txt"
-    },
-    "assignment_123_5b413757": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_5b413757\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "visual_path": "data\\input\\assignment_123_5b413757\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "reading_path": "data\\input\\assignment_123_5b413757\\Filename ending bracket or space ca.txt"
-    },
-    "assignment_123_d31c457e": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_d31c457e\\aa.webp",
-      "visual_path": "data\\input\\assignment_123_d31c457e\\aa.webp",
-      "reading_path": "data\\input\\assignment_123_d31c457e\\Good morning, students. I hope you.txt"
     },
     "assignment_123_0211e8b6": {
       "rubric": "psle_oral_english",
@@ -179,11 +156,6 @@
       "pdf_path": "data\\input\\assignment_123_370580f2\\o_1ivs60ia8816jac11v3k6v9khc.png",
       "visual_path": "data\\input\\assignment_123_370580f2\\o_1ivs60ia8816jac11v3k6v9khc.png",
       "reading_path": "data\\input\\assignment_123_370580f2\\Good morning, students. I hope you.txt"
-    },
-    "assignment_123_fba9fe4c": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_fba9fe4c\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "visual_path": "data\\input\\assignment_123_fba9fe4c\\o_1ivs60ia8816jac11v3k6v9khc.png"
     },
     "assignment_123_7fc87f17": {
       "rubric": "psle_oral_english",
@@ -306,53 +278,23 @@
       "visual_path": "data\\input\\assignment_123_b78a84c9\\helping.webp",
       "reading_path": "data\\input\\assignment_123_b78a84c9\\Good morning, students. I hope you.txt"
     },
-    "assignment_123_c9b7b1c2": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_c9b7b1c2\\aa.webp",
-      "visual_path": "data\\input\\assignment_123_c9b7b1c2\\aa.webp",
-      "reading_path": "data\\input\\assignment_123_c9b7b1c2\\Filename ending bracket or space ca.txt"
-    },
-    "assignment_123_7ce3371a": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_7ce3371a\\aa.webp",
-      "visual_path": "data\\input\\assignment_123_7ce3371a\\aa.webp",
-      "reading_path": "data\\input\\assignment_123_7ce3371a\\Good morning, students. I hope you.txt"
-    },
-    "assignment_123_b17f9da4": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_b17f9da4\\soccer-player-action-stadium-1024x683.webp",
-      "visual_path": "data\\input\\assignment_123_b17f9da4\\soccer-player-action-stadium-1024x683.webp",
-      "reading_path": "data\\input\\assignment_123_b17f9da4\\Filename ending bracket or space ca.txt"
-    },
-    "assignment_123_61feac81": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_61feac81\\soccer-player-action-stadium-1024x683.webp",
-      "visual_path": "data\\input\\assignment_123_61feac81\\soccer-player-action-stadium-1024x683.webp",
-      "reading_path": "data\\input\\assignment_123_61feac81\\Good morning, students. I hope you.txt"
-    },
-    "assignment_123_34d1071e": {
-      "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_34d1071e\\soccer-player-action-stadium-1024x683.webp",
-      "visual_path": "data\\input\\assignment_123_34d1071e\\soccer-player-action-stadium-1024x683.webp",
-      "reading_path": "data\\input\\assignment_123_34d1071e\\Good morning, students. I hope you.txt"
-    },
     "assignment_123_eff2d530": {
       "rubric": "psle_oral_english",
       "pdf_path": "data\\input\\assignment_123_eff2d530\\soccer-player-action-stadium-1024x683.webp",
       "visual_path": "data\\input\\assignment_123_eff2d530\\soccer-player-action-stadium-1024x683.webp",
       "reading_path": "data\\input\\assignment_123_eff2d530\\Filename ending bracket or space ca.txt"
     },
-    "assignment_123_5a416b4e": {
+    "assignment_123_5b2f24d4": {
       "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_5a416b4e\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "visual_path": "data\\input\\assignment_123_5a416b4e\\o_1ivs60ia8816jac11v3k6v9khc.png",
-      "reading_path": "data\\input\\assignment_123_5a416b4e\\Filename ending bracket or space ca.txt"
+      "pdf_path": "data\\input\\assignment_123_5b2f24d4\\freepik__excited-asian-children-on-a-rollercoaster__22021.jpeg",
+      "visual_path": "data\\input\\assignment_123_5b2f24d4\\freepik__excited-asian-children-on-a-rollercoaster__22021.jpeg",
+      "reading_path": "data\\input\\assignment_123_5b2f24d4\\Good morning, students. I hope you.txt"
     },
-    "assignment_123_6fb06b45": {
+    "assignment_123_d6826661": {
       "rubric": "psle_oral_english",
-      "pdf_path": "data\\input\\assignment_123_6fb06b45\\helping.webp",
-      "visual_path": "data\\input\\assignment_123_6fb06b45\\helping.webp",
-      "reading_path": "data\\input\\assignment_123_6fb06b45\\Good morning, students. I hope you.txt"
+      "pdf_path": "data\\input\\assignment_123_d6826661\\image-45-1024x683.webp",
+      "visual_path": "data\\input\\assignment_123_d6826661\\image-45-1024x683.webp",
+      "reading_path": "data\\input\\assignment_123_d6826661\\Good morning, students. I hope you.txt"
     }
   }
 }

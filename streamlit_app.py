@@ -57,6 +57,7 @@ load_dotenv()
 # it is loaded only when a student begins an assessment or an examiner generates
 # a new one.
 DEFAULT_PSLE_RUBRIC = "psle_oral_english"
+IMAGE_QUESTION_COUNT = 3
 
 st.set_page_config(
     page_title="Examination Portal",
@@ -550,6 +551,8 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
     detail_id_json = json.dumps(detail_id)
     start_id_json = json.dumps(start_id)
     button_id_json = json.dumps(button_id)
+    close_after_talk_json = json.dumps(bool_env("ANAM_CLOSE_SESSION_AFTER_TALK", True))
+    close_delay_ms_json = json.dumps(int(float_env("ANAM_CLOSE_SESSION_DELAY_SECONDS", 10.0) * 1000))
     subtitle_html = html_escape(clean_text)
 
     st.markdown("#### AI examiner")
@@ -655,9 +658,12 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           const detail = document.getElementById({detail_id_json});
           const startButton = document.getElementById({start_id_json});
           const replay = document.getElementById({button_id_json});
+          const closeAfterTalk = {close_after_talk_json};
+          const closeDelayMs = {close_delay_ms_json};
           let client = null;
           let busy = false;
           let streamStarted = false;
+          let closeTimer = null;
 
           const setStatus = (message) => {{
             if (status) status.textContent = message;
@@ -677,15 +683,47 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             }}
           }};
 
+          function clearCloseTimer() {{
+            if (closeTimer) {{
+              clearTimeout(closeTimer);
+              closeTimer = null;
+            }}
+          }}
+
+          async function closeClientAfterTalk() {{
+            clearCloseTimer();
+            const activeClient = client;
+            client = null;
+            streamStarted = false;
+            if (replay) replay.disabled = true;
+            if (startButton) startButton.disabled = true;
+            if (!activeClient) return;
+            try {{
+              await activeClient.stopStreaming();
+            }} catch (error) {{
+              console.warn(error);
+            }}
+            setStatus("Finished");
+            setDetail("");
+          }}
+
+          function scheduleCloseAfterTalk() {{
+            if (!closeAfterTalk) return;
+            clearCloseTimer();
+            closeTimer = setTimeout(closeClientAfterTalk, closeDelayMs);
+          }}
+
           async function speak() {{
             if (!client || busy) return;
+            clearCloseTimer();
             busy = true;
             if (replay) replay.disabled = true;
             setStatus("Speaking");
             setDetail("");
             try {{
               await client.talk(promptText);
-              setStatus("Ready");
+              setStatus(closeAfterTalk ? "Finishing" : "Ready");
+              scheduleCloseAfterTalk();
             }} catch (error) {{
               console.error(error);
               setStatus("Talk error");
@@ -702,6 +740,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
               return;
             }}
             try {{
+              clearCloseTimer();
               if (startButton) startButton.disabled = true;
               if (video) {{
                 video.autoplay = true;
@@ -721,8 +760,10 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
                 await speak();
               }});
               client.addListener(AnamEvent.CONNECTION_CLOSED, (code, details) => {{
-                setStatus("Closed");
-                setDetail(details ? `${{code}}: ${{details}}` : String(code || ""));
+                client = null;
+                streamStarted = false;
+                setStatus(closeAfterTalk ? "Finished" : "Closed");
+                setDetail(details ? `${{code}}: ${{details}}` : "");
               }});
               await client.streamToVideoElement(videoId);
             }} catch (error) {{
@@ -736,6 +777,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           if (startButton) startButton.addEventListener("click", start);
           if (replay) replay.addEventListener("click", speak);
           window.addEventListener("beforeunload", () => {{
+            clearCloseTimer();
             if (client) client.stopStreaming().catch(() => {{}});
           }});
           start();
@@ -1588,6 +1630,59 @@ def render_delivery_indicators(indicators: dict | None) -> None:
         st.caption(note)
 
 
+def render_student_processing_overlay(title: str, message: str) -> None:
+    st.markdown(
+        f"""
+        <style>
+        .student-processing-overlay {{
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: rgba(247, 252, 248, 0.96);
+        }}
+        .student-processing-box {{
+            width: min(620px, 92vw);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.45rem 1.55rem;
+            border: 1px solid #cfe3d5;
+            border-radius: 18px;
+            background: #fffffb;
+            box-shadow: 0 18px 42px rgba(37, 72, 53, 0.16);
+            font-family: Aptos, Segoe UI, sans-serif;
+        }}
+        .student-processing-box h3 {{
+            margin: 0 0 0.3rem;
+            color: #203b36;
+            font-size: 1.28rem;
+            line-height: 1.2;
+        }}
+        .student-processing-box p {{
+            margin: 0;
+            color: #587267;
+            font-size: 1rem;
+            line-height: 1.45;
+        }}
+        </style>
+        <div class="student-processing-overlay" role="status" aria-live="polite">
+          <div class="student-processing-box">
+            <div class="prep-loader"></div>
+            <div>
+              <h3>{html_escape(title)}</h3>
+              <p>{html_escape(message)}</p>
+            </div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def discard_voice_preview(preview_key: str) -> None:
     """Delete an unsubmitted recording and its transcript only from session storage."""
     preview = st.session_state.pop(preview_key, None)
@@ -1653,8 +1748,11 @@ def capture_student_response(
             return None
         try:
             spinner_text = "Processing your answer..." if not review_transcript else "Transcribing your recording..."
-            with st.spinner(spinner_text):
-                voice = transcribe_streamlit_audio(recording, include_delivery=include_delivery)
+            render_student_processing_overlay(
+                "Submitting recording",
+                spinner_text,
+            )
+            voice = transcribe_streamlit_audio(recording, include_delivery=include_delivery)
         except Exception as error:
             st.error(f"Your recording could not be transcribed: {error}")
             return None
@@ -2715,7 +2813,7 @@ def render_assignment_generation_loading(request: dict) -> None:
         )
         if use_fast_photo_path:
             try:
-                visual_result = crew.run_visual_question_workflow(str(visual_file), num_questions=3)
+                visual_result = crew.run_visual_question_workflow(str(visual_file), num_questions=IMAGE_QUESTION_COUNT)
             except Exception as fast_error:
                 progress.progress(
                     0.48,
@@ -2736,7 +2834,7 @@ def render_assignment_generation_loading(request: dict) -> None:
                 extract_questions=True,
                 run_crew_analysis=run_review_analysis,
             )
-        questions = visual_result.get("questions", [])[:3]
+        questions = visual_result.get("questions", [])[:IMAGE_QUESTION_COUNT]
         if not questions:
             raise RuntimeError(
                 "No image questions were generated. Try a clearer image or check the AI service configuration."
@@ -3570,8 +3668,7 @@ def render_preparation_loading(assignment: dict) -> None:
         unsafe_allow_html=True,
     )
 
-    with st.spinner("Getting everything ready..."):
-        time.sleep(1.1)
+    time.sleep(1.1)
 
     st.session_state.preparation_deadline = None
     st.session_state.preparation_timer_assignment_id = None
@@ -3614,14 +3711,13 @@ def render_assessment_loading(assignment: dict) -> None:
         """,
         unsafe_allow_html=True,
     )
-    with st.spinner("Starting your assessment session..."):
-        crew = ensure_assignment_crew(assignment)
-        if not st.session_state.session_id:
-            if not restore_assignment_session(crew, assignment["assignment_id"]):
-                st.session_state.session_id = crew.start_session(
-                    metadata={"assignment_id": assignment["assignment_id"], "component": "student_assessment"}
-                )
-                mark_assignment_status(assignment["assignment_id"], "in_progress")
+    crew = ensure_assignment_crew(assignment)
+    if not st.session_state.session_id:
+        if not restore_assignment_session(crew, assignment["assignment_id"]):
+            st.session_state.session_id = crew.start_session(
+                metadata={"assignment_id": assignment["assignment_id"], "component": "student_assessment"}
+            )
+            mark_assignment_status(assignment["assignment_id"], "in_progress")
     answered_ids = {result.get("question_id") for result in assignment.get("results", [])}
     next_question = next(
         (item for item in assignment.get("questions", []) if item.get("id") not in answered_ids),
@@ -3839,19 +3935,22 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
                 "delivery_indicators": captured.get("delivery_indicators"),
                 "limitation": "Transcript and automated pace/pitch indicators cannot verify pronunciation on their own.",
             }
-        with st.spinner("AI is preparing a provisional reading-aloud grade..."):
-            workflow = crew.run_assessment_workflow(
-                question="Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
-                student_response=captured["text"],
-                context=json.dumps(evidence, indent=2),
-                visual_context=f"Audio evidence: {json.dumps(evidence)}",
-                save_to_session=True,
-                audio_path=captured.get("audio_path"),
-                transcription_path=captured.get("transcription_path"),
-                delivery_indicators=captured.get("delivery_indicators"),
-                criterion_names=reading_criteria,
-                skipped=bool(captured.get("skipped")),
-            )
+        render_student_processing_overlay(
+            "Saving reading submission",
+            "Preparing the reading-aloud record before moving on.",
+        )
+        workflow = crew.run_assessment_workflow(
+            question="Reading-aloud submission. Assess only the selected reading-delivery rubric criteria.",
+            student_response=captured["text"],
+            context=json.dumps(evidence, indent=2),
+            visual_context=f"Audio evidence: {json.dumps(evidence)}",
+            save_to_session=True,
+            audio_path=captured.get("audio_path"),
+            transcription_path=captured.get("transcription_path"),
+            delivery_indicators=captured.get("delivery_indicators"),
+            criterion_names=reading_criteria,
+            skipped=bool(captured.get("skipped")),
+        )
         save_reading_submission(
             assignment["assignment_id"],
             transcript=captured["text"],
@@ -3873,71 +3972,6 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
 
 def fast_assessment_response_flow() -> bool:
     return bool_env("FAST_ASSESSMENT_RESPONSE_FLOW", True)
-
-
-def response_nudge_seconds() -> float:
-    return float_env("RESPONSE_NUDGE_SECONDS", 15.0)
-
-
-def response_nudge_state_key(assignment_id: str, question_id: str, kind: str, name: str) -> str:
-    return f"response_nudge_{name}_{assignment_id}_{question_id}_{kind}"
-
-
-@st.fragment(run_every=1)
-def render_response_wait_tracker(
-    assignment_id: str,
-    question_id: str,
-    kind: str,
-    *,
-    disabled: bool = False,
-) -> None:
-    """Start a quiet-response timer without blocking the student's recording controls."""
-    if disabled:
-        return
-
-    wait_seconds = response_nudge_seconds()
-    if wait_seconds <= 0:
-        return
-
-    started_key = response_nudge_state_key(assignment_id, question_id, kind, "started")
-    due_key = response_nudge_state_key(assignment_id, question_id, kind, "due")
-    spoken_key = response_nudge_state_key(assignment_id, question_id, kind, "spoken")
-
-    if st.session_state.get(due_key) or st.session_state.get(spoken_key):
-        return
-
-    started_at = st.session_state.get(started_key)
-    if not started_at:
-        st.session_state[started_key] = time.monotonic()
-        started_at = st.session_state[started_key]
-
-    elapsed = time.monotonic() - started_at
-    remaining = max(0, int(wait_seconds - elapsed))
-    if elapsed >= wait_seconds:
-        st.session_state[due_key] = True
-        st.rerun(scope="app")
-        return
-
-    st.caption(f"The examiner will check in if no answer is submitted in about {remaining}s.")
-
-
-def response_nudge_prompt_if_due(
-    assignment_id: str,
-    question_id: str,
-    kind: str,
-    *,
-    message: str,
-    disabled: bool = False,
-) -> tuple[str, str] | None:
-    """Return a due nudge prompt so the existing examiner avatar slot can speak it."""
-    if disabled:
-        return None
-    due_key = response_nudge_state_key(assignment_id, question_id, kind, "due")
-    spoken_key = response_nudge_state_key(assignment_id, question_id, kind, "spoken")
-    if not st.session_state.get(due_key) or st.session_state.get(spoken_key):
-        return None
-    st.session_state[spoken_key] = True
-    return message, f"{assignment_id}_{question_id}_{kind}_silence_nudge"
 
 
 def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
@@ -4001,28 +4035,14 @@ def render_student_assessment(assignment: dict) -> None:
         if examiner_cache_kind == "question"
         else f"{assignment['assignment_id']}_{question_id}_guidance"
     )
-    response_kind = "guidance" if guidance else "question"
     response_key_suffix = (
         f"follow_up_{assignment['assignment_id']}_{question_id}"
         if guidance
         else f"response_{assignment['assignment_id']}_{question_id}"
     )
-    response_recording_present = bool(st.session_state.get(f"voice_response_{response_key_suffix}"))
-    response_nudge_message = (
-        "I'm still here. Take your time, then answer the guiding question with one clear detail from the picture."
-        if guidance
-        else "I'm still here. Look at the picture and tell me one thing you notice, then explain why it matters."
-    )
-    due_nudge = response_nudge_prompt_if_due(
-        assignment["assignment_id"],
-        question_id,
-        response_kind,
-        message=response_nudge_message,
-        disabled=response_recording_present,
-    )
-    avatar_prompt = due_nudge[0] if due_nudge else examiner_prompt
-    avatar_cache_key = due_nudge[1] if due_nudge else examiner_avatar_cache_key
-    avatar_auto_play = bool(guidance or due_nudge)
+    avatar_prompt = examiner_prompt
+    avatar_cache_key = examiner_avatar_cache_key
+    avatar_auto_play = bool(guidance)
     image = visual_path(assignment)
 
     st.markdown(
@@ -4042,9 +4062,7 @@ def render_student_assessment(assignment: dict) -> None:
     examiner_col, stimulus_col = st.columns([0.95, 1.05], gap="large", vertical_alignment="top")
     with examiner_col:
         st.markdown('<div class="assessment-panel-label">Step 1 - Listen to the examiner</div>', unsafe_allow_html=True)
-        if due_nudge:
-            st.info(response_nudge_message)
-        stored_avatar = None if due_nudge or guidance or anam_avatar_requested() else refresh_avatar_video_reference(question.get("avatar_video") or {})
+        stored_avatar = None if guidance or anam_avatar_requested() else refresh_avatar_video_reference(question.get("avatar_video") or {})
         stored_avatar_path = stored_avatar.get("path") if stored_avatar else None
         stored_avatar_url = stored_avatar.get("source_url") if stored_avatar else None
         stored_avatar_ready = bool(stored_avatar.get("ready")) if stored_avatar else False
@@ -4061,8 +4079,7 @@ def render_student_assessment(assignment: dict) -> None:
         ):
             pass
         elif guidance:
-            if not due_nudge:
-                queue_examiner_avatar_preload(examiner_prompt, cache_key=examiner_avatar_cache_key)
+            queue_examiner_avatar_preload(examiner_prompt, cache_key=examiner_avatar_cache_key)
             render_examiner_avatar(avatar_prompt, cache_key=avatar_cache_key, auto_play=avatar_auto_play)
         else:
             render_examiner_avatar(avatar_prompt, cache_key=avatar_cache_key, auto_play=avatar_auto_play)
@@ -4097,12 +4114,6 @@ def render_student_assessment(assignment: dict) -> None:
         with st.container(border=True):
             st.markdown("### Step 3 - Record your final response")
             st.caption("Respond to the guiding question using the microphone. The system will combine this with your first answer for grading.")
-            render_response_wait_tracker(
-                assignment["assignment_id"],
-                question_id,
-                "guidance",
-                disabled=response_recording_present,
-            )
             captured = capture_student_response(
                 response_key_suffix,
                 "Submit final response",
@@ -4123,12 +4134,6 @@ def render_student_assessment(assignment: dict) -> None:
                 st.caption("Record your answer with the microphone, then submit it. The examiner will respond automatically.")
             else:
                 st.caption("Record your answer with the microphone, transcribe it, check the text, then submit.")
-            render_response_wait_tracker(
-                assignment["assignment_id"],
-                question_id,
-                "question",
-                disabled=response_recording_present,
-            )
             captured = capture_student_response(
                 response_key_suffix,
                 "Submit response",
@@ -4139,13 +4144,16 @@ def render_student_assessment(assignment: dict) -> None:
             return
         skipped = captured["skipped"]
         if not skipped:
-            with st.spinner("Examiner is checking whether this answer can be graded..."):
-                decision = crew.evaluate_oral_turn(
-                    question=assessment_question_with_visual_context(question),
-                    student_response=captured["text"],
-                    attempt_number=1,
-                    max_attempts=2,
-                )
+            render_student_processing_overlay(
+                "Checking your answer",
+                "The examiner is deciding whether to guide you or move to the next question.",
+            )
+            decision = crew.evaluate_oral_turn(
+                question=assessment_question_with_visual_context(question),
+                student_response=captured["text"],
+                attempt_number=1,
+                max_attempts=2,
+            )
             if not decision.get("accepted"):
                 follow_up_question = decision.get("examiner_reply") or (
                     "What is one detail you can see in the picture that helps answer the question?"
@@ -4179,8 +4187,11 @@ def render_student_assessment(assignment: dict) -> None:
                         """,
                         unsafe_allow_html=True,
                     )
-                    with st.spinner("Preparing the examiner's guiding question..."):
-                        prepare_examiner_avatar(follow_up_question, cache_key=guidance_avatar_cache_key)
+                    render_student_processing_overlay(
+                        "Preparing guidance",
+                        "The examiner is preparing a spoken guiding question for your next attempt.",
+                    )
+                    prepare_examiner_avatar(follow_up_question, cache_key=guidance_avatar_cache_key)
                 st.session_state.pop(pending_key, None)
                 st.session_state.pop(transition_key, None)
                 st.rerun()
@@ -4217,36 +4228,39 @@ def render_student_assessment(assignment: dict) -> None:
     if not examiner_transition:
         st.session_state[transition_key] = True
 
-    with st.spinner("AI is grading your response..."):
-        try:
-            workflow = crew.run_assessment_workflow(
-                question=question.get("text", ""),
-                student_response=answer_for_grading,
-                context=grading_context,
-                visual_context=question.get("visual_context"),
-                save_to_session=True,
-                skipped=skipped,
-                audio_path=captured.get("audio_path"),
-                transcription_path=captured.get("transcription_path"),
-                delivery_indicators=captured.get("delivery_indicators"),
-            )
-            add_assessment_result(
-                assignment["assignment_id"],
-                question=question,
-                student_response=answer_for_grading,
-                grading_result=workflow["grading_result"],
-                session_id=st.session_state.session_id,
-                crew_analysis=workflow.get("crew_analysis", ""),
-                skipped=skipped,
-                follow_up_response=follow_up_answer,
-                response_mode=captured.get("mode", "voice"),
-                audio_path=captured.get("audio_path"),
-                transcription_path=captured.get("transcription_path"),
-                delivery_indicators=captured.get("delivery_indicators"),
-            )
-        except Exception as error:
-            st.error(f"Your response was not saved: {error}")
-            return
+    render_student_processing_overlay(
+        "Saving your response",
+        "The examiner is grading this answer and preparing the next step.",
+    )
+    try:
+        workflow = crew.run_assessment_workflow(
+            question=question.get("text", ""),
+            student_response=answer_for_grading,
+            context=grading_context,
+            visual_context=question.get("visual_context"),
+            save_to_session=True,
+            skipped=skipped,
+            audio_path=captured.get("audio_path"),
+            transcription_path=captured.get("transcription_path"),
+            delivery_indicators=captured.get("delivery_indicators"),
+        )
+        add_assessment_result(
+            assignment["assignment_id"],
+            question=question,
+            student_response=answer_for_grading,
+            grading_result=workflow["grading_result"],
+            session_id=st.session_state.session_id,
+            crew_analysis=workflow.get("crew_analysis", ""),
+            skipped=skipped,
+            follow_up_response=follow_up_answer,
+            response_mode=captured.get("mode", "voice"),
+            audio_path=captured.get("audio_path"),
+            transcription_path=captured.get("transcription_path"),
+            delivery_indicators=captured.get("delivery_indicators"),
+        )
+    except Exception as error:
+        st.error(f"Your response was not saved: {error}")
+        return
     st.session_state.pop(pending_key, None)
     st.session_state.pop(transition_key, None)
     st.rerun()
