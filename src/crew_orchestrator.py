@@ -10,6 +10,8 @@ from __future__ import annotations
 import json
 import os
 import base64
+import hashlib
+import re
 import shutil
 import sys
 from dataclasses import dataclass
@@ -894,6 +896,7 @@ class EducationCrew:
         conversation_history: Optional[List[Dict]] = None,
         attempt_number: int = 1,
         max_attempts: int = 3,
+        fast_evaluation: bool = False,
     ) -> Dict[str, Any]:
         """
         Decide whether an oral answer is sufficient to grade or needs prompting.
@@ -916,7 +919,7 @@ class EducationCrew:
                 "rubric_focus": ["Stimulus Response Relevance", "Idea Development", "Interaction And Confidence"],
             }
 
-        if os.getenv("FAST_ORAL_TURN_EVALUATION", "true").strip().lower() in {"1", "true", "yes", "on"}:
+        if fast_evaluation:
             return self._fast_oral_turn_decision(question, response, attempt_number, max_attempts)
 
         context = _retrieve_vector_context(question, num_results=3)
@@ -1074,25 +1077,30 @@ class EducationCrew:
         max_attempts: int,
     ) -> Dict[str, Any]:
         """Low-latency first-pass decision for demo-speed oral flow."""
-        word_count = len(response.split())
-        accepted = word_count >= 6 or (attempt_number >= max_attempts and word_count >= 4)
+        relates_to_visual = self._response_relates_to_visual_context(question, response)
+        accepted = self._response_is_strong_enough_to_skip_guidance(question, response)
         if accepted:
             return {
                 "accepted": True,
                 "status": "accepted",
                 "examiner_reply": "Thank you, let's move on to the next question.",
-                "reason": "Fast oral-turn evaluation accepted a passable-length response.",
+                "reason": "Fast oral-turn evaluation accepted a strong, developed visual response.",
                 "rubric_focus": ["Stimulus Response Relevance", "Idea Development"],
             }
+        reason = (
+            "The response does not clearly connect to the visual stimulus."
+            if not relates_to_visual
+            else "The response connects to the picture but needs stronger explanation before it is ready to grade without guidance."
+        )
         return {
             "accepted": False,
             "status": "needs_prompt",
             "examiner_reply": self._adaptive_follow_up_question(
                 question,
                 response,
-                "The response is short and may need one more reason, example, or visible detail.",
+                reason,
             ),
-            "reason": "Fast oral-turn evaluation requested guidance for a short response.",
+            "reason": reason,
             "rubric_focus": ["Stimulus Response Relevance", "Idea Development", "Interaction And Confidence"],
         }
 
@@ -1123,22 +1131,188 @@ class EducationCrew:
             clean = " ".join(words[:max_words]).rstrip(".,;:") + "..."
         return clean
 
+    @staticmethod
+    def _split_visual_context(question: str) -> tuple[str, str]:
+        text = question or ""
+        marker = "Visual stimulus facts:"
+        prompt_marker = "Question:"
+        if marker in text and prompt_marker in text:
+            _, rest = text.split(marker, 1)
+            visual, prompt = rest.split(prompt_marker, 1)
+            return visual.strip(), prompt.strip()
+        return "", text.strip()
+
+    @staticmethod
+    def _content_words(text: str) -> set[str]:
+        stopwords = {
+            "the", "and", "for", "are", "you", "your", "they", "them", "this", "that",
+            "with", "what", "why", "how", "can", "could", "would", "should", "might",
+            "picture", "image", "photo", "important", "because", "there", "their",
+            "from", "about", "into", "onto", "doing", "does", "did", "one", "some",
+            "person", "people", "children", "child", "student", "students",
+        }
+        words = set()
+        for word in re.findall(r"[a-z0-9']+", (text or "").lower()):
+            if len(word) > 2 and word not in stopwords:
+                words.add(word.rstrip("s"))
+        return words
+
+    @staticmethod
+    def _semantic_topic_overlap(visual_words: set[str], response_words: set[str]) -> bool:
+        topic_groups = [
+            {"wash", "washing", "hand", "sink", "soap", "water", "clean", "hygiene", "germ", "tap"},
+            {"food", "eat", "eating", "meal", "canteen", "plate", "lunch"},
+            {"school", "class", "classroom", "teacher", "pupil", "student", "lesson"},
+            {"safety", "safe", "danger", "careful", "road", "crossing", "traffic"},
+            {"help", "helping", "kind", "care", "share", "sharing", "community"},
+            {"sport", "play", "playing", "game", "run", "running", "exercise"},
+        ]
+        return any(visual_words & group and response_words & group for group in topic_groups)
+
+    @classmethod
+    def _response_relates_to_visual_context(cls, question: str, response: str) -> bool:
+        visual, prompt = cls._split_visual_context(question)
+        visual_words = cls._content_words(f"{visual} {prompt}")
+        response_words = cls._content_words(response)
+        if not visual_words or not response_words:
+            return bool(response_words)
+        if visual_words & response_words:
+            return True
+        return cls._semantic_topic_overlap(visual_words, response_words)
+
+    @staticmethod
+    def _response_has_development(response: str) -> bool:
+        lowered = f" {(response or '').lower()} "
+        development_markers = [
+            " because ",
+            " so ",
+            " so that ",
+            " therefore ",
+            " in order ",
+            " for example ",
+            " such as ",
+            " this helps ",
+            " it helps ",
+            " helps ",
+            " prevent ",
+            " prevents ",
+            " keeps ",
+            " important ",
+            " responsibility ",
+            " safe ",
+            " healthy ",
+            " germs ",
+            " before ",
+            " after ",
+            " should ",
+            " need ",
+            " needs ",
+        ]
+        return any(marker in lowered for marker in development_markers)
+
+    @classmethod
+    def _response_is_strong_enough_to_skip_guidance(cls, question: str, response: str) -> bool:
+        words = response.split()
+        if len(words) < 14:
+            return False
+        if not cls._response_relates_to_visual_context(question, response):
+            return False
+        if not cls._response_has_development(response):
+            return False
+
+        visual, prompt = cls._split_visual_context(question)
+        visual_words = cls._content_words(f"{visual} {prompt}")
+        response_words = cls._content_words(response)
+        if not visual_words:
+            return len(words) >= 16
+        return len(visual_words & response_words) >= 2 or cls._semantic_topic_overlap(visual_words, response_words)
+
+    @classmethod
+    def _visual_focus_phrase(cls, question: str, *, max_words: int = 14) -> str:
+        visual, prompt = cls._split_visual_context(question)
+        source = visual or prompt
+        source = re.sub(r"\s+", " ", source).strip(" .?")
+        if not source:
+            return "the main action in the picture"
+        words = source.split()
+        if len(words) > max_words:
+            source = " ".join(words[:max_words]).rstrip(".,;:") + "..."
+        return source
+
+    @staticmethod
+    def _deterministic_choice(options: List[str], seed: str) -> str:
+        if not options:
+            return ""
+        digest = hashlib.sha256(seed.encode("utf-8")).hexdigest()
+        return options[int(digest[:8], 16) % len(options)]
+
+    @staticmethod
+    def _response_has_action(response: str) -> bool:
+        lowered = f" {(response or '').lower()} "
+        action_markers = [
+            " wash",
+            " washing",
+            " clean",
+            " cleaning",
+            " brush",
+            " brushing",
+            " eat",
+            " eating",
+            " play",
+            " playing",
+            " help",
+            " helping",
+            " read",
+            " reading",
+            " cook",
+            " cooking",
+            " run",
+            " running",
+            " carry",
+            " carrying",
+            " queue",
+            " waiting",
+            " wear",
+            " wearing",
+        ]
+        return any(marker in lowered for marker in action_markers)
+
+    @staticmethod
+    def _question_asks_reason(question: str) -> bool:
+        lowered = (question or "").lower()
+        return any(marker in lowered for marker in ("why", "reason", "important", "how does", "how can", "what might"))
+
     def _adaptive_follow_up_question(self, question: str, response: str, reason: str = "") -> str:
         """Build a student-specific guiding question when the model is generic or unavailable."""
         reference = self._student_response_reference(response)
+        normalized_question = " ".join((question or "").split())
         normalized_reason = (reason or "").lower()
+        visual_focus = self._visual_focus_phrase(question)
 
         if not reference:
             return (
-                "Take another look at the picture. What is one person, object, or action "
-                "you can mention to begin answering this question?"
+                f"Take another look at the picture. What can you say about {visual_focus}?"
             )
 
-        if any(marker in normalized_reason for marker in ("unrelated", "off-topic", "off topic", "irrelevant")):
-            return (
-                f'You mentioned "{reference}". How can you connect that idea back to the picture '
-                "and the question being asked?"
-            )
+        if any(
+            marker in normalized_reason
+            for marker in ("unrelated", "off-topic", "off topic", "irrelevant", "does not clearly connect")
+        ):
+            options = [
+                (
+                    f'You mentioned "{reference}". How could that idea connect to the situation '
+                    "or question here?"
+                ),
+                (
+                    f'You said "{reference}". What is one part of the question you can answer '
+                    "more directly?"
+                ),
+                (
+                    f'You mentioned "{reference}". Bring your answer back to the scene: what is '
+                    f"important about {visual_focus}?"
+                ),
+            ]
+            return self._deterministic_choice(options, f"{normalized_question}|{reference}|bridge")
 
         if any(marker in normalized_reason for marker in ("contradict", "wrong visible", "incorrect visible")):
             return (
@@ -1152,10 +1326,55 @@ class EducationCrew:
                 "one detail in the picture?"
             )
 
-        return (
-            f'You said "{reference}". Can you add one reason, example, or visible detail from '
-            "the picture to explain your answer further?"
-        )
+        seed = f"{normalized_question}|{reference}|{normalized_reason}"
+        if self._response_has_action(response):
+            options = [
+                (
+                    f'You noticed "{reference}". What exactly is happening, '
+                    "and why might that action matter?"
+                ),
+                (
+                    f'You mentioned "{reference}". What does that action show about the people '
+                    "or their habits?"
+                ),
+                (
+                    f'You said "{reference}". Can you correct or complete the action you mean, '
+                    "then explain why the children might be doing that?"
+                ),
+            ]
+            return self._deterministic_choice(options, seed)
+
+        if self._question_asks_reason(question):
+            options = [
+                (
+                    f'You said "{reference}". Why does that matter to the people involved?'
+                ),
+                (
+                    f'You mentioned "{reference}". Can you give a real-life example or situation '
+                    "that shows why your reason is important?"
+                ),
+                (
+                    f'You said "{reference}". Can you explain the effect or benefit of that idea '
+                    "in more detail?"
+                ),
+            ]
+            return self._deterministic_choice(options, seed)
+
+        options = [
+            (
+                f'You said "{reference}". Can you explain that idea further with a reason '
+                "or example?"
+            ),
+            (
+                f'You mentioned "{reference}". What makes you think that, and how could you '
+                "make the answer more complete?"
+            ),
+            (
+                f'You said "{reference}". Can you add what the person might feel, think, '
+                "or learn from this situation?"
+            ),
+        ]
+        return self._deterministic_choice(options, seed)
 
     def _fallback_oral_turn_decision(
         self,

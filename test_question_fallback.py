@@ -124,8 +124,90 @@ class OralGuidanceThresholdTests(unittest.TestCase):
 
         self.assertFalse(decision["accepted"])
         self.assertIn("I like ice cream", decision["examiner_reply"])
-        self.assertIn("connect", decision["examiner_reply"].lower())
+        self.assertIn("look back at the picture", decision["examiner_reply"].lower())
         self.assertNotEqual(decision["examiner_reply"], "Can you add another detail?")
+
+    def test_fast_guiding_question_for_partial_action_is_not_generic(self) -> None:
+        crew = object.__new__(EducationCrew)
+        reply = crew._adaptive_follow_up_question(
+            question="Can you describe what the children in the picture are doing and why it might be important?",
+            response="washing head",
+            reason="The response is short and may need one more reason, example, or visible detail.",
+        )
+
+        self.assertIn("washing head", reply)
+        self.assertNotIn("Can you add one reason, example, or visible detail", reply)
+        self.assertTrue(
+            any(marker in reply.lower() for marker in ("exactly", "visible detail", "correct or complete"))
+        )
+
+    def test_reason_question_gets_reason_specific_guidance(self) -> None:
+        crew = object.__new__(EducationCrew)
+        reply = crew._adaptive_follow_up_question(
+            question="Why is it important for the children to wash their hands?",
+            response="clean",
+            reason="The response is short.",
+        )
+
+        self.assertIn("clean", reply)
+        self.assertNotIn("Can you add one reason, example, or visible detail", reply)
+        self.assertNotIn("What could happen if the people in the picture did not do this properly", reply)
+        self.assertTrue(
+            any(
+                marker in reply.lower()
+                for marker in ("important", "visible clue", "why it matters", "explain why")
+            )
+        )
+
+    def test_fast_evaluator_rejects_long_answer_unrelated_to_visual_context(self) -> None:
+        crew = object.__new__(EducationCrew)
+        decision = crew._fast_oral_turn_decision(
+            question=(
+                "Visual stimulus facts: Children are washing their hands at a sink before eating.\n\n"
+                "Question: Why is this action important?"
+            ),
+            response="I like ice cream because it is sweet and cold.",
+            attempt_number=1,
+            max_attempts=2,
+        )
+
+        self.assertFalse(decision["accepted"])
+        self.assertIn("picture", decision["examiner_reply"].lower())
+        self.assertIn("washing", decision["examiner_reply"].lower())
+
+    def test_fast_evaluator_guides_brief_answer_related_to_visual_context(self) -> None:
+        crew = object.__new__(EducationCrew)
+        decision = crew._fast_oral_turn_decision(
+            question=(
+                "Visual stimulus facts: Children are washing their hands at a sink before eating.\n\n"
+                "Question: Why is this action important?"
+            ),
+            response="They are washing their hands to stay clean before eating.",
+            attempt_number=1,
+            max_attempts=2,
+        )
+
+        self.assertFalse(decision["accepted"])
+        self.assertTrue(
+            any(marker in decision["examiner_reply"].lower() for marker in ("visible", "action you see", "picture"))
+        )
+
+    def test_fast_evaluator_accepts_strong_answer_related_to_visual_context(self) -> None:
+        crew = object.__new__(EducationCrew)
+        decision = crew._fast_oral_turn_decision(
+            question=(
+                "Visual stimulus facts: Children are washing their hands at a sink before eating.\n\n"
+                "Question: Why is this action important?"
+            ),
+            response=(
+                "They are washing their hands at the sink before eating because it keeps "
+                "germs away and helps everyone stay healthy."
+            ),
+            attempt_number=1,
+            max_attempts=2,
+        )
+
+        self.assertTrue(decision["accepted"])
 
     def test_guidance_prompt_instructs_examiner_to_adapt_to_student_response(self) -> None:
         crew = object.__new__(EducationCrew)

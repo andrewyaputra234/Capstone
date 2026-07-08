@@ -1,0 +1,95 @@
+{
+  "session_id": "f982f5b8",
+  "paper_id": "assignment_123_e5fa540b",
+  "student_id": "123",
+  "date_created": "2026-07-08T10:56:15.275830",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-08T10:57:26.371908",
+      "speaker": "avatar",
+      "text": "What do you think makes these children look so happy on the roller coaster?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-08T10:57:26.382773",
+      "speaker": "student",
+      "text": "I think it's the true of it.",
+      "audio_path": "data\\sessions\\speech_20260708_025715_10e12a6d.wav",
+      "transcription_path": "data\\sessions\\speech_20260708_025715_10e12a6d.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you think makes these children look so happy on the roller coaster?",
+        "answer": "I think it's the true of it.",
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The response is limited in relevance and lacks specific details from the stimulus.",
+            "evidence": "The student's answer 'I think it's the true of it' does not directly address the prompt or provide any specific details from the stimulus image.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The answer is very brief and lacks any elaboration or explanation.",
+            "evidence": "I think it's the true of it.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 1,
+            "max_score": 6,
+            "feedback": "Frequent language errors affect clarity.",
+            "evidence": "The student's answer 'I think it's the true of it.' contains language errors and lacks clarity.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 1,
+            "max_score": 3,
+            "feedback": "The student's answer lacks meaningful interaction and does not provide a clear explanation.",
+            "evidence": "I think it's the true of it.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for attempting to answer the question. Your idea that the children look happy is a good observation. However, your response 'I think it's the true of it' doesn't directly relate to the image of children on a roller coaster. Remember to use details from the picture to support your answer. The biggest area for improvement is providing more specific details and expanding on your ideas. Next time, you can start your answer with, \"I believe the children look happy because...\" Keep practicing to include more details and explanations in your responses.",
+        "total_score": 6,
+        "max_score": 25,
+        "percentage": 24.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-07-08T10:56:15.293482",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "8ebccde93455",
+    "component": "student_assessment",
+    "subject": "assignment_123_e5fa540b",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

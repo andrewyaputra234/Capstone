@@ -1,7 +1,52 @@
 # Oral Focus codebase audit, progress, and fix plan
 
-Last updated: 2026-06-30  
+Last updated: 2026-07-08  
 Scope: Streamlit student/examiner portal, oral-assessment workflow, assignment persistence, AI grading, avatar examiner integration, testing, and deployment readiness.
+
+## 2026-07-08 audit update
+
+Focus: recent Anam avatar integration, faster photo-question generation, faster student recording submission, one-guiding-question flow, loading-state changes, and regression checks.
+
+Overall result: **no current blocker found after the fix below; local automated tests pass**.
+
+| Priority | Finding | Impact | Status |
+| --- | --- | --- | --- |
+| High | `FAST_ORAL_TURN_EVALUATION` was being read directly inside `EducationCrew.evaluate_oral_turn()`. | A local `.env` setting could silently change core evaluator behavior and make unit tests fail or skip the deeper adaptive guidance prompt. | Fixed. Fast mode is now passed explicitly by the Streamlit assessment flow only. |
+| Medium | Anam live sessions are closed after the examiner speaks to avoid provider concurrency limits. | Replay/start may be unavailable after the close delay, but this is intentional for the current demo flow. | Logged as a product tradeoff. |
+| Medium | Reading-aloud fast submission avoids transcript review for students. | This improves speed and reduces retake abuse, but final reading marks still depend on the later examiner/AI review path. | Logged as a grading-flow tradeoff. |
+| Medium | Runtime JSON data is modified in the working tree. | These appear to be local testing/session artifacts and should not be committed accidentally. | Left untouched. |
+| Low | PowerShell reports a native-command warning when tests emit dependency warnings on stderr. | The actual unit test result is still `OK`; the warning comes from `audioread`/Python 3.13 compatibility messages. | Logged only. |
+
+### Fix implemented in this pass
+
+1. Changed `EducationCrew.evaluate_oral_turn()` so fast evaluation is controlled by a new explicit `fast_evaluation` argument.
+2. Updated the Streamlit student assessment caller to pass `fast_evaluation=bool_env("FAST_ORAL_TURN_EVALUATION", True)`.
+3. Kept the core evaluator default on the deeper adaptive path so tests and non-Streamlit callers are not changed by `.env`.
+4. Re-ran compile checks and full unit tests.
+
+### Verification on 2026-07-08
+
+```powershell
+.\.venv\Scripts\python.exe -m py_compile streamlit_app.py src\crew_orchestrator.py src\anam_avatar.py src\voice_assessment.py src\exam_portal_store.py
+.\.venv\Scripts\python.exe -m unittest discover
+```
+
+Result: **35 tests OK**.
+
+Known non-blocking warning: `audioread` prints Python 3.13 deprecation warnings for `aifc` and `sunau`; installed compatibility packages allow the suite to pass.
+
+### Step-by-step process from this audit
+
+- [x] Check git status and avoid touching unrelated runtime data.
+- [x] Compile the main Streamlit and assessment modules.
+- [x] Run full unit test discovery.
+- [x] Investigate the failing oral-guidance tests.
+- [x] Fix the fast-evaluation regression without removing the faster Streamlit student flow.
+- [x] Re-run compile checks.
+- [x] Re-run the full unit test suite.
+- [x] Log fixed issues, remaining tradeoffs, and verification in this markdown file.
+- [ ] Manually QA the complete browser flow: examiner creates assignment, student opens preparation, Anam asks the main question, student submits, guiding question auto-plays only when needed, examiner verifies and releases results.
+- [ ] Before committing, decide whether current `data/*.json` and `data/sessions/*.json` changes are sample data or local test artifacts.
 
 ## Current project status
 
@@ -21,9 +66,9 @@ Overall status: **local prototype working, not yet production-ready**.
 | AI grading and examiner verification | 90% | Working and persisted |
 | Result release to student | 85% | Working |
 | Delete/reset assessment attempts | 85% | Working |
-| Simli avatar examiner | 70% | Integrated with preview/retry, still Simli-provider dependent |
+| Avatar examiner | 78% | Anam live avatar supported; Simli fallback still present |
 | UI theme consistency | 80% | Mostly light theme, still needs visual QA |
-| Automated regression tests | 80% | 28 tests passing |
+| Automated regression tests | 85% | 35 tests passing |
 | Deployment/security readiness | 35% | Needs database/auth/data-retention work |
 
 ## What has been completed

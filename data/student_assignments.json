@@ -510,9 +510,9 @@
       "title": "PSLE English Oral Practiceb",
       "subject": "assignment_123_d6826661",
       "rubric": "psle_oral_english",
-      "status": "assigned",
+      "status": "completed",
       "created_at": "2026-07-07T06:52:47.628647+00:00",
-      "updated_at": "2026-07-07T06:52:47.628647+00:00",
+      "updated_at": "2026-07-08T07:29:40.763070+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "image-45-1024x683.webp",
@@ -524,7 +524,67 @@
         "path": "data\\input\\assignment_123_d6826661\\Good morning, students. I hope you.txt",
         "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
       },
-      "reading_submission": null,
+      "reading_submission": {
+        "transcript": "Funny wending",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260708_071609_63ec3979.wav",
+        "transcription_path": "data\\sessions\\speech_20260708_071609_63ec3979.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 2.2,
+          "words_per_minute": 55.6,
+          "pitch_range_semitones": 10.7,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Funny wending",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Funny wending\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 2.2,\n    \"words_per_minute\": 55.6,\n    \"pitch_range_semitones\": 10.7,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is unclear and lacks fluency, with pronunciation issues evident.",
+              "evidence": "The student's reading of 'Funny wending' lacks clarity and fluency, indicating pronunciation difficulties.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on attempting the reading aloud task. Your strength lies in your willingness to participate and give it a try. However, I noticed that your reading of 'Funny wending' lacked clarity and fluency, indicating some pronunciation difficulties. To improve, try practicing enunciating each word clearly and work on your pacing to enhance fluency. Next time, you could start with a strong opening like \"The story begins with...\" to set the tone for your reading. Keep practicing, and you'll see improvement in no time.",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Funny wending",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Funny wending\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 2.2,\n    \"words_per_minute\": 55.6,\n    \"pitch_range_semitones\": 10.7,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is unclear and lacks fluency, with pronunciation issues evident.",
+              "evidence": "The student's reading of 'Funny wending' lacks clarity and fluency, indicating pronunciation difficulties.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on attempting the reading aloud task. Your strength lies in your willingness to participate and give it a try. However, I noticed that your reading of 'Funny wending' lacked clarity and fluency, indicating some pronunciation difficulties. To improve, try practicing enunciating each word clearly and work on your pacing to enhance fluency. Next time, you could start with a strong opening like \"The story begins with...\" to set the tone for your reading. Keep practicing, and you'll see improvement in no time.",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-08T07:16:13.062464+00:00",
+        "ai_graded_at": "2026-07-08T07:16:22.025629+00:00"
+      },
       "questions": [
         {
           "id": 1,
@@ -563,9 +623,2365 @@
           "edited_by_examiner": false
         }
       ],
+      "reading_completed_at": "2026-07-08T07:16:13.062478+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "cd7df52910b1",
+          "question_id": 1,
+          "question": "What healthy foods do you see in the lunchbox, and why do you think they are good for you?",
+          "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+          "student_response": "First response: Fruit.\n\nResponse after examiner follow-up: Salaam alaikum.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260708_072717_14edd048.wav",
+          "transcription_path": "data\\sessions\\speech_20260708_072717_14edd048.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "bc47cef5",
+          "created_at": "2026-07-08T07:27:33.373736+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What healthy foods do you see in the lunchbox, and why do you think they are good for you?",
+            "answer": "First response: Fruit.\n\nResponse after examiner follow-up: Salaam alaikum.",
+            "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The response is a generic answer that lacks specific details from the visual stimulus.",
+                "evidence": "The student simply responds with 'Fruit' without providing any specific details or reasons related to the healthy foods in the lunchbox.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks development or elaboration.",
+                "evidence": "First response: Fruit.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "The student did not provide any usable spoken language evidence in their answer.",
+                "evidence": "First response: Fruit. Response after examiner follow-up: Salaam alaikum.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student did not engage in meaningful interaction or respond to the assessor's prompts.",
+                "evidence": "The student's response 'Salaam alaikum' does not address the question or show willingness to continue speaking.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on recognizing that the lunchbox contains fruit, that shows you are aware of healthy options. However, the lunchbox also includes vegetables like cucumbers, tomatoes, and bell peppers, which you missed mentioning. Next time, try to provide more specific details and reasons for your answer to fully address the question. For example, you could say, \"I see cucumbers, tomatoes, and bell peppers in the lunchbox, which are good for me because they are rich in vitamins and minerals.\" Keep practicing to include more details and explanations in your responses.",
+            "total_score": 4,
+            "max_score": 25,
+            "percentage": 16.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What healthy foods do you see in the lunchbox, and why do you think they are good for you?",
+            "answer": "First response: Fruit.\n\nResponse after examiner follow-up: Salaam alaikum.",
+            "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The response is a generic answer that lacks specific details from the visual stimulus.",
+                "evidence": "The student simply responds with 'Fruit' without providing any specific details or reasons related to the healthy foods in the lunchbox.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks development or elaboration.",
+                "evidence": "First response: Fruit.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "The student did not provide any usable spoken language evidence in their answer.",
+                "evidence": "First response: Fruit. Response after examiner follow-up: Salaam alaikum.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "The student did not engage in meaningful interaction or respond to the assessor's prompts.",
+                "evidence": "The student's response 'Salaam alaikum' does not address the question or show willingness to continue speaking.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on recognizing that the lunchbox contains fruit, that shows you are aware of healthy options. However, the lunchbox also includes vegetables like cucumbers, tomatoes, and bell peppers, which you missed mentioning. Next time, try to provide more specific details and reasons for your answer to fully address the question. For example, you could say, \"I see cucumbers, tomatoes, and bell peppers in the lunchbox, which are good for me because they are rich in vitamins and minerals.\" Keep practicing to include more details and explanations in your responses.",
+            "total_score": 4,
+            "max_score": 25,
+            "percentage": 16.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done on recognizing that the lunchbox contains fruit, that shows you are aware of healthy options. However, the lunchbox also includes vegetables like cucumbers, tomatoes, and bell peppers, which you missed mentioning. Next time, try to provide more specific details and reasons for your answer to fully address the question. For example, you could say, \"I see cucumbers, tomatoes, and bell peppers in the lunchbox, which are good for me because they are rich in vitamins and minerals.\" Keep practicing to include more details and explanations in your responses.\n\nSentence Starter: \"In addition to the fruit, I also noticed some vegetables like cucumbers, tomatoes, and bell peppers in the lunchbox, which are important because...\"",
+          "guided_attempt": {
+            "original_response": "Fruit.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260708_072648_f69ab063.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260708_072648_f69ab063.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You mentioned \"Fruit.\". What could happen if the people in the picture did not do this properly?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-07-08T07:26:52.444525+00:00",
+            "follow_up_response": "Salaam alaikum."
+          }
+        },
+        {
+          "result_id": "430683806a27",
+          "question_id": 2,
+          "question": "Can you tell me about a time you packed your own lunch? What did you include and why?",
+          "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+          "student_response": "First response: I included veggies.\n\nResponse after examiner follow-up: [No response after guidance]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "bc47cef5",
+          "created_at": "2026-07-08T07:29:26.304089+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Can you tell me about a time you packed your own lunch? What did you include and why?",
+            "answer": "First response: I included veggies.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Can you tell me about a time you packed your own lunch? What did you include and why?",
+            "answer": "First response: I included veggies.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0.",
+          "guided_attempt": {
+            "original_response": "I included veggies.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260708_072811_ad6ca6b9.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260708_072811_ad6ca6b9.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You mentioned \"I included veggies.\". What could happen if the people in the picture did not do this properly?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-07-08T07:28:13.800967+00:00",
+            "follow_up_response": "[No response after guidance]"
+          }
+        },
+        {
+          "result_id": "1122e51e8190",
+          "question_id": 3,
+          "question": "Why is it important to have a balanced diet, and how can it affect your day at school?",
+          "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+          "student_response": "[Skipped question]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "bc47cef5",
+          "created_at": "2026-07-08T07:29:40.215930+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Why is it important to have a balanced diet, and how can it affect your day at school?",
+            "answer": "[Skipped question]",
+            "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Why is it important to have a balanced diet, and how can it affect your day at school?",
+            "answer": "[Skipped question]",
+            "visual_context": "A boy is sitting at a table, looking at a lunchbox filled with sliced cucumbers, cherry tomatoes, red bell pepper strips, and olives. There are also a banana, an orange, a bottle of juice, and a sandwich on the table. The boy is wearing glasses and a blue shirt with a vest. Another person’s arm is visible, reaching for a drink.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "8ebccde93455": {
+      "assignment_id": "8ebccde93455",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiceva",
+      "subject": "assignment_123_e5fa540b",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-08T02:55:30.632377+00:00",
+      "updated_at": "2026-07-08T02:57:44.257255+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "freepik__excited-asian-children-on-a-rollercoaster__22021.jpeg",
+        "path": "data\\input\\assignment_123_e5fa540b\\freepik__excited-asian-children-on-a-rollercoaster__22021.jpeg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_e5fa540b\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "S'up",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260708_025623_48ef88e2.wav",
+        "transcription_path": "data\\sessions\\speech_20260708_025623_48ef88e2.json",
+        "delivery_indicators": {
+          "status": "skipped",
+          "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+        },
+        "ai_grading": {
+          "total_score": 0,
+          "max_score": 0,
+          "percentage": 0,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 0,
+              "feedback": "Pending examiner review.",
+              "evidence": "Fast reading submission saved the recording without provisional AI grading."
+            }
+          ],
+          "tutoring_feedback": "Reading-aloud recording submitted. Examiner review is pending.",
+          "scoring_source": "pending_examiner_review"
+        },
+        "final_grading": {
+          "total_score": 0,
+          "max_score": 0,
+          "percentage": 0,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 0,
+              "feedback": "Pending examiner review.",
+              "evidence": "Fast reading submission saved the recording without provisional AI grading."
+            }
+          ],
+          "tutoring_feedback": "Reading-aloud recording submitted. Examiner review is pending.",
+          "scoring_source": "pending_examiner_review"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Fast reading submission was enabled. The student's recording and transcript were saved immediately for examiner review; no provisional AI reading grade was generated during the student flow.",
+        "submitted_at": "2026-07-08T02:56:26.732907+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think makes these children look so happy on the roller coaster?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_e5fa540b_images\\page_1.jpg",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment.",
+          "generated_text": "What do you think makes these children look so happy on the roller coaster?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever been on a roller coaster or a similar ride? What was that experience like for you?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_e5fa540b_images\\page_1.jpg",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment.",
+          "generated_text": "Have you ever been on a roller coaster or a similar ride? What was that experience like for you?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think it's important to follow safety rules on rides like this one?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_e5fa540b_images\\page_1.jpg",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment.",
+          "generated_text": "Why do you think it's important to follow safety rules on rides like this one?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-08T02:56:26.732932+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "b397b722227c",
+          "question_id": 1,
+          "question": "What do you think makes these children look so happy on the roller coaster?",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment.",
+          "student_response": "I think it's the true of it.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260708_025715_10e12a6d.wav",
+          "transcription_path": "data\\sessions\\speech_20260708_025715_10e12a6d.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "f982f5b8",
+          "created_at": "2026-07-08T02:57:44.255008+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What do you think makes these children look so happy on the roller coaster?",
+            "answer": "I think it's the true of it.",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The response is limited in relevance and lacks specific details from the stimulus.",
+                "evidence": "The student's answer 'I think it's the true of it' does not directly address the prompt or provide any specific details from the stimulus image.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks any elaboration or explanation.",
+                "evidence": "I think it's the true of it.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "Frequent language errors affect clarity.",
+                "evidence": "The student's answer 'I think it's the true of it.' contains language errors and lacks clarity.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's answer lacks meaningful interaction and does not provide a clear explanation.",
+                "evidence": "I think it's the true of it.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for attempting to answer the question. Your idea that the children look happy is a good observation. However, your response 'I think it's the true of it' doesn't directly relate to the image of children on a roller coaster. Remember to use details from the picture to support your answer. The biggest area for improvement is providing more specific details and expanding on your ideas. Next time, you can start your answer with, \"I believe the children look happy because...\" Keep practicing to include more details and explanations in your responses.",
+            "total_score": 6,
+            "max_score": 25,
+            "percentage": 24.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What do you think makes these children look so happy on the roller coaster?",
+            "answer": "I think it's the true of it.",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are seated in an orange car and appear to be having fun, as evidenced by their wide smiles and laughter. The background is blurred with greenery, suggesting the ride is in an outdoor amusement park. The children have their hands raised, indicating excitement and enjoyment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The response is limited in relevance and lacks specific details from the stimulus.",
+                "evidence": "The student's answer 'I think it's the true of it' does not directly address the prompt or provide any specific details from the stimulus image.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks any elaboration or explanation.",
+                "evidence": "I think it's the true of it.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "Frequent language errors affect clarity.",
+                "evidence": "The student's answer 'I think it's the true of it.' contains language errors and lacks clarity.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's answer lacks meaningful interaction and does not provide a clear explanation.",
+                "evidence": "I think it's the true of it.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for attempting to answer the question. Your idea that the children look happy is a good observation. However, your response 'I think it's the true of it' doesn't directly relate to the image of children on a roller coaster. Remember to use details from the picture to support your answer. The biggest area for improvement is providing more specific details and expanding on your ideas. Next time, you can start your answer with, \"I believe the children look happy because...\" Keep practicing to include more details and explanations in your responses.",
+            "total_score": 6,
+            "max_score": 25,
+            "percentage": 24.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for attempting to answer the question! Your observation that the children look happy is a good start. However, your response 'I think it's the true of it' doesn't directly relate to the image of children on a roller coaster. Remember to use details from the picture to support your answer. The biggest area for improvement is providing more specific details and expanding on your ideas. Next time, you can start your answer with, \"I believe the children look happy because...\" Keep practicing to include more details and explanations in your responses. You're on the right track, keep it up!"
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "9908ee116278": {
+      "assignment_id": "9908ee116278",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiceba",
+      "subject": "assignment_123_06d5e0ba",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-07-08T05:38:16.045473+00:00",
+      "updated_at": "2026-07-08T05:43:20.382627+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "freepik__excited-asian-children-on-a-rollercoaster__22021.jpeg",
+        "path": "data\\input\\assignment_123_06d5e0ba\\freepik__excited-asian-children-on-a-rollercoaster__22021.jpeg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_06d5e0ba\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Foul name. Ending.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260708_054026_c5a52cef.wav",
+        "transcription_path": "data\\sessions\\speech_20260708_054026_c5a52cef.json",
+        "delivery_indicators": {
+          "status": "skipped",
+          "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+        },
+        "ai_grading": {
+          "total_score": 0,
+          "max_score": 0,
+          "percentage": 0,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 0,
+              "feedback": "Pending examiner review.",
+              "evidence": "Fast reading submission saved the recording without provisional AI grading."
+            }
+          ],
+          "tutoring_feedback": "Reading-aloud recording submitted. Examiner review is pending.",
+          "scoring_source": "pending_examiner_review"
+        },
+        "final_grading": {
+          "total_score": 0,
+          "max_score": 0,
+          "percentage": 0,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 0,
+              "feedback": "Pending examiner review.",
+              "evidence": "Fast reading submission saved the recording without provisional AI grading."
+            }
+          ],
+          "tutoring_feedback": "Reading-aloud recording submitted. Examiner review is pending.",
+          "scoring_source": "pending_examiner_review"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Fast reading submission was enabled. The student's recording and transcript were saved immediately for examiner review; no provisional AI reading grade was generated during the student flow.",
+        "submitted_at": "2026-07-08T05:40:31.085410+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think makes riding a roller coaster fun ?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_06d5e0ba_images\\page_1.jpg",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+          "generated_text": "What do you think makes riding a roller coaster fun for these children?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Have you ever been on a roller coaster or a similar ride? How did you feel?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_06d5e0ba_images\\page_1.jpg",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+          "generated_text": "Have you ever been on a roller coaster or a similar ride? How did you feel?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think it's important to follow safety rules on rides like these?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_06d5e0ba_images\\page_1.jpg",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+          "generated_text": "Why do you think it's important to follow safety rules on rides like these?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-08T05:40:31.085425+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "29d9e6104b98",
+          "question_id": 1,
+          "question": "What do you think makes riding a roller coaster fun ?",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+          "student_response": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260708_054140_8fa3ba95.wav",
+          "transcription_path": "data\\sessions\\speech_20260708_054140_8fa3ba95.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "b5b552f8",
+          "created_at": "2026-07-08T05:41:56.636244+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What do you think makes riding a roller coaster fun ?",
+            "answer": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant, mentioning the thrill of going to a theme park, which is related to the excitement of riding a roller coaster. However, more specific details from the stimulus could enhance the response.",
+                "evidence": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+                "evidence": "The student mentions spending time with others and the thrill of going to a theme park.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence.",
+                "evidence": "The student provides a brief answer to the question about what makes riding a roller coaster fun, showing some confidence in their response.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on mentioning the thrill of going to a theme park as a fun aspect of riding a roller coaster. However, the image showed children on a roller coaster, not just visiting a park. To improve, try to include more specific details from the image in your response. Your answer could be more engaging with examples or reasons to support your idea. Next time, you could start with a sentence like \"One exciting thing about riding a roller coaster is...\" Keep up the effort in adding more vivid details to your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What do you think makes riding a roller coaster fun ?",
+            "answer": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant, mentioning the thrill of going to a theme park, which is related to the excitement of riding a roller coaster. However, more specific details from the stimulus could enhance the response.",
+                "evidence": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+                "evidence": "The student mentions spending time with others and the thrill of going to a theme park.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence.",
+                "evidence": "The student provides a brief answer to the question about what makes riding a roller coaster fun, showing some confidence in their response.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done on mentioning the thrill of going to a theme park as a fun aspect of riding a roller coaster. However, the image showed children on a roller coaster, not just visiting a park. To improve, try to include more specific details from the image in your response. Your answer could be more engaging with examples or reasons to support your idea. Next time, you could start with a sentence like \"One exciting thing about riding a roller coaster is...\" Keep up the effort in adding more vivid details to your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done on mentioning the thrill of going to a theme park as a fun aspect of riding a roller coaster. However, the image showed children on a roller coaster, not just visiting a park. To improve, try to include more specific details from the image in your response. Your answer could be more engaging with examples or reasons to support your idea. One exciting thing about riding a roller coaster is feeling the rush of wind as you speed down the twists and turns. Remember to describe the bright orange car, the safety bar, and the expressions of excitement on the children's faces for a more detailed response. Keep up the effort in adding more vivid details to your responses. You're on the right track, and with a bit more detail and confidence, your response will be even stronger next time!"
+        },
+        {
+          "result_id": "4edf9ae1a2b6",
+          "question_id": 2,
+          "question": "Have you ever been on a roller coaster or a similar ride? How did you feel?",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+          "student_response": "First response: Yes, um, Universal Studio.\n\nResponse after examiner follow-up: [No response after guidance]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "b5b552f8",
+          "created_at": "2026-07-08T05:43:10.864741+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Have you ever been on a roller coaster or a similar ride? How did you feel?",
+            "answer": "First response: Yes, um, Universal Studio.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Have you ever been on a roller coaster or a similar ride? How did you feel?",
+            "answer": "First response: Yes, um, Universal Studio.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0.",
+          "guided_attempt": {
+            "original_response": "Yes, um, Universal Studio.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260708_054240_3261f080.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260708_054240_3261f080.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You said \"Yes, um, Universal Studio.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+            "reason": "Fast oral-turn evaluation requested guidance for a short response.",
+            "created_at": "2026-07-08T05:42:44.700561+00:00",
+            "follow_up_response": "[No response after guidance]"
+          }
+        },
+        {
+          "result_id": "5674d37d2833",
+          "question_id": 3,
+          "question": "Why do you think it's important to follow safety rules on rides like these?",
+          "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+          "student_response": "[Skipped question]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "b5b552f8",
+          "created_at": "2026-07-08T05:43:19.165644+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Why do you think it's important to follow safety rules on rides like these?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Why do you think it's important to follow safety rules on rides like these?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "8df7f393fd60": {
+      "assignment_id": "8df7f393fd60",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicev",
+      "subject": "assignment_123_81e8e880",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-08T05:51:46.057369+00:00",
+      "updated_at": "2026-07-08T05:55:19.072990+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "sa.jpg",
+        "path": "data\\input\\assignment_123_81e8e880\\sa.jpg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_81e8e880\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "File name ending bracket",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260708_055351_0f05e422.wav",
+        "transcription_path": "data\\sessions\\speech_20260708_055351_0f05e422.json",
+        "delivery_indicators": {
+          "status": "skipped",
+          "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+        },
+        "ai_grading": {
+          "total_score": 0,
+          "max_score": 0,
+          "percentage": 0,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 0,
+              "feedback": "Pending examiner review.",
+              "evidence": "Fast reading submission saved the recording without provisional AI grading."
+            }
+          ],
+          "tutoring_feedback": "Reading-aloud recording submitted. Examiner review is pending.",
+          "scoring_source": "pending_examiner_review"
+        },
+        "final_grading": {
+          "total_score": 0,
+          "max_score": 0,
+          "percentage": 0,
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 0,
+              "max_score": 0,
+              "feedback": "Pending examiner review.",
+              "evidence": "Fast reading submission saved the recording without provisional AI grading."
+            }
+          ],
+          "tutoring_feedback": "Reading-aloud recording submitted. Examiner review is pending.",
+          "scoring_source": "pending_examiner_review"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Fast reading submission was enabled. The student's recording and transcript were saved immediately for examiner review; no provisional AI reading grade was generated during the student flow.",
+        "submitted_at": "2026-07-08T05:53:55.233721+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What are the students doing in this picture, and why do you think they are enjoying it?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_81e8e880_images\\page_1.jpg",
+          "visual_context": "A group of students in school uniforms are sitting around a table with a teacher. They are engaged in a craft activity involving yarn and knitting tools. The teacher is smiling and holding orange yarn, while the students are focused on their work. The setting appears to be a classroom with large windows in the background.",
+          "generated_text": "What are the students doing in this picture, and why do you think they are enjoying it?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever done a craft activity like this before?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_81e8e880_images\\page_1.jpg",
+          "visual_context": "A group of students in school uniforms are sitting around a table with a teacher. They are engaged in a craft activity involving yarn and knitting tools. The teacher is smiling and holding orange yarn, while the students are focused on their work. The setting appears to be a classroom with large windows in the background.",
+          "generated_text": "Have you ever done a craft activity like this before? What did you make?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 3,
+          "text": "Why do you think learning crafts is important in school? How can it benefit students?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_81e8e880_images\\page_1.jpg",
+          "visual_context": "A group of students in school uniforms are sitting around a table with a teacher. They are engaged in a craft activity involving yarn and knitting tools. The teacher is smiling and holding orange yarn, while the students are focused on their work. The setting appears to be a classroom with large windows in the background.",
+          "generated_text": "Why do you think learning crafts is important in school? How can it benefit students?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-08T05:53:55.233731+00:00",
+      "guidance_attempts": {
+        "1": {
+          "original_response": "Hello, hello.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260708_055515_f5f3f331.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260708_055515_f5f3f331.json",
+          "original_delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "follow_up_question": "You said \"Hello, hello.\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-07-08T05:55:19.072966+00:00"
+        }
+      },
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "5e7ad58c6300": {
+      "assignment_id": "5e7ad58c6300",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicebza",
+      "subject": "assignment_123_1481ce21",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-07-08T06:08:23.826916+00:00",
+      "updated_at": "2026-07-08T06:13:06.420900+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_123_1481ce21\\aa.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_1481ce21\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "found him ending",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260708_060930_2bdce3ad.wav",
+        "transcription_path": "data\\sessions\\speech_20260708_060930_2bdce3ad.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 4.9,
+          "words_per_minute": 36.6,
+          "pitch_range_semitones": 11.6,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "found him ending",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"found him ending\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 3,\n    \"estimated_passage_coverage_percent\": 5.0,\n    \"estimated_sequence_match_percent\": 8.7,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 4.9,\n    \"words_per_minute\": 36.6,\n    \"pitch_range_semitones\": 11.6,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with some pronunciation issues and a slow pace.",
+              "evidence": "found him ending",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on making your answer understandable. However, there were some pronunciation issues and the pace was a bit slow. Next time, try to speak a bit faster while making sure your words are clear. For example, you could start with \"I found him at the end of the trail.\" Keep practicing to improve your fluency and pronunciation.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "found him ending",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"found him ending\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 3,\n    \"estimated_passage_coverage_percent\": 5.0,\n    \"estimated_sequence_match_percent\": 8.7,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 4.9,\n    \"words_per_minute\": 36.6,\n    \"pitch_range_semitones\": 11.6,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with some pronunciation issues and a slow pace.",
+              "evidence": "found him ending",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on making your answer understandable. However, there were some pronunciation issues and the pace was a bit slow. Next time, try to speak a bit faster while making sure your words are clear. For example, you could start with \"I found him at the end of the trail.\" Keep practicing to improve your fluency and pronunciation.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-08T06:09:34.089491+00:00",
+        "ai_graded_at": "2026-07-08T06:09:47.358552+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What are the children doing in this picture?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_1481ce21_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+          "generated_text": "What are the children doing in this picture, and why do you think it's important?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Can you tell me about a time when you had to wash your hands at school? What happened?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_1481ce21_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+          "generated_text": "Can you tell me about a time when you had to wash your hands at school? What happened?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why is it important for everyone in the community to practice good hygiene, especially in places like schools?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_1481ce21_images\\page_1.webp",
+          "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+          "generated_text": "Why is it important for everyone in the community to practice good hygiene, especially in places like schools?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-08T06:09:34.089508+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "23ecd2718251",
+          "question_id": 1,
+          "question": "What are the children doing in this picture?",
+          "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+          "student_response": "First response: washing head\n\nResponse after examiner follow-up: yes",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260708_061153_bb5ea6f9.wav",
+          "transcription_path": "data\\sessions\\speech_20260708_061153_bb5ea6f9.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "10bb3df5",
+          "created_at": "2026-07-08T06:12:11.348103+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What are the children doing in this picture?",
+            "answer": "First response: washing head\n\nResponse after examiner follow-up: yes",
+            "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The student's response is somewhat relevant as they mentioned washing, but it lacks specific details from the stimulus such as the children and sinks.",
+                "evidence": "The student's response of 'washing head' shows some relevance to the prompt.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or extension.",
+                "evidence": "The student's initial response was 'washing head,' which is a very brief and underdeveloped answer.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response 'washing head' shows very limited vocabulary and affects clarity.",
+                "evidence": "washing head",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needed repeated support to provide a correct response.",
+                "evidence": "The student initially answered 'washing head' and only corrected it to 'washing hands' after examiner follow-up.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for recognizing that the children in the picture are washing something, showing your understanding of the concept. However, the visual stimulus facts actually show that they are washing their hands, not their heads. Next time, try to pay closer attention to the details in the picture to give a more accurate response. Your biggest area for improvement is providing more details and expanding on your answers. For example, you could say, \"The children in the picture are washing their hands at the sinks.\" Keep practicing to include more information in your responses and remember to focus on the specific details in the image.",
+            "total_score": 6,
+            "max_score": 25,
+            "percentage": 24.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What are the children doing in this picture?",
+            "answer": "First response: washing head\n\nResponse after examiner follow-up: yes",
+            "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The student's response is somewhat relevant as they mentioned washing, but it lacks specific details from the stimulus such as the children and sinks.",
+                "evidence": "The student's response of 'washing head' shows some relevance to the prompt.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and lacks elaboration or extension.",
+                "evidence": "The student's initial response was 'washing head,' which is a very brief and underdeveloped answer.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "The student's response 'washing head' shows very limited vocabulary and affects clarity.",
+                "evidence": "washing head",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needed repeated support to provide a correct response.",
+                "evidence": "The student initially answered 'washing head' and only corrected it to 'washing hands' after examiner follow-up.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for recognizing that the children in the picture are washing something, showing your understanding of the concept. However, the visual stimulus facts actually show that they are washing their hands, not their heads. Next time, try to pay closer attention to the details in the picture to give a more accurate response. Your biggest area for improvement is providing more details and expanding on your answers. For example, you could say, \"The children in the picture are washing their hands at the sinks.\" Keep practicing to include more information in your responses and remember to focus on the specific details in the image.",
+            "total_score": 6,
+            "max_score": 25,
+            "percentage": 24.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for recognizing that the children in the picture are washing something, showing your understanding of the concept. However, the visual stimulus facts actually show that they are washing their hands, not their heads. Next time, try to pay closer attention to the details in the picture to give a more accurate response. Your biggest area for improvement is providing more details and expanding on your answers. For example, you could say, \"The children in the picture are washing their hands at the sinks.\" Keep practicing to include more information in your responses and remember to focus on the specific details in the image.\n\nOne short sentence starter to improve your response could be: \"I noticed that the children in the picture are...\" Keep it up, and with more practice, you'll enhance your oral responses significantly!",
+          "guided_attempt": {
+            "original_response": "washing head",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260708_061051_13c9cb02.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260708_061051_13c9cb02.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You said \"washing head\". Can you add one reason, example, or visible detail from the picture to explain your answer further?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-07-08T06:10:56.242262+00:00",
+            "follow_up_response": "yes"
+          }
+        },
+        {
+          "result_id": "366c979a1f3a",
+          "question_id": 2,
+          "question": "Can you tell me about a time when you had to wash your hands at school? What happened?",
+          "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+          "student_response": "[Skipped question]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "10bb3df5",
+          "created_at": "2026-07-08T06:12:42.519649+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Can you tell me about a time when you had to wash your hands at school? What happened?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Can you tell me about a time when you had to wash your hands at school? What happened?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        },
+        {
+          "result_id": "50c8e9fbd88e",
+          "question_id": 3,
+          "question": "Why is it important for everyone in the community to practice good hygiene, especially in places like schools?",
+          "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+          "student_response": "[Skipped question]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "10bb3df5",
+          "created_at": "2026-07-08T06:13:05.676033+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Why is it important for everyone in the community to practice good hygiene, especially in places like schools?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Why is it important for everyone in the community to practice good hygiene, especially in places like schools?",
+            "answer": "[Skipped question]",
+            "visual_context": "The image shows three children washing their hands at a row of sinks. The setting appears to be a school restroom. Two girls and one boy are visible, all focused on washing their hands. The mood is calm and focused, with the children engaged in maintaining hygiene.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "3af6619afb4a": {
+      "assignment_id": "3af6619afb4a",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicemk",
+      "subject": "assignment_123_570d5612",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-08T06:32:14.190991+00:00",
+      "updated_at": "2026-07-08T06:33:20.470911+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "soccer-player-action-stadium-1024x683.webp",
+        "path": "data\\input\\assignment_123_570d5612\\soccer-player-action-stadium-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_570d5612\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Phone him.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260708_063307_2b9e42a1.wav",
+        "transcription_path": "data\\sessions\\speech_20260708_063307_2b9e42a1.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 10.7,
+          "words_per_minute": 11.2,
+          "pitch_range_semitones": 12.8,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Phone him.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Phone him.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 10.7,\n    \"words_per_minute\": 11.2,\n    \"pitch_range_semitones\": 12.8,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading is mostly clear and fluent with minor pronunciation issues.",
+              "evidence": "The student's delivery of 'Phone him.' is clear and fluent, but there may be some minor pronunciation issues.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job with your reading delivery, you read the passage clearly and fluently. However, remember to pay attention to minor pronunciation issues in words like 'phone'. For improvement, try to vary your pace a bit more to enhance fluency. Next time, you can start a sentence with a strong opening like \"To contact him, I would...\" Keep practicing, and you'll continue to improve!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Phone him.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Phone him.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 10.7,\n    \"words_per_minute\": 11.2,\n    \"pitch_range_semitones\": 12.8,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading is mostly clear and fluent with minor pronunciation issues.",
+              "evidence": "The student's delivery of 'Phone him.' is clear and fluent, but there may be some minor pronunciation issues.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job with your reading delivery, you read the passage clearly and fluently. However, remember to pay attention to minor pronunciation issues in words like 'phone'. For improvement, try to vary your pace a bit more to enhance fluency. Next time, you can start a sentence with a strong opening like \"To contact him, I would...\" Keep practicing, and you'll continue to improve!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-08T06:33:11.344796+00:00",
+        "ai_graded_at": "2026-07-08T06:33:20.470883+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Why do you think the boy is sitting alone with the soccer ball?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_570d5612_images\\page_1.webp",
+          "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears to be deep in thought, looking out into the distance. The setting is outdoors, possibly at a sports field or stadium, with railings and greenery visible in the background.",
+          "generated_text": "Why do you think the boy is sitting alone with the soccer ball?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever felt like the boy in the picture? What happened and how did you feel?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_570d5612_images\\page_1.webp",
+          "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears to be deep in thought, looking out into the distance. The setting is outdoors, possibly at a sports field or stadium, with railings and greenery visible in the background.",
+          "generated_text": "Have you ever felt like the boy in the picture? What happened and how did you feel?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why is it important to take breaks and reflect on our actions? Can you think of a time when this was helpful for you?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_570d5612_images\\page_1.webp",
+          "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears to be deep in thought, looking out into the distance. The setting is outdoors, possibly at a sports field or stadium, with railings and greenery visible in the background.",
+          "generated_text": "Why is it important to take breaks and reflect on our actions? Can you think of a time when this was helpful for you?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-08T06:33:11.344831+00:00",
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "0ba413911a63": {
+      "assignment_id": "0ba413911a63",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiceb",
+      "subject": "assignment_123_f5351ca7",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": "2026-07-08T07:15:26.062038+00:00",
+      "updated_at": "2026-07-08T07:15:26.062038+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "sa.jpg",
+        "path": "data\\input\\assignment_123_f5351ca7\\sa.jpg",
+        "image_count": 1
+      },
+      "reading": null,
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What are the students doing in this picture, and why do you think they are enjoying it?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_f5351ca7_images\\page_1.jpg",
+          "visual_context": "A teacher is sitting with four students at a table in a classroom. They are engaged in a craft activity involving yarn. The students are wearing school uniforms and are focused on their work. The teacher is smiling and holding a skein of orange yarn, suggesting a positive and encouraging environment.",
+          "generated_text": "What are the students doing in this picture, and why do you think they are enjoying it?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever done a craft activity like this before? What did you enjoy about it?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_f5351ca7_images\\page_1.jpg",
+          "visual_context": "A teacher is sitting with four students at a table in a classroom. They are engaged in a craft activity involving yarn. The students are wearing school uniforms and are focused on their work. The teacher is smiling and holding a skein of orange yarn, suggesting a positive and encouraging environment.",
+          "generated_text": "Have you ever done a craft activity like this before? What did you enjoy about it?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why is it important to work together in a group activity like this, and how can it help in other areas of life?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_f5351ca7_images\\page_1.jpg",
+          "visual_context": "A teacher is sitting with four students at a table in a classroom. They are engaged in a craft activity involving yarn. The students are wearing school uniforms and are focused on their work. The teacher is smiling and holding a skein of orange yarn, suggesting a positive and encouraging environment.",
+          "generated_text": "Why is it important to work together in a group activity like this, and how can it help in other areas of life?",
+          "edited_by_examiner": false
+        }
+      ],
       "reading_completed_at": null,
       "guidance_attempts": {},
       "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "35765862f482": {
+      "assignment_id": "35765862f482",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicennk",
+      "subject": "assignment_123_670b349d",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-08T07:40:44.325166+00:00",
+      "updated_at": "2026-07-08T07:45:05.185374+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "jhe.jpg",
+        "path": "data\\input\\assignment_123_670b349d\\jhe.jpg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_670b349d\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Found him ending",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260708_074133_1e2ecdc2.wav",
+        "transcription_path": "data\\sessions\\speech_20260708_074133_1e2ecdc2.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 1.9,
+          "words_per_minute": 96.8,
+          "pitch_range_semitones": 8.9,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Found him ending",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Found him ending\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 3,\n    \"estimated_passage_coverage_percent\": 5.0,\n    \"estimated_sequence_match_percent\": 8.7,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 1.9,\n    \"words_per_minute\": 96.8,\n    \"pitch_range_semitones\": 8.9,\n    \"notes\": [\n      \"Pace falls within a broad conversational range; listen to the recording for clarity.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with some pronunciation issues.",
+              "evidence": "Found him ending",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "You did well in delivering your reading aloud, making your words understandable. However, there were some pronunciation issues that could be improved upon. Remember to practice enunciating each word clearly. Try starting your sentences with confidence and clarity to enhance your overall delivery. Keep up the effort!",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Found him ending",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Found him ending\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 3,\n    \"estimated_passage_coverage_percent\": 5.0,\n    \"estimated_sequence_match_percent\": 8.7,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 1.9,\n    \"words_per_minute\": 96.8,\n    \"pitch_range_semitones\": 8.9,\n    \"notes\": [\n      \"Pace falls within a broad conversational range; listen to the recording for clarity.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with some pronunciation issues.",
+              "evidence": "Found him ending",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "You did well in delivering your reading aloud, making your words understandable. However, there were some pronunciation issues that could be improved upon. Remember to practice enunciating each word clearly. Try starting your sentences with confidence and clarity to enhance your overall delivery. Keep up the effort!",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-08T07:41:35.910414+00:00",
+        "ai_graded_at": "2026-07-08T07:41:44.404598+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the nurse is doing in this picture?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_670b349d_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+          "generated_text": "What do you think the nurse is doing, and why might it be important?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Have you ever visited someone in a hospital or helped take care of someone? What was it like?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_670b349d_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+          "generated_text": "Have you ever visited someone in a hospital or helped take care of someone? What was it like?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think it's important to care for the elderly in our community?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_670b349d_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+          "generated_text": "Why do you think it's important to care for the elderly in our community?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-08T07:41:35.910426+00:00",
+      "guidance_attempts": {
+        "3": {
+          "original_response": "Because I believe we'll be old one day and you'll be like our parents.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260708_074501_4a5501bd.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260708_074501_4a5501bd.json",
+          "original_delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "follow_up_question": "You mentioned \"Because I believe we'll be old one day and you'll be like...\". Can you use one visible clue from the picture to explain your reason?",
+          "reason": "The response connects to the picture but needs stronger explanation before it is ready to grade without guidance.",
+          "created_at": "2026-07-08T07:45:05.185354+00:00"
+        }
+      },
+      "results": [
+        {
+          "result_id": "6eaab64ce527",
+          "question_id": 1,
+          "question": "What do you think the nurse is doing in this picture?",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+          "student_response": "First response: I think the nurse is feeding him some food.\n\nResponse after examiner follow-up: [No response after guidance]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "5e50ccb3",
+          "created_at": "2026-07-08T07:42:38.947683+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "What do you think the nurse is doing in this picture?",
+            "answer": "First response: I think the nurse is feeding him some food.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "What do you think the nurse is doing in this picture?",
+            "answer": "First response: I think the nurse is feeding him some food.\n\nResponse after examiner follow-up: [No response after guidance]",
+            "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0.",
+          "guided_attempt": {
+            "original_response": "I think the nurse is feeding him some food.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260708_074216_befb2366.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260708_074216_befb2366.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You said \"I think the nurse is feeding him some food.\". What extra detail from the picture can you add so your answer is clearer?",
+            "reason": "The response connects to the picture but needs stronger explanation before it is ready to grade without guidance.",
+            "created_at": "2026-07-08T07:42:18.804478+00:00",
+            "follow_up_response": "[No response after guidance]"
+          }
+        },
+        {
+          "result_id": "953c20a2b707",
+          "question_id": 2,
+          "question": "Have you ever visited someone in a hospital or helped take care of someone? What was it like?",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+          "student_response": "First response: Hello, what answer?\n\nResponse after examiner follow-up: The Blitz and the hospital.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260708_074359_26a9e619.wav",
+          "transcription_path": "data\\sessions\\speech_20260708_074359_26a9e619.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "5e50ccb3",
+          "created_at": "2026-07-08T07:44:19.397968+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Have you ever visited someone in a hospital or helped take care of someone? What was it like?",
+            "answer": "First response: Hello, what answer?\n\nResponse after examiner follow-up: The Blitz and the hospital.",
+            "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's response does not directly address the prompt or provide any relevant details from the stimulus image.",
+                "evidence": "The student's response 'The Blitz and the hospital' does not relate to visiting someone in a hospital or helping take care of someone as asked in the prompt.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and underdeveloped, lacking any elaboration or examples.",
+                "evidence": "The student's initial response 'Hello, what answer?' and the follow-up response 'The Blitz and the hospital.' do not provide any elaboration or examples related to the question.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "Frequent language errors affect clarity.",
+                "evidence": "The student's response 'The Blitz and the hospital' lacks coherence and does not directly address the question about visiting or helping someone in a hospital.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needed repeated support to respond adequately to the examiner's follow-up question.",
+                "evidence": "The student's initial response 'Hello, what answer?' shows a lack of understanding or engagement with the question.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for attempting to respond to the prompt. Your mention of 'The Blitz and the hospital' shows a unique perspective, but it doesn't quite match the image of a nurse feeding an elderly man in a hospital room. Next time, try to connect your answer more directly to the visual stimulus. Your answer was also quite brief and lacked detail. To improve, you could say, \"Yes, I have visited someone in the hospital before. It was a challenging but rewarding experience.\" Remember, adding more details can make your response more engaging and informative. Let's work on expanding your answers and making sure they relate to the given prompt.",
+            "total_score": 4,
+            "max_score": 25,
+            "percentage": 16.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Have you ever visited someone in a hospital or helped take care of someone? What was it like?",
+            "answer": "First response: Hello, what answer?\n\nResponse after examiner follow-up: The Blitz and the hospital.",
+            "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "The student's response does not directly address the prompt or provide any relevant details from the stimulus image.",
+                "evidence": "The student's response 'The Blitz and the hospital' does not relate to visiting someone in a hospital or helping take care of someone as asked in the prompt.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief and underdeveloped, lacking any elaboration or examples.",
+                "evidence": "The student's initial response 'Hello, what answer?' and the follow-up response 'The Blitz and the hospital.' do not provide any elaboration or examples related to the question.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 1,
+                "max_score": 6,
+                "feedback": "Frequent language errors affect clarity.",
+                "evidence": "The student's response 'The Blitz and the hospital' lacks coherence and does not directly address the question about visiting or helping someone in a hospital.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student needed repeated support to respond adequately to the examiner's follow-up question.",
+                "evidence": "The student's initial response 'Hello, what answer?' shows a lack of understanding or engagement with the question.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Well done for attempting to respond to the prompt. Your mention of 'The Blitz and the hospital' shows a unique perspective, but it doesn't quite match the image of a nurse feeding an elderly man in a hospital room. Next time, try to connect your answer more directly to the visual stimulus. Your answer was also quite brief and lacked detail. To improve, you could say, \"Yes, I have visited someone in the hospital before. It was a challenging but rewarding experience.\" Remember, adding more details can make your response more engaging and informative. Let's work on expanding your answers and making sure they relate to the given prompt.",
+            "total_score": 4,
+            "max_score": 25,
+            "percentage": 16.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Well done for attempting to respond to the prompt. Your mention of 'The Blitz and the hospital' shows a unique perspective, but it doesn't quite match the image of a nurse feeding an elderly man in a hospital room. Next time, try to connect your answer more directly to the visual stimulus. Your answer was also quite brief and lacked detail. To improve, you could say, \"Yes, I have visited someone in the hospital before. It was a challenging but rewarding experience.\" Remember, adding more details can make your response more engaging and informative. Let's work on expanding your answers and making sure they relate to the given prompt. Keep practicing and expanding your responses to improve your oral English skills. You're making progress, keep it up!\n\nSentence Starter for Next Attempt: \"Yes, I have visited someone in the hospital before. It was a challenging but rewarding experience.\"",
+          "guided_attempt": {
+            "original_response": "Hello, what answer?",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260708_074312_034e08a7.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260708_074312_034e08a7.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You mentioned \"Hello, what answer?\". Can you point to one person, object, or action in the picture that helps explain your idea?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-07-08T07:43:15.201601+00:00",
+            "follow_up_response": "The Blitz and the hospital."
+          }
+        }
+      ],
       "results_released_at": null,
       "results_released_by": null
     }

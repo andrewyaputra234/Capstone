@@ -1,0 +1,249 @@
+{
+  "session_id": "b5b552f8",
+  "paper_id": "assignment_123_06d5e0ba",
+  "student_id": "123",
+  "date_created": "2026-07-08T13:39:35.135928",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-08T13:41:49.627999",
+      "speaker": "avatar",
+      "text": "What do you think makes riding a roller coaster fun ?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-08T13:41:49.641543",
+      "speaker": "student",
+      "text": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+      "audio_path": "data\\sessions\\speech_20260708_054140_8fa3ba95.wav",
+      "transcription_path": "data\\sessions\\speech_20260708_054140_8fa3ba95.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-08T13:43:10.815817",
+      "speaker": "avatar",
+      "text": "Have you ever been on a roller coaster or a similar ride? How did you feel?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-08T13:43:10.834499",
+      "speaker": "student",
+      "text": "First response: Yes, um, Universal Studio.\n\nResponse after examiner follow-up: [No response after guidance]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-07-08T13:43:19.118345",
+      "speaker": "avatar",
+      "text": "Why do you think it's important to follow safety rules on rides like these?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-07-08T13:43:19.133191",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you think makes riding a roller coaster fun ?",
+        "answer": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant, mentioning the thrill of going to a theme park, which is related to the excitement of riding a roller coaster. However, more specific details from the stimulus could enhance the response.",
+            "evidence": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The answer provides a basic idea but lacks elaboration or examples.",
+            "evidence": "The student mentions spending time with others and the thrill of going to a theme park.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+            "evidence": "I think it is good to spend time with, to have the thrill of just going to a theme park.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence.",
+            "evidence": "The student provides a brief answer to the question about what makes riding a roller coaster fun, showing some confidence in their response.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done on mentioning the thrill of going to a theme park as a fun aspect of riding a roller coaster. However, the image showed children on a roller coaster, not just visiting a park. To improve, try to include more specific details from the image in your response. Your answer could be more engaging with examples or reasons to support your idea. Next time, you could start with a sentence like \"One exciting thing about riding a roller coaster is...\" Keep up the effort in adding more vivid details to your responses.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Have you ever been on a roller coaster or a similar ride? How did you feel?",
+        "answer": "First response: Yes, um, Universal Studio.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Why do you think it's important to follow safety rules on rides like these?",
+        "answer": "[Skipped question]",
+        "visual_context": "The image shows a group of children on a roller coaster ride. They are sitting in a bright orange car, holding onto the safety bar. The children appear to be enjoying themselves, with big smiles and expressions of excitement. The background suggests a park setting with trees and greenery.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    }
+  ],
+  "start_time": "2026-07-08T13:39:35.143192",
+  "end_time": "2026-07-08T13:43:20.415456",
+  "metadata": {
+    "assignment_id": "9908ee116278",
+    "component": "student_assessment",
+    "subject": "assignment_123_06d5e0ba",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

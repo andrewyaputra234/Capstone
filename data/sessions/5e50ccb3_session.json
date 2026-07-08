@@ -1,0 +1,172 @@
+{
+  "session_id": "5e50ccb3",
+  "paper_id": "assignment_123_670b349d",
+  "student_id": "123",
+  "date_created": "2026-07-08T15:41:25.059237",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-08T15:42:38.928041",
+      "speaker": "avatar",
+      "text": "What do you think the nurse is doing in this picture?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-08T15:42:38.933907",
+      "speaker": "student",
+      "text": "First response: I think the nurse is feeding him some food.\n\nResponse after examiner follow-up: [No response after guidance]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-08T15:44:08.870267",
+      "speaker": "avatar",
+      "text": "Have you ever visited someone in a hospital or helped take care of someone? What was it like?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-08T15:44:08.884160",
+      "speaker": "student",
+      "text": "First response: Hello, what answer?\n\nResponse after examiner follow-up: The Blitz and the hospital.",
+      "audio_path": "data\\sessions\\speech_20260708_074359_26a9e619.wav",
+      "transcription_path": "data\\sessions\\speech_20260708_074359_26a9e619.json",
+      "metadata": null
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you think the nurse is doing in this picture?",
+        "answer": "First response: I think the nurse is feeding him some food.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Have you ever visited someone in a hospital or helped take care of someone? What was it like?",
+        "answer": "First response: Hello, what answer?\n\nResponse after examiner follow-up: The Blitz and the hospital.",
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a hospital or care facility room. The man is sitting on a bed and wearing a yellow shirt. There is a tray with food and a mug in front of him. The room has a window with blinds and a painting on the wall.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "The student's response does not directly address the prompt or provide any relevant details from the stimulus image.",
+            "evidence": "The student's response 'The Blitz and the hospital' does not relate to visiting someone in a hospital or helping take care of someone as asked in the prompt.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 2,
+            "max_score": 8,
+            "feedback": "The answer is very brief and underdeveloped, lacking any elaboration or examples.",
+            "evidence": "The student's initial response 'Hello, what answer?' and the follow-up response 'The Blitz and the hospital.' do not provide any elaboration or examples related to the question.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 1,
+            "max_score": 6,
+            "feedback": "Frequent language errors affect clarity.",
+            "evidence": "The student's response 'The Blitz and the hospital' lacks coherence and does not directly address the question about visiting or helping someone in a hospital.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 1,
+            "max_score": 3,
+            "feedback": "The student needed repeated support to respond adequately to the examiner's follow-up question.",
+            "evidence": "The student's initial response 'Hello, what answer?' shows a lack of understanding or engagement with the question.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for attempting to respond to the prompt. Your mention of 'The Blitz and the hospital' shows a unique perspective, but it doesn't quite match the image of a nurse feeding an elderly man in a hospital room. Next time, try to connect your answer more directly to the visual stimulus. Your answer was also quite brief and lacked detail. To improve, you could say, \"Yes, I have visited someone in the hospital before. It was a challenging but rewarding experience.\" Remember, adding more details can make your response more engaging and informative. Let's work on expanding your answers and making sure they relate to the given prompt.",
+        "total_score": 4,
+        "max_score": 25,
+        "percentage": 16.0,
+        "scoring_source": "ai"
+      }
+    }
+  ],
+  "start_time": "2026-07-08T15:41:25.067703",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "35765862f482",
+    "component": "student_assessment",
+    "subject": "assignment_123_670b349d",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

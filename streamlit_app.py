@@ -45,11 +45,13 @@ from exam_portal_store import (
     release_final_results,
     save_guidance_attempt,
     save_english_oral_rubric,
+    save_reading_ai_grading,
+    save_reading_ai_grading_error,
     save_reading_submission,
     reset_assignment_results,
 )
 from subject_manager import SubjectManager
-from voice_assessment import transcribe_streamlit_audio
+from voice_assessment import analyse_delivery, transcribe_streamlit_audio
 
 load_dotenv()
 
@@ -84,6 +86,7 @@ for key, default in [
     ("simli_avatar_errors", {}),
     ("simli_avatar_futures", {}),
     ("simli_avatar_future_meta", {}),
+    ("reading_ai_grading_futures", {}),
     ("preparation_deadline", None),
     ("preparation_timer_assignment_id", None),
     ("preparation_complete", False),
@@ -313,11 +316,154 @@ def avatar_preload_executor() -> ThreadPoolExecutor:
     return ThreadPoolExecutor(max_workers=1, thread_name_prefix="examiner-avatar-preload")
 
 
+@st.cache_resource
+def reading_ai_grading_executor() -> ThreadPoolExecutor:
+    """Shared worker for deferred reading-aloud AI grading."""
+    return ThreadPoolExecutor(max_workers=1, thread_name_prefix="reading-ai-grading")
+
+
 def create_avatar_video_in_background(text: str) -> str:
     """Worker-safe avatar generation. Do not access Streamlit state in this function."""
     from simli_avatar import create_avatar_video_url
 
     return create_avatar_video_url(text)
+
+
+def reading_completion_evidence(passage: str, transcript: str) -> dict:
+    passage_words = re.findall(r"[a-z0-9']+", (passage or "").lower())
+    transcript_words = re.findall(r"[a-z0-9']+", (transcript or "").lower())
+    if not passage_words:
+        return {
+            "status": "unavailable",
+            "reason": "No source passage was provided.",
+        }
+    if not transcript_words:
+        return {
+            "status": "available",
+            "passage_words": len(passage_words),
+            "transcript_words": 0,
+            "estimated_passage_coverage_percent": 0,
+            "estimated_sequence_match_percent": 0,
+            "notes": ["No transcript words were detected."],
+        }
+
+    import difflib
+
+    matcher = difflib.SequenceMatcher(None, passage_words, transcript_words, autojunk=False)
+    matched_words = sum(block.size for block in matcher.get_matching_blocks())
+    coverage = round(matched_words / len(passage_words) * 100, 1)
+    sequence_match = round(matcher.ratio() * 100, 1)
+    notes = []
+    if coverage < 70:
+        notes.append("Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.")
+    elif coverage < 90:
+        notes.append("Most of the passage appears present, but the examiner should check for omissions or substitutions.")
+    else:
+        notes.append("Transcript appears broadly complete against the source passage.")
+    return {
+        "status": "available",
+        "passage_words": len(passage_words),
+        "transcript_words": len(transcript_words),
+        "estimated_passage_coverage_percent": coverage,
+        "estimated_sequence_match_percent": sequence_match,
+        "notes": notes,
+    }
+
+
+def reading_grading_evidence(passage: str, transcript: str, delivery_indicators: dict | None) -> dict:
+    return {
+        "audio_evidence": "A student reading-aloud recording was submitted for examiner review.",
+        "source_passage": passage,
+        "transcript": transcript,
+        "completion_check": reading_completion_evidence(passage, transcript),
+        "delivery_indicators": delivery_indicators,
+        "limitation": (
+            "Automated grading uses transcript completeness and broad delivery indicators. "
+            "It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review."
+        ),
+    }
+
+
+def grade_reading_submission_in_background(payload: dict) -> dict:
+    """Grade a saved reading submission and persist the provisional result."""
+    assignment_id = payload["assignment_id"]
+    try:
+        delivery = payload.get("delivery_indicators") or {}
+        audio_path = payload.get("audio_path")
+        transcript = payload.get("transcript", "")
+        if audio_path and delivery.get("status") != "available":
+            delivery = analyse_delivery(audio_path, transcript)
+
+        evidence = reading_grading_evidence(payload.get("passage", ""), transcript, delivery)
+        visual_context = f"Reading-aloud evidence: {json.dumps(evidence, indent=2)}"
+        question = (
+            "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. "
+            "Use the source passage, transcript completeness check, and advisory delivery indicators."
+        )
+
+        crew = init_crew(payload["subject"], payload["rubric"], payload["student_id"])
+        grading_result = crew.grade_response(
+            question,
+            transcript,
+            visual_context=visual_context,
+            criterion_names=payload.get("reading_criteria"),
+        )
+        grading_result["scoring_source"] = "deferred_ai_reading"
+        save_reading_ai_grading(
+            assignment_id,
+            grading_result=grading_result,
+            crew_analysis=(
+                "Deferred AI reading-aloud grading used the transcript, a source-passage "
+                "completion check, and advisory delivery indicators. Examiner verification is still required."
+            ),
+            delivery_indicators=delivery,
+        )
+        return {"status": "saved", "assignment_id": assignment_id}
+    except Exception as error:
+        try:
+            save_reading_ai_grading_error(assignment_id, str(error))
+        finally:
+            return {"status": "error", "assignment_id": assignment_id, "error": str(error)}
+
+
+def queue_deferred_reading_ai_grading(
+    assignment: dict,
+    *,
+    transcript: str,
+    audio_path: str | None,
+    transcription_path: str | None,
+    delivery_indicators: dict | None,
+    reading_criteria: list[str],
+) -> None:
+    if not bool_env("DEFERRED_READING_AI_GRADING", True):
+        return
+    assignment_id = assignment["assignment_id"]
+    futures: dict[str, Future] = st.session_state.setdefault("reading_ai_grading_futures", {})
+    future = futures.get(assignment_id)
+    if future and not future.done():
+        return
+
+    payload = {
+        "assignment_id": assignment_id,
+        "subject": assignment["subject"],
+        "rubric": assignment["rubric"],
+        "student_id": assignment["student_id"],
+        "passage": (assignment.get("reading") or {}).get("text", ""),
+        "transcript": transcript,
+        "audio_path": audio_path,
+        "transcription_path": transcription_path,
+        "delivery_indicators": delivery_indicators,
+        "reading_criteria": reading_criteria,
+    }
+    futures[assignment_id] = reading_ai_grading_executor().submit(grade_reading_submission_in_background, payload)
+
+
+def collect_deferred_reading_ai_grading() -> None:
+    futures: dict[str, Future] = st.session_state.setdefault("reading_ai_grading_futures", {})
+    for assignment_id, future in list(futures.items()):
+        if future.done():
+            future.result()
+            futures.pop(assignment_id, None)
 
 
 def avatar_terminal_log(message: str) -> None:
@@ -511,6 +657,21 @@ def queue_examiner_avatar_preload(text: str, *, cache_key: str) -> None:
     avatar_terminal_log(f"queued {cache_key}: {clean_text[:90]}")
 
 
+def avatar_auto_play_once(cache_key: str, text: str, *, enabled: bool = True) -> bool:
+    """Allow an examiner prompt to auto-speak once across Streamlit reruns."""
+    if not enabled:
+        return False
+    clean_text = " ".join((text or "").split())
+    if not clean_text:
+        return False
+    prompt_key = f"{cache_key}:{hashlib.sha256(clean_text.encode('utf-8')).hexdigest()[:16]}"
+    spoken_prompts = st.session_state.setdefault("examiner_avatar_spoken_prompts", {})
+    if prompt_key in spoken_prompts:
+        return False
+    spoken_prompts[prompt_key] = True
+    return True
+
+
 def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = False) -> None:
     """Render an Anam live avatar and ask it to speak the selected examiner text."""
     try:
@@ -551,6 +712,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
     detail_id_json = json.dumps(detail_id)
     start_id_json = json.dumps(start_id)
     button_id_json = json.dumps(button_id)
+    auto_play_json = json.dumps(auto_play)
     close_after_talk_json = json.dumps(bool_env("ANAM_CLOSE_SESSION_AFTER_TALK", True))
     close_delay_ms_json = json.dumps(int(float_env("ANAM_CLOSE_SESSION_DELAY_SECONDS", 10.0) * 1000))
     subtitle_html = html_escape(clean_text)
@@ -633,15 +795,15 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
         <div class="anam-card">
           <div class="anam-header">
             <span>AI Examiner</span>
-            <span id="{status_id}" class="anam-status">Starting</span>
+            <span id="{status_id}" class="anam-status">{'Starting' if auto_play else 'Ready'}</span>
           </div>
           <video id="{video_id}" class="anam-video" autoplay playsinline></video>
           <div class="anam-body"><strong>Subtitles:</strong> {subtitle_html}</div>
           <div id="{detail_id}" class="anam-detail"></div>
           <div class="anam-actions">
-            <span>Start the examiner if the video does not appear automatically.</span>
+            <span>{'Start the examiner if the video does not appear automatically.' if auto_play else 'The examiner has already asked this prompt. Press Play only if you need to hear it again.'}</span>
             <div>
-              <button id="{start_id}" class="anam-button" type="button">Start</button>
+              <button id="{start_id}" class="anam-button" type="button">Play</button>
               <button id="{button_id}" class="anam-button" type="button" disabled>Replay</button>
             </div>
           </div>
@@ -658,6 +820,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           const detail = document.getElementById({detail_id_json});
           const startButton = document.getElementById({start_id_json});
           const replay = document.getElementById({button_id_json});
+          const shouldAutoPlay = {auto_play_json};
           const closeAfterTalk = {close_after_talk_json};
           const closeDelayMs = {close_delay_ms_json};
           let client = null;
@@ -704,7 +867,8 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
               console.warn(error);
             }}
             setStatus("Finished");
-            setDetail("");
+            setDetail("Press Play to hear this prompt again.");
+            if (startButton) startButton.disabled = false;
           }}
 
           function scheduleCloseAfterTalk() {{
@@ -762,8 +926,10 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
               client.addListener(AnamEvent.CONNECTION_CLOSED, (code, details) => {{
                 client = null;
                 streamStarted = false;
+                if (replay) replay.disabled = true;
+                if (startButton) startButton.disabled = false;
                 setStatus(closeAfterTalk ? "Finished" : "Closed");
-                setDetail(details ? `${{code}}: ${{details}}` : "");
+                setDetail(details ? `${{code}}: ${{details}}` : "Press Play to hear this prompt again.");
               }});
               await client.streamToVideoElement(videoId);
             }} catch (error) {{
@@ -780,7 +946,11 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             clearCloseTimer();
             if (client) client.stopStreaming().catch(() => {{}});
           }});
-          start();
+          if (shouldAutoPlay) {{
+            start();
+          }} else {{
+            setStatus("Ready");
+          }}
         </script>
         """,
         height=560,
@@ -1701,6 +1871,21 @@ def discard_voice_preview(preview_key: str) -> None:
             continue
 
 
+class LockedAudioRecording:
+    """Small adapter for a one-time browser recording saved in session state."""
+
+    def __init__(self, data: bytes, name: str = "speech.wav") -> None:
+        self._data = data
+        self.name = name or "speech.wav"
+
+    def getbuffer(self) -> bytes:
+        return self._data
+
+
+def discard_locked_recording(recording_key: str) -> None:
+    st.session_state.pop(recording_key, None)
+
+
 def capture_student_response(
     key_suffix: str,
     submit_label: str,
@@ -1716,15 +1901,34 @@ def capture_student_response(
         return None
     st.markdown('<div class="portal-field-label">Speak into the microphone</div>', unsafe_allow_html=True)
     if review_transcript:
-        st.caption("Record your answer, transcribe it, then review what the system heard before submitting.")
+        st.caption("Record once, transcribe it, then review what the system heard before submitting.")
     else:
         st.caption("Record once, then submit it. The system will process it and continue automatically.")
-    recording = st.audio_input("Record your answer", key=f"voice_response_{key_suffix}")
     preview_key = f"voice_preview_{key_suffix}"
-    recording_fingerprint = None
-    if recording:
-        st.audio(recording)
-        recording_fingerprint = hashlib.sha256(recording.getvalue()).hexdigest()
+    recording_key = f"voice_locked_recording_{key_suffix}"
+    locked_recording = st.session_state.get(recording_key)
+
+    if locked_recording:
+        st.info("Recording captured for this attempt. Submit it to continue.")
+        st.audio(locked_recording["bytes"], format=locked_recording.get("mime") or "audio/wav")
+        recording = LockedAudioRecording(
+            locked_recording["bytes"],
+            locked_recording.get("name") or "speech.wav",
+        )
+        recording_fingerprint = locked_recording["fingerprint"]
+    else:
+        recording = st.audio_input("Record your answer", key=f"voice_response_{key_suffix}")
+        recording_fingerprint = None
+        if recording:
+            recording_bytes = recording.getvalue()
+            recording_fingerprint = hashlib.sha256(recording_bytes).hexdigest()
+            st.session_state[recording_key] = {
+                "bytes": recording_bytes,
+                "fingerprint": recording_fingerprint,
+                "name": getattr(recording, "name", "speech.wav"),
+                "mime": getattr(recording, "type", "audio/wav"),
+            }
+            st.rerun()
 
     preview = st.session_state.get(preview_key)
     if preview and preview.get("fingerprint") != recording_fingerprint:
@@ -1740,6 +1944,7 @@ def capture_student_response(
         )
         skipped = columns[1].button(skip_label, width="stretch", key=f"skip_voice_{key_suffix}") if allow_skip else False
         if skipped:
+            discard_locked_recording(recording_key)
             return {"text": "[Skipped question]", "skipped": True, "mode": "voice"}
         if not submit_recording:
             return None
@@ -1754,9 +1959,11 @@ def capture_student_response(
             )
             voice = transcribe_streamlit_audio(recording, include_delivery=include_delivery)
         except Exception as error:
+            discard_locked_recording(recording_key)
             st.error(f"Your recording could not be transcribed: {error}")
             return None
         if not review_transcript:
+            discard_locked_recording(recording_key)
             return {"fingerprint": recording_fingerprint, "skipped": False, **voice}
         st.session_state[preview_key] = {"fingerprint": recording_fingerprint, **voice}
         st.rerun()
@@ -1770,20 +1977,25 @@ def capture_student_response(
         key=f"transcript_preview_{key_suffix}",
     )
     render_delivery_indicators(preview.get("delivery_indicators"))
-    columns = st.columns(3) if allow_skip else st.columns(2)
+    allow_rerecord = bool_env("ALLOW_STUDENT_RERECORD", False)
+    columns = st.columns(3) if allow_skip and allow_rerecord else st.columns(2) if allow_rerecord else st.columns(2 if allow_skip else 1)
     use_transcript = columns[0].button(submit_label, type="primary", width="stretch", key=f"use_voice_{key_suffix}")
-    retry = columns[1].button("Record again", width="stretch", key=f"retry_voice_{key_suffix}")
-    skipped = columns[2].button(skip_label, width="stretch", key=f"skip_review_voice_{key_suffix}") if allow_skip else False
+    retry = columns[1].button("Record again", width="stretch", key=f"retry_voice_{key_suffix}") if allow_rerecord else False
+    skip_column = columns[2] if allow_skip and allow_rerecord else columns[1] if allow_skip else None
+    skipped = skip_column.button(skip_label, width="stretch", key=f"skip_review_voice_{key_suffix}") if skip_column else False
     if retry:
         discard_voice_preview(preview_key)
+        discard_locked_recording(recording_key)
         st.info("Record a replacement answer, then choose Transcribe recording again.")
         return None
     if skipped:
         discard_voice_preview(preview_key)
+        discard_locked_recording(recording_key)
         return {"text": "[Skipped question]", "skipped": True, "mode": "voice"}
     if not use_transcript:
         return None
     st.session_state.pop(preview_key, None)
+    discard_locked_recording(recording_key)
     return {"text": preview["text"], "skipped": False, "mode": "voice", **preview}
 
 
@@ -3245,6 +3457,7 @@ def _assignment_label(assignment: dict) -> str:
 
 
 def render_examiner_review() -> None:
+    collect_deferred_reading_ai_grading()
     assignments = list_assignments()
     st.subheader("Review AI results")
     review_notice = st.session_state.pop("examiner_review_notice", None)
@@ -3291,6 +3504,10 @@ def render_examiner_review() -> None:
                         else "Provisional reading-aloud grade"
                     )
                     render_grading_result(reading_grade, heading=heading)
+                if reading_submission.get("ai_grading_error"):
+                    st.warning(f"Deferred AI reading grade could not be generated: {reading_submission['ai_grading_error']}")
+                elif reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
+                    st.info("The student has moved on. The deferred AI reading grade is still being prepared.")
                 if reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
                     st.caption("Fast submission saved the recording immediately. Listen to the recording and enter verified reading marks if needed.")
                 else:
@@ -3916,9 +4133,17 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
                 grading_result=grading_result,
                 crew_analysis=(
                     "Fast reading submission was enabled. The student's recording and transcript "
-                    "were saved immediately for examiner review; no provisional AI reading grade "
-                    "was generated during the student flow."
+                    "were saved immediately for examiner review. A deferred provisional AI reading "
+                    "grade was queued in the background."
                 ),
+            )
+            queue_deferred_reading_ai_grading(
+                assignment,
+                transcript=captured["text"],
+                audio_path=captured.get("audio_path"),
+                transcription_path=captured.get("transcription_path"),
+                delivery_indicators=captured.get("delivery_indicators"),
+                reading_criteria=reading_criteria,
             )
             st.session_state.pop(reading_lock_key, None)
             st.rerun()
@@ -3987,6 +4212,7 @@ def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
 
 
 def render_student_assessment(assignment: dict) -> None:
+    collect_deferred_reading_ai_grading()
     st.subheader("Take assessment")
     if assignment.get("status") == "completed":
         st.success("You have already submitted this assessment. It can only be taken once.")
@@ -4042,7 +4268,7 @@ def render_student_assessment(assignment: dict) -> None:
     )
     avatar_prompt = examiner_prompt
     avatar_cache_key = examiner_avatar_cache_key
-    avatar_auto_play = bool(guidance)
+    avatar_auto_play = avatar_auto_play_once(avatar_cache_key, avatar_prompt)
     image = visual_path(assignment)
 
     st.markdown(
@@ -4153,6 +4379,7 @@ def render_student_assessment(assignment: dict) -> None:
                 student_response=captured["text"],
                 attempt_number=1,
                 max_attempts=2,
+                fast_evaluation=bool_env("FAST_ORAL_TURN_EVALUATION", True),
             )
             if not decision.get("accepted"):
                 follow_up_question = decision.get("examiner_reply") or (

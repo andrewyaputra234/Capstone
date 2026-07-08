@@ -730,6 +730,47 @@ def apply_reading_examiner_review(
     return _update_assignment(assignment_id, update_reading)
 
 
+def save_reading_ai_grading(
+    assignment_id: str,
+    *,
+    grading_result: dict[str, Any],
+    crew_analysis: str = "",
+    delivery_indicators: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Attach deferred AI reading-aloud grading to an existing submission."""
+    def update_reading(record: dict[str, Any]) -> None:
+        submission = record.get("reading_submission")
+        if not submission:
+            raise ValueError("The student has not submitted the reading-aloud response.")
+
+        submission["ai_grading"] = copy.deepcopy(grading_result)
+        current_final = submission.get("final_grading") or {}
+        if not submission.get("examiner_review") and (
+            not current_final or current_final.get("scoring_source") == "pending_examiner_review"
+        ):
+            submission["final_grading"] = copy.deepcopy(grading_result)
+        if delivery_indicators:
+            submission["delivery_indicators"] = copy.deepcopy(delivery_indicators)
+        if crew_analysis:
+            submission["crew_analysis"] = crew_analysis
+        submission["ai_graded_at"] = _now()
+        submission.pop("ai_grading_error", None)
+
+    return _update_assignment(assignment_id, update_reading)
+
+
+def save_reading_ai_grading_error(assignment_id: str, error: str) -> dict[str, Any]:
+    """Record a deferred reading-grading failure without blocking the assessment."""
+    def update_reading(record: dict[str, Any]) -> None:
+        submission = record.get("reading_submission")
+        if not submission:
+            raise ValueError("The student has not submitted the reading-aloud response.")
+        submission["ai_grading_error"] = str(error)
+        submission["ai_grading_failed_at"] = _now()
+
+    return _update_assignment(assignment_id, update_reading)
+
+
 def release_final_results(assignment_id: str, examiner_id: str) -> dict[str, Any]:
     """Release results only after the examiner has verified every required component."""
     def release(record: dict[str, Any]) -> None:
