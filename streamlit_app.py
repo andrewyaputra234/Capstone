@@ -1900,6 +1900,11 @@ def capture_student_response(
         st.error("Microphone answers require a newer Streamlit version with browser audio input.")
         return None
     st.markdown('<div class="portal-field-label">Speak into the microphone</div>', unsafe_allow_html=True)
+    allow_rerecord = bool_env("ALLOW_STUDENT_RERECORD", False)
+    if not allow_rerecord:
+        st.warning(
+            "This is a one-time recording. Start only when you are ready, and do not stop the recording until you have completed your answer."
+        )
     if review_transcript:
         st.caption("Record once, transcribe it, then review what the system heard before submitting.")
     else:
@@ -1977,7 +1982,6 @@ def capture_student_response(
         key=f"transcript_preview_{key_suffix}",
     )
     render_delivery_indicators(preview.get("delivery_indicators"))
-    allow_rerecord = bool_env("ALLOW_STUDENT_RERECORD", False)
     columns = st.columns(3) if allow_skip and allow_rerecord else st.columns(2) if allow_rerecord else st.columns(2 if allow_skip else 1)
     use_transcript = columns[0].button(submit_label, type="primary", width="stretch", key=f"use_voice_{key_suffix}")
     retry = columns[1].button("Record again", width="stretch", key=f"retry_voice_{key_suffix}") if allow_rerecord else False
