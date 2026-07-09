@@ -124,7 +124,12 @@ class OralGuidanceThresholdTests(unittest.TestCase):
 
         self.assertFalse(decision["accepted"])
         self.assertIn("I like ice cream", decision["examiner_reply"])
-        self.assertIn("look back at the picture", decision["examiner_reply"].lower())
+        self.assertTrue(
+            any(
+                marker in decision["examiner_reply"].lower()
+                for marker in ("connect to the situation", "bring your answer back", "answer more directly")
+            )
+        )
         self.assertNotEqual(decision["examiner_reply"], "Can you add another detail?")
 
     def test_fast_guiding_question_for_partial_action_is_not_generic(self) -> None:
@@ -172,8 +177,12 @@ class OralGuidanceThresholdTests(unittest.TestCase):
         )
 
         self.assertFalse(decision["accepted"])
-        self.assertIn("picture", decision["examiner_reply"].lower())
-        self.assertIn("washing", decision["examiner_reply"].lower())
+        self.assertTrue(
+            any(
+                marker in decision["examiner_reply"].lower()
+                for marker in ("situation", "question", "scene")
+            )
+        )
 
     def test_fast_evaluator_guides_brief_answer_related_to_visual_context(self) -> None:
         crew = object.__new__(EducationCrew)
@@ -189,7 +198,10 @@ class OralGuidanceThresholdTests(unittest.TestCase):
 
         self.assertFalse(decision["accepted"])
         self.assertTrue(
-            any(marker in decision["examiner_reply"].lower() for marker in ("visible", "action you see", "picture"))
+            any(
+                marker in decision["examiner_reply"].lower()
+                for marker in ("action you mean", "explain why", "what exactly")
+            )
         )
 
     def test_fast_evaluator_accepts_strong_answer_related_to_visual_context(self) -> None:

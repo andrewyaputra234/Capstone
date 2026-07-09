@@ -2984,6 +2984,146 @@
       ],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "3cb08dde60d1": {
+      "assignment_id": "3cb08dde60d1",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicevza",
+      "subject": "assignment_123_1e1d79ab",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-09T01:58:36.349221+00:00",
+      "updated_at": "2026-07-09T02:09:46.738793+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "soccer-player-action-stadium-1024x683.webp",
+        "path": "data\\input\\assignment_123_1e1d79ab\\soccer-player-action-stadium-1024x683.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_1e1d79ab\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Phone. Nim. Phone.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260709_020841_d91908ef.wav",
+        "transcription_path": "data\\sessions\\speech_20260709_020841_d91908ef.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 3.4,
+          "words_per_minute": 52.6,
+          "pitch_range_semitones": 6.4,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Phone. Nim. Phone.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Phone. Nim. Phone.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 3,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 3.4,\n    \"words_per_minute\": 52.6,\n    \"pitch_range_semitones\": 6.4,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is unclear with frequent pronunciation issues.",
+              "evidence": "The student's reading of 'Phone. Nim. Phone.' lacks clarity and has pronunciation difficulties.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on attempting the reading aloud task. Your effort is commendable. However, there were some pronunciation issues in your delivery. Remember to enunciate clearly and practice pronouncing words accurately. Next time, try starting with a sentence like, \"I am ready to read aloud clearly and confidently.\" This will help you focus on your delivery and improve your pronunciation. Keep practicing, and you will see improvement in no time.",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Phone. Nim. Phone.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Phone. Nim. Phone.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 3,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 3.4,\n    \"words_per_minute\": 52.6,\n    \"pitch_range_semitones\": 6.4,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 5,
+              "max_score": 20,
+              "feedback": "The reading is unclear with frequent pronunciation issues.",
+              "evidence": "The student's reading of 'Phone. Nim. Phone.' lacks clarity and has pronunciation difficulties.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on attempting the reading aloud task. Your effort is commendable. However, there were some pronunciation issues in your delivery. Remember to enunciate clearly and practice pronouncing words accurately. Next time, try starting with a sentence like, \"I am ready to read aloud clearly and confidently.\" This will help you focus on your delivery and improve your pronunciation. Keep practicing, and you will see improvement in no time.",
+          "total_score": 5,
+          "max_score": 20,
+          "percentage": 25.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-09T02:08:44.868844+00:00",
+        "ai_graded_at": "2026-07-09T02:08:54.816427+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the boy might be thinking about as he sits with the soccer ball, and why?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_1e1d79ab_images\\page_1.webp",
+          "visual_context": "A young boy in a blue sports jersey and black shorts is sitting on concrete steps. He has a soccer ball at his feet and is looking into the distance with a thoughtful expression. The setting appears to be an outdoor sports facility with metal railings and greenery in the background.",
+          "generated_text": "What do you think the boy might be thinking about as he sits with the soccer ball, and why?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever felt like the boy in the picture, perhaps waiting for something or someone? Can you share your experience?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_1e1d79ab_images\\page_1.webp",
+          "visual_context": "A young boy in a blue sports jersey and black shorts is sitting on concrete steps. He has a soccer ball at his feet and is looking into the distance with a thoughtful expression. The setting appears to be an outdoor sports facility with metal railings and greenery in the background.",
+          "generated_text": "Have you ever felt like the boy in the picture, perhaps waiting for something or someone? Can you share your experience?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why is it important to have time to think and reflect?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_1e1d79ab_images\\page_1.webp",
+          "visual_context": "A young boy in a blue sports jersey and black shorts is sitting on concrete steps. He has a soccer ball at his feet and is looking into the distance with a thoughtful expression. The setting appears to be an outdoor sports facility with metal railings and greenery in the background.",
+          "generated_text": "Why is it important to have time to think and reflect, like the boy seems to be doing here?",
+          "edited_by_examiner": true
+        }
+      ],
+      "reading_completed_at": "2026-07-09T02:08:44.868855+00:00",
+      "guidance_attempts": {
+        "1": {
+          "original_response": "Thinking about, like, maybe competition.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260709_020942_8b495831.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260709_020942_8b495831.json",
+          "original_delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "follow_up_question": "You said \"Thinking about, like, maybe competition.\". Why does that matter to the people involved?",
+          "reason": "The response connects to the picture but needs stronger explanation before it is ready to grade without guidance.",
+          "created_at": "2026-07-09T02:09:46.738777+00:00"
+        }
+      },
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

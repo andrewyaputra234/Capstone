@@ -336,6 +336,12 @@
       "pdf_path": "data\\input\\assignment_123_670b349d\\jhe.jpg",
       "visual_path": "data\\input\\assignment_123_670b349d\\jhe.jpg",
       "reading_path": "data\\input\\assignment_123_670b349d\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_1e1d79ab": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_1e1d79ab\\soccer-player-action-stadium-1024x683.webp",
+      "visual_path": "data\\input\\assignment_123_1e1d79ab\\soccer-player-action-stadium-1024x683.webp",
+      "reading_path": "data\\input\\assignment_123_1e1d79ab\\Good morning, students. I hope you.txt"
     }
   }
 }

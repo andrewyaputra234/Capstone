@@ -4028,7 +4028,6 @@ def render_student_materials(assignment: dict) -> None:
     else:
         st.caption("No reading-aloud passage was assigned for this assessment.")
 
-    start_preparation_timer(assignment)
     render_examiner_avatar_warmup(assignment)
     st.divider()
     st.warning("Continuing starts the assessment phase. You will not be able to return to these preparation materials.")
@@ -4038,6 +4037,7 @@ def render_student_materials(assignment: dict) -> None:
         st.session_state.preparation_complete = True
         st.session_state.student_portal_stage = "assessment_loading"
         st.rerun()
+    start_preparation_timer(assignment)
 
 
 @st.fragment(run_every=1)
