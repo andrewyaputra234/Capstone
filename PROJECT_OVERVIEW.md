@@ -1,6 +1,6 @@
 # Project overview
 
-Last updated: 2026-07-01  
+Last updated: 2026-07-10  
 Project name in app: **Oral Focus**
 
 ## Purpose
@@ -52,14 +52,15 @@ The system is designed for a PSLE-style English oral workflow, with one picture 
 7. During preparation, the app should use already-saved avatar references from examiner-side preparation; it should not create new avatar videos for the student.
 8. Student enters the assessment page.
 9. If a reading passage was assigned, student completes reading aloud first.
-10. Student answers each image question by typing or recording/transcribing.
-11. If the first response is clearly weak or unrelated, the AI gives one guiding question.
-12. The guiding question is adapted to the student's first response. It should briefly refer to what the student said and guide them to clarify, correct, connect to the picture/topic, give a reason, or add one visible detail.
-13. Student can answer again after the guiding question.
-14. The first answer and guided follow-up answer are combined for grading.
-15. If the first response is good enough, the app moves to the next question.
-16. After all questions are completed, student waits for examiner release.
-17. Once released, student can view grades, recordings/transcripts, and examiner feedback notes.
+10. Student completes a one-time recording for each response to reduce repeated retakes.
+11. Student submits without seeing or editing the transcript first.
+12. If the first response is not already strong, the AI gives one guiding question.
+13. The guiding question is adapted to the student's first response and should lead the student toward clearer reasoning, richer explanation, or more relevant detail.
+14. Student can answer again after the guiding question.
+15. The first answer and guided follow-up answer are combined for grading.
+16. If the first response is good enough, the app moves to the next question.
+17. After all questions are completed, student waits for examiner release.
+18. Once released, student can view grades, recordings/transcripts, and examiner feedback notes.
 
 ## Current result and feedback behavior
 
@@ -116,6 +117,8 @@ OPENAI_API_KEY=...
 Current avatar behavior:
 
 - In Anam mode, examiner questions and guiding follow-ups are spoken live during the assessment.
+- The Anam avatar speaks only assessment-critical prompts: the main question and, when required, one guiding question.
+- The avatar should not nudge, repeat, or interrupt while the student is recording.
 - In Anam mode, assignment creation does not wait for static avatar videos.
 - In Simli mode, avatar videos are prepared during examiner assignment/preview, not during the student assessment.
 - The assessment must still work even if avatar playback fails.
@@ -213,6 +216,8 @@ The JSON store uses atomic writes to reduce corruption risk, but it is not desig
 - `test_grading_resilience.py`
 - `test_persistence_safety.py`
 - `test_question_fallback.py`
+- `test_crew_integration.py`
+- `test_anam_avatar.py`
 - `test_simli_avatar.py`
 - `test_voice_assessment.py`
 
@@ -222,7 +227,7 @@ Current full test command:
 .\.venv\Scripts\python.exe -m unittest discover -v
 ```
 
-Recent known result: **28 tests passing**.
+Recent known result: **40 tests passing**.
 
 ## How to run locally
 
@@ -254,6 +259,13 @@ Important UI goals:
 
 ## Recent fixes and behavioral changes
 
+- Set preparation timing to 10 minutes through `PREPARATION_MINUTES`.
+- Ensured the preparation timer starts only after reading and picture materials are ready.
+- Added one-time recording behavior and clearer student warning text.
+- Kept reading-aloud submission fast by deferring detailed AI grading for examiner review.
+- Improved guiding questions so they are less repetitive and more connected to the student's answer.
+- Added examiner review summaries for AI score, final score, adjustment, review status, release status, and reading analysis status.
+- Added a demo health panel for OpenAI, avatar, timing, recording, reading, and photo-generation configuration.
 - Replaced deprecated `use_container_width` usage with `width="stretch"`.
 - Fixed repeated-question and over-guiding behavior by tightening oral-turn follow-up rules.
 - Added student registration with hashed passwords.

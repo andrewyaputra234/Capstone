@@ -342,6 +342,24 @@
       "pdf_path": "data\\input\\assignment_123_1e1d79ab\\soccer-player-action-stadium-1024x683.webp",
       "visual_path": "data\\input\\assignment_123_1e1d79ab\\soccer-player-action-stadium-1024x683.webp",
       "reading_path": "data\\input\\assignment_123_1e1d79ab\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_8fc34906": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_8fc34906\\jhe.jpg",
+      "visual_path": "data\\input\\assignment_123_8fc34906\\jhe.jpg",
+      "reading_path": "data\\input\\assignment_123_8fc34906\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_17e9f784": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_17e9f784\\jhe.jpg",
+      "visual_path": "data\\input\\assignment_123_17e9f784\\jhe.jpg",
+      "reading_path": "data\\input\\assignment_123_17e9f784\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_2ff162ac": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_2ff162ac\\jhe.jpg",
+      "visual_path": "data\\input\\assignment_123_2ff162ac\\jhe.jpg",
+      "reading_path": "data\\input\\assignment_123_2ff162ac\\Good morning, students. I hope you.txt"
     }
   }
 }

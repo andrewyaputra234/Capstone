@@ -200,6 +200,68 @@ def render_grading_result(grading: dict, *, heading: str | None = None) -> None:
         st.info(grading["tutoring_feedback"])
 
 
+def grading_score_label(grading: dict) -> str:
+    total = int((grading or {}).get("total_score", 0))
+    maximum = int((grading or {}).get("max_score", 0))
+    return f"{total}/{maximum}" if maximum else "Pending"
+
+
+def grading_score_delta(ai_grading: dict, final_grading: dict) -> str:
+    ai_total = int((ai_grading or {}).get("total_score", 0))
+    final_total = int((final_grading or {}).get("total_score", 0))
+    delta = final_total - ai_total
+    if delta > 0:
+        return f"+{delta}"
+    return str(delta)
+
+
+def render_review_summary(
+    *,
+    ai_grading: dict,
+    final_grading: dict,
+    reviewed_at: str | None,
+    released_at: str | None = None,
+    has_audio: bool = False,
+    guidance_used: bool = False,
+    skipped: bool = False,
+) -> None:
+    columns = st.columns(5)
+    columns[0].metric("AI score", grading_score_label(ai_grading))
+    columns[1].metric("Final score", grading_score_label(final_grading))
+    columns[2].metric("Adjustment", grading_score_delta(ai_grading, final_grading))
+    columns[3].metric("Review", "Verified" if reviewed_at else "Pending")
+    columns[4].metric("Release", "Released" if released_at else "Not released")
+
+    evidence = []
+    evidence.append("audio available" if has_audio else "no audio evidence")
+    evidence.append("guided response used" if guidance_used else "no guiding question used")
+    if skipped:
+        evidence.append("student skipped")
+    st.caption("Evidence status: " + " | ".join(evidence))
+    if reviewed_at:
+        st.success(f"Examiner verified this item on {reviewed_at}.")
+    else:
+        st.warning("Pending examiner verification.")
+
+
+def render_reading_review_summary(reading_submission: dict, assignment: dict) -> None:
+    grade = reading_submission.get("final_grading") or reading_submission.get("ai_grading") or {}
+    reviewed_at = (reading_submission.get("examiner_review") or {}).get("reviewed_at")
+    ai_status = "Failed" if reading_submission.get("ai_grading_error") else (
+        "Ready" if reading_submission.get("ai_graded_at") else "Pending"
+    )
+    columns = st.columns(5)
+    columns[0].metric("Recording", "Submitted" if reading_submission.get("audio_path") else "Missing")
+    columns[1].metric("AI reading grade", ai_status)
+    columns[2].metric("Examiner review", "Verified" if reviewed_at else "Pending")
+    columns[3].metric("Final score", grading_score_label(grade))
+    columns[4].metric("Release", "Released" if assignment.get("results_released_at") else "Not released")
+    if reviewed_at:
+        st.success(f"Reading-aloud grade verified on {reviewed_at}.")
+    else:
+        st.warning("Reading-aloud grade still needs examiner verification before release.")
+
+
 def save_queued_upload(upload: dict, directory: Path) -> Path:
     """Save an upload captured in session state under a controlled temporary directory."""
     safe_name = Path(str(upload.get("name") or "uploaded-material")).name
@@ -487,6 +549,10 @@ def bool_env(name: str, default: bool = False) -> bool:
     if raw is None:
         return default
     return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def preparation_duration_seconds() -> int:
+    return int(float_env("PREPARATION_MINUTES", 10.0, minimum=1.0) * 60)
 
 
 def supported_visual_image_path(path: str | Path) -> bool:
@@ -3496,6 +3562,7 @@ def render_examiner_review() -> None:
         reading_submission = assignment.get("reading_submission")
         if reading_submission:
             with st.expander("Reading-aloud submission", expanded=True):
+                render_reading_review_summary(reading_submission, assignment)
                 st.write("**Transcript:**", reading_submission.get("transcript", ""))
                 if reading_submission.get("audio_path"):
                     st.audio(reading_submission["audio_path"])
@@ -3512,6 +3579,8 @@ def render_examiner_review() -> None:
                     st.warning(f"Deferred AI reading grade could not be generated: {reading_submission['ai_grading_error']}")
                 elif reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
                     st.info("The student has moved on. The deferred AI reading grade is still being prepared.")
+                elif reading_submission.get("ai_graded_at"):
+                    st.success("Provisional AI reading grade is ready. Verify it against the audio before releasing results.")
                 if reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
                     st.caption("Fast submission saved the recording immediately. Listen to the recording and enter verified reading marks if needed.")
                 else:
@@ -3555,7 +3624,7 @@ def render_examiner_review() -> None:
                 if (reading_submission.get("examiner_review") or {}).get("reviewed_at"):
                     st.caption(f"Last reviewed: {reading_submission['examiner_review']['reviewed_at']}")
         else:
-            st.caption("Reading passage: awaiting the student's recorded submission.")
+            st.info("Reading-aloud passage assigned. Waiting for the student to submit the one-time recording.")
     if not results:
         st.info("The student has not submitted an image-question response yet.")
         return
@@ -3566,6 +3635,15 @@ def render_examiner_review() -> None:
         reviewed_at = (result.get("examiner_review") or {}).get("reviewed_at")
         title = f"Q{number}: {result.get('question', 'Question')[:80]}"
         with st.expander(title, expanded=(number == 1)):
+            render_review_summary(
+                ai_grading=ai_grading,
+                final_grading=final_grading,
+                reviewed_at=reviewed_at,
+                released_at=assignment.get("results_released_at"),
+                has_audio=bool(result.get("audio_path") or (result.get("guided_attempt") or {}).get("original_audio_path")),
+                guidance_used=bool(result.get("guided_attempt")),
+                skipped=bool(result.get("skipped")),
+            )
             render_recorded_response(result)
             left, right = st.columns(2)
             with left:
@@ -3631,6 +3709,10 @@ def render_examiner_review() -> None:
     )
     unreviewed_questions = [result for result in results if not result.get("examiner_review")]
     st.markdown("#### Release final results")
+    release_columns = st.columns(3)
+    release_columns[0].metric("Reading review", "Verified" if not reading_pending else "Pending")
+    release_columns[1].metric("Image reviews", f"{len(results) - len(unreviewed_questions)}/{len(results)} verified")
+    release_columns[2].metric("Release status", "Released" if assignment.get("results_released_at") else "Not released")
     if assignment.get("results_released_at"):
         st.success(f"Final results released on {assignment['results_released_at']}.")
     elif assignment.get("status") != "completed":
@@ -3658,9 +3740,98 @@ def render_examiner_review() -> None:
         st.rerun()
 
 
+def _provider_config_ready(provider: str) -> tuple[bool, str]:
+    if provider == "anam":
+        try:
+            from anam_avatar import load_config
+        except Exception as error:
+            return False, f"Anam import error: {error}"
+        return (True, "Anam credentials ready") if load_config() else (
+            False,
+            "Set ANAM_API_KEY plus ANAM_PERSONA_ID, or avatar/voice/LLM IDs.",
+        )
+    if provider == "simli":
+        try:
+            from simli_avatar import load_config
+        except Exception as error:
+            return False, f"Simli import error: {error}"
+        return (True, "Simli credentials ready") if load_config() else (
+            False,
+            "Set SIMLI_API_KEY, SIMLI_FACE_ID, and OPENAI_API_KEY.",
+        )
+    return True, "Text-only fallback is active."
+
+
+def render_demo_health_panel() -> None:
+    provider = active_avatar_provider()
+    avatar_ready, avatar_note = _provider_config_ready(provider)
+    preparation_minutes = preparation_duration_seconds() // 60
+    openai_ready = bool(os.getenv("OPENAI_API_KEY", "").strip())
+    one_time_recording = not bool_env("ALLOW_STUDENT_RERECORD", False)
+    rows = [
+        {
+            "Check": "OpenAI key",
+            "Status": "Ready" if openai_ready else "Needs setup",
+            "Details": "Used for question generation, transcription, and grading.",
+        },
+        {
+            "Check": "Avatar provider",
+            "Status": provider.title() if provider != "none" else "Text only",
+            "Details": avatar_note,
+        },
+        {
+            "Check": "Avatar configuration",
+            "Status": "Ready" if avatar_ready else "Needs setup",
+            "Details": "Presentation layer only; assessment still works with text fallback.",
+        },
+        {
+            "Check": "Preparation timer",
+            "Status": f"{preparation_minutes} minutes",
+            "Details": "Controlled by PREPARATION_MINUTES in .env.",
+        },
+        {
+            "Check": "Student recording",
+            "Status": "One-time" if one_time_recording else "Retakes allowed",
+            "Details": "Controlled by ALLOW_STUDENT_RERECORD in .env.",
+        },
+        {
+            "Check": "Reading submission",
+            "Status": "Fast" if bool_env("FAST_READING_SUBMISSION", True) else "Full AI grading during submit",
+            "Details": (
+                "Student moves on quickly; examiner sees deferred AI grade."
+                if bool_env("FAST_READING_SUBMISSION", True)
+                else "Student waits while reading grade is generated."
+            ),
+        },
+        {
+            "Check": "Deferred reading AI",
+            "Status": "Enabled" if bool_env("DEFERRED_READING_AI_GRADING", True) else "Disabled",
+            "Details": "Generates provisional reading grade after the student submits.",
+        },
+        {
+            "Check": "Photo question generation",
+            "Status": "Fast path" if bool_env("FAST_PHOTO_QUESTION_GENERATION", True) else "Full ingestion",
+            "Details": "Fast path skips document chunking for standalone images.",
+        },
+    ]
+
+    st.markdown("#### Demo health check")
+    metric_cols = st.columns(3)
+    metric_cols[0].metric("Avatar", provider.title() if provider != "none" else "Text only")
+    metric_cols[1].metric("Preparation", f"{preparation_minutes} min")
+    metric_cols[2].metric("Recording", "One-time" if one_time_recording else "Retakes")
+    st.table(rows)
+    if not openai_ready or not avatar_ready:
+        st.warning("One or more demo services need configuration. The app will use available fallbacks where possible.")
+    else:
+        st.success("Core demo configuration is ready.")
+
+
 def render_assignment_overview() -> None:
     assignments = list_assignments()
     st.subheader("Assignment overview")
+    render_demo_health_panel()
+    st.divider()
     delete_notice = st.session_state.pop("assignment_delete_notice", None)
     if delete_notice:
         if delete_notice.get("errors"):
@@ -3774,13 +3945,13 @@ def render_examiner_portal() -> None:
 
 
 def start_preparation_timer(assignment: dict) -> None:
-    """Start the 10-minute timer only after the selected materials page opens."""
+    """Start the preparation timer only after the selected materials page opens."""
     assignment_id = assignment.get("assignment_id")
     if (
         st.session_state.preparation_timer_assignment_id != assignment_id
         or not st.session_state.preparation_deadline
     ):
-        st.session_state.preparation_deadline = time.time() + 10 * 60
+        st.session_state.preparation_deadline = time.time() + preparation_duration_seconds()
         st.session_state.preparation_timer_assignment_id = assignment_id
 
 
@@ -4060,8 +4231,10 @@ def render_preparation_timer() -> None:
         st.rerun(scope="app")
 
     minutes, seconds = divmod(seconds_remaining, 60)
-    st.info(f"Preparation time remaining: **{minutes:02d}:{seconds:02d}**")
-    st.progress(seconds_remaining / (10 * 60))
+    total_seconds = preparation_duration_seconds()
+    total_minutes = total_seconds // 60
+    st.info(f"Preparation time remaining: **{minutes:02d}:{seconds:02d}** out of {total_minutes} minutes.")
+    st.progress(min(1.0, seconds_remaining / total_seconds))
 
 
 def ungraded_reading_result(reading_criteria: list[str]) -> dict:

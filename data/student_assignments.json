@@ -2516,9 +2516,9 @@
       "title": "PSLE English Oral Practiceb",
       "subject": "assignment_123_f5351ca7",
       "rubric": "psle_oral_english",
-      "status": "assigned",
+      "status": "in_progress",
       "created_at": "2026-07-08T07:15:26.062038+00:00",
-      "updated_at": "2026-07-08T07:15:26.062038+00:00",
+      "updated_at": "2026-07-09T04:13:20.173774+00:00",
       "assigned_by": "001",
       "visual": {
         "name": "sa.jpg",
@@ -3119,6 +3119,278 @@
           "follow_up_question": "You said \"Thinking about, like, maybe competition.\". Why does that matter to the people involved?",
           "reason": "The response connects to the picture but needs stronger explanation before it is ready to grade without guidance.",
           "created_at": "2026-07-09T02:09:46.738777+00:00"
+        }
+      },
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "81252971a392": {
+      "assignment_id": "81252971a392",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicev b",
+      "subject": "assignment_123_8fc34906",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": "2026-07-09T02:53:46.883198+00:00",
+      "updated_at": "2026-07-09T02:53:46.883198+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "jhe.jpg",
+        "path": "data\\input\\assignment_123_8fc34906\\jhe.jpg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_8fc34906\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think the nurse is doing, and why is it important?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_8fc34906_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a yellow shirt. They are in a well-lit room with a bed and a tray of food. The nurse is smiling, and the elderly man is sitting up in bed, looking at her. There is a purple orchid on the bedside table and a painting on the wall.",
+          "generated_text": "What do you think the nurse is doing, and why is it important?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever helped someone in need? What did you do?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_8fc34906_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a yellow shirt. They are in a well-lit room with a bed and a tray of food. The nurse is smiling, and the elderly man is sitting up in bed, looking at her. There is a purple orchid on the bedside table and a painting on the wall.",
+          "generated_text": "Have you ever helped someone in need? What did you do?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why is it important to take care of the elderly",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_8fc34906_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man in a yellow shirt. They are in a well-lit room with a bed and a tray of food. The nurse is smiling, and the elderly man is sitting up in bed, looking at her. There is a purple orchid on the bedside table and a painting on the wall.",
+          "generated_text": "Why is it important to take care of the elderly in our community?",
+          "edited_by_examiner": true
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "be358aed2e63": {
+      "assignment_id": "be358aed2e63",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiceb",
+      "subject": "assignment_123_17e9f784",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": "2026-07-09T04:10:55.925930+00:00",
+      "updated_at": "2026-07-09T04:10:55.925930+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "jhe.jpg",
+        "path": "data\\input\\assignment_123_17e9f784\\jhe.jpg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_17e9f784\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you see the nurse doing in this picture?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_17e9f784_images\\page_1.jpg",
+          "visual_context": "A nurse in blue uniform is feeding an elderly man in a yellow shirt who is sitting on a hospital bed. The room is well-lit with a window and a painting on the wall. There is a tray with food and a mug on a table in front of the man.",
+          "generated_text": "What do you see the nurse doing in this picture, and why do you think it's important?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Have you ever visited someone in a hospital or helped take care of someone? What was that experience like?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_17e9f784_images\\page_1.jpg",
+          "visual_context": "A nurse in blue uniform is feeding an elderly man in a yellow shirt who is sitting on a hospital bed. The room is well-lit with a window and a painting on the wall. There is a tray with food and a mug on a table in front of the man.",
+          "generated_text": "Have you ever visited someone in a hospital or helped take care of someone? What was that experience like?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why is it important to take care of the elderly in our community, and how can we show them respect and care?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_17e9f784_images\\page_1.jpg",
+          "visual_context": "A nurse in blue uniform is feeding an elderly man in a yellow shirt who is sitting on a hospital bed. The room is well-lit with a window and a painting on the wall. There is a tray with food and a mug on a table in front of the man.",
+          "generated_text": "Why is it important to take care of the elderly in our community, and how can we show them respect and care?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "15a17f36fc3f": {
+      "assignment_id": "15a17f36fc3f",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiceuo",
+      "subject": "assignment_123_2ff162ac",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-09T04:14:49.651247+00:00",
+      "updated_at": "2026-07-09T04:16:28.260788+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "jhe.jpg",
+        "path": "data\\input\\assignment_123_2ff162ac\\jhe.jpg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_2ff162ac\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Phoneme ending.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260709_041523_294f3e21.wav",
+        "transcription_path": "data\\sessions\\speech_20260709_041523_294f3e21.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 3.0,
+          "words_per_minute": 40.0,
+          "pitch_range_semitones": 7.0,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Phoneme ending.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Phoneme ending.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 5.0,\n    \"estimated_sequence_match_percent\": 9.1,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 3.0,\n    \"words_per_minute\": 40.0,\n    \"pitch_range_semitones\": 7.0,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading is mostly clear and fluent with minor pronunciation issues.",
+              "evidence": "The student's answer 'Phoneme ending.' shows a good understanding of the passage but may have some pronunciation issues.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on your reading-aloud delivery, you showed good understanding of the passage. However, there were some minor pronunciation issues that you can work on. Next time, try to focus on pronouncing each word clearly to improve your overall delivery. Keep practicing and remember to pay attention to your pronunciation. Good effort, keep it up!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Phoneme ending.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Phoneme ending.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 5.0,\n    \"estimated_sequence_match_percent\": 9.1,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 3.0,\n    \"words_per_minute\": 40.0,\n    \"pitch_range_semitones\": 7.0,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 15,
+              "max_score": 20,
+              "feedback": "The reading is mostly clear and fluent with minor pronunciation issues.",
+              "evidence": "The student's answer 'Phoneme ending.' shows a good understanding of the passage but may have some pronunciation issues.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on your reading-aloud delivery, you showed good understanding of the passage. However, there were some minor pronunciation issues that you can work on. Next time, try to focus on pronouncing each word clearly to improve your overall delivery. Keep practicing and remember to pay attention to your pronunciation. Good effort, keep it up!",
+          "total_score": 15,
+          "max_score": 20,
+          "percentage": 75.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-09T04:15:26.990170+00:00",
+        "ai_graded_at": "2026-07-09T04:15:42.425304+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you think is happening in this picture, and why do you think the nurse is doing",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_2ff162ac_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting up in a hospital bed. There is a tray with food and a drink in front of him. The room has a window with blinds, a painting on the wall, and a potted orchid plant. The nurse is smiling, creating a warm and caring atmosphere.",
+          "generated_text": "What do you think is happening in this picture, and why do you think the nurse is helping the elderly man?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 2,
+          "text": "Can you share a time when you helped someone or were helped by someone? How did it make you feel?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_2ff162ac_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting up in a hospital bed. There is a tray with food and a drink in front of him. The room has a window with blinds, a painting on the wall, and a potted orchid plant. The nurse is smiling, creating a warm and caring atmosphere.",
+          "generated_text": "Can you share a time when you helped someone or were helped by someone? How did it make you feel?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think it is important to care for the elderly in our community, and how can we show our care and respect for them?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_2ff162ac_images\\page_1.jpg",
+          "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting up in a hospital bed. There is a tray with food and a drink in front of him. The room has a window with blinds, a painting on the wall, and a potted orchid plant. The nurse is smiling, creating a warm and caring atmosphere.",
+          "generated_text": "Why do you think it is important to care for the elderly in our community, and how can we show our care and respect for them?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-09T04:15:26.990215+00:00",
+      "guidance_attempts": {
+        "1": {
+          "original_response": "Feeding the old man food because he need help.",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260709_041625_554c5fa2.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260709_041625_554c5fa2.json",
+          "original_delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "follow_up_question": "You mentioned \"Feeding the old man food because he need help.\". What does that action show about the people or their habits?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-07-09T04:16:28.260746+00:00"
         }
       },
       "results": [],

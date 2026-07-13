@@ -147,6 +147,59 @@ Implemented changes:
 - The preparation timer starts only after materials are ready.
 - If materials are missing, the student sees an error and the timer does not start.
 
+### 8. Latest assessment-flow refinements
+
+The latest development pass focused on making the student experience smoother and making the examiner review screen more useful for grading and reporting.
+
+Implemented changes:
+
+- The preparation duration is now configurable through `.env`.
+- Preparation time is currently set to 10 minutes.
+- The preparation timer starts only after required materials are ready.
+- The timer no longer loses time while the app is still loading the passage or picture stimulus.
+- The reading-aloud recording flow clearly warns students that it is a one-time recording.
+- The student can submit quickly without waiting for full AI reading analysis.
+- Detailed reading analysis is deferred so the examiner can review it later.
+- Avatar playback is limited to assessment-critical prompts only.
+- The avatar asks the main question once and only asks a guiding question when the answer needs support.
+- The avatar no longer gives extra silence nudges or repeated "still here" messages during recording.
+- The avatar replay button is restored after a closed Anam session when manual replay is allowed.
+
+Relevant setting:
+
+```env
+PREPARATION_MINUTES=10
+```
+
+### 9. Improved guiding-question behavior
+
+The guiding-question logic was adjusted so follow-up prompts are more useful for oral assessment.
+
+Implemented changes:
+
+- The system now guides students most of the time unless the first response is already strong.
+- Very short, unclear, or under-developed answers trigger a guiding question.
+- The guiding question is based more directly on the student's answer.
+- Generic repeated prompts such as asking only for one visible clue were reduced.
+- The grader now considers whether the answer shows observation, reasoning, detail, and relevance.
+- The guided follow-up is combined with the original answer for final grading.
+
+This keeps the support useful without turning the avatar into a free conversation partner.
+
+### 10. Examiner review improvements
+
+The examiner review page now gives clearer evidence for checking AI grades before release.
+
+Implemented changes:
+
+- Added a demo health panel for configuration checks.
+- The panel shows OpenAI readiness, avatar provider status, preparation timing, recording mode, reading-grading mode, and photo-generation mode.
+- Each oral question review now shows the AI score, examiner final score, score adjustment, review status, release status, and evidence status.
+- Reading-aloud review now shows whether the recording was submitted, whether AI reading analysis is pending/ready/failed, examiner review status, final score, and release status.
+- The release section now shows whether reading and image-question reviews are complete before releasing results.
+
+This makes it easier to explain in the report that AI grading is not released directly to students without examiner verification.
+
 ## Current assessment flow
 
 1. Examiner uploads a picture stimulus and optional reading passage.
@@ -172,11 +225,26 @@ Implemented changes:
 
 ## Testing and validation
 
-The following checks were used during implementation:
+The following checks were used during the latest implementation passes:
 
 ```powershell
 .venv\Scripts\python.exe -m py_compile streamlit_app.py src\crew_orchestrator.py src\anam_avatar.py src\voice_assessment.py
 .venv\Scripts\python.exe -m unittest test_anam_avatar.py test_simli_avatar.py test_voice_assessment.py test_exam_portal_store.py
+.venv\Scripts\python.exe -m unittest discover
 ```
 
-These checks validate configuration parsing, avatar setup behavior, voice submission helpers, assignment persistence, and syntax correctness.
+Latest result: **40 tests OK**.
+
+These checks validate configuration parsing, avatar setup behavior, voice submission helpers, assignment persistence, oral-turn evaluation, examiner review helpers, and syntax correctness.
+
+## Remaining improvement roadmap
+
+The next improvements to consider for the report and final demo are:
+
+- Add a clearer student progress indicator across reading, main questions, guiding questions, and submission.
+- Add stronger browser-based QA for the full Streamlit flow.
+- Refactor the large `streamlit_app.py` file into smaller student, examiner, avatar, and review modules.
+- Improve reading-aloud scoring with clearer pronunciation, fluency, pacing, and completeness rubrics.
+- Move runtime data from JSON files to SQLite for safer multi-user testing.
+- Add a report/export view for examiner-verified results.
+- Polish fallback states when the avatar provider is unavailable or reaches a concurrency limit.

@@ -1,7 +1,55 @@
 # Oral Focus codebase audit, progress, and fix plan
 
-Last updated: 2026-07-08  
+Last updated: 2026-07-10  
 Scope: Streamlit student/examiner portal, oral-assessment workflow, assignment persistence, AI grading, avatar examiner integration, testing, and deployment readiness.
+
+## 2026-07-10 implementation update
+
+Focus: preparation timing, one-time recording clarity, avatar speaking behavior, reading-aloud grading speed, guiding-question quality, and examiner review visibility.
+
+Overall result: **latest local implementation checks passed; no new blocker was found in the updated flow**.
+
+| Priority | Finding | Impact | Status |
+| --- | --- | --- | --- |
+| High | Preparation timer could appear to start after a loading pause, reducing the visible student preparation time. | Students could feel they received less than the intended preparation window. | Fixed. Timer now starts only after material readiness is confirmed, with preparation set through `PREPARATION_MINUTES`. |
+| High | Avatar could speak again during or near student recording/submission. | This interrupted student answers and made the assessment feel unreliable. | Fixed. Avatar speech is limited to the main question and required guiding question. |
+| Medium | Reading-aloud AI grading could slow down student submission. | Students had to wait for processing that is more useful to the examiner than to the student. | Improved. Submission is fast, with detailed reading analysis deferred for review. |
+| Medium | Guiding questions were too repetitive and sometimes too generic. | Follow-up prompts did not always reflect the student's actual answer. | Improved. Guidance now uses the student's response more directly and asks for deeper development unless the answer is already strong. |
+| Medium | Examiner review screens did not expose enough AI-versus-final grading state at a glance. | It was harder to explain or verify results before release. | Improved. Review summary now shows AI score, final score, adjustment, review/release status, and reading-analysis status. |
+
+### Fixes implemented in this pass
+
+1. Added configurable preparation timing through `PREPARATION_MINUTES`, currently set to 10 minutes.
+2. Moved timer start behavior so preparation time begins only after required materials are available.
+3. Kept reading-aloud submission fast by saving first and deferring detailed AI reading analysis.
+4. Preserved one-time recording behavior so students cannot repeatedly retake successful submissions.
+5. Simplified avatar behavior so it does not nudge, repeat, or interrupt while students are recording.
+6. Improved adaptive guiding-question generation so prompts are less fixed and more connected to the student's answer.
+7. Added examiner review summaries for reading and image-question grading.
+8. Added a demo health panel to make configuration and readiness easier to inspect.
+
+### Verification on 2026-07-10
+
+```powershell
+.\.venv\Scripts\python.exe -m py_compile streamlit_app.py
+.\.venv\Scripts\python.exe -m unittest discover
+```
+
+Result: **40 tests OK**.
+
+### Updated step-by-step process
+
+- [x] Set preparation timing to 10 minutes.
+- [x] Ensure timer starts only after materials are ready.
+- [x] Keep reading-aloud submission fast while still allowing AI grading.
+- [x] Keep recording as one-time after a successful save.
+- [x] Prevent avatar from interrupting student recording.
+- [x] Improve guiding-question variety and answer awareness.
+- [x] Improve examiner review visibility for AI score, final score, release status, and reading status.
+- [x] Re-run compile checks.
+- [x] Re-run the full unit test suite.
+- [ ] Manually QA the complete browser flow with a real examiner account and student account.
+- [ ] Capture screenshots for the written report.
 
 ## 2026-07-08 audit update
 
@@ -31,7 +79,7 @@ Overall result: **no current blocker found after the fix below; local automated 
 .\.venv\Scripts\python.exe -m unittest discover
 ```
 
-Result: **35 tests OK**.
+Historical result for this audit pass: **35 tests OK**. Latest verification is recorded above as **40 tests OK**.
 
 Known non-blocking warning: `audioread` prints Python 3.13 deprecation warnings for `aifc` and `sunau`; installed compatibility packages allow the suite to pass.
 
@@ -68,7 +116,7 @@ Overall status: **local prototype working, not yet production-ready**.
 | Delete/reset assessment attempts | 85% | Working |
 | Avatar examiner | 78% | Anam live avatar supported; Simli fallback still present |
 | UI theme consistency | 80% | Mostly light theme, still needs visual QA |
-| Automated regression tests | 85% | 35 tests passing |
+| Automated regression tests | 88% | 40 tests passing |
 | Deployment/security readiness | 35% | Needs database/auth/data-retention work |
 
 ## What has been completed
@@ -145,7 +193,7 @@ Latest verification performed:
 .\.venv\Scripts\python.exe -m unittest discover -v
 ```
 
-Result: **28 tests OK**.
+Latest result: **40 tests OK**.
 
 ## Recent fixes and improvements
 
