@@ -160,10 +160,12 @@ Implemented changes:
 - The reading-aloud recording flow clearly warns students that it is a one-time recording.
 - The student can submit quickly without waiting for full AI reading analysis.
 - Detailed reading analysis is deferred so the examiner can review it later.
+- Reading passage preparation during assignment creation now saves and extracts the passage directly instead of running the full chunk/vector ingestion path.
 - Avatar playback is limited to assessment-critical prompts only.
 - The avatar asks the main question once and only asks a guiding question when the answer needs support.
 - The avatar no longer gives extra silence nudges or repeated "still here" messages during recording.
 - The avatar replay button is restored after a closed Anam session when manual replay is allowed.
+- A student progress indicator now shows the flow from Preparation to Reading Aloud, Image Questions, Submitted, and Results.
 
 Relevant setting:
 
@@ -241,7 +243,6 @@ These checks validate configuration parsing, avatar setup behavior, voice submis
 
 The next improvements to consider for the report and final demo are:
 
-- Add a clearer student progress indicator across reading, main questions, guiding questions, and submission.
 - Add stronger browser-based QA for the full Streamlit flow.
 - Refactor the large `streamlit_app.py` file into smaller student, examiner, avatar, and review modules.
 - Improve reading-aloud scoring with clearer pronunciation, fluency, pacing, and completeness rubrics.

@@ -270,6 +270,26 @@ def save_queued_upload(upload: dict, directory: Path) -> Path:
     return path
 
 
+def save_reading_material_for_assignment(subject: str, source_path: str | Path) -> dict:
+    """Store reading material without running the slower chunk/vector ingestion path."""
+    source = Path(source_path)
+    if not source.exists():
+        raise FileNotFoundError(f"Reading passage not found: {source}")
+
+    subject_manager = SubjectManager()
+    input_dir = subject_manager.get_subject_input_path(subject)
+    input_dir.mkdir(parents=True, exist_ok=True)
+    dest = input_dir / source.name
+    if source.resolve() != dest.resolve():
+        shutil.copy2(source, dest)
+
+    subject_manager.set_subject_material_path(subject, "reading", str(dest))
+    return {
+        "file_path": str(dest),
+        "text": extract_reading_passage(dest),
+    }
+
+
 def extract_reading_passage(file_path: str | Path, max_chars: int = 6000) -> str:
     from main import load_document
 
@@ -2854,6 +2874,85 @@ def apply_portal_theme() -> None:
             font-size: 0.96rem;
             border: 1px solid #cbe4d3;
         }
+        .student-stepbar {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0;
+            align-items: start;
+            margin: 0.5rem 0 1rem;
+            padding: 0.9rem 0.6rem 0.75rem;
+            border-top: 1px solid #d8eadc;
+            border-bottom: 1px solid #d8eadc;
+            background: rgba(255, 255, 253, 0.58);
+        }
+        .student-step {
+            position: relative;
+            display: grid;
+            justify-items: center;
+            gap: 0.42rem;
+            min-width: 0;
+            color: #6e8179;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+        .student-step::before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #d9e7de;
+            z-index: 0;
+        }
+        .student-step:first-child::before {
+            left: 50%;
+        }
+        .student-step:last-child::before {
+            right: 50%;
+        }
+        .student-step-dot {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 999px;
+            border: 2px solid #d9e7de;
+            background: #fbfdf9;
+            color: #587267;
+            font-size: 0.86rem;
+            font-weight: 800;
+            box-sizing: border-box;
+        }
+        .student-step.done,
+        .student-step.active {
+            color: #203b36;
+        }
+        .student-step.done::before {
+            background: #72b684;
+        }
+        .student-step.active::before {
+            background: linear-gradient(90deg, #72b684 0 50%, #d9e7de 50% 100%);
+        }
+        .student-step.done .student-step-dot {
+            border-color: #5b9d73;
+            background: #5b9d73;
+            color: #ffffff;
+        }
+        .student-step.active .student-step-dot {
+            border-color: #2f6c4b;
+            background: #e8f6ed;
+            color: #203b36;
+            box-shadow: 0 0 0 5px rgba(91, 157, 115, 0.16);
+        }
+        .student-step-text {
+            display: block;
+            overflow-wrap: anywhere;
+        }
         .assessment-panel-label {
             margin: 0.35rem 0 0.45rem;
             color: #315348;
@@ -2923,6 +3022,30 @@ def apply_portal_theme() -> None:
         @media (max-width: 800px) {
             [data-testid="stMainBlockContainer"] { padding-top: 1rem; }
             .portal-hero { min-height: auto; padding: 2rem; }
+            .student-stepbar {
+                grid-template-columns: 1fr;
+                gap: 0.65rem;
+                padding: 0.75rem 0.85rem;
+            }
+            .student-step {
+                grid-template-columns: 32px 1fr;
+                justify-items: start;
+                text-align: left;
+            }
+            .student-step::before {
+                top: 0;
+                bottom: -0.65rem;
+                left: 15px !important;
+                right: auto !important;
+                width: 3px;
+                height: auto;
+            }
+            .student-step:last-child::before {
+                display: none;
+            }
+            .student-step.active::before {
+                background: linear-gradient(180deg, #72b684 0 50%, #d9e7de 50% 100%);
+            }
         }
         </style>
         """,
@@ -3129,16 +3252,33 @@ def render_assignment_generation_loading(request: dict) -> None:
         }
         reading_info = None
         if request.get("reading_upload"):
-            progress.progress(0.65, text="Saving and reading the reading passage...")
+            progress.progress(0.65, text="Saving the reading passage...")
             reading_file = save_queued_upload(request["reading_upload"], temporary_directory)
-            reading_result = crew.run_ingestion_workflow(
-                str(reading_file), material_type="reading", extract_questions=False
-            )
-            stored_path = reading_result.get("ingest_result", {}).get("file_path")
+            if bool_env("FAST_READING_MATERIAL_PREP", True):
+                try:
+                    reading_result = save_reading_material_for_assignment(subject, reading_file)
+                    stored_path = reading_result.get("file_path")
+                    reading_text = reading_result.get("text", "")
+                except Exception as reading_fast_error:
+                    progress.progress(
+                        0.7,
+                        text=f"Fast reading save was unavailable; using full reading ingestion. Reason: {reading_fast_error}",
+                    )
+                    reading_result = crew.run_ingestion_workflow(
+                        str(reading_file), material_type="reading", extract_questions=False
+                    )
+                    stored_path = reading_result.get("ingest_result", {}).get("file_path")
+                    reading_text = extract_reading_passage(stored_path) if stored_path else ""
+            else:
+                reading_result = crew.run_ingestion_workflow(
+                    str(reading_file), material_type="reading", extract_questions=False
+                )
+                stored_path = reading_result.get("ingest_result", {}).get("file_path")
+                reading_text = extract_reading_passage(stored_path) if stored_path else ""
             reading_info = {
                 "name": request["reading_upload"]["name"],
                 "path": stored_path,
-                "text": extract_reading_passage(stored_path) if stored_path else "",
+                "text": reading_text,
             }
 
         progress.progress(0.88, text="Preparing the review draft...")
@@ -3942,6 +4082,57 @@ def render_examiner_portal() -> None:
         render_examiner_review()
     else:
         render_assignment_overview()
+
+
+def student_progress_stage(assignment: dict) -> str:
+    """Return the current high-level student workflow stage for the progress bar."""
+    if assignment.get("results_released_at"):
+        return "results"
+    if assignment.get("status") == "completed":
+        return "submitted"
+
+    portal_stage = st.session_state.get("student_portal_stage")
+    if portal_stage in {"preparation_loading", "preparation"} or not st.session_state.get("preparation_complete"):
+        return "preparation"
+
+    if assignment.get("reading") and not assignment.get("reading_submission"):
+        return "reading"
+    return "questions"
+
+
+def render_student_progress_indicator(assignment: dict) -> None:
+    steps = [
+        ("preparation", "Preparation"),
+        ("reading", "Reading Aloud"),
+        ("questions", "Image Questions"),
+        ("submitted", "Submitted"),
+        ("results", "Results"),
+    ]
+    active_stage = student_progress_stage(assignment)
+    active_index = next(
+        (index for index, (stage, _label) in enumerate(steps) if stage == active_stage),
+        0,
+    )
+    step_html = []
+    for index, (stage, label) in enumerate(steps):
+        state = "done" if index < active_index else "active" if index == active_index else "pending"
+        aria_current = "step" if stage == active_stage else "false"
+        step_html.append(
+            f"""
+            <div class="student-step {state}" aria-current="{aria_current}">
+              <span class="student-step-dot">{index + 1}</span>
+              <span class="student-step-text">{html_escape(label)}</span>
+            </div>
+            """
+        )
+    st.markdown(
+        f"""
+        <nav class="student-stepbar" aria-label="Assessment progress">
+          {''.join(step_html)}
+        </nav>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def start_preparation_timer(assignment: dict) -> None:
@@ -4766,6 +4957,7 @@ def render_student_portal() -> None:
     if st.session_state.active_assignment_id != assignment["assignment_id"]:
         reset_runtime_state()
         st.session_state.active_assignment_id = assignment["assignment_id"]
+    render_student_progress_indicator(assignment)
     st.caption(f"Status: {assignment.get('status', 'assigned').replace('_', ' ').title()}")
     if st.session_state.student_portal_stage == "preparation_loading":
         render_preparation_loading(assignment)

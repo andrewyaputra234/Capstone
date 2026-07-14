@@ -360,6 +360,18 @@
       "pdf_path": "data\\input\\assignment_123_2ff162ac\\jhe.jpg",
       "visual_path": "data\\input\\assignment_123_2ff162ac\\jhe.jpg",
       "reading_path": "data\\input\\assignment_123_2ff162ac\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_1fcbffff": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_1fcbffff\\soccer-player-action-stadium-1024x683.webp",
+      "visual_path": "data\\input\\assignment_123_1fcbffff\\soccer-player-action-stadium-1024x683.webp",
+      "reading_path": "data\\input\\assignment_123_1fcbffff\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_b37e90ae": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_b37e90ae\\aa.webp",
+      "visual_path": "data\\input\\assignment_123_b37e90ae\\aa.webp",
+      "reading_path": "data\\input\\assignment_123_b37e90ae\\Good morning, students. I hope you.txt"
     }
   }
 }

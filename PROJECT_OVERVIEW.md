@@ -260,6 +260,7 @@ Important UI goals:
 ## Recent fixes and behavioral changes
 
 - Set preparation timing to 10 minutes through `PREPARATION_MINUTES`.
+- Added a student progress indicator for Preparation, Reading Aloud, Image Questions, Submitted, and Results.
 - Ensured the preparation timer starts only after reading and picture materials are ready.
 - Added one-time recording behavior and clearer student warning text.
 - Kept reading-aloud submission fast by deferring detailed AI grading for examiner review.
