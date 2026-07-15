@@ -3396,6 +3396,146 @@
       "results": [],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "8bca1105cf03": {
+      "assignment_id": "8bca1105cf03",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicevz",
+      "subject": "assignment_123_b37e90ae",
+      "rubric": "psle_oral_english",
+      "status": "in_progress",
+      "created_at": "2026-07-14T06:13:53.685328+00:00",
+      "updated_at": "2026-07-14T06:16:47.875166+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_123_b37e90ae\\aa.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_b37e90ae\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "Found him.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260714_061506_d234842a.wav",
+        "transcription_path": "data\\sessions\\speech_20260714_061506_d234842a.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 2.8,
+          "words_per_minute": 42.6,
+          "pitch_range_semitones": 7.5,
+          "notes": [
+            "Pace appears slow; check whether pauses support meaning or interrupt fluency.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Found him.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Found him.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 2.8,\n    \"words_per_minute\": 42.6,\n    \"pitch_range_semitones\": 7.5,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but lacks expression and pace. There are minor pronunciation issues.",
+              "evidence": "Found him.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "I noticed that you were able to accurately read the words \"Found him.\" This shows that you have a good understanding of the text. However, I would suggest working on adding more expression and improving your pace when reading aloud. This will help make your delivery more engaging and fluent. Next time, try starting with a more energetic tone to draw in your audience. Keep practicing, and you will see improvement in your oral reading skills.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "Found him.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"Found him.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 2,\n    \"estimated_passage_coverage_percent\": 0.0,\n    \"estimated_sequence_match_percent\": 0.0,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 2.8,\n    \"words_per_minute\": 42.6,\n    \"pitch_range_semitones\": 7.5,\n    \"notes\": [\n      \"Pace appears slow; check whether pauses support meaning or interrupt fluency.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but lacks expression and pace. There are minor pronunciation issues.",
+              "evidence": "Found him.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "I noticed that you were able to accurately read the words \"Found him.\" This shows that you have a good understanding of the text. However, I would suggest working on adding more expression and improving your pace when reading aloud. This will help make your delivery more engaging and fluent. Next time, try starting with a more energetic tone to draw in your audience. Keep practicing, and you will see improvement in your oral reading skills.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-14T06:15:11.047670+00:00",
+        "ai_graded_at": "2026-07-14T06:15:27.382551+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What are the children doing in this picture, and why is it important?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_b37e90ae_images\\page_1.webp",
+          "visual_context": "The image shows three children in a school washroom. They are standing at a row of sinks, washing their hands. The setting is bright and clean, with soap dispensers on the wall. The mood appears focused and hygienic.",
+          "generated_text": "What are the children doing in this picture, and why is it important?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Can you share a time when you had to wash your hands at school? What was the reason?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_b37e90ae_images\\page_1.webp",
+          "visual_context": "The image shows three children in a school washroom. They are standing at a row of sinks, washing their hands. The setting is bright and clean, with soap dispensers on the wall. The mood appears focused and hygienic.",
+          "generated_text": "Can you share a time when you had to wash your hands at school? What was the reason?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think it is important for everyone to practice good hygiene in school?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_b37e90ae_images\\page_1.webp",
+          "visual_context": "The image shows three children in a school washroom. They are standing at a row of sinks, washing their hands. The setting is bright and clean, with soap dispensers on the wall. The mood appears focused and hygienic.",
+          "generated_text": "Why do you think it is important for everyone to practice good hygiene in school?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-14T06:15:11.047685+00:00",
+      "guidance_attempts": {
+        "1": {
+          "original_response": "washing",
+          "original_response_mode": "voice",
+          "original_audio_path": "data\\sessions\\speech_20260714_061645_26a3034f.wav",
+          "original_transcription_path": "data\\sessions\\speech_20260714_061645_26a3034f.json",
+          "original_delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "follow_up_question": "You mentioned \"washing\". What does that action show about the people or their habits?",
+          "reason": "The response is empty, very short, or indicates the student is stuck.",
+          "created_at": "2026-07-14T06:16:47.875151+00:00"
+        }
+      },
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

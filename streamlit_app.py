@@ -192,12 +192,21 @@ def render_grading_result(grading: dict, *, heading: str | None = None) -> None:
         else:
             st.write(f"**{label}:** not assessed")
         if criterion.get("feedback"):
-            st.caption(criterion["feedback"])
+            st.markdown(
+                f'<div class="ai-grading-comment">{html_escape(str(criterion["feedback"]))}</div>',
+                unsafe_allow_html=True,
+            )
         if criterion.get("evidence"):
-            st.caption(f"Evidence: {criterion['evidence']}")
+            st.markdown(
+                f'<div class="ai-grading-comment ai-grading-evidence"><strong>Evidence:</strong> {html_escape(str(criterion["evidence"]))}</div>',
+                unsafe_allow_html=True,
+            )
 
     if grading.get("tutoring_feedback"):
-        st.info(grading["tutoring_feedback"])
+        st.markdown(
+            f'<div class="ai-grading-summary">{html_escape(str(grading["tutoring_feedback"]))}</div>',
+            unsafe_allow_html=True,
+        )
 
 
 def grading_score_label(grading: dict) -> str:
@@ -2874,6 +2883,26 @@ def apply_portal_theme() -> None:
             font-size: 0.96rem;
             border: 1px solid #cbe4d3;
         }
+        .ai-grading-comment {
+            color: #213c36;
+            font-size: 1rem;
+            line-height: 1.55;
+            margin: 0.12rem 0 0.55rem;
+        }
+        .ai-grading-evidence {
+            color: #2b4f45;
+            margin-top: -0.15rem;
+        }
+        .ai-grading-summary {
+            color: #203b36;
+            background: #eef9f1;
+            border: 1px solid #cfe3d5;
+            border-radius: 12px;
+            padding: 0.85rem 0.95rem;
+            margin: 0.75rem 0 0.9rem;
+            line-height: 1.55;
+            font-size: 1rem;
+        }
         .student-stepbar {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -4118,19 +4147,13 @@ def render_student_progress_indicator(assignment: dict) -> None:
         state = "done" if index < active_index else "active" if index == active_index else "pending"
         aria_current = "step" if stage == active_stage else "false"
         step_html.append(
-            f"""
-            <div class="student-step {state}" aria-current="{aria_current}">
-              <span class="student-step-dot">{index + 1}</span>
-              <span class="student-step-text">{html_escape(label)}</span>
-            </div>
-            """
+            f'<div class="student-step {state}" aria-current="{aria_current}">'
+            f'<span class="student-step-dot">{index + 1}</span>'
+            f'<span class="student-step-text">{html_escape(label)}</span>'
+            "</div>"
         )
     st.markdown(
-        f"""
-        <nav class="student-stepbar" aria-label="Assessment progress">
-          {''.join(step_html)}
-        </nav>
-        """,
+        f'<nav class="student-stepbar" aria-label="Assessment progress">{"".join(step_html)}</nav>',
         unsafe_allow_html=True,
     )
 
