@@ -3713,12 +3713,21 @@ def render_examiner_review() -> None:
         st.info("No assessments have been assigned yet.")
         return
 
-    assignment = st.selectbox(
+    assignments_by_id = {record["assignment_id"]: record for record in assignments}
+    selected_review_assignment = st.session_state.get("review_assignment")
+    if isinstance(selected_review_assignment, dict):
+        selected_review_assignment = selected_review_assignment.get("assignment_id")
+        st.session_state.review_assignment = selected_review_assignment
+    if selected_review_assignment not in assignments_by_id:
+        st.session_state.review_assignment = next(iter(assignments_by_id))
+
+    selected_assignment_id = st.selectbox(
         "Student assessment",
-        assignments,
-        format_func=_assignment_label,
+        list(assignments_by_id),
+        format_func=lambda assignment_id: _assignment_label(assignments_by_id[assignment_id]),
         key="review_assignment",
     )
+    assignment = assignments_by_id[selected_assignment_id]
     results = assignment.get("results", [])
     completed = len(results)
     reviewed = sum(1 for result in results if result.get("examiner_review"))
@@ -3732,48 +3741,57 @@ def render_examiner_review() -> None:
         if reading_submission:
             with st.expander("Reading-aloud submission", expanded=True):
                 render_reading_review_summary(reading_submission, assignment)
-                st.write("**Transcript:**", reading_submission.get("transcript", ""))
-                if reading_submission.get("audio_path"):
-                    st.audio(reading_submission["audio_path"])
-                render_delivery_indicators(reading_submission.get("delivery_indicators"))
                 reading_grade = reading_submission.get("final_grading") or reading_submission.get("ai_grading")
-                if reading_grade:
-                    heading = (
-                        "Reading-aloud grade pending examiner review"
-                        if reading_grade.get("scoring_source") == "pending_examiner_review"
-                        else "Provisional reading-aloud grade"
-                    )
-                    render_grading_result(reading_grade, heading=heading)
-                if reading_submission.get("ai_grading_error"):
-                    st.warning(f"Deferred AI reading grade could not be generated: {reading_submission['ai_grading_error']}")
-                elif reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
-                    st.info("The student has moved on. The deferred AI reading grade is still being prepared.")
-                elif reading_submission.get("ai_graded_at"):
-                    st.success("Provisional AI reading grade is ready. Verify it against the audio before releasing results.")
-                if reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
-                    st.caption("Fast submission saved the recording immediately. Listen to the recording and enter verified reading marks if needed.")
-                else:
-                    st.caption("The grade uses the selected reading-delivery rubric criteria. Verify it against the recording before relying on it.")
+                evidence_col, verify_col = st.columns([1.35, 0.85], gap="large", vertical_alignment="top")
                 previous_note = (reading_submission.get("examiner_review") or {}).get("note", "")
-                with st.form(f"review_reading_{assignment['assignment_id']}"):
-                    changes: dict[str, int] = {}
-                    for criterion in reading_grade.get("scores", []) if reading_grade else []:
-                        label = str(criterion.get("criterion", "Criterion"))
-                        maximum = int(criterion.get("max_score", 0))
-                        if maximum <= 0:
-                            continue
-                        changes[label] = int(
-                            st.number_input(
-                                label,
-                                min_value=0,
-                                max_value=maximum,
-                                value=int(criterion.get("score", 0)),
-                                step=1,
-                                key=f"reading_score_{assignment['assignment_id']}_{label}",
+
+                with verify_col:
+                    st.markdown("#### Verify or adjust")
+                    if reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
+                        st.caption("Listen to the recording and enter verified reading marks if needed.")
+                    else:
+                        st.caption("Check the recording before saving verified marks.")
+                    with st.form(f"review_reading_{assignment['assignment_id']}"):
+                        changes: dict[str, int] = {}
+                        for criterion in reading_grade.get("scores", []) if reading_grade else []:
+                            label = str(criterion.get("criterion", "Criterion"))
+                            maximum = int(criterion.get("max_score", 0))
+                            if maximum <= 0:
+                                continue
+                            changes[label] = int(
+                                st.number_input(
+                                    label,
+                                    min_value=0,
+                                    max_value=maximum,
+                                    value=int(criterion.get("score", 0)),
+                                    step=1,
+                                    key=f"reading_score_{assignment['assignment_id']}_{label}",
+                                )
                             )
+                        note = st.text_area("Examiner note (optional)", value=previous_note)
+                        saved_reading = st.form_submit_button("Save verified reading grade", width="stretch")
+                    if (reading_submission.get("examiner_review") or {}).get("reviewed_at"):
+                        st.caption(f"Last reviewed: {reading_submission['examiner_review']['reviewed_at']}")
+
+                with evidence_col:
+                    st.markdown("#### Evidence and AI grade")
+                    st.write("**Transcript:**", reading_submission.get("transcript", ""))
+                    if reading_submission.get("audio_path"):
+                        st.audio(reading_submission["audio_path"])
+                    render_delivery_indicators(reading_submission.get("delivery_indicators"))
+                    if reading_grade:
+                        heading = (
+                            "Reading-aloud grade pending examiner review"
+                            if reading_grade.get("scoring_source") == "pending_examiner_review"
+                            else "Provisional reading-aloud grade"
                         )
-                    note = st.text_area("Examiner note (optional)", value=previous_note)
-                    saved_reading = st.form_submit_button("Save verified reading grade", width="stretch")
+                        render_grading_result(reading_grade, heading=heading)
+                    if reading_submission.get("ai_grading_error"):
+                        st.warning(f"Deferred AI reading grade could not be generated: {reading_submission['ai_grading_error']}")
+                    elif reading_grade and reading_grade.get("scoring_source") == "pending_examiner_review":
+                        st.info("The student has moved on. The deferred AI reading grade is still being prepared.")
+                    elif reading_submission.get("ai_graded_at"):
+                        st.success("Provisional AI reading grade is ready. Verify it against the audio before releasing results.")
                 if saved_reading:
                     try:
                         apply_reading_examiner_review(
@@ -3790,8 +3808,6 @@ def render_examiner_review() -> None:
                             "message": "Verified reading grade saved.",
                         }
                     st.rerun()
-                if (reading_submission.get("examiner_review") or {}).get("reviewed_at"):
-                    st.caption(f"Last reviewed: {reading_submission['examiner_review']['reviewed_at']}")
         else:
             st.info("Reading-aloud passage assigned. Waiting for the student to submit the one-time recording.")
     if not results:
@@ -3813,42 +3829,51 @@ def render_examiner_review() -> None:
                 guidance_used=bool(result.get("guided_attempt")),
                 skipped=bool(result.get("skipped")),
             )
-            render_recorded_response(result)
-            left, right = st.columns(2)
-            with left:
-                render_grading_result(ai_grading, heading="AI grade")
-            with right:
-                render_grading_result(final_grading, heading="Final grade")
-            if result.get("crew_analysis"):
-                with st.expander("AI coaching analysis"):
-                    st.write(result["crew_analysis"])
-
-            st.markdown("#### Verify or adjust")
+            evidence_col, verify_col = st.columns([1.45, 0.85], gap="large", vertical_alignment="top")
             previous_note = (result.get("examiner_review") or {}).get("note", "")
-            with st.form(f"review_{result['result_id']}"):
-                changes: dict[str, int] = {}
-                for criterion in final_grading.get("scores", []):
-                    label = str(criterion.get("criterion", "Criterion"))
-                    maximum = int(criterion.get("max_score", 0))
-                    if maximum <= 0:
-                        st.caption(f"{label}: not assessed by this workflow")
-                        continue
-                    changes[label] = int(
-                        st.number_input(
-                            label,
-                            min_value=0,
-                            max_value=maximum,
-                            value=int(criterion.get("score", 0)),
-                            step=1,
-                            key=f"score_{result['result_id']}_{label}",
+
+            with verify_col:
+                st.markdown("#### Verify or adjust")
+                st.caption("Review the response, then save final marks for this question.")
+                with st.form(f"review_{result['result_id']}"):
+                    changes: dict[str, int] = {}
+                    for criterion in final_grading.get("scores", []):
+                        label = str(criterion.get("criterion", "Criterion"))
+                        maximum = int(criterion.get("max_score", 0))
+                        if maximum <= 0:
+                            st.caption(f"{label}: not assessed by this workflow")
+                            continue
+                        changes[label] = int(
+                            st.number_input(
+                                label,
+                                min_value=0,
+                                max_value=maximum,
+                                value=int(criterion.get("score", 0)),
+                                step=1,
+                                key=f"score_{result['result_id']}_{label}",
+                            )
                         )
+                    note = st.text_area(
+                        "Examiner note (optional)",
+                        value=previous_note,
+                        key=f"note_{result['result_id']}",
                     )
-                note = st.text_area(
-                    "Examiner note (optional)",
-                    value=previous_note,
-                    key=f"note_{result['result_id']}",
-                )
-                saved = st.form_submit_button("Save verified grade", width="stretch")
+                    saved = st.form_submit_button("Save verified grade", width="stretch")
+                if reviewed_at:
+                    st.caption(f"Last reviewed: {reviewed_at}")
+
+            with evidence_col:
+                st.markdown("#### Response and grading evidence")
+                render_recorded_response(result)
+                left, right = st.columns(2)
+                with left:
+                    render_grading_result(ai_grading, heading="AI grade")
+                with right:
+                    render_grading_result(final_grading, heading="Final grade")
+                if result.get("crew_analysis"):
+                    with st.expander("AI coaching analysis"):
+                        st.write(result["crew_analysis"])
+
             if saved:
                 try:
                     apply_examiner_review(
@@ -3867,10 +3892,8 @@ def render_examiner_review() -> None:
                     st.session_state["examiner_review_notice"] = {
                         "level": "success",
                         "message": f"Verified grade saved for question {number}. The original AI grade remains in the record.",
-                    }
+                        }
                 st.rerun()
-            if reviewed_at:
-                st.caption(f"Last reviewed: {reviewed_at}")
 
     reading_pending = bool(
         assignment.get("reading")

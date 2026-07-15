@@ -198,6 +198,7 @@ Implemented changes:
 - The panel shows OpenAI readiness, avatar provider status, preparation timing, recording mode, reading-grading mode, and photo-generation mode.
 - Each oral question review now shows the AI score, examiner final score, score adjustment, review status, release status, and evidence status.
 - Reading-aloud review now shows whether the recording was submitted, whether AI reading analysis is pending/ready/failed, examiner review status, final score, and release status.
+- Examiner verification controls are now shown side by side with response evidence and AI grades, reducing scrolling during review.
 - The release section now shows whether reading and image-question reviews are complete before releasing results.
 
 This makes it easier to explain in the report that AI grading is not released directly to students without examiner verification.

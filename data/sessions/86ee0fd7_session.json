@@ -1,0 +1,249 @@
+{
+  "session_id": "86ee0fd7",
+  "paper_id": "assignment_123_d96c0c08",
+  "student_id": "123",
+  "date_created": "2026-07-15T14:20:23.754049",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-15T14:23:55.711205",
+      "speaker": "avatar",
+      "text": "What do you see the nurse doing in the picture, and why do you think she is doing that?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting on a hospital bed. The room has a calm and clean atmosphere with a painting on the wall and a potted orchid on the bedside table. There is a tray with food and a mug on a movable table in front of the man."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-15T14:23:55.724878",
+      "speaker": "student",
+      "text": "First response: Helping to feed\n\nResponse after examiner follow-up: Better.",
+      "audio_path": "data\\sessions\\speech_20260715_062340_643bbb0a.wav",
+      "transcription_path": "data\\sessions\\speech_20260715_062340_643bbb0a.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-15T14:25:42.739417",
+      "speaker": "avatar",
+      "text": "Have you ever visited someone in a hospital or taken care of someone who was sick? What was that experience like for you?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting on a hospital bed. The room has a calm and clean atmosphere with a painting on the wall and a potted orchid on the bedside table. There is a tray with food and a mug on a movable table in front of the man."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-15T14:25:42.751884",
+      "speaker": "student",
+      "text": "First response: Go. Money. Dead.\n\nResponse after examiner follow-up: [No response after guidance]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-07-15T14:25:51.660992",
+      "speaker": "avatar",
+      "text": "Why do you think it is important to take care of elderly people ?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting on a hospital bed. The room has a calm and clean atmosphere with a painting on the wall and a potted orchid on the bedside table. There is a tray with food and a mug on a movable table in front of the man."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-07-15T14:25:51.678404",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you see the nurse doing in the picture, and why do you think she is doing that?",
+        "answer": "First response: Helping to feed\n\nResponse after examiner follow-up: Better.",
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting on a hospital bed. The room has a calm and clean atmosphere with a painting on the wall and a potted orchid on the bedside table. There is a tray with food and a mug on a movable table in front of the man.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant as they mention the nurse helping to feed, which aligns with the visual stimulus of the nurse feeding the elderly man. However, the response could be improved with more specific details or a clearer personal viewpoint.",
+            "evidence": "The student's response 'Helping to feed' shows some relevance to the prompt and stimulus.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student's answer provides a basic idea with limited elaboration. They mentioned 'helping to feed' but could further elaborate on why the nurse is feeding the elderly man.",
+            "evidence": "The student's response 'Helping to feed'",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 4,
+            "max_score": 6,
+            "feedback": "The student's language is generally accurate with appropriate vocabulary, but there are minor errors present.",
+            "evidence": "The student used the phrase 'Helping to feed' in their initial response.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responded adequately with some confidence to the examiner's follow-up question.",
+            "evidence": "The student improved their response after the examiner's follow-up by providing a more detailed answer.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Well done for recognizing that the nurse is helping to feed the elderly man in the picture. However, remember to pay attention to specific details in the image, like the fact that the nurse is actually feeding the man, not just helping. Your biggest improvement area is providing more details and reasons in your response. Next time, you can start by saying, \"I believe the nurse is feeding the elderly man because...\" Keep up the good effort!",
+        "total_score": 16,
+        "max_score": 25,
+        "percentage": 64.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Have you ever visited someone in a hospital or taken care of someone who was sick? What was that experience like for you?",
+        "answer": "First response: Go. Money. Dead.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting on a hospital bed. The room has a calm and clean atmosphere with a painting on the wall and a potted orchid on the bedside table. There is a tray with food and a mug on a movable table in front of the man.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Why do you think it is important to take care of elderly people ?",
+        "answer": "[Skipped question]",
+        "visual_context": "The image shows a nurse in blue scrubs feeding an elderly man who is sitting on a hospital bed. The room has a calm and clean atmosphere with a painting on the wall and a potted orchid on the bedside table. There is a tray with food and a mug on a movable table in front of the man.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    }
+  ],
+  "start_time": "2026-07-15T14:20:23.769710",
+  "end_time": "2026-07-15T14:25:52.475403",
+  "metadata": {
+    "assignment_id": "e27765bef20a",
+    "component": "student_assessment",
+    "subject": "assignment_123_d96c0c08",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}
