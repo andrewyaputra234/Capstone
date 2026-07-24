@@ -1,0 +1,75 @@
+{
+  "name": "Reading Passage Rubric",
+  "level": "Primary 6",
+  "subject": "English",
+  "assessment_type": "Reading Aloud",
+  "description": "Custom reading passage rubric based on pronunciation, expression, and delivery.",
+  "criteria": [
+    {
+      "name": "Pronunciation",
+      "description": "Reading aloud pronunciation: assesses whether words and beginning and ending sounds are pronounced correctly and clearly.",
+      "max_points": 3,
+      "rubric_levels": [
+        {
+          "level": "Can be improved",
+          "points": 1,
+          "description": "Pronounces most words incorrectly. Pronounces only a few beginning and ending sounds."
+        },
+        {
+          "level": "Good",
+          "points": 2,
+          "description": "Pronounces some words correctly and clearly. Pronounces some beginning and ending sounds."
+        },
+        {
+          "level": "Excellent",
+          "points": 3,
+          "description": "Pronounces all words correctly and clearly. Pronounces all beginning and ending sounds."
+        }
+      ]
+    },
+    {
+      "name": "Expression",
+      "description": "Reading aloud expression: assesses pitch and tone while reading the passage.",
+      "max_points": 3,
+      "rubric_levels": [
+        {
+          "level": "Can be improved",
+          "points": 1,
+          "description": "Shows very little distinction in pitch and tone."
+        },
+        {
+          "level": "Good",
+          "points": 2,
+          "description": "Uses appropriate pitch and tone most of the time."
+        },
+        {
+          "level": "Excellent",
+          "points": 3,
+          "description": "Uses appropriate pitch and tone at all times."
+        }
+      ]
+    },
+    {
+      "name": "Delivery",
+      "description": "Reading aloud oral delivery: assesses smoothness, pauses, and hesitation while reading the passage.",
+      "max_points": 3,
+      "rubric_levels": [
+        {
+          "level": "Can be improved",
+          "points": 1,
+          "description": "Reads slowly and jerkily, with inappropriate pauses and awkward hesitation."
+        },
+        {
+          "level": "Good",
+          "points": 2,
+          "description": "Reads smoothly most of the time, with mostly appropriate pauses and some hesitation."
+        },
+        {
+          "level": "Excellent",
+          "points": 3,
+          "description": "Reads very smoothly throughout, with appropriate pauses and no hesitation."
+        }
+      ]
+    }
+  ]
+}

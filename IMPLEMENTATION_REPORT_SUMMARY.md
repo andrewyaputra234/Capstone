@@ -161,6 +161,7 @@ Implemented changes:
 - The student can submit quickly without waiting for full AI reading analysis.
 - Detailed reading analysis is deferred so the examiner can review it later.
 - Reading passage preparation during assignment creation now saves and extracts the passage directly instead of running the full chunk/vector ingestion path.
+- Standalone photo question generation now uses a lightweight vision path that skips full CrewAI examiner startup unless fallback is required.
 - Avatar playback is limited to assessment-critical prompts only.
 - The avatar asks the main question once and only asks a guiding question when the answer needs support.
 - The avatar no longer gives extra silence nudges or repeated "still here" messages during recording.
@@ -199,6 +200,7 @@ Implemented changes:
 - Each oral question review now shows the AI score, examiner final score, score adjustment, review status, release status, and evidence status.
 - Reading-aloud review now shows whether the recording was submitted, whether AI reading analysis is pending/ready/failed, examiner review status, final score, and release status.
 - Examiner verification controls are now shown side by side with response evidence and AI grades, reducing scrolling during review.
+- Custom rubric uploads now include a preview step showing rubric name, criteria, total marks, and scoring levels before saving.
 - The release section now shows whether reading and image-question reviews are complete before releasing results.
 
 This makes it easier to explain in the report that AI grading is not released directly to students without examiner verification.

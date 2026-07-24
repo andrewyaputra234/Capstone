@@ -1,0 +1,246 @@
+{
+  "session_id": "81ceae29",
+  "paper_id": "assignment_123_ab70fa7f",
+  "student_id": "123",
+  "date_created": "2026-07-23T15:35:23.059810",
+  "state": "COMPLETED",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-23T15:37:35.888636",
+      "speaker": "avatar",
+      "text": "What are the students doing in this picture, and why do you think this activity is important?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-23T15:37:35.899841",
+      "speaker": "student",
+      "text": "First response: Looks like they are using some, I don't know.\n\nResponse after examiner follow-up: Looks like a ball of yarn they are knitting it",
+      "audio_path": "data\\sessions\\speech_20260723_073726_b8fc1086.wav",
+      "transcription_path": "data\\sessions\\speech_20260723_073726_b8fc1086.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-23T15:39:13.316076",
+      "speaker": "avatar",
+      "text": "Have you ever participated in a craft activity like this? What was your experience like?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-23T15:39:13.334529",
+      "speaker": "student",
+      "text": "First response: Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.\n\nResponse after examiner follow-up: Yeah.",
+      "audio_path": "data\\sessions\\speech_20260723_073902_f48f226d.wav",
+      "transcription_path": "data\\sessions\\speech_20260723_073902_f48f226d.json",
+      "metadata": null
+    },
+    {
+      "turn_id": 5,
+      "timestamp": "2026-07-23T15:39:25.567807",
+      "speaker": "avatar",
+      "text": "Why do you think teamwork is important when working on projects like this, and how can it benefit the community?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive."
+      }
+    },
+    {
+      "turn_id": 6,
+      "timestamp": "2026-07-23T15:39:25.587282",
+      "speaker": "student",
+      "text": "[Skipped question]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What are the students doing in this picture, and why do you think this activity is important?",
+        "answer": "First response: Looks like they are using some, I don't know.\n\nResponse after examiner follow-up: Looks like a ball of yarn they are knitting it",
+        "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant as they correctly identify the activity as knitting with yarn, which aligns with the visual stimulus. However, their initial uncertainty and lack of additional details could be improved.",
+            "evidence": "Looks like a ball of yarn they are knitting it",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student provided a clear idea with some useful reasons by mentioning that the students are knitting with a ball of yarn.",
+            "evidence": "Looks like a ball of yarn they are knitting it",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 4,
+            "max_score": 6,
+            "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors in the response.",
+            "evidence": "Looks like a ball of yarn they are knitting it",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence and provides a more detailed answer after prompting.",
+            "evidence": "Looks like a ball of yarn they are knitting it",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "You did a good job in identifying that the students are knitting with a ball of yarn in the picture. However, the visual stimulus actually shows them using small looms, not knitting. Your biggest improvement area is providing more specific details and elaborating on your answers. Next time, try starting your response with \"I see that the students are...\" to give a more detailed description. Keep up the effort in adding more details to your responses to make them even stronger.",
+        "total_score": 18,
+        "max_score": 25,
+        "percentage": 72.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Have you ever participated in a craft activity like this? What was your experience like?",
+        "answer": "First response: Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.\n\nResponse after examiner follow-up: Yeah.",
+        "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 6,
+            "max_score": 8,
+            "feedback": "The student's response is mostly relevant, mentioning participating in arts and crafts activities like origami and using glue to create different creations. However, the response lacks specific details from the visual stimulus and could benefit from a clearer personal viewpoint.",
+            "evidence": "The student mentions making origami with teachers and doing arts and crafts with glue.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 4,
+            "max_score": 8,
+            "feedback": "The student provides a basic idea of participating in craft activities but lacks elaboration or examples.",
+            "evidence": "The student mentions making origami with teachers and doing arts and crafts with glue.",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 3,
+            "max_score": 6,
+            "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+            "evidence": "making origami with the teachers and doing arts and crafts, using glue to create different creations",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 2,
+            "max_score": 3,
+            "feedback": "The student responds adequately with some confidence and mentions engaging in craft activities like origami and arts and crafts.",
+            "evidence": "Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "Great job mentioning your experience with making origami and doing arts and crafts activities with glue. However, your response could be improved by including more details from the visual stimulus, such as the specific craft activity with yarn and looms. Try to elaborate on your experiences next time to provide a clearer and more detailed response. For example, you could say, \"When I participated in a craft activity similar to the one shown, I enjoyed working with yarn and looms to create different designs.\" Keep practicing to enhance your idea development and language use in your responses.",
+        "total_score": 15,
+        "max_score": 25,
+        "percentage": 60.0,
+        "scoring_source": "ai"
+      }
+    },
+    {
+      "Q3": {
+        "assignment": "Why do you think teamwork is important when working on projects like this, and how can it benefit the community?",
+        "answer": "[Skipped question]",
+        "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud Delivery",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction And Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    }
+  ],
+  "start_time": "2026-07-23T15:35:23.067048",
+  "end_time": "2026-07-23T15:39:26.459934",
+  "metadata": {
+    "assignment_id": "b526a8c69cfd",
+    "component": "student_assessment",
+    "subject": "assignment_123_ab70fa7f",
+    "rubric": "psle_oral_english",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

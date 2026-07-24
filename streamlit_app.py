@@ -49,6 +49,7 @@ from exam_portal_store import (
     save_reading_ai_grading_error,
     save_reading_submission,
     reset_assignment_results,
+    validate_english_oral_rubric,
 )
 from subject_manager import SubjectManager
 from voice_assessment import analyse_delivery, transcribe_streamlit_audio
@@ -92,6 +93,9 @@ for key, default in [
     ("preparation_complete", False),
     ("student_portal_stage", "selection"),
     ("student_selected_assignment_id", None),
+    ("visual_upload_reset_nonce", 0),
+    ("visual_upload_preview_open", False),
+    ("visual_upload_signature", None),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -593,6 +597,172 @@ def supported_visual_image_path(path: str | Path) -> bool:
         return Path(path).suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
 
 
+PSLE_VISUAL_QUESTION_PROMPT = """
+This system is focused on PSLE English oral practice.
+Assume uploaded images are PSLE-style English oral picture stimuli.
+
+Assessment focus:
+- Stimulus-based Conversation: relevant personal response, reference to the
+  stimulus, elaborated ideas, examples, reasons, accurate spoken English, and
+  confident interaction.
+""".strip()
+
+
+def parse_json_object(text: str) -> dict:
+    cleaned = str(text or "").strip()
+    try:
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        match = re.search(r"\{.*\}", cleaned, flags=re.DOTALL)
+        if not match:
+            raise
+        return json.loads(match.group(0))
+
+
+def generate_visual_questions_lightweight(
+    file_path: str | Path,
+    *,
+    subject: str,
+    rubric: str | None,
+    num_questions: int = IMAGE_QUESTION_COUNT,
+) -> dict:
+    """Generate photo questions without constructing the full CrewAI agent set."""
+    from agent_image_extractor import extract_single_image_as_page, get_image_mime_type, is_supported_image_file
+    from langchain_core.messages import HumanMessage
+    from langchain_openai import ChatOpenAI
+
+    source = Path(file_path)
+    if not source.exists():
+        raise FileNotFoundError(f"Visual stimulus not found: {source}")
+    if not is_supported_image_file(str(source)):
+        raise ValueError("Lightweight visual question generation only supports standalone image files.")
+
+    subject_manager = SubjectManager()
+    input_dir = subject_manager.get_subject_input_path(subject)
+    input_dir.mkdir(parents=True, exist_ok=True)
+    dest = input_dir / source.name
+    if source.resolve() != dest.resolve():
+        shutil.copy2(source, dest)
+
+    images_dir = Path("data") / f"{subject}_images"
+    if images_dir.exists():
+        shutil.rmtree(images_dir)
+    page_images = extract_single_image_as_page(str(dest), str(images_dir))
+
+    if rubric:
+        subject_manager.set_subject_rubric(subject, rubric)
+    subject_manager.set_subject_pdf(subject, str(dest))
+    subject_manager.set_subject_material_path(subject, "visual", str(dest))
+
+    image_path = Path(page_images.get(1) or dest)
+    with image_path.open("rb") as image_file:
+        image_data = base64.standard_b64encode(image_file.read()).decode("utf-8")
+
+    model = os.getenv("VISION_QUESTION_MODEL", "gpt-4o").strip() or "gpt-4o"
+    vision_llm = ChatOpenAI(model=model, max_tokens=1400, temperature=0.45)
+    message = HumanMessage(
+        content=[
+            {
+                "type": "text",
+                "text": (
+                    f"{PSLE_VISUAL_QUESTION_PROMPT}\n\n"
+                    "Analyse this single PSLE English oral picture stimulus accurately. "
+                    "First identify concrete visible facts, actions, setting, mood, and likely topic. "
+                    f"Then create exactly {num_questions} stimulus-based conversation questions. "
+                    "Keep the questions age-appropriate for Primary 6, natural for an oral examiner, "
+                    "and grounded only in what is visible. Maintain depth by covering: "
+                    "1) observation and reason, 2) personal connection or experience, "
+                    "3) broader reflection, values, safety, responsibility, or community. "
+                    "Return ONLY JSON with this shape: "
+                    "{\"visual_description\": \"specific factual description\", "
+                    "\"questions\": [{\"text\": \"Question text\"}]}"
+                ),
+            },
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:{get_image_mime_type(str(image_path))};base64,{image_data}"},
+            },
+        ]
+    )
+    response = vision_llm.invoke([message])
+    payload = parse_json_object(str(response.content))
+    visual_description = str(payload.get("visual_description", "")).strip()
+    if not visual_description:
+        visual_description = "Visual stimulus details are available in the displayed image."
+
+    questions: list[dict] = []
+    seen: set[str] = set()
+    for item in payload.get("questions", []):
+        if len(questions) >= num_questions:
+            break
+        if isinstance(item, dict):
+            text = str(item.get("text") or item.get("question") or item.get("prompt") or "").strip()
+        else:
+            text = str(item).strip()
+        text = " ".join(text.strip(" \"'").split())
+        if not text or len(text) < 15 or text in seen:
+            continue
+        seen.add(text)
+        questions.append(
+            {
+                "id": len(questions) + 1,
+                "text": text,
+                "source": "Vision-generated from uploaded photo",
+                "answered": False,
+                "answer": None,
+                "scores": None,
+                "image_path": str(image_path),
+                "visual_context": visual_description,
+            }
+        )
+
+    if len(questions) < num_questions:
+        fallback_prompts = [
+            "What are the people in the picture doing, and why might this action be important?",
+            "Can you share a time when you experienced something similar, and what did you learn from it?",
+            "What can people learn from this picture about making good choices or caring for others?",
+        ]
+        for text in fallback_prompts:
+            if len(questions) >= num_questions:
+                break
+            if text in seen:
+                continue
+            seen.add(text)
+            questions.append(
+                {
+                    "id": len(questions) + 1,
+                    "text": text,
+                    "source": "Fallback visual prompt",
+                    "answered": False,
+                    "answer": None,
+                    "scores": None,
+                    "image_path": str(image_path),
+                    "visual_context": visual_description,
+                }
+            )
+
+    return {
+        "workflow": "lightweight_visual_question_generation",
+        "subject": subject,
+        "file_path": str(dest),
+        "ingest_result": {
+            "subject": subject,
+            "file_path": str(dest),
+            "chunk_count": 0,
+            "db_path": str(subject_manager.get_subject_chroma_path(subject, create=False)),
+            "image_count": len(page_images),
+            "rubric": rubric,
+            "material_type": "visual",
+            "vector_rebuilt": False,
+        },
+        "questions": questions,
+        "crew_analysis": (
+            "Standalone photo used the lightweight vision path: no CrewAI startup, "
+            "chunking, embeddings, or vector-store rebuild was needed."
+        ),
+    }
+
+
 def avatar_generation_backoff_seconds(attempt: int) -> float:
     """Exponential backoff after failed Simli generation attempts."""
     base = float_env("SIMLI_RETRY_BACKOFF_BASE_SECONDS", 5.0)
@@ -825,6 +995,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             background: #fbfffc;
             box-shadow: 0 16px 34px rgba(37, 72, 53, 0.12);
             font-family: Aptos, Segoe UI, sans-serif;
+            font-size: 20px;
           }}
           .anam-header {{
             display: flex;
@@ -838,7 +1009,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           }}
           .anam-status {{
             color: #5b9d73;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             text-align: right;
@@ -855,7 +1026,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             border-top: 1px solid #cfe3d5;
             color: #203b36;
             line-height: 1.5;
-            font-size: 1.08rem;
+            font-size: 1.12rem;
           }}
           .anam-actions {{
             display: flex;
@@ -864,7 +1035,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             gap: 0.75rem;
             padding: 0 1rem 0.9rem;
             color: #587267;
-            font-size: 0.95rem;
+            font-size: 1rem;
           }}
           .anam-button {{
             border: 1px solid #8bc59f;
@@ -882,7 +1053,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           .anam-detail {{
             padding: 0 1rem 0.65rem;
             color: #7b5b3f;
-            font-size: 0.92rem;
+            font-size: 1rem;
             line-height: 1.35;
             min-height: 1rem;
           }}
@@ -1647,6 +1818,7 @@ def render_avatar_video_file(
             background: #fbfffc;
             box-shadow: 0 16px 34px rgba(37, 72, 53, 0.12);
             font-family: Aptos, Segoe UI, sans-serif;
+            font-size: 20px;
           }}
           .avatar-native-header {{
             display: flex;
@@ -1659,7 +1831,7 @@ def render_avatar_video_file(
           }}
           .avatar-native-header span:last-child {{
             color: #5b9d73;
-            font-size: 0.78rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
           }}
@@ -1676,12 +1848,12 @@ def render_avatar_video_file(
             background: rgba(255, 255, 253, 0.97);
             color: #203b36;
             line-height: 1.45;
-            font-size: 0.98rem;
+            font-size: 1rem;
           }}
           .avatar-native-help {{
             padding: 0 1rem 0.85rem;
             color: #587267;
-            font-size: 0.82rem;
+            font-size: 1rem;
           }}
         </style>
         <div class="avatar-native-card">
@@ -1782,9 +1954,9 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
           }}
           .avatar-pop-label {{
             color: #5b9d73;
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
-            letter-spacing: .08em;
+            letter-spacing: .06em;
           }}
         </style>
         <div class="avatar-pop-card">
@@ -1920,17 +2092,18 @@ def render_student_processing_overlay(title: str, message: str) -> None:
             background: #fffffb;
             box-shadow: 0 18px 42px rgba(37, 72, 53, 0.16);
             font-family: Aptos, Segoe UI, sans-serif;
+            font-size: 20px;
         }}
         .student-processing-box h3 {{
             margin: 0 0 0.3rem;
             color: #203b36;
-            font-size: 1.28rem;
+            font-size: 1.35rem;
             line-height: 1.2;
         }}
         .student-processing-box p {{
             margin: 0;
             color: #587267;
-            font-size: 1rem;
+            font-size: 1.05rem;
             line-height: 1.45;
         }}
         </style>
@@ -2107,10 +2280,14 @@ def apply_portal_theme() -> None:
             --portal-muted: #587267;
             --portal-mint: #5b9d73;
             --portal-paper: #fbfdf9;
+            --portal-font-base: 22px;
+            --portal-font-ui: 20px;
+            --portal-font-caption: 20px;
+            --portal-font-small: 19px;
         }
         html, body, [class*="css"] {
             font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif;
-            font-size: 17px;
+            font-size: var(--portal-font-base);
         }
         [data-testid="stAppViewContainer"] {
             background: radial-gradient(circle at 14% 12%, #dff4e4 0, #eff8f0 30%, #fbfcf8 67%, #eaf4ec 100%);
@@ -2118,7 +2295,10 @@ def apply_portal_theme() -> None:
         }
         [data-testid="stHeader"] { background: transparent; }
         [data-testid="stMainBlockContainer"] {
-            max-width: 1180px;
+            max-width: 1680px !important;
+            width: 100% !important;
+            padding-left: 2rem;
+            padding-right: 2rem;
         }
         [data-testid="stSidebar"] {
             background: linear-gradient(180deg, #f7fffa, #e3f5e8);
@@ -2130,16 +2310,62 @@ def apply_portal_theme() -> None:
             color: var(--portal-ink) !important;
             font-family: "Trebuchet MS", "Aptos Display", "Segoe UI", sans-serif;
             font-weight: 700;
-            letter-spacing: -0.025em;
+            letter-spacing: 0;
+            line-height: 1.18;
         }
+        h1 { font-size: 2.15rem !important; }
+        h2 { font-size: 1.6rem !important; }
+        h3 { font-size: 1.3rem !important; }
         p, li, label, [data-testid="stMarkdownContainer"] {
             color: var(--portal-ink);
-            font-size: 1.03rem;
+            font-size: 1rem;
             line-height: 1.55;
         }
         [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {
-            font-size: 0.96rem !important;
+            font-size: var(--portal-font-caption) !important;
             line-height: 1.45 !important;
+        }
+        [data-testid="stMarkdownContainer"] p,
+        [data-testid="stMarkdownContainer"] li,
+        [data-testid="stMarkdownContainer"] span,
+        [data-testid="stMarkdownContainer"] strong,
+        [data-testid="stMarkdownContainer"] em,
+        [data-testid="stText"],
+        [data-testid="stText"] *,
+        [data-testid="stAlert"] *,
+        [data-testid="stMetricValue"] *,
+        [data-testid="stMetricDelta"] *,
+        [data-testid="stTable"] td,
+        [data-testid="stTable"] th,
+        [data-testid="stDataFrame"] td,
+        [data-testid="stDataFrame"] th,
+        [data-testid="stExpander"] [data-testid="stMarkdownContainer"] p,
+        [data-testid="stExpander"] [data-testid="stMarkdownContainer"] li {
+            font-size: var(--portal-font-base) !important;
+        }
+        [data-testid="stMetricLabel"] *,
+        [data-testid="stWidgetLabel"],
+        [data-testid="stWidgetLabel"] *,
+        [data-testid="stSelectbox"] *,
+        [data-testid="stTextInput"] *,
+        [data-testid="stTextArea"] *,
+        [data-testid="stFileUploader"] *,
+        [data-testid="stAudioInput"] *,
+        [data-testid="stForm"] label,
+        [data-testid="stForm"] [data-testid="stMarkdownContainer"] p,
+        [data-testid="stExpander"] summary * {
+            font-size: var(--portal-font-ui) !important;
+        }
+        input,
+        textarea,
+        select,
+        [role="combobox"],
+        [role="option"],
+        [role="spinbutton"],
+        [data-baseweb="select"] *,
+        [data-baseweb="input"] *,
+        [data-baseweb="textarea"] * {
+            font-size: var(--portal-font-ui) !important;
         }
         [data-testid="stVerticalBlockBorderWrapper"],
         [data-testid="stExpander"] {
@@ -2186,6 +2412,7 @@ def apply_portal_theme() -> None:
             background: #273940;
             color: #ffffff;
             font-weight: 600;
+            font-size: var(--portal-font-ui) !important;
             transition: background 0.18s ease, transform 0.18s ease;
         }
         .stButton > button *, .stFormSubmitButton > button *, .stLinkButton > a *, .stDownloadButton > button * { color: #ffffff !important; }
@@ -2207,13 +2434,38 @@ def apply_portal_theme() -> None:
         [data-baseweb="select"] * {
             color: var(--portal-ink) !important;
             font-family: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif !important;
-            font-size: 1.03rem !important;
+            font-size: var(--portal-font-ui) !important;
             line-height: 1.5 !important;
         }
         [data-baseweb="select"] svg,
         [data-baseweb="select"] svg path {
             color: #4f8b68 !important;
             fill: #4f8b68 !important;
+        }
+        [data-testid="stSelectbox"] [data-baseweb="select"] > div {
+            background: #fffffb !important;
+            border: 1px solid #b8d7c3 !important;
+            box-shadow: none !important;
+            min-height: 3rem !important;
+            opacity: 1 !important;
+            filter: none !important;
+        }
+        [data-testid="stSelectbox"] [data-baseweb="select"] div,
+        [data-testid="stSelectbox"] [data-baseweb="select"] span,
+        [data-testid="stSelectbox"] [data-baseweb="select"] input {
+            color: var(--portal-ink) !important;
+            -webkit-text-fill-color: var(--portal-ink) !important;
+            font-weight: 600 !important;
+            letter-spacing: 0 !important;
+            opacity: 1 !important;
+            text-shadow: none !important;
+            filter: none !important;
+        }
+        [data-testid="stSelectbox"] [data-baseweb="select"] svg,
+        [data-testid="stSelectbox"] [data-baseweb="select"] svg path {
+            color: #3f7657 !important;
+            fill: #3f7657 !important;
+            opacity: 1 !important;
         }
         [data-baseweb="popover"] [role="listbox"],
         [data-baseweb="popover"] [data-baseweb="menu"],
@@ -2231,6 +2483,21 @@ def apply_portal_theme() -> None:
         li[role="option"] {
             background: #fbfffc !important;
             color: var(--portal-ink) !important;
+            font-size: var(--portal-font-ui) !important;
+            font-weight: 500 !important;
+            letter-spacing: 0 !important;
+            opacity: 1 !important;
+            text-shadow: none !important;
+            filter: none !important;
+        }
+        [data-baseweb="popover"] [role="option"] *,
+        [data-baseweb="menu"] li *,
+        [role="listbox"] [role="option"] *,
+        li[role="option"] * {
+            color: var(--portal-ink) !important;
+            -webkit-text-fill-color: var(--portal-ink) !important;
+            font-size: var(--portal-font-ui) !important;
+            opacity: 1 !important;
         }
         [data-baseweb="popover"] [role="option"]:hover,
         [data-baseweb="popover"] [aria-selected="true"],
@@ -2794,21 +3061,21 @@ def apply_portal_theme() -> None:
             color: #21343b;
             box-shadow: 0 16px 38px rgba(31, 78, 52, 0.12);
         }
-        .portal-eyebrow { color: #4c906d; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; }
-        .portal-hero h1 { font-size: 2.35rem; line-height: 1.08; margin: 1.2rem 0 1rem; }
-        .portal-hero p { color: #49685c; font-size: 1.05rem; line-height: 1.65; max-width: 24rem; }
+        .portal-eyebrow { color: #4c906d; font-size: var(--portal-font-small); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+        .portal-hero h1 { font-size: 2.25rem; line-height: 1.08; margin: 1.2rem 0 1rem; }
+        .portal-hero p { color: #49685c; font-size: 1.08rem; line-height: 1.65; max-width: 24rem; }
         .portal-orb {
             display: grid; place-items: center; width: 142px; height: 142px; margin: 2.7rem auto 2.4rem;
             border: 1px solid rgba(70, 137, 99, 0.28); border-radius: 50%;
             background: rgba(255, 255, 255, 0.54); color: #376d50; font-size: 3.5rem;
         }
-        .portal-feature { margin-top: 0.75rem; color: #365f4b; font-size: 0.95rem; }
-        .portal-brand { color: #203b36; font-family: "Trebuchet MS", "Aptos Display", sans-serif; font-size: 2rem; font-weight: 750; letter-spacing: -0.04em; margin: 2.3rem 0 0.1rem; }
+        .portal-feature { margin-top: 0.75rem; color: #365f4b; font-size: var(--portal-font-small); }
+        .portal-brand { color: #203b36; font-family: "Trebuchet MS", "Aptos Display", sans-serif; font-size: 2rem; font-weight: 750; letter-spacing: 0; margin: 2.3rem 0 0.1rem; }
         .portal-brand span { color: #59a276; }
         .portal-subtitle { color: #587267; margin-bottom: 1.8rem; }
         .portal-field-label {
             color: #163d37 !important;
-            font-size: 1.03rem;
+            font-size: 1rem;
             font-weight: 700;
             margin: 0 0 0.45rem;
         }
@@ -2833,7 +3100,7 @@ def apply_portal_theme() -> None:
         }
         .avatar-native-header span:last-child {
             color: #5b9d73;
-            font-size: 0.78rem;
+            font-size: var(--portal-font-small);
             text-transform: uppercase;
             letter-spacing: 0.08em;
         }
@@ -2847,7 +3114,7 @@ def apply_portal_theme() -> None:
             background: rgba(255, 255, 253, 0.97);
             color: var(--portal-ink);
             line-height: 1.5;
-            font-size: 1.04rem;
+            font-size: 1rem;
             box-shadow: 0 16px 34px rgba(37, 72, 53, 0.08);
         }
         .assessment-room-title {
@@ -2864,7 +3131,7 @@ def apply_portal_theme() -> None:
         }
         .assessment-room-title h2 {
             margin: 0.15rem 0 0.25rem;
-            font-size: 1.78rem;
+            font-size: 1.55rem;
             line-height: 1.22;
         }
         .assessment-room-title p {
@@ -2880,7 +3147,7 @@ def apply_portal_theme() -> None:
             background: #e8f6ed;
             color: #2f6c4b;
             font-weight: 750;
-            font-size: 0.96rem;
+            font-size: var(--portal-font-ui);
             border: 1px solid #cbe4d3;
         }
         .ai-grading-comment {
@@ -2922,7 +3189,7 @@ def apply_portal_theme() -> None:
             min-width: 0;
             color: #6e8179;
             text-align: center;
-            font-size: 0.88rem;
+            font-size: var(--portal-font-small);
             font-weight: 700;
             line-height: 1.25;
         }
@@ -2947,13 +3214,13 @@ def apply_portal_theme() -> None:
             z-index: 1;
             display: grid;
             place-items: center;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 999px;
             border: 2px solid #d9e7de;
             background: #fbfdf9;
             color: #587267;
-            font-size: 0.86rem;
+            font-size: 16px;
             font-weight: 800;
             box-sizing: border-box;
         }
@@ -2985,9 +3252,9 @@ def apply_portal_theme() -> None:
         .assessment-panel-label {
             margin: 0.35rem 0 0.45rem;
             color: #315348;
-            font-size: 0.92rem;
+            font-size: var(--portal-font-small);
             font-weight: 800;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
         }
         .assessment-help-card {
@@ -2997,7 +3264,7 @@ def apply_portal_theme() -> None:
             border-radius: 14px;
             background: #f7fff9;
             color: var(--portal-muted);
-            font-size: 1.02rem;
+            font-size: 1rem;
             line-height: 1.5;
         }
         .response-panel {
@@ -3010,7 +3277,7 @@ def apply_portal_theme() -> None:
         }
         .response-panel h3 {
             margin: 0 0 0.25rem;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
         }
         .response-panel p {
             margin: 0 0 0.85rem;
@@ -3030,7 +3297,7 @@ def apply_portal_theme() -> None:
         .prep-loading-card h3 {
             margin: 0 0 0.25rem;
             color: var(--portal-ink) !important;
-            font-size: 1.1rem;
+            font-size: 1.12rem;
         }
         .prep-loading-card p {
             margin: 0;
@@ -3185,6 +3452,72 @@ def render_account_sidebar(role: str) -> None:
             logout()
 
 
+def parse_uploaded_rubric(contents: bytes) -> dict:
+    try:
+        data = json.loads(contents.decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("Upload a valid UTF-8 JSON rubric file.") from error
+    return validate_english_oral_rubric(data)
+
+
+def rubric_level_summary(levels: object) -> str:
+    if isinstance(levels, list):
+        parts = []
+        for level in levels:
+            if not isinstance(level, dict):
+                continue
+            label = str(level.get("level") or "Level").strip()
+            points = level.get("points", "")
+            parts.append(f"{label}: {points}")
+        return "; ".join(parts)
+    if isinstance(levels, dict):
+        return "; ".join(f"{label}: {points}" for label, points in levels.items())
+    return ""
+
+
+def render_rubric_upload_preview(rubric: dict) -> None:
+    criteria = rubric.get("criteria", [])
+    total_marks = sum(int(item.get("max_points", item.get("max_score", 0))) for item in criteria)
+    st.markdown("#### Rubric preview")
+    metric_cols = st.columns(3)
+    metric_cols[0].metric("Rubric", str(rubric.get("name") or "Custom rubric"))
+    metric_cols[1].metric("Criteria", len(criteria))
+    metric_cols[2].metric("Total marks", total_marks)
+    if rubric.get("description"):
+        st.caption(str(rubric["description"]))
+
+    preview_rows = []
+    for criterion in criteria:
+        max_score = int(criterion.get("max_points", criterion.get("max_score", 0)))
+        levels = criterion.get("rubric_levels", criterion.get("levels", []))
+        preview_rows.append(
+            {
+                "Criterion": criterion.get("name", "Criterion"),
+                "Max": max_score,
+                "Levels": rubric_level_summary(levels),
+            }
+        )
+    st.table(preview_rows)
+
+    with st.expander("View full level descriptions"):
+        for criterion in criteria:
+            st.markdown(f"**{criterion.get('name', 'Criterion')}**")
+            if criterion.get("description"):
+                st.caption(str(criterion["description"]))
+            levels = criterion.get("rubric_levels", criterion.get("levels", []))
+            if isinstance(levels, list):
+                for level in levels:
+                    if not isinstance(level, dict):
+                        continue
+                    st.markdown(
+                        f"- **{level.get('level', 'Level')} ({level.get('points', 0)}):** "
+                        f"{level.get('description', '')}"
+                    )
+            elif isinstance(levels, dict):
+                for points, description in levels.items():
+                    st.markdown(f"- **{points}:** {description}")
+
+
 def render_custom_rubric_upload() -> None:
     with st.expander("Add a custom English Oral rubric"):
         st.caption(
@@ -3197,7 +3530,31 @@ def render_custom_rubric_upload() -> None:
             type=["json"],
             key="custom_english_oral_rubric",
         )
-        if st.button("Validate and save rubric", key="save_custom_english_oral_rubric"):
+        preview_col, save_col = st.columns(2, gap="small")
+        if preview_col.button("Preview rubric", key="preview_custom_english_oral_rubric", width="stretch"):
+            if not custom_rubric:
+                st.warning("Choose a JSON rubric file first.")
+                return
+            try:
+                preview = parse_uploaded_rubric(custom_rubric.getvalue())
+            except ValueError as error:
+                st.session_state["rubric_preview_error"] = str(error)
+                st.session_state.pop("rubric_preview_payload", None)
+                return
+            st.session_state["rubric_preview_payload"] = preview
+            st.session_state["rubric_preview_filename"] = custom_rubric.name
+            st.session_state.pop("rubric_preview_error", None)
+
+        preview_error = st.session_state.pop("rubric_preview_error", None)
+        if preview_error:
+            st.error(f"The rubric could not be previewed: {preview_error}")
+        preview_payload = st.session_state.get("rubric_preview_payload")
+        preview_filename = st.session_state.get("rubric_preview_filename")
+        if custom_rubric and preview_payload and preview_filename == custom_rubric.name:
+            st.success("Rubric structure is valid and ready to save.")
+            render_rubric_upload_preview(preview_payload)
+
+        if save_col.button("Validate and save rubric", key="save_custom_english_oral_rubric", width="stretch"):
             if not custom_rubric:
                 st.warning("Choose a JSON rubric file first.")
                 return
@@ -3206,6 +3563,8 @@ def render_custom_rubric_upload() -> None:
             except ValueError as error:
                 st.error(f"The rubric was not saved: {error}")
                 return
+            st.session_state.pop("rubric_preview_payload", None)
+            st.session_state.pop("rubric_preview_filename", None)
             st.session_state["rubric_upload_notice"] = (
                 f"Saved '{rubric_display_name(rubric_name)}'. It is now available for assignment grading."
             )
@@ -3229,9 +3588,17 @@ def render_assignment_generation_loading(request: dict) -> None:
     progress = st.progress(0, text="Starting question preparation...")
     temporary_directory = Path(tempfile.mkdtemp(prefix="exam-upload-"))
     subject = request["subject"]
+    crew: EducationCrew | None = None
+
+    def get_generation_crew() -> EducationCrew:
+        nonlocal crew
+        if crew is None:
+            progress.progress(0.12, text="Starting the full AI examiner fallback...")
+            crew = init_crew(subject, request["rubric"], request["student"]["id"])
+        return crew
+
     try:
-        progress.progress(0.12, text="Starting the AI examiner...")
-        crew = init_crew(subject, request["rubric"], request["student"]["id"])
+        progress.progress(0.12, text="Checking the fast photo question path...")
 
         progress.progress(0.25, text="Saving the picture stimulus...")
         visual_file = save_queued_upload(request["visual_upload"], temporary_directory)
@@ -3247,14 +3614,25 @@ def render_assignment_generation_loading(request: dict) -> None:
         )
         if use_fast_photo_path:
             try:
-                visual_result = crew.run_visual_question_workflow(str(visual_file), num_questions=IMAGE_QUESTION_COUNT)
+                if bool_env("LIGHTWEIGHT_PHOTO_QUESTION_GENERATION", True):
+                    visual_result = generate_visual_questions_lightweight(
+                        visual_file,
+                        subject=subject,
+                        rubric=request["rubric"],
+                        num_questions=IMAGE_QUESTION_COUNT,
+                    )
+                else:
+                    visual_result = get_generation_crew().run_visual_question_workflow(
+                        str(visual_file),
+                        num_questions=IMAGE_QUESTION_COUNT,
+                    )
             except Exception as fast_error:
                 progress.progress(
                     0.48,
                     text=f"Fast photo generation was unavailable; using full ingestion path. Reason: {fast_error}",
                 )
                 run_review_analysis = bool_env("QUESTION_REVIEW_CREW_ANALYSIS", False)
-                visual_result = crew.run_ingestion_workflow(
+                visual_result = get_generation_crew().run_ingestion_workflow(
                     str(visual_file),
                     material_type="visual",
                     extract_questions=True,
@@ -3262,7 +3640,7 @@ def render_assignment_generation_loading(request: dict) -> None:
                 )
         else:
             run_review_analysis = bool_env("QUESTION_REVIEW_CREW_ANALYSIS", False)
-            visual_result = crew.run_ingestion_workflow(
+            visual_result = get_generation_crew().run_ingestion_workflow(
                 str(visual_file),
                 material_type="visual",
                 extract_questions=True,
@@ -3293,13 +3671,13 @@ def render_assignment_generation_loading(request: dict) -> None:
                         0.7,
                         text=f"Fast reading save was unavailable; using full reading ingestion. Reason: {reading_fast_error}",
                     )
-                    reading_result = crew.run_ingestion_workflow(
+                    reading_result = get_generation_crew().run_ingestion_workflow(
                         str(reading_file), material_type="reading", extract_questions=False
                     )
                     stored_path = reading_result.get("ingest_result", {}).get("file_path")
                     reading_text = extract_reading_passage(stored_path) if stored_path else ""
             else:
-                reading_result = crew.run_ingestion_workflow(
+                reading_result = get_generation_crew().run_ingestion_workflow(
                     str(reading_file), material_type="reading", extract_questions=False
                 )
                 stored_path = reading_result.get("ingest_result", {}).get("file_path")
@@ -3635,15 +4013,56 @@ def render_create_assignment() -> None:
         st.rerun()
 
     st.markdown("#### Choose the materials for this assessment")
-    visual_upload = st.file_uploader(
-        "Upload picture stimulus",
-        type=["png", "jpg", "jpeg", "webp"],
-        accept_multiple_files=False,
-        help="Upload one picture stimulus for this student.",
-        key="visual_material_uploads",
+    visual_upload_col, visual_preview_col, visual_remove_col = st.columns(
+        [4.6, 1.05, 0.65],
+        gap="small",
+        vertical_alignment="bottom",
     )
+    with visual_upload_col:
+        visual_upload = st.file_uploader(
+            "Upload picture stimulus",
+            type=["png", "jpg", "jpeg", "webp"],
+            accept_multiple_files=False,
+            help="Upload one picture stimulus for this student.",
+            key=f"visual_material_uploads_{st.session_state.visual_upload_reset_nonce}",
+        )
     if visual_upload:
-        st.caption(f"Selected picture stimulus: {visual_upload.name}")
+        visual_signature = f"{visual_upload.name}:{getattr(visual_upload, 'size', len(visual_upload.getvalue()))}"
+        if st.session_state.visual_upload_signature != visual_signature:
+            st.session_state.visual_upload_signature = visual_signature
+            st.session_state.visual_upload_preview_open = False
+
+        if visual_preview_col.button(
+            "Preview",
+            key=f"preview_visual_upload_{st.session_state.visual_upload_reset_nonce}",
+            type="primary",
+            width="stretch",
+            help="Expand the selected picture stimulus temporarily.",
+        ):
+            st.session_state.visual_upload_preview_open = True
+            st.rerun()
+        if visual_remove_col.button(
+            "X",
+            key=f"remove_visual_upload_{st.session_state.visual_upload_reset_nonce}",
+            type="primary",
+            width="stretch",
+            help="Remove the selected picture stimulus.",
+        ):
+            st.session_state.visual_upload_reset_nonce += 1
+            st.session_state.visual_upload_preview_open = False
+            st.session_state.visual_upload_signature = None
+            st.rerun()
+
+        if st.session_state.visual_upload_preview_open:
+            with st.container(border=True):
+                st.image(visual_upload.getvalue(), caption=visual_upload.name, width="stretch")
+                if st.button(
+                    "Close preview",
+                    key=f"close_visual_preview_{st.session_state.visual_upload_reset_nonce}",
+                    width="stretch",
+                ):
+                    st.session_state.visual_upload_preview_open = False
+                    st.rerun()
     reading_upload = st.file_uploader(
         "Upload reading passage (optional)",
         type=["pdf", "docx", "txt"],
@@ -3742,7 +4161,7 @@ def render_examiner_review() -> None:
             with st.expander("Reading-aloud submission", expanded=True):
                 render_reading_review_summary(reading_submission, assignment)
                 reading_grade = reading_submission.get("final_grading") or reading_submission.get("ai_grading")
-                evidence_col, verify_col = st.columns([1.35, 0.85], gap="large", vertical_alignment="top")
+                evidence_col, verify_col = st.columns([1.75, 0.85], gap="large", vertical_alignment="top")
                 previous_note = (reading_submission.get("examiner_review") or {}).get("note", "")
 
                 with verify_col:
@@ -3829,7 +4248,7 @@ def render_examiner_review() -> None:
                 guidance_used=bool(result.get("guided_attempt")),
                 skipped=bool(result.get("skipped")),
             )
-            evidence_col, verify_col = st.columns([1.45, 0.85], gap="large", vertical_alignment="top")
+            evidence_col, verify_col = st.columns([1.85, 0.85], gap="large", vertical_alignment="top")
             previous_note = (result.get("examiner_review") or {}).get("note", "")
 
             with verify_col:
@@ -4262,7 +4681,7 @@ def render_preparation_loading(assignment: dict) -> None:
             padding: 0 0.35rem;
             color: #47665b;
             font-family: Aptos, Segoe UI, sans-serif;
-            font-size: 0.92rem;
+            font-size: 20px;
         }}
         .preparation-loading-step {{
             display: flex;

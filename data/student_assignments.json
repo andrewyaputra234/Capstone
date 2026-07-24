@@ -4095,6 +4095,1233 @@
       ],
       "results_released_at": "2026-07-15T06:28:39.572516+00:00",
       "results_released_by": "001"
+    },
+    "b526a8c69cfd": {
+      "assignment_id": "b526a8c69cfd",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicea",
+      "subject": "assignment_123_ab70fa7f",
+      "rubric": "psle_oral_english",
+      "status": "completed",
+      "created_at": "2026-07-23T07:34:52.044441+00:00",
+      "updated_at": "2026-07-23T07:39:26.382878+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "sa.jpg",
+        "path": "data\\input\\assignment_123_ab70fa7f\\sa.jpg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Filename ending bracket or space ca.txt",
+        "path": "data\\input\\assignment_123_ab70fa7f\\Filename ending bracket or space ca.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "File Name Ending Bracket or Space Cost Ingestion",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260723_073546_35d0c79e.wav",
+        "transcription_path": "data\\sessions\\speech_20260723_073546_35d0c79e.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 3.4,
+          "words_per_minute": 140.4,
+          "pitch_range_semitones": 9.9,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "File Name Ending Bracket or Space Cost Ingestion",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"File Name Ending Bracket or Space Cost Ingestion\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 8,\n    \"estimated_passage_coverage_percent\": 25.0,\n    \"estimated_sequence_match_percent\": 35.7,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 3.4,\n    \"words_per_minute\": 140.4,\n    \"pitch_range_semitones\": 9.9,\n    \"notes\": [\n      \"Pace falls within a broad conversational range; listen to the recording for clarity.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and limited expression.",
+              "evidence": "The student's reading of 'File Name Ending Bracket or Space Cost Ingestion' shows some pronunciation issues and lacks a smooth pace and expressive tone.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on clearly reading out 'File Name Ending Bracket or Space Cost Ingestion'. Your pronunciation is generally understandable, which is a strong point. However, I noticed some issues with your pacing and expression. To improve, try to vary your tone more and maintain a steady pace throughout. A helpful sentence starter could be \"In this passage, I learned that...\". Remember, fluency and expression play a crucial role in engaging your audience when reading aloud. Keep practicing, and you'll see improvement in no time.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "File Name Ending Bracket or Space Cost Ingestion",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"File Name Ending Bracket or Space Cost Ingestion\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 8,\n    \"estimated_passage_coverage_percent\": 25.0,\n    \"estimated_sequence_match_percent\": 35.7,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 3.4,\n    \"words_per_minute\": 140.4,\n    \"pitch_range_semitones\": 9.9,\n    \"notes\": [\n      \"Pace falls within a broad conversational range; listen to the recording for clarity.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud Delivery",
+              "score": 10,
+              "max_score": 20,
+              "feedback": "The reading is understandable but with uneven pace and limited expression.",
+              "evidence": "The student's reading of 'File Name Ending Bracket or Space Cost Ingestion' shows some pronunciation issues and lacks a smooth pace and expressive tone.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Well done on clearly reading out 'File Name Ending Bracket or Space Cost Ingestion'. Your pronunciation is generally understandable, which is a strong point. However, I noticed some issues with your pacing and expression. To improve, try to vary your tone more and maintain a steady pace throughout. A helpful sentence starter could be \"In this passage, I learned that...\". Remember, fluency and expression play a crucial role in engaging your audience when reading aloud. Keep practicing, and you'll see improvement in no time.",
+          "total_score": 10,
+          "max_score": 20,
+          "percentage": 50.0,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-23T07:35:49.426386+00:00",
+        "ai_graded_at": "2026-07-23T07:35:58.109642+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "What are the students doing in this picture, and why do you think this activity is important?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_ab70fa7f_images\\page_1.jpg",
+          "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+          "generated_text": "What are the students doing in this picture, and why do you think this activity is important?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever participated in a craft activity like this? What was your experience like?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_ab70fa7f_images\\page_1.jpg",
+          "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+          "generated_text": "Have you ever participated in a craft activity like this? What was your experience like?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why do you think teamwork is important when working on projects like this, and how can it benefit the community?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_ab70fa7f_images\\page_1.jpg",
+          "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+          "generated_text": "Why do you think teamwork is important when working on projects like this, and how can it benefit the community?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-23T07:35:49.426397+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "b7dfeae857f4",
+          "question_id": 1,
+          "question": "What are the students doing in this picture, and why do you think this activity is important?",
+          "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+          "student_response": "First response: Looks like they are using some, I don't know.\n\nResponse after examiner follow-up: Looks like a ball of yarn they are knitting it",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260723_073726_b8fc1086.wav",
+          "transcription_path": "data\\sessions\\speech_20260723_073726_b8fc1086.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "81ceae29",
+          "created_at": "2026-07-23T07:37:41.097756+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "What are the students doing in this picture, and why do you think this activity is important?",
+            "answer": "First response: Looks like they are using some, I don't know.\n\nResponse after examiner follow-up: Looks like a ball of yarn they are knitting it",
+            "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they correctly identify the activity as knitting with yarn, which aligns with the visual stimulus. However, their initial uncertainty and lack of additional details could be improved.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student provided a clear idea with some useful reasons by mentioning that the students are knitting with a ball of yarn.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors in the response.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and provides a more detailed answer after prompting.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You did a good job in identifying that the students are knitting with a ball of yarn in the picture. However, the visual stimulus actually shows them using small looms, not knitting. Your biggest improvement area is providing more specific details and elaborating on your answers. Next time, try starting your response with \"I see that the students are...\" to give a more detailed description. Keep up the effort in adding more details to your responses to make them even stronger.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "What are the students doing in this picture, and why do you think this activity is important?",
+            "answer": "First response: Looks like they are using some, I don't know.\n\nResponse after examiner follow-up: Looks like a ball of yarn they are knitting it",
+            "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant as they correctly identify the activity as knitting with yarn, which aligns with the visual stimulus. However, their initial uncertainty and lack of additional details could be improved.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student provided a clear idea with some useful reasons by mentioning that the students are knitting with a ball of yarn.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 4,
+                "max_score": 6,
+                "feedback": "The student demonstrates generally accurate language with appropriate vocabulary, but there are minor errors in the response.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and provides a more detailed answer after prompting.",
+                "evidence": "Looks like a ball of yarn they are knitting it",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You did a good job in identifying that the students are knitting with a ball of yarn in the picture. However, the visual stimulus actually shows them using small looms, not knitting. Your biggest improvement area is providing more specific details and elaborating on your answers. Next time, try starting your response with \"I see that the students are...\" to give a more detailed description. Keep up the effort in adding more details to your responses to make them even stronger.",
+            "total_score": 18,
+            "max_score": 25,
+            "percentage": 72.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great effort in recognizing the knitting activity with yarn in the image! To enhance your response further, try starting with \"I see that the students are...\" to give a more detailed description. Remember to provide specific details and elaborate on your answers for a stronger impact. Keep up the good work, and continue adding depth to your responses. Well done on your progress! \n\nSentence Starter for Next Attempt: \"I see that the students are working with small looms, creating colorful patterns. This collaborative setting helps them develop new skills and work together effectively. How might this teamwork benefit their learning experience?\"",
+          "guided_attempt": {
+            "original_response": "Looks like they are using some, I don't know.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260723_073654_f46d7219.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260723_073654_f46d7219.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You said \"Looks like they are using some, I don't know.\". Can you explain the effect or benefit of that idea in more detail?",
+            "reason": "The response is empty, very short, or indicates the student is stuck.",
+            "created_at": "2026-07-23T07:36:59.348925+00:00",
+            "follow_up_response": "Looks like a ball of yarn they are knitting it"
+          }
+        },
+        {
+          "result_id": "cf82e76e8ee8",
+          "question_id": 2,
+          "question": "Have you ever participated in a craft activity like this? What was your experience like?",
+          "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+          "student_response": "First response: Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.\n\nResponse after examiner follow-up: Yeah.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260723_073902_f48f226d.wav",
+          "transcription_path": "data\\sessions\\speech_20260723_073902_f48f226d.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "81ceae29",
+          "created_at": "2026-07-23T07:39:19.093942+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Have you ever participated in a craft activity like this? What was your experience like?",
+            "answer": "First response: Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.\n\nResponse after examiner follow-up: Yeah.",
+            "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant, mentioning participating in arts and crafts activities like origami and using glue to create different creations. However, the response lacks specific details from the visual stimulus and could benefit from a clearer personal viewpoint.",
+                "evidence": "The student mentions making origami with teachers and doing arts and crafts with glue.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student provides a basic idea of participating in craft activities but lacks elaboration or examples.",
+                "evidence": "The student mentions making origami with teachers and doing arts and crafts with glue.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "making origami with the teachers and doing arts and crafts, using glue to create different creations",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and mentions engaging in craft activities like origami and arts and crafts.",
+                "evidence": "Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job mentioning your experience with making origami and doing arts and crafts activities with glue. However, your response could be improved by including more details from the visual stimulus, such as the specific craft activity with yarn and looms. Try to elaborate on your experiences next time to provide a clearer and more detailed response. For example, you could say, \"When I participated in a craft activity similar to the one shown, I enjoyed working with yarn and looms to create different designs.\" Keep practicing to enhance your idea development and language use in your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Have you ever participated in a craft activity like this? What was your experience like?",
+            "answer": "First response: Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.\n\nResponse after examiner follow-up: Yeah.",
+            "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student's response is mostly relevant, mentioning participating in arts and crafts activities like origami and using glue to create different creations. However, the response lacks specific details from the visual stimulus and could benefit from a clearer personal viewpoint.",
+                "evidence": "The student mentions making origami with teachers and doing arts and crafts with glue.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student provides a basic idea of participating in craft activities but lacks elaboration or examples.",
+                "evidence": "The student mentions making origami with teachers and doing arts and crafts with glue.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student's language is understandable with simple vocabulary, but there are noticeable errors in grammar and sentence control.",
+                "evidence": "making origami with the teachers and doing arts and crafts, using glue to create different creations",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence and mentions engaging in craft activities like origami and arts and crafts.",
+                "evidence": "Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job mentioning your experience with making origami and doing arts and crafts activities with glue. However, your response could be improved by including more details from the visual stimulus, such as the specific craft activity with yarn and looms. Try to elaborate on your experiences next time to provide a clearer and more detailed response. For example, you could say, \"When I participated in a craft activity similar to the one shown, I enjoyed working with yarn and looms to create different designs.\" Keep practicing to enhance your idea development and language use in your responses.",
+            "total_score": 15,
+            "max_score": 25,
+            "percentage": 60.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great job mentioning your experience with making origami and doing arts and crafts activities with glue. However, your response could be improved by including more details from the visual stimulus, such as the specific craft activity with yarn and looms. Try to elaborate on your experiences next time to provide a clearer and more detailed response. For example, you could say, \"When I participated in a craft activity similar to the one shown, I enjoyed working with yarn and looms to create different designs.\" Keep practicing to enhance your idea development and language use in your responses.\n\nSentence Starter for Next Attempt: \"One craft activity I particularly enjoyed was...\"",
+          "guided_attempt": {
+            "original_response": "Yes, making origami with the teachers and doing arts and crafts, using glue to create different creations.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260723_073821_cd3d1937.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260723_073821_cd3d1937.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You said \"Yes, making origami with the teachers and doing arts and crafts, using...\". Can you explain that idea further with a reason or example?",
+            "reason": "The response connects to the picture but needs stronger explanation before it is ready to grade without guidance.",
+            "created_at": "2026-07-23T07:38:25.375767+00:00",
+            "follow_up_response": "Yeah."
+          }
+        },
+        {
+          "result_id": "c79988d31fbe",
+          "question_id": 3,
+          "question": "Why do you think teamwork is important when working on projects like this, and how can it benefit the community?",
+          "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+          "student_response": "[Skipped question]",
+          "response_mode": "voice",
+          "audio_path": null,
+          "transcription_path": null,
+          "delivery_indicators": null,
+          "session_id": "81ceae29",
+          "created_at": "2026-07-23T07:39:25.621424+00:00",
+          "skipped": true,
+          "ai_grading": {
+            "assignment": "Why do you think teamwork is important when working on projects like this, and how can it benefit the community?",
+            "answer": "[Skipped question]",
+            "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "final_grading": {
+            "assignment": "Why do you think teamwork is important when working on projects like this, and how can it benefit the community?",
+            "answer": "[Skipped question]",
+            "visual_context": "A teacher is sitting at a table with four students in a classroom setting. They are engaged in a craft activity involving yarn and small looms. The teacher is smiling and holding an orange ball of yarn, while the students focus on their work. The atmosphere appears collaborative and positive.",
+            "skipped": true,
+            "scores": [
+              {
+                "criterion": "Reading Aloud Delivery",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 0,
+                "max_score": 8,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 0,
+                "max_score": 6,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction And Confidence",
+                "score": 0,
+                "max_score": 3,
+                "feedback": "No answer was provided for this criterion.",
+                "evidence": "",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+            "total_score": 0,
+            "max_score": 25,
+            "percentage": 0.0,
+            "scoring_source": "deterministic"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Question skipped. No oral response evidence was provided, so assessed criteria were recorded as 0."
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "a96555479c1c": {
+      "assignment_id": "a96555479c1c",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practiceb",
+      "subject": "assignment_123_805ccd28",
+      "rubric": "psle_oral_english",
+      "status": "assigned",
+      "created_at": "2026-07-24T04:14:48.442954+00:00",
+      "updated_at": "2026-07-24T04:14:48.442954+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_123_805ccd28\\aa.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_805ccd28\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "Why do you think it is important for the children to wash their hands in this setting?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_805ccd28_images\\page_1.webp",
+          "visual_context": "The image shows three children in a school bathroom washing their hands at a row of sinks. The setting is clean and well-lit, with soap dispensers on the wall. The children appear focused on washing their hands, indicating a hygienic practice.",
+          "generated_text": "Why do you think it is important for the children to wash their hands in this setting?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Can you share a time when you had to practice good hygiene, like washing your hands, and why it was important?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_805ccd28_images\\page_1.webp",
+          "visual_context": "The image shows three children in a school bathroom washing their hands at a row of sinks. The setting is clean and well-lit, with soap dispensers on the wall. The children appear focused on washing their hands, indicating a hygienic practice.",
+          "generated_text": "Can you share a time when you had to practice good hygiene, like washing your hands, and why it was important?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "How does practicing good hygiene, like handwashing, help keep the community safe and healthy?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_805ccd28_images\\page_1.webp",
+          "visual_context": "The image shows three children in a school bathroom washing their hands at a row of sinks. The setting is clean and well-lit, with soap dispensers on the wall. The children appear focused on washing their hands, indicating a hygienic practice.",
+          "generated_text": "How does practicing good hygiene, like handwashing, help keep the community safe and healthy?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
+    },
+    "ec9dd3ac65a2": {
+      "assignment_id": "ec9dd3ac65a2",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practicev124",
+      "subject": "assignment_123_a044f8d4",
+      "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload_2",
+      "status": "completed",
+      "created_at": "2026-07-24T04:15:59.310205+00:00",
+      "updated_at": "2026-07-24T04:22:16.401075+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "aa.webp",
+        "path": "data\\input\\assignment_123_a044f8d4\\aa.webp",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Good morning, students. I hope you.txt",
+        "path": "data\\input\\assignment_123_a044f8d4\\Good morning, students. I hope you.txt",
+        "text": "Filename ending bracket or space cause ingestion issue to follow up\n\nScript to exclude excel file in folder for ingestion"
+      },
+      "reading_submission": {
+        "transcript": "File name, ending, bracket or space, cause ingestion, issue to follow-up.",
+        "response_mode": "voice",
+        "audio_path": "data\\sessions\\speech_20260724_041717_d0cbc60c.wav",
+        "transcription_path": "data\\sessions\\speech_20260724_041717_d0cbc60c.json",
+        "delivery_indicators": {
+          "status": "available",
+          "disclaimer": "Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.",
+          "duration_seconds": 4.6,
+          "words_per_minute": 157.9,
+          "pitch_range_semitones": 16.6,
+          "notes": [
+            "Pace falls within a broad conversational range; listen to the recording for clarity.",
+            "Some pitch variation was detected; the examiner should judge whether it fits the meaning."
+          ]
+        },
+        "ai_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "File name, ending, bracket or space, cause ingestion, issue to follow-up.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"File name, ending, bracket or space, cause ingestion, issue to follow-up.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 12,\n    \"estimated_passage_coverage_percent\": 50.0,\n    \"estimated_sequence_match_percent\": 62.5,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 4.6,\n    \"words_per_minute\": 157.9,\n    \"pitch_range_semitones\": 16.6,\n    \"notes\": [\n      \"Pace falls within a broad conversational range; listen to the recording for clarity.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud - Pronunciation",
+              "score": 4,
+              "max_score": 5,
+              "feedback": "The student pronounces most words clearly with a few minor errors. Beginning and ending sounds are usually clear.",
+              "evidence": "The student accurately pronounced most words in the passage.",
+              "source": "ai"
+            },
+            {
+              "criterion": "Reading Aloud - Expression",
+              "score": 3,
+              "max_score": 5,
+              "feedback": "The student shows some expression in their reading, but the tone and phrasing are uneven, and the meaning is not always well conveyed.",
+              "evidence": "The student's reading lacks consistent pitch variation and tone, affecting the overall expression.",
+              "source": "ai"
+            },
+            {
+              "criterion": "Reading Aloud - Delivery and Fluency",
+              "score": 3,
+              "max_score": 5,
+              "feedback": "The reading is understandable, but the pace, pauses, or hesitation are uneven.",
+              "evidence": "The student's reading shows some uneven pace and pauses.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job on accurately pronouncing most of the words in the passage. However, there were a few minor errors in your pronunciation that you can work on. Your expression while reading could be improved by focusing on consistent pitch variation and tone to convey the meaning more effectively. Additionally, try to work on maintaining a more even pace and reducing pauses in your delivery for better fluency. Next time, you can start your sentence with a strong opening like \"In this passage, it is evident that...\" to draw the listener in. Keep up the good work and continue practicing to enhance your oral skills!",
+          "total_score": 10,
+          "max_score": 15,
+          "percentage": 66.7,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "final_grading": {
+          "assignment": "Reading-aloud submission. Assess only the selected reading-delivery rubric criteria. Use the source passage, transcript completeness check, and advisory delivery indicators.",
+          "answer": "File name, ending, bracket or space, cause ingestion, issue to follow-up.",
+          "visual_context": "Reading-aloud evidence: {\n  \"audio_evidence\": \"A student reading-aloud recording was submitted for examiner review.\",\n  \"source_passage\": \"Filename ending bracket or space cause ingestion issue to follow up\\n\\nScript to exclude excel file in folder for ingestion\",\n  \"transcript\": \"File name, ending, bracket or space, cause ingestion, issue to follow-up.\",\n  \"completion_check\": {\n    \"status\": \"available\",\n    \"passage_words\": 20,\n    \"transcript_words\": 12,\n    \"estimated_passage_coverage_percent\": 50.0,\n    \"estimated_sequence_match_percent\": 62.5,\n    \"notes\": [\n      \"Transcript appears to miss a sizeable part of the passage; check for skipped lines or unclear reading.\"\n    ]\n  },\n  \"delivery_indicators\": {\n    \"status\": \"available\",\n    \"disclaimer\": \"Automated delivery indicators are for examiner review only. They are not a pronunciation, accent, emotion, or official oral-exam score.\",\n    \"duration_seconds\": 4.6,\n    \"words_per_minute\": 157.9,\n    \"pitch_range_semitones\": 16.6,\n    \"notes\": [\n      \"Pace falls within a broad conversational range; listen to the recording for clarity.\",\n      \"Some pitch variation was detected; the examiner should judge whether it fits the meaning.\"\n    ]\n  },\n  \"limitation\": \"Automated grading uses transcript completeness and broad delivery indicators. It cannot reliably score phoneme-level pronunciation, accent, or expression without examiner review.\"\n}",
+          "scores": [
+            {
+              "criterion": "Reading Aloud - Pronunciation",
+              "score": 4,
+              "max_score": 5,
+              "feedback": "The student pronounces most words clearly with a few minor errors. Beginning and ending sounds are usually clear.",
+              "evidence": "The student accurately pronounced most words in the passage.",
+              "source": "ai"
+            },
+            {
+              "criterion": "Reading Aloud - Expression",
+              "score": 3,
+              "max_score": 5,
+              "feedback": "The student shows some expression in their reading, but the tone and phrasing are uneven, and the meaning is not always well conveyed.",
+              "evidence": "The student's reading lacks consistent pitch variation and tone, affecting the overall expression.",
+              "source": "ai"
+            },
+            {
+              "criterion": "Reading Aloud - Delivery and Fluency",
+              "score": 3,
+              "max_score": 5,
+              "feedback": "The reading is understandable, but the pace, pauses, or hesitation are uneven.",
+              "evidence": "The student's reading shows some uneven pace and pauses.",
+              "source": "ai"
+            }
+          ],
+          "tutoring_feedback": "Great job on accurately pronouncing most of the words in the passage. However, there were a few minor errors in your pronunciation that you can work on. Your expression while reading could be improved by focusing on consistent pitch variation and tone to convey the meaning more effectively. Additionally, try to work on maintaining a more even pace and reducing pauses in your delivery for better fluency. Next time, you can start your sentence with a strong opening like \"In this passage, it is evident that...\" to draw the listener in. Keep up the good work and continue practicing to enhance your oral skills!",
+          "total_score": 10,
+          "max_score": 15,
+          "percentage": 66.7,
+          "scoring_source": "deferred_ai_reading"
+        },
+        "examiner_review": null,
+        "crew_analysis": "Deferred AI reading-aloud grading used the transcript, a source-passage completion check, and advisory delivery indicators. Examiner verification is still required.",
+        "submitted_at": "2026-07-24T04:17:21.780504+00:00",
+        "ai_graded_at": "2026-07-24T04:17:43.014489+00:00"
+      },
+      "questions": [
+        {
+          "id": 1,
+          "text": "Why do you think it is important for students to wash their hands regularly, especially in school?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_a044f8d4_images\\page_1.webp",
+          "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+          "generated_text": "Why do you think it is important for students to wash their hands regularly, especially in school?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Can you share a time when you had to remind someone about hygiene or washing hands?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_a044f8d4_images\\page_1.webp",
+          "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+          "generated_text": "Can you share a time when you had to remind someone about hygiene or washing hands? What happened?",
+          "edited_by_examiner": true
+        },
+        {
+          "id": 3,
+          "text": "How can schools encourage students to maintain good hygiene practices? What are some benefits of doing so?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_a044f8d4_images\\page_1.webp",
+          "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+          "generated_text": "How can schools encourage students to maintain good hygiene practices? What are some benefits of doing so?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": "2026-07-24T04:17:21.780537+00:00",
+      "guidance_attempts": {},
+      "results": [
+        {
+          "result_id": "8da2539d1634",
+          "question_id": 1,
+          "question": "Why do you think it is important for students to wash their hands regularly, especially in school?",
+          "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+          "student_response": "I think it is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260724_041838_1f43e147.wav",
+          "transcription_path": "data\\sessions\\speech_20260724_041838_1f43e147.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "c9542237",
+          "created_at": "2026-07-24T04:18:58.106096+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Why do you think it is important for students to wash their hands regularly, especially in school?",
+            "answer": "I think it is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+            "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud - Pronunciation",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Expression",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Delivery and Fluency",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 8,
+                "max_score": 8,
+                "feedback": "The student directly answers the question with a clear reference to the picture and provides a relevant personal response.",
+                "evidence": "The student mentions the importance of handwashing for hygiene and preventing the spread of germs, specifically referencing using hands to touch different places.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student gives clear ideas about the importance of handwashing for hygiene and preventing the spread of germs. However, the development could be richer with more examples or reasoning.",
+                "evidence": "It is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 5,
+                "max_score": 6,
+                "feedback": "The student uses mostly accurate language with appropriate vocabulary. Minor errors do not affect meaning.",
+                "evidence": "It is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction and Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and provides a clear explanation on the importance of handwashing for hygiene.",
+                "evidence": "I think it is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job on directly answering the question and providing a relevant personal response about the importance of handwashing for hygiene. However, remember to provide richer development by including more examples or reasoning to support your ideas. For example, you can explain how washing hands before meals can prevent the spread of germs. Keep practicing to enhance the depth of your responses.",
+            "total_score": 22,
+            "max_score": 25,
+            "percentage": 88.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Why do you think it is important for students to wash their hands regularly, especially in school?",
+            "answer": "I think it is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+            "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud - Pronunciation",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Expression",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Delivery and Fluency",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 8,
+                "max_score": 8,
+                "feedback": "The student directly answers the question with a clear reference to the picture and provides a relevant personal response.",
+                "evidence": "The student mentions the importance of handwashing for hygiene and preventing the spread of germs, specifically referencing using hands to touch different places.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student gives clear ideas about the importance of handwashing for hygiene and preventing the spread of germs. However, the development could be richer with more examples or reasoning.",
+                "evidence": "It is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 5,
+                "max_score": 6,
+                "feedback": "The student uses mostly accurate language with appropriate vocabulary. Minor errors do not affect meaning.",
+                "evidence": "It is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction and Confidence",
+                "score": 3,
+                "max_score": 3,
+                "feedback": "The student responds confidently, stays engaged, and provides a clear explanation on the importance of handwashing for hygiene.",
+                "evidence": "I think it is important for students to wash their hands regularly because it is the basics of hygiene. It is to prevent any germs from spreading, especially if you use hands to touch different places.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "Great job on directly answering the question and providing a relevant personal response about the importance of handwashing for hygiene. However, remember to provide richer development by including more examples or reasoning to support your ideas. For example, you can explain how washing hands before meals can prevent the spread of germs. Keep practicing to enhance the depth of your responses.",
+            "total_score": 22,
+            "max_score": 25,
+            "percentage": 88.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "Great job on directly answering the question and providing a relevant personal response about the importance of handwashing for hygiene. It's fantastic to see your confidence in explaining this key concept. Remember, to take your response to the next level, try to include more examples or reasoning to support your ideas. For instance, you could talk about how washing hands before meals can prevent the spread of germs, adding depth to your explanation. Keep up the excellent work, and don't forget to practice expanding on your ideas for even stronger responses!\n\nSentence Starter: \"One important situation where handwashing helps prevent germs is...\""
+        },
+        {
+          "result_id": "b3968f3b22cf",
+          "question_id": 2,
+          "question": "Can you share a time when you had to remind someone about hygiene or washing hands?",
+          "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+          "student_response": "First response: Yeah, I had to remind my family to wash hands.\n\nResponse after examiner follow-up: Uh, yeah.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260724_042028_9ff416ad.wav",
+          "transcription_path": "data\\sessions\\speech_20260724_042028_9ff416ad.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "c9542237",
+          "created_at": "2026-07-24T04:20:47.867724+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "Can you share a time when you had to remind someone about hygiene or washing hands?",
+            "answer": "First response: Yeah, I had to remind my family to wash hands.\n\nResponse after examiner follow-up: Uh, yeah.",
+            "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud - Pronunciation",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Expression",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Delivery and Fluency",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's response is only loosely related to the picture and question, with weak reference to the stimulus.",
+                "evidence": "The student mentioned reminding their family to wash hands, which is somewhat related to the topic of hygiene but does not directly address the question or picture.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief with little elaboration or reasoning.",
+                "evidence": "The student's response was 'Uh, yeah' after the examiner follow-up.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 2,
+                "max_score": 6,
+                "feedback": "The student's response lacks detail and clarity, with limited vocabulary and incomplete sentences.",
+                "evidence": "Yeah, I had to remind my family to wash hands.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction and Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's response was hesitant and very brief, lacking detail or elaboration.",
+                "evidence": "The student's response after the examiner follow-up was simply 'Uh, yeah.'",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your effort in mentioning the importance of hand hygiene, which is a crucial aspect of personal health. However, it would have been more effective if you had directly addressed the topic of reminding someone about hygiene based on the image provided. Your response lacked detail and clarity, and it's essential to elaborate more on your experiences to fully develop your ideas. Next time, you could start with a sentence like \"I remember a time when I had to remind my family about the importance of washing hands regularly.\" Remember to connect your experiences to the stimulus given to create a more relevant and engaging response. Let's work on expanding your ideas and using more descriptive language in our future practice sessions.",
+            "total_score": 9,
+            "max_score": 25,
+            "percentage": 36.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "Can you share a time when you had to remind someone about hygiene or washing hands?",
+            "answer": "First response: Yeah, I had to remind my family to wash hands.\n\nResponse after examiner follow-up: Uh, yeah.",
+            "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud - Pronunciation",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Expression",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Delivery and Fluency",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 4,
+                "max_score": 8,
+                "feedback": "The student's response is only loosely related to the picture and question, with weak reference to the stimulus.",
+                "evidence": "The student mentioned reminding their family to wash hands, which is somewhat related to the topic of hygiene but does not directly address the question or picture.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 2,
+                "max_score": 8,
+                "feedback": "The answer is very brief with little elaboration or reasoning.",
+                "evidence": "The student's response was 'Uh, yeah' after the examiner follow-up.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 2,
+                "max_score": 6,
+                "feedback": "The student's response lacks detail and clarity, with limited vocabulary and incomplete sentences.",
+                "evidence": "Yeah, I had to remind my family to wash hands.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction and Confidence",
+                "score": 1,
+                "max_score": 3,
+                "feedback": "The student's response was hesitant and very brief, lacking detail or elaboration.",
+                "evidence": "The student's response after the examiner follow-up was simply 'Uh, yeah.'",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "I appreciate your effort in mentioning the importance of hand hygiene, which is a crucial aspect of personal health. However, it would have been more effective if you had directly addressed the topic of reminding someone about hygiene based on the image provided. Your response lacked detail and clarity, and it's essential to elaborate more on your experiences to fully develop your ideas. Next time, you could start with a sentence like \"I remember a time when I had to remind my family about the importance of washing hands regularly.\" Remember to connect your experiences to the stimulus given to create a more relevant and engaging response. Let's work on expanding your ideas and using more descriptive language in our future practice sessions.",
+            "total_score": 9,
+            "max_score": 25,
+            "percentage": 36.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "I appreciate your effort in mentioning the importance of hand hygiene, which is a crucial aspect of personal health. However, it would have been more effective if you had directly addressed the topic of reminding someone about hygiene based on the image provided. Your response lacked detail and clarity, and it's essential to elaborate more on your experiences to fully develop your ideas. Next time, you could start with a sentence like \"I remember a time when I had to remind my family about the importance of washing hands regularly.\" Remember to connect your experiences to the stimulus given to create a more relevant and engaging response. Let's work on expanding your ideas and using more descriptive language in our future practice sessions.\n\nSentence Starter: \"I remember a time when I had to remind my family about the importance of washing hands regularly.\"",
+          "guided_attempt": {
+            "original_response": "Yeah, I had to remind my family to wash hands.",
+            "original_response_mode": "voice",
+            "original_audio_path": "data\\sessions\\speech_20260724_041932_8931a12c.wav",
+            "original_transcription_path": "data\\sessions\\speech_20260724_041932_8931a12c.json",
+            "original_delivery_indicators": {
+              "status": "skipped",
+              "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+            },
+            "follow_up_question": "You said \"Yeah, I had to remind my family to wash hands.\". Can you correct or complete the action you mean, then explain why the children might be doing that?",
+            "reason": "The response connects to the picture but needs stronger explanation before it is ready to grade without guidance.",
+            "created_at": "2026-07-24T04:19:37.500575+00:00",
+            "follow_up_response": "Uh, yeah."
+          }
+        },
+        {
+          "result_id": "f89d8a232bae",
+          "question_id": 3,
+          "question": "How can schools encourage students to maintain good hygiene practices? What are some benefits of doing so?",
+          "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+          "student_response": "I think schools can maintain good hygiene practices by enforcing students to regularly wash their hands, to also be more careful in what they touch. Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+          "response_mode": "voice",
+          "audio_path": "data\\sessions\\speech_20260724_042158_9dee529f.wav",
+          "transcription_path": "data\\sessions\\speech_20260724_042158_9dee529f.json",
+          "delivery_indicators": {
+            "status": "skipped",
+            "disclaimer": "Delivery indicators were skipped for faster image-question assessment."
+          },
+          "session_id": "c9542237",
+          "created_at": "2026-07-24T04:22:15.300611+00:00",
+          "skipped": false,
+          "ai_grading": {
+            "assignment": "How can schools encourage students to maintain good hygiene practices? What are some benefits of doing so?",
+            "answer": "I think schools can maintain good hygiene practices by enforcing students to regularly wash their hands, to also be more careful in what they touch. Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+            "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud - Pronunciation",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Expression",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Delivery and Fluency",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student mostly answers the question and makes a relevant reference to the picture, but the details may be a bit general.",
+                "evidence": "The student mentions enforcing handwashing and being careful in what they touch to maintain good hygiene practices, linking it to better health due to the spread of bacteria.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student gives clear ideas about how schools can encourage good hygiene practices and mentions a benefit of better health. However, the answer could be richer with more examples or explanations.",
+                "evidence": "I think schools can maintain good hygiene practices by enforcing students to regularly wash their hands, to also be more careful in what they touch. Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student uses simple but understandable language with noticeable grammar errors.",
+                "evidence": "Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction and Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, but may benefit from providing more specific examples or details to support their points.",
+                "evidence": "I think schools can maintain good hygiene practices by enforcing students to regularly wash their hands, to also be more careful in what they touch. Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You've shown a good understanding of how schools can promote good hygiene practices by mentioning handwashing and being cautious of what you touch. However, it's important to note that the image depicts children already washing their hands, so the focus should be on building upon that rather than just enforcing it. Your biggest area for improvement lies in providing more specific examples or explanations to enrich your response. Next time, you can start by saying, \"In addition to handwashing, schools can also promote hygiene by...\" Keep up the effort in expanding your ideas to create a more comprehensive answer.",
+            "total_score": 17,
+            "max_score": 25,
+            "percentage": 68.0,
+            "scoring_source": "ai"
+          },
+          "final_grading": {
+            "assignment": "How can schools encourage students to maintain good hygiene practices? What are some benefits of doing so?",
+            "answer": "I think schools can maintain good hygiene practices by enforcing students to regularly wash their hands, to also be more careful in what they touch. Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+            "visual_context": "The image shows three children in school uniforms washing their hands at sinks in what appears to be a school restroom. The children are focused on using the taps, and there are soap dispensers on the wall. The setting is clean and well-lit, suggesting a hygienic environment.",
+            "scores": [
+              {
+                "criterion": "Reading Aloud - Pronunciation",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Expression",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Reading Aloud - Delivery and Fluency",
+                "score": 0,
+                "max_score": 0,
+                "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+                "evidence": null,
+                "source": "not_assessed"
+              },
+              {
+                "criterion": "Stimulus Response Relevance",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student mostly answers the question and makes a relevant reference to the picture, but the details may be a bit general.",
+                "evidence": "The student mentions enforcing handwashing and being careful in what they touch to maintain good hygiene practices, linking it to better health due to the spread of bacteria.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Idea Development",
+                "score": 6,
+                "max_score": 8,
+                "feedback": "The student gives clear ideas about how schools can encourage good hygiene practices and mentions a benefit of better health. However, the answer could be richer with more examples or explanations.",
+                "evidence": "I think schools can maintain good hygiene practices by enforcing students to regularly wash their hands, to also be more careful in what they touch. Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Spoken Language Use",
+                "score": 3,
+                "max_score": 6,
+                "feedback": "The student uses simple but understandable language with noticeable grammar errors.",
+                "evidence": "Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+                "source": "ai"
+              },
+              {
+                "criterion": "Interaction and Confidence",
+                "score": 2,
+                "max_score": 3,
+                "feedback": "The student responds adequately with some confidence, but may benefit from providing more specific examples or details to support their points.",
+                "evidence": "I think schools can maintain good hygiene practices by enforcing students to regularly wash their hands, to also be more careful in what they touch. Some of the benefits could be better health because by spreading bacteria around, you might fall sick.",
+                "source": "ai"
+              }
+            ],
+            "tutoring_feedback": "You've shown a good understanding of how schools can promote good hygiene practices by mentioning handwashing and being cautious of what you touch. However, it's important to note that the image depicts children already washing their hands, so the focus should be on building upon that rather than just enforcing it. Your biggest area for improvement lies in providing more specific examples or explanations to enrich your response. Next time, you can start by saying, \"In addition to handwashing, schools can also promote hygiene by...\" Keep up the effort in expanding your ideas to create a more comprehensive answer.",
+            "total_score": 17,
+            "max_score": 25,
+            "percentage": 68.0,
+            "scoring_source": "ai"
+          },
+          "examiner_review": null,
+          "crew_analysis": "You've demonstrated a good grasp of how schools can promote hygiene practices by mentioning handwashing and being cautious of what you touch, which is commendable. However, to enhance your response, try to include more specific examples or detailed explanations to further develop your ideas. For instance, you could elaborate on different ways schools can remind students about hygiene practices beyond handwashing, like using posters or organizing hygiene workshops.\n\nRemember to focus on building upon the actions shown in the image of children washing their hands rather than just enforcing them. To improve your answer further, you can start by saying, \"In addition to handwashing, schools can also promote hygiene by...\" This will prompt you to expand your ideas and make your response more comprehensive.\n\nKeep up the effort in expanding your thoughts and providing more varied language to enrich your oral responses. You're on the right track, and with more details and examples, your answers will become even stronger. Well done on your progress so far!"
+        }
+      ],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

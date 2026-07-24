@@ -378,6 +378,35 @@
       "pdf_path": "data\\input\\assignment_123_d96c0c08\\jhe.jpg",
       "visual_path": "data\\input\\assignment_123_d96c0c08\\jhe.jpg",
       "reading_path": "data\\input\\assignment_123_d96c0c08\\Good morning, students. I hope you.txt"
+    },
+    "assignment_002_282590a6": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_002_282590a6\\image-45-1024x683.webp",
+      "visual_path": "data\\input\\assignment_002_282590a6\\image-45-1024x683.webp"
+    },
+    "assignment_123_ab70fa7f": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_ab70fa7f\\sa.jpg",
+      "visual_path": "data\\input\\assignment_123_ab70fa7f\\sa.jpg",
+      "reading_path": "data\\input\\assignment_123_ab70fa7f\\Filename ending bracket or space ca.txt"
+    },
+    "assignment_123_41ceb193": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_41ceb193\\sa.jpg",
+      "visual_path": "data\\input\\assignment_123_41ceb193\\sa.jpg",
+      "reading_path": "data\\input\\assignment_123_41ceb193\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_805ccd28": {
+      "rubric": "psle_oral_english",
+      "pdf_path": "data\\input\\assignment_123_805ccd28\\aa.webp",
+      "visual_path": "data\\input\\assignment_123_805ccd28\\aa.webp",
+      "reading_path": "data\\input\\assignment_123_805ccd28\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_a044f8d4": {
+      "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload_2",
+      "pdf_path": "data\\input\\assignment_123_a044f8d4\\aa.webp",
+      "visual_path": "data\\input\\assignment_123_a044f8d4\\aa.webp",
+      "reading_path": "data\\input\\assignment_123_a044f8d4\\Good morning, students. I hope you.txt"
     }
   }
 }
