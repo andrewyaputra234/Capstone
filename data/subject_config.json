@@ -407,6 +407,12 @@
       "pdf_path": "data\\input\\assignment_123_a044f8d4\\aa.webp",
       "visual_path": "data\\input\\assignment_123_a044f8d4\\aa.webp",
       "reading_path": "data\\input\\assignment_123_a044f8d4\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_9e8ba5fa": {
+      "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload_2",
+      "pdf_path": "data\\input\\assignment_123_9e8ba5fa\\jhe.jpg",
+      "visual_path": "data\\input\\assignment_123_9e8ba5fa\\jhe.jpg",
+      "reading_path": "data\\input\\assignment_123_9e8ba5fa\\Good morning, students. I hope you.txt"
     }
   }
 }

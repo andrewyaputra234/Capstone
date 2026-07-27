@@ -1069,8 +1069,8 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           <div class="anam-actions">
             <span>{'Start the examiner if the video does not appear automatically.' if auto_play else 'The examiner has already asked this prompt. Press Play only if you need to hear it again.'}</span>
             <div>
-              <button id="{start_id}" class="anam-button" type="button">Play</button>
-              <button id="{button_id}" class="anam-button" type="button" disabled>Replay</button>
+              <button id="{start_id}" class="anam-button" type="button">Start</button>
+              <button id="{button_id}" class="anam-button" type="button">Play again</button>
             </div>
           </div>
         </div>
@@ -1124,7 +1124,6 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             const activeClient = client;
             client = null;
             streamStarted = false;
-            if (replay) replay.disabled = true;
             if (startButton) startButton.disabled = true;
             if (!activeClient) return;
             try {{
@@ -1135,6 +1134,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             setStatus("Finished");
             setDetail("Press Play to hear this prompt again.");
             if (startButton) startButton.disabled = false;
+            if (replay) replay.disabled = false;
           }}
 
           function scheduleCloseAfterTalk() {{
@@ -1192,7 +1192,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
               client.addListener(AnamEvent.CONNECTION_CLOSED, (code, details) => {{
                 client = null;
                 streamStarted = false;
-                if (replay) replay.disabled = true;
+                if (replay) replay.disabled = false;
                 if (startButton) startButton.disabled = false;
                 setStatus(closeAfterTalk ? "Finished" : "Closed");
                 setDetail(details ? `${{code}}: ${{details}}` : "Press Play to hear this prompt again.");
@@ -1203,11 +1203,20 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
               setStatus("Stream error");
               setDetail(errorMessage(error));
               if (startButton) startButton.disabled = false;
+              if (replay) replay.disabled = false;
             }}
           }}
 
+          async function playAgain() {{
+            if (client && streamStarted) {{
+              await speak();
+              return;
+            }}
+            await start();
+          }}
+
           if (startButton) startButton.addEventListener("click", start);
-          if (replay) replay.addEventListener("click", speak);
+          if (replay) replay.addEventListener("click", playAgain);
           window.addEventListener("beforeunload", () => {{
             clearCloseTimer();
             if (client) client.stopStreaming().catch(() => {{}});
@@ -1790,6 +1799,8 @@ def render_avatar_video_file(
     subtitle_html = html_escape(subtitle)
     safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", element_key)
     safe_id_json = json.dumps(safe_id)
+    replay_id = f"{safe_id}_replay"
+    replay_id_json = json.dumps(replay_id)
     autoplay_attr = "autoplay" if auto_play else ""
     autoplay_script = (
         f"""
@@ -1851,9 +1862,29 @@ def render_avatar_video_file(
             font-size: 1rem;
           }}
           .avatar-native-help {{
-            padding: 0 1rem 0.85rem;
+            padding: 0 1rem 0.45rem;
             color: #587267;
             font-size: 1rem;
+          }}
+          .avatar-replay-row {{
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 1rem 0.9rem;
+          }}
+          .avatar-replay-button {{
+            min-height: 2.45rem;
+            border: 1px solid #8bc59f;
+            border-radius: 8px;
+            background: #f7fff9;
+            color: #203b36;
+            font-family: Aptos, Segoe UI, sans-serif;
+            font-size: 1rem;
+            font-weight: 750;
+            padding: 0 0.9rem;
+            cursor: pointer;
+          }}
+          .avatar-replay-button:hover {{
+            background: #e6f5eb;
           }}
         </style>
         <div class="avatar-native-card">
@@ -1867,10 +1898,26 @@ def render_avatar_video_file(
           </video>
           <div class="avatar-native-subtitle"><strong>Subtitles:</strong> {subtitle_html}</div>
           <div class="avatar-native-help">{'If the examiner does not start automatically, press play.' if auto_play else 'Press the video play button to hear the examiner. Use the fullscreen control if needed.'}</div>
+          <div class="avatar-replay-row">
+            <button id="{replay_id}" class="avatar-replay-button" type="button">Play again</button>
+          </div>
         </div>
+        <script>
+          const replayButton = document.getElementById({replay_id_json});
+          const replayVideo = document.getElementById({safe_id_json});
+          if (replayButton && replayVideo) {{
+            replayButton.addEventListener("click", () => {{
+              replayVideo.currentTime = 0;
+              const playPromise = replayVideo.play();
+              if (playPromise && typeof playPromise.catch === "function") {{
+                playPromise.catch(() => {{}});
+              }}
+            }});
+          }}
+        </script>
         {autoplay_script}
         """,
-        height=520,
+        height=580,
         scrolling=False,
     )
     return True
@@ -1912,6 +1959,8 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
 
     safe_id = re.sub(r"[^a-zA-Z0-9_-]+", "_", element_key)
     safe_id_json = json.dumps(safe_id)
+    replay_id = f"{safe_id}_replay"
+    replay_id_json = json.dumps(replay_id)
     url_json = json.dumps(url)
     is_hls_json = json.dumps(is_hls)
     autoplay_json = json.dumps(auto_play)
@@ -1945,7 +1994,7 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
             object-fit: contain;
           }}
           .avatar-pop-subtitle {{
-            padding: 0.85rem 1rem 1rem;
+            padding: 0.85rem 1rem 0.45rem;
             color: #203b36;
             background: rgba(255,255,253,.97);
             font-size: 1rem;
@@ -1958,6 +2007,27 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
             text-transform: uppercase;
             letter-spacing: .06em;
           }}
+          .avatar-replay-row {{
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 1rem 0.9rem;
+            background: rgba(255,255,253,.97);
+          }}
+          .avatar-replay-button {{
+            min-height: 2.45rem;
+            border: 1px solid #8bc59f;
+            border-radius: 8px;
+            background: #f7fff9;
+            color: #203b36;
+            font-family: Aptos, Segoe UI, sans-serif;
+            font-size: 1rem;
+            font-weight: 750;
+            padding: 0 0.9rem;
+            cursor: pointer;
+          }}
+          .avatar-replay-button:hover {{
+            background: #e6f5eb;
+          }}
         </style>
         <div class="avatar-pop-card">
           <div class="avatar-pop-header">
@@ -1966,10 +2036,14 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
           </div>
           <video id="{safe_id}" class="avatar-pop-video" controls preload="metadata" playsinline></video>
           <div class="avatar-pop-subtitle">{subtitle_html}</div>
+          <div class="avatar-replay-row">
+            <button id="{replay_id}" class="avatar-replay-button" type="button">Play again</button>
+          </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
         <script>
           const video = document.getElementById({safe_id_json});
+          const replayButton = document.getElementById({replay_id_json});
           const src = {url_json};
           const isHls = {is_hls_json};
           const shouldAutoplay = {autoplay_json};
@@ -1995,9 +2069,20 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
           }} else {{
             video.outerHTML = '<p style="padding:1rem;color:#203b36;font-family:Segoe UI,sans-serif;">Avatar video is ready, but this browser cannot play the stream.</p>';
           }}
+          if (replayButton && video) {{
+            replayButton.addEventListener("click", () => {{
+              try {{
+                video.currentTime = 0;
+              }} catch (_) {{}}
+              const playPromise = video.play();
+              if (playPromise && typeof playPromise.catch === "function") {{
+                playPromise.catch(() => {{}});
+              }}
+            }});
+          }}
         </script>
         """,
-        height=540,
+        height=595,
         scrolling=False,
     )
     st.caption("If the examiner video does not load, open the returned Simli stream in a new tab.")
@@ -4601,7 +4686,7 @@ def render_student_progress_indicator(assignment: dict) -> None:
 
 
 def start_preparation_timer(assignment: dict) -> None:
-    """Start the preparation timer only after the selected materials page opens."""
+    """Start the preparation timer only after the selected materials page is rendered."""
     assignment_id = assignment.get("assignment_id")
     if (
         st.session_state.preparation_timer_assignment_id != assignment_id
@@ -4868,7 +4953,6 @@ def render_student_materials(assignment: dict) -> None:
         st.session_state.preparation_complete = True
         st.session_state.student_portal_stage = "assessment_loading"
         st.rerun()
-    start_preparation_timer(assignment)
 
 
 @st.fragment(run_every=1)
@@ -5443,8 +5527,11 @@ def render_student_portal() -> None:
         render_student_assessment(assignment)
         return
 
-    render_preparation_timer()
+    timer_slot = st.empty()
     render_student_materials(assignment)
+    start_preparation_timer(assignment)
+    with timer_slot.container():
+        render_preparation_timer()
 
 apply_portal_theme()
 

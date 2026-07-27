@@ -270,12 +270,14 @@ Student's final answer:
 Now generate detailed PSLE English oral practice feedback as if Ms Tan is speaking directly to the student.
 Requirements:
 - Start with one real strength that is supported by the student's answer.
+- If the scores are low or mid-range, keep the praise brief and focus more on the next improvement.
 - If the answer conflicts with the visual stimulus facts, clearly and gently name the mismatch.
 - Explain the biggest improvement area using the criterion results.
 - Give one improved sentence starter or model phrase the student can use next time.
 - Mention reading aloud only if it was actually assessed.
 - Keep it suitable for an avatar/TTS system: plain text, 5-7 short sentences, no markdown bullets.
 - Avoid generic lines like "great job" or "keep up the good work" unless they are tied to specific evidence.
+- Do not make the feedback sound better than the marks. Be fair, specific, and slightly strict.
 - Do not claim this is an official PSLE score; treat it as practice feedback.
 
 Tutoring Feedback (spoken to student):""")

@@ -175,6 +175,22 @@ class RubricEngine:
                     "check the picture carefully and correct that detail."
                 )
                 evaluation["evidence"] = visual_mismatch
+
+            strict_cap = self._strict_score_cap(
+                answer=answer,
+                criterion_name=name,
+                description=description,
+                levels=levels,
+                max_score=max_score,
+                question=question,
+                visual_context=visual_context,
+            )
+            if strict_cap:
+                score_cap, cap_reason = strict_cap
+                if score > score_cap:
+                    score = score_cap
+                    evaluation["feedback"] = cap_reason
+                    evaluation["evidence"] = self._short_answer_evidence(answer)
             
             # Generate feedback - handle both list and dict formats for levels
             feedback = evaluation.get("feedback") or self._level_feedback(levels, score, max_score)
@@ -280,6 +296,12 @@ Allowed score numbers: {allowed_scores}
 Important:
 - Choose only one of the allowed score numbers.
 - Base the score on observable evidence in the student's answer.
+- Mark as a strict PSLE-style oral examiner, not a generous tutor. Start from the lower matching band and move up only when the answer clearly earns it.
+- Do not give the highest score unless the answer fully satisfies the top-band descriptor with specific evidence.
+- Short, generic, repeated, or unsupported answers must stay in the lower or middle bands even if they are on-topic.
+- A one-sentence answer with little elaboration should not receive high Idea Development marks.
+- A response that does not clearly answer the question should not receive high Relevance marks.
+- Understandable but grammatically weak or fragmented spoken English should not receive high Language marks.
 - For visual stimulus questions, compare the answer to the visual facts. If the answer directly contradicts a visible fact, lower the relevant score and mention the mismatch.
 - Do not invent visual facts. If no visual facts are provided, say the answer needs more detail rather than claiming it is visually wrong.
 - Do not reward reading-aloud delivery, pronunciation, fluency, or expression unless actual audio/delivery evidence is provided.
@@ -367,6 +389,173 @@ Return ONLY valid JSON with this shape:
         if lower_or_equal:
             return max(lower_or_equal)
         return min(allowed_scores) if allowed_scores else max(0, min(target, max_score))
+
+    def _strict_score_cap(
+        self,
+        *,
+        answer: str,
+        criterion_name: str,
+        description: str,
+        levels: Dict,
+        max_score: int,
+        question: str,
+        visual_context: Optional[str],
+    ) -> Optional[Tuple[int, str]]:
+        """Apply conservative ceilings before accepting an AI-generated score."""
+        if max_score <= 0:
+            return None
+
+        normalized_answer = self._normalize_answer_for_caps(answer)
+        words = re.findall(r"[a-zA-Z0-9']+", normalized_answer)
+        word_count = len(words)
+        criterion_text = f"{criterion_name} {description}".lower()
+        is_reading = self._is_reading_delivery_criterion(criterion_text)
+        category = self._strict_criterion_category(criterion_text)
+
+        if word_count == 0:
+            return self._score_at_or_below(0, levels, max_score), "No answer was provided for this criterion."
+
+        if not is_reading and word_count < 5:
+            return (
+                self._score_at_or_below(max(1, max_score // 3), levels, max_score),
+                "The response is too brief to show clear understanding, elaboration, or confident spoken interaction.",
+            )
+
+        if category == "relevance":
+            if self._is_generic_or_minimal_answer(normalized_answer) or word_count < 10:
+                return (
+                    self._score_at_or_below(max_score // 2, levels, max_score),
+                    "The response is relevant only at a basic level and needs a clearer answer with specific details.",
+                )
+            if visual_context and not self._mentions_enough_context(normalized_answer, question, visual_context):
+                return (
+                    self._score_at_or_below(max_score - max(1, max_score // 4), levels, max_score),
+                    "The response answers generally but does not use enough specific detail from the question or stimulus for a top score.",
+                )
+
+        if category == "ideas":
+            if word_count < 16:
+                return (
+                    self._score_at_or_below(max_score // 2, levels, max_score),
+                    "The idea is too brief for a high development score; it needs explanation, examples, or a clearer reason.",
+                )
+            if word_count < 30 and not self._has_reason_or_example(normalized_answer):
+                return (
+                    self._score_at_or_below(max_score // 2, levels, max_score),
+                    "The answer gives a point but does not develop it with a clear reason, example, or explanation.",
+                )
+
+        if category == "language":
+            if word_count < 8:
+                return (
+                    self._score_at_or_below(max_score // 2, levels, max_score),
+                    "There is too little spoken language evidence to award a high language score.",
+                )
+            if self._has_fragmented_language(normalized_answer):
+                return (
+                    self._score_at_or_below(max_score // 2, levels, max_score),
+                    "Frequent fragmented or unclear phrasing limits the language score even though some meaning is understandable.",
+                )
+
+        if category == "interaction":
+            if word_count < 8:
+                return (
+                    self._score_at_or_below(max(1, max_score // 3), levels, max_score),
+                    "The response is too short or dependent to show strong interaction and confidence.",
+                )
+            if word_count < 16:
+                return (
+                    self._score_at_or_below(max_score - 1, levels, max_score),
+                    "The response shows some engagement but is too brief for full interaction and confidence marks.",
+                )
+
+        if is_reading and word_count < 20:
+            return (
+                self._score_at_or_below(max_score // 2, levels, max_score),
+                "The reading evidence is too short or incomplete to justify a high reading-aloud score.",
+            )
+
+        return None
+
+    def _normalize_answer_for_caps(self, answer: str) -> str:
+        cleaned = re.sub(r"\b(first response|response after guidance|examiner guidance)\s*:", " ", answer or "", flags=re.I)
+        cleaned = re.sub(r"\[[^\]]+\]", " ", cleaned)
+        return " ".join(cleaned.split()).lower()
+
+    def _strict_criterion_category(self, criterion_text: str) -> str:
+        if any(marker in criterion_text for marker in ("stimulus", "relevance", "visual", "picture")):
+            return "relevance"
+        if any(marker in criterion_text for marker in ("idea", "development", "elaboration", "reason", "example")):
+            return "ideas"
+        if any(marker in criterion_text for marker in ("language", "grammar", "vocabulary", "sentence")):
+            return "language"
+        if any(marker in criterion_text for marker in ("interaction", "confidence", "responsive", "engagement")):
+            return "interaction"
+        return "other"
+
+    def _is_reading_delivery_criterion(self, criterion_text: str) -> bool:
+        return any(
+            marker in criterion_text
+            for marker in ("reading aloud", "oral reading", "pronunciation", "fluency", "expression", "delivery")
+        )
+
+    def _is_generic_or_minimal_answer(self, answer: str) -> bool:
+        generic_patterns = [
+            r"\bi (?:do not|don't) know\b",
+            r"\bnot sure\b",
+            r"\bi think (?:it )?is (?:good|nice|fun|bad|important)\b",
+            r"\bit is (?:good|nice|fun|bad|important)\b",
+            r"\bbecause (?:it )?is (?:good|nice|fun|bad|important)\b",
+        ]
+        return any(re.search(pattern, answer) for pattern in generic_patterns)
+
+    def _has_reason_or_example(self, answer: str) -> bool:
+        return bool(
+            re.search(
+                r"\b(because|since|so that|therefore|for example|for instance|such as|this shows|this means|if|when|as a result)\b",
+                answer,
+            )
+        )
+
+    def _has_fragmented_language(self, answer: str) -> bool:
+        words = re.findall(r"[a-zA-Z0-9']+", answer)
+        if len(words) < 12:
+            return False
+        repeated_fillers = len(re.findall(r"\b(um|uh|erm|like|then then|and and)\b", answer))
+        sentence_like = len(re.findall(r"\b(i|we|they|he|she|it|there|this|that)\b", answer))
+        return repeated_fillers >= 3 or sentence_like == 0
+
+    def _mentions_enough_context(self, answer: str, question: str, visual_context: str) -> bool:
+        source_text = f"{question} {visual_context}".lower()
+        answer_words = set(re.findall(r"[a-zA-Z]{4,}", answer))
+        source_words = {
+            word
+            for word in re.findall(r"[a-zA-Z]{4,}", source_text)
+            if word not in {
+                "what",
+                "where",
+                "when",
+                "which",
+                "this",
+                "that",
+                "they",
+                "them",
+                "with",
+                "from",
+                "about",
+                "because",
+                "question",
+                "picture",
+                "visual",
+                "student",
+                "answer",
+            }
+        }
+        return len(answer_words & source_words) >= 2
+
+    def _short_answer_evidence(self, answer: str) -> str:
+        cleaned = " ".join((answer or "").split())
+        return cleaned[:140] if cleaned else "No usable answer evidence."
     
     def _is_visual_accuracy_criterion(self, name: str, description: str) -> bool:
         criterion_text = f"{name} {description}".lower()
