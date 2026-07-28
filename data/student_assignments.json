@@ -5954,6 +5954,72 @@
       ],
       "results_released_at": null,
       "results_released_by": null
+    },
+    "8567630ea380": {
+      "assignment_id": "8567630ea380",
+      "student_id": "123",
+      "student_name": "123",
+      "title": "PSLE English Oral Practice27",
+      "subject": "assignment_123_f8b14457",
+      "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload_2",
+      "status": "assigned",
+      "created_at": "2026-07-27T04:19:49.787977+00:00",
+      "updated_at": "2026-07-27T04:19:49.787977+00:00",
+      "assigned_by": "001",
+      "visual": {
+        "name": "jhe.jpg",
+        "path": "data\\input\\assignment_123_f8b14457\\jhe.jpg",
+        "image_count": 1
+      },
+      "reading": {
+        "name": "Green image managed to replicate in.txt",
+        "path": "data\\input\\assignment_123_f8b14457\\Green image managed to replicate in.txt",
+        "text": "Green image managed to replicate in UAT however need more testing. Observed 96 dpi and 1000x1000 resolution. JPEG\n\nDocumentation (create tables, additional troubleshooting information)"
+      },
+      "reading_submission": null,
+      "questions": [
+        {
+          "id": 1,
+          "text": "What do you see happening in this picture, and why do you think the nurse is helping the elderly man?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_f8b14457_images\\page_1.jpg",
+          "visual_context": "A nurse in blue scrubs is feeding an elderly man in a yellow shirt in a hospital room. The man is sitting on a bed with a tray of food in front of him. The room has a window with blinds, a painting on the wall, and a potted orchid plant.",
+          "generated_text": "What do you see happening in this picture, and why do you think the nurse is helping the elderly man?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 2,
+          "text": "Have you ever visited someone in a hospital or helped someone who was sick? Can you share your experience?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_f8b14457_images\\page_1.jpg",
+          "visual_context": "A nurse in blue scrubs is feeding an elderly man in a yellow shirt in a hospital room. The man is sitting on a bed with a tray of food in front of him. The room has a window with blinds, a painting on the wall, and a potted orchid plant.",
+          "generated_text": "Have you ever visited someone in a hospital or helped someone who was sick? Can you share your experience?",
+          "edited_by_examiner": false
+        },
+        {
+          "id": 3,
+          "text": "Why is it important to take care of the elderly in our community, and how can we show them respect and support?",
+          "source": "Vision-generated from uploaded photo",
+          "answered": false,
+          "answer": null,
+          "scores": null,
+          "image_path": "data\\assignment_123_f8b14457_images\\page_1.jpg",
+          "visual_context": "A nurse in blue scrubs is feeding an elderly man in a yellow shirt in a hospital room. The man is sitting on a bed with a tray of food in front of him. The room has a window with blinds, a painting on the wall, and a potted orchid plant.",
+          "generated_text": "Why is it important to take care of the elderly in our community, and how can we show them respect and support?",
+          "edited_by_examiner": false
+        }
+      ],
+      "reading_completed_at": null,
+      "guidance_attempts": {},
+      "results": [],
+      "results_released_at": null,
+      "results_released_by": null
     }
   }
 }

@@ -413,6 +413,18 @@
       "pdf_path": "data\\input\\assignment_123_9e8ba5fa\\jhe.jpg",
       "visual_path": "data\\input\\assignment_123_9e8ba5fa\\jhe.jpg",
       "reading_path": "data\\input\\assignment_123_9e8ba5fa\\Good morning, students. I hope you.txt"
+    },
+    "assignment_123_f8b14457": {
+      "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload_2",
+      "pdf_path": "data\\input\\assignment_123_f8b14457\\jhe.jpg",
+      "visual_path": "data\\input\\assignment_123_f8b14457\\jhe.jpg",
+      "reading_path": "data\\input\\assignment_123_f8b14457\\Green image managed to replicate in.txt"
+    },
+    "assignment_123_ee0ead5e": {
+      "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload_3",
+      "pdf_path": "data\\input\\assignment_123_ee0ead5e\\jhe.jpg",
+      "visual_path": "data\\input\\assignment_123_ee0ead5e\\jhe.jpg",
+      "reading_path": "data\\input\\assignment_123_ee0ead5e\\Green image managed to replicate in.txt"
     }
   }
 }

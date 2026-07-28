@@ -1,6 +1,6 @@
 # Codex Session Handoff
 
-Last updated: 2026-07-16
+Last updated: 2026-07-27
 
 This file summarizes the recent Codex work so the project can be moved to another PC and continued with context.
 
@@ -24,6 +24,22 @@ The latest known automated test result is:
 ```
 
 Result: `40 tests OK`.
+
+## Current Git State
+
+Latest local commit:
+
+```text
+25eea7c stricter
+```
+
+As of this handoff update, the working tree still has uncommitted runtime/test-data changes:
+
+- `data/student_assignments.json`
+- `data/subject_config.json`
+- `data/rubrics/examiner_psle_oral_psle_singapore_oral_combined_strict_upload_3.json`
+
+These appear to be assignment/rubric test data, not core app code. Commit them only if the new test assignment and uploaded rubric should be preserved in repo history.
 
 ## Important Run Command
 
@@ -126,6 +142,15 @@ Anam can alternatively be configured with avatar/voice/LLM IDs instead of a pers
 - AI grading comments were made darker for readability without changing the rest of the UI.
 - Fixed an issue where the 3rd question had to be verified twice before the release button appeared. The review dropdown now stores assignment IDs instead of stale assignment objects.
 
+### Strict Oral Scoring And Avatar Replay
+
+- Added stricter PSLE-style grading guidance so the AI starts conservatively and only awards top marks when the answer clearly meets top-band descriptors.
+- Added deterministic score caps for very short, generic, unsupported, fragmented, or weakly relevant oral answers.
+- Low and mid-range score feedback is now kept fairer and less overly positive.
+- Avatar controls were clarified with `Start` and `Play again` behavior.
+- Video avatar renderers now include a replay button for manually replaying examiner prompts.
+- The preparation timer is rendered after materials are available so the timer starts with the actual preparation view.
+
 ### Report Documentation
 
 Updated report-related files:
@@ -141,9 +166,16 @@ These contain implementation details suitable for the written report.
 Commit code and documentation files, for example:
 
 ```powershell
-git add streamlit_app.py PROJECT_OVERVIEW.md IMPLEMENTATION_REPORT_SUMMARY.md CODEBASE_AUDIT_AND_FIX_PLAN.md CODEX_SESSION_HANDOFF.md
-git commit -m "Improve oral assessment UX and examiner review flow"
+git add streamlit_app.py src/rubric_engine.py src/agent_a5_grader.py CODEX_SESSION_HANDOFF.md
+git commit -m "Tighten oral grading and improve avatar replay"
 git push
+```
+
+If preserving the latest uploaded rubric/test assignment data is intentional, commit it separately:
+
+```powershell
+git add data/subject_config.json data/student_assignments.json data/rubrics/examiner_psle_oral_psle_singapore_oral_combined_strict_upload_3.json
+git commit -m "Add strict oral practice rubric test data"
 ```
 
 On the other PC:
