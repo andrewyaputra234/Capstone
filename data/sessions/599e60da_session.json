@@ -1,0 +1,207 @@
+{
+  "session_id": "599e60da",
+  "paper_id": "assignment_123_e922ccf7",
+  "student_id": "123",
+  "date_created": "2026-07-31T01:35:26.955017",
+  "state": "ACTIVE",
+  "turns": [
+    {
+      "turn_id": 1,
+      "timestamp": "2026-07-31T01:39:27.163247",
+      "speaker": "avatar",
+      "text": "What do you think the boy might be thinking about while sitting with the soccer ball, and why do you think that?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball beside him. He appears thoughtful or contemplative, and the setting is an outdoor area with metal railings and greenery in the background."
+      }
+    },
+    {
+      "turn_id": 2,
+      "timestamp": "2026-07-31T01:39:27.179848",
+      "speaker": "student",
+      "text": "First response: I think that a boy might be taking my life.\n\nResponse after examiner follow-up: [No response after guidance]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    },
+    {
+      "turn_id": 3,
+      "timestamp": "2026-07-31T01:42:19.074920",
+      "speaker": "avatar",
+      "text": "Have you ever played a team sport like soccer? Can you share an experience and how it made you feel?",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball beside him. He appears thoughtful or contemplative, and the setting is an outdoor area with metal railings and greenery in the background."
+      }
+    },
+    {
+      "turn_id": 4,
+      "timestamp": "2026-07-31T01:42:19.097765",
+      "speaker": "student",
+      "text": "First response: Yes, I've played captain's ball.\n\nResponse after examiner follow-up: [No response after guidance]",
+      "audio_path": null,
+      "transcription_path": null,
+      "metadata": {
+        "status": "skipped"
+      }
+    }
+  ],
+  "scores": [
+    {
+      "Q1": {
+        "assignment": "What do you think the boy might be thinking about while sitting with the soccer ball, and why do you think that?",
+        "answer": "First response: I think that a boy might be taking my life.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball beside him. He appears thoughtful or contemplative, and the setting is an outdoor area with metal railings and greenery in the background.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud - Pronunciation",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Reading Aloud - Expression",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Reading Aloud - Delivery and Fluency",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction and Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    },
+    {
+      "Q2": {
+        "assignment": "Have you ever played a team sport like soccer? Can you share an experience and how it made you feel?",
+        "answer": "First response: Yes, I've played captain's ball.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball beside him. He appears thoughtful or contemplative, and the setting is an outdoor area with metal railings and greenery in the background.",
+        "skipped": true,
+        "scores": [
+          {
+            "criterion": "Reading Aloud - Pronunciation",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Reading Aloud - Expression",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Reading Aloud - Delivery and Fluency",
+            "score": 0,
+            "max_score": 0,
+            "feedback": "Not assessed for this stimulus-based response because no reading-aloud or audio delivery evidence was provided.",
+            "evidence": null,
+            "source": "not_assessed"
+          },
+          {
+            "criterion": "Stimulus Response Relevance",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Idea Development",
+            "score": 0,
+            "max_score": 8,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Spoken Language Use",
+            "score": 0,
+            "max_score": 6,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          },
+          {
+            "criterion": "Interaction and Confidence",
+            "score": 0,
+            "max_score": 3,
+            "feedback": "No answer was provided for this criterion.",
+            "evidence": "",
+            "source": "ai"
+          }
+        ],
+        "tutoring_feedback": "This question was skipped, so there was no answer to assess and the assessed criteria receive 0. Next time, try giving even one simple observation or reason before moving on.",
+        "total_score": 0,
+        "max_score": 25,
+        "percentage": 0.0,
+        "scoring_source": "deterministic"
+      }
+    }
+  ],
+  "start_time": "2026-07-31T01:35:26.974478",
+  "end_time": null,
+  "metadata": {
+    "assignment_id": "8ca8a69ac686",
+    "component": "student_assessment",
+    "subject": "assignment_123_e922ccf7",
+    "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload",
+    "engine": "crewai",
+    "assessment_focus": "PSLE English oral practice"
+  }
+}

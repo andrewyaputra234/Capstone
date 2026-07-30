@@ -222,6 +222,36 @@ def rubric_display_name(rubric_name: str) -> str:
     return str(data.get("name") or rubric_name.replace("_", " ").title())
 
 
+def delete_english_oral_rubric(rubric_name: str) -> dict[str, Any]:
+    """Delete an examiner-uploaded English oral rubric when it is not in use."""
+    normalized_name = str(rubric_name).strip()
+    if normalized_name == PSLE_ORAL_RUBRIC:
+        raise ValueError("The built-in PSLE English Oral rubric cannot be deleted.")
+    if not normalized_name.startswith(CUSTOM_ORAL_RUBRIC_PREFIX):
+        raise ValueError("Only examiner-uploaded English Oral rubrics can be deleted.")
+    if not re.fullmatch(r"[a-z0-9_]+", normalized_name):
+        raise ValueError("Invalid rubric name.")
+
+    assignments_using_rubric = [
+        assignment
+        for assignment in load_assignments()["assignments"].values()
+        if assignment.get("rubric") == normalized_name
+    ]
+    if assignments_using_rubric:
+        raise ValueError(
+            "This rubric is still used by an assessment. Delete or archive those assessments before deleting the rubric."
+        )
+
+    path = (RUBRICS_DIR / f"{normalized_name}.json").resolve()
+    rubrics_dir = RUBRICS_DIR.resolve()
+    if not _is_relative_to(path, rubrics_dir):
+        raise ValueError("Refusing to delete outside the rubrics directory.")
+    if not path.exists():
+        raise ValueError("That rubric file no longer exists.")
+    path.unlink()
+    return {"rubric": normalized_name, "path": str(path)}
+
+
 def _mark_band_score(value: Any, maximum: int) -> int:
     """Convert a band label such as '17-20' into its rubric score ceiling."""
     numbers = [int(number) for number in re.findall(r"\d+", str(value))]

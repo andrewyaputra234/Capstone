@@ -424,6 +424,50 @@ class ExamPortalStoreTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             store.save_english_oral_rubric("invalid.json", b'{"criteria": []}')
 
+    def test_examiner_can_delete_unused_custom_oral_rubric_only(self) -> None:
+        custom_rubric = {
+            "name": "Temporary Oral Rubric",
+            "criteria": [
+                {
+                    "name": "Response relevance",
+                    "max_points": 5,
+                    "rubric_levels": [
+                        {"level": "Strong", "points": 5, "description": "Direct and relevant"},
+                        {"level": "No evidence", "points": 0, "description": "No relevant response"},
+                    ],
+                }
+            ],
+        }
+        saved_name = store.save_english_oral_rubric(
+            "temporary oral.json", json.dumps(custom_rubric).encode("utf-8")
+        )
+        saved_path = self.rubrics_dir / f"{saved_name}.json"
+        self.assertTrue(saved_path.exists())
+
+        with self.assertRaisesRegex(ValueError, "built-in"):
+            store.delete_english_oral_rubric("psle_oral_english")
+        with self.assertRaisesRegex(ValueError, "Only examiner-uploaded"):
+            store.delete_english_oral_rubric("primary_math")
+
+        store.create_assignment(
+            student={"id": "s1", "name": "Ada Student"},
+            title="Picture discussion",
+            subject="not_shared_subject",
+            rubric=saved_name,
+            visual={},
+            questions=[{"id": "q1", "text": "What do you see?"}],
+            reading=None,
+            examiner_id="e1",
+        )
+        with self.assertRaisesRegex(ValueError, "still used"):
+            store.delete_english_oral_rubric(saved_name)
+
+        store.save_assignments({"version": 2, "assignments": {}})
+        deleted = store.delete_english_oral_rubric(saved_name)
+        self.assertEqual(deleted["rubric"], saved_name)
+        self.assertFalse(saved_path.exists())
+        self.assertNotIn(saved_name, store.list_english_oral_rubrics())
+
     def test_common_wrapped_rubric_schema_is_normalised(self) -> None:
         exported_rubric = {
             "title": "School Oral Conversation Rubric",

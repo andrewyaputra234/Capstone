@@ -26,10 +26,7 @@ from env_fix import apply_runtime_fixes
 
 apply_runtime_fixes()
 
-from crewai import Agent, Crew, Task
-from crewai.tools import tool
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
@@ -86,7 +83,6 @@ def _set_runtime_context(crew: "EducationCrew") -> None:
 # CrewAI tools wired to real infrastructure
 # ---------------------------------------------------------------------------
 
-@tool("Extract Document Content")
 def extract_document_content(file_path: str) -> str:
     """Extract and summarize educational document content from a file path."""
     try:
@@ -130,13 +126,11 @@ def _retrieve_vector_context(query: str, num_results: int = 5) -> str:
         return f"Error retrieving from vector store: {e}"
 
 
-@tool("Retrieve Vector Context")
 def retrieve_vector_context(query: str, num_results: int = 5) -> str:
     """Retrieve relevant content from the subject vector store for a query."""
     return _retrieve_vector_context(query, num_results)
 
 
-@tool("Extract Exam Questions")
 def extract_exam_questions(num_questions: int = 5) -> str:
     """Extract exam questions from the ingested document for the active subject."""
     try:
@@ -167,7 +161,6 @@ def extract_exam_questions(num_questions: int = 5) -> str:
         return f"Error extracting questions: {e}"
 
 
-@tool("Apply Rubric Scoring")
 def apply_rubric_scoring(question: str, student_response: str) -> str:
     """Score a student response against the active rubric using Agent A5."""
     try:
@@ -186,7 +179,6 @@ def apply_rubric_scoring(question: str, student_response: str) -> str:
         return f"Error during rubric scoring: {e}"
 
 
-@tool("Save Assessment Result")
 def save_assessment_result(question: str, student_response: str, grading_json: str) -> str:
     """Persist a Q&A turn and grading result to the active session (Agent A6)."""
     try:
@@ -230,6 +222,13 @@ class EducationCrew:
         self.session_manager = SessionManager()
         self.subject_manager = SubjectManager()
         self.dialogue_manager = None
+        self._agents_ready = False
+        self.llm = None
+
+    def _ensure_llm(self) -> None:
+        if self.llm is not None:
+            return
+        from langchain_openai import ChatOpenAI
 
         model = os.getenv("CREWAI_MODEL", "gpt-3.5-turbo")
         self.llm = ChatOpenAI(
@@ -237,9 +236,17 @@ class EducationCrew:
             model=model,
             temperature=0.7,
         )
-        self._setup_agents()
 
     def _setup_agents(self) -> None:
+        self._ensure_llm()
+        from crewai import Agent
+        from crewai.tools import tool
+
+        extract_document_tool = tool("Extract Document Content")(extract_document_content)
+        retrieve_vector_tool = tool("Retrieve Vector Context")(retrieve_vector_context)
+        extract_questions_tool = tool("Extract Exam Questions")(extract_exam_questions)
+        rubric_scoring_tool = tool("Apply Rubric Scoring")(apply_rubric_scoring)
+
         self.ingestion_agent = Agent(
             role="PSLE Oral English Document Analyst",
             goal=(
@@ -254,7 +261,7 @@ class EducationCrew:
             llm=self.llm,
             verbose=self.verbose,
             allow_delegation=False,
-            tools=[extract_document_content, retrieve_vector_context, extract_exam_questions],
+            tools=[extract_document_tool, retrieve_vector_tool, extract_questions_tool],
         )
 
         self.question_agent = Agent(
@@ -267,7 +274,7 @@ class EducationCrew:
             llm=self.llm,
             verbose=self.verbose,
             allow_delegation=False,
-            tools=[retrieve_vector_context, extract_exam_questions],
+            tools=[retrieve_vector_tool, extract_questions_tool],
         )
 
         self.dialogue_agent = Agent(
@@ -281,7 +288,7 @@ class EducationCrew:
             llm=self.llm,
             verbose=self.verbose,
             allow_delegation=False,
-            tools=[retrieve_vector_context],
+            tools=[retrieve_vector_tool],
         )
 
         self.grading_agent = Agent(
@@ -294,7 +301,7 @@ class EducationCrew:
             llm=self.llm,
             verbose=self.verbose,
             allow_delegation=False,
-            tools=[apply_rubric_scoring, retrieve_vector_context],
+            tools=[rubric_scoring_tool, retrieve_vector_tool],
         )
 
         self.feedback_agent = Agent(
@@ -308,6 +315,11 @@ class EducationCrew:
             verbose=self.verbose,
             allow_delegation=False,
         )
+        self._agents_ready = True
+
+    def _ensure_agents(self) -> None:
+        if not self._agents_ready:
+            self._setup_agents()
 
     def _get_dialogue_manager(self):
         if self.dialogue_manager is None:
@@ -567,6 +579,9 @@ class EducationCrew:
             num_results=3,
         )
 
+        self._ensure_agents()
+        from crewai import Crew, Task
+
         ingestion_task = Task(
             description=(
                 f"{PSLE_ORAL_CONTEXT}\n\n"
@@ -770,6 +785,9 @@ class EducationCrew:
             indent=2,
         )
 
+        self._ensure_agents()
+        from crewai import Crew, Task
+
         assessment_task = Task(
             description=(
                 f"{PSLE_ORAL_CONTEXT}\n\n"
@@ -863,6 +881,8 @@ class EducationCrew:
         _set_runtime_context(self)
 
         context = _retrieve_vector_context(question, num_results=3)
+        self._ensure_agents()
+        from crewai import Crew, Task
 
         dialogue_task = Task(
             description=(
@@ -957,9 +977,10 @@ class EducationCrew:
             "Make it adaptive to the student's first response like a real oral examiner: "
             "briefly refer to what the student said, then guide the student to clarify, "
             "correct, connect to the picture/topic, give a reason, or add one visible detail. "
-            "Do not use generic prompts such as 'Can you add another detail?' unless they are "
-            "anchored to the student's answer. Do not give the answer, a full model response, "
-            "or a sentence starter.\n\n"
+            "The follow-up must mention the student's actual idea or wording before asking "
+            "for more. Do not use generic prompts such as 'Can you add another detail?' unless "
+            "they are anchored to the student's answer. Do not give the answer, a full model "
+            "response, or a sentence starter.\n\n"
             "Good follow-up style examples:\n"
             "- Student said 'because it is clean': 'You mentioned that it keeps people clean. "
             "Can you explain what might happen if they do not do this before eating?'\n"
@@ -1282,11 +1303,82 @@ class EducationCrew:
         lowered = (question or "").lower()
         return any(marker in lowered for marker in ("why", "reason", "important", "how does", "how can", "what might"))
 
+    @staticmethod
+    def _question_asks_personal_response(question: str) -> bool:
+        lowered = (question or "").lower()
+        return any(
+            marker in lowered
+            for marker in (
+                "have you",
+                "do you",
+                "would you",
+                "your experience",
+                "share your",
+                "tell me about",
+                "how would you feel",
+            )
+        )
+
+    @staticmethod
+    def _response_has_personal_link(response: str) -> bool:
+        return bool(re.search(r"\b(i|me|my|we|our|personally|myself|experience)\b", response or "", re.I))
+
+    @classmethod
+    def _response_uses_picture_detail(cls, question: str, response: str) -> bool:
+        visual, _prompt = cls._split_visual_context(question)
+        visual_words = cls._content_words(visual)
+        response_words = cls._content_words(response)
+        return bool(visual_words and response_words and (visual_words & response_words))
+
+    @staticmethod
+    def _response_is_mostly_agreement(response: str) -> bool:
+        normalized = " ".join((response or "").lower().split()).strip(" .")
+        if not normalized:
+            return False
+        return bool(
+            re.fullmatch(
+                r"(yes|no|maybe|okay|ok|i agree|i disagree|yes i do|no i do not|no i don't)(?: because)?",
+                normalized,
+            )
+        )
+
+    @classmethod
+    def _follow_up_need(cls, question: str, response: str, reason: str) -> str:
+        normalized_reason = (reason or "").lower()
+        word_count = len((response or "").split())
+        if any(marker in normalized_reason for marker in ("contradict", "wrong visible", "incorrect visible")):
+            return "correct_visual"
+        if any(
+            marker in normalized_reason
+            for marker in (
+                "unrelated",
+                "off-topic",
+                "off topic",
+                "irrelevant",
+                "does not clearly connect",
+                "connection to the visual",
+                "connect to the visual",
+            )
+        ):
+            return "connect_picture"
+        if any(marker in normalized_reason for marker in ("unclear", "cannot understand", "impossible to understand")):
+            return "clarify"
+        if word_count <= 5 or cls._response_is_mostly_agreement(response):
+            return "expand_short"
+        if not cls._response_uses_picture_detail(question, response):
+            return "picture_detail"
+        if cls._question_asks_personal_response(question) and not cls._response_has_personal_link(response):
+            return "personal_link"
+        if cls._question_asks_reason(question) and not cls._response_has_development(response):
+            return "reason"
+        if not cls._response_has_development(response):
+            return "develop"
+        return "develop"
+
     def _adaptive_follow_up_question(self, question: str, response: str, reason: str = "") -> str:
         """Build a student-specific guiding question when the model is generic or unavailable."""
         reference = self._student_response_reference(response)
         normalized_question = " ".join((question or "").split())
-        normalized_reason = (reason or "").lower()
         visual_focus = self._visual_focus_phrase(question)
 
         if not reference:
@@ -1294,10 +1386,10 @@ class EducationCrew:
                 f"Take another look at the picture. What can you say about {visual_focus}?"
             )
 
-        if any(
-            marker in normalized_reason
-            for marker in ("unrelated", "off-topic", "off topic", "irrelevant", "does not clearly connect")
-        ):
+        seed = f"{normalized_question}|{reference}|{reason}"
+        need = self._follow_up_need(question, response, reason)
+
+        if need == "connect_picture":
             options = [
                 (
                     f'You mentioned "{reference}". How could that idea connect to the situation '
@@ -1305,7 +1397,7 @@ class EducationCrew:
                 ),
                 (
                     f'You said "{reference}". What is one part of the question you can answer '
-                    "more directly?"
+                    "more directly using the picture?"
                 ),
                 (
                     f'You mentioned "{reference}". Bring your answer back to the scene: what is '
@@ -1314,19 +1406,85 @@ class EducationCrew:
             ]
             return self._deterministic_choice(options, f"{normalized_question}|{reference}|bridge")
 
-        if any(marker in normalized_reason for marker in ("contradict", "wrong visible", "incorrect visible")):
+        if need == "correct_visual":
             return (
                 f'You mentioned "{reference}". Look carefully at the picture again: what visible '
                 "detail might you need to correct or describe more accurately?"
             )
 
-        if any(marker in normalized_reason for marker in ("unclear", "cannot understand", "impossible to understand")):
+        if need == "clarify":
             return (
                 f'I heard "{reference}". Can you say that idea again more clearly and link it to '
                 "one detail in the picture?"
             )
 
-        seed = f"{normalized_question}|{reference}|{normalized_reason}"
+        if need == "expand_short":
+            options = [
+                (
+                    f'You said "{reference}". Can you add one reason and one picture detail '
+                    "to make your answer clearer?"
+                ),
+                (
+                    f'I heard "{reference}". What makes you say that, and what can you see '
+                    "in the picture that supports it?"
+                ),
+                (
+                    f'You mentioned "{reference}". Can you turn that into a fuller answer '
+                    "by saying what happened and why it matters?"
+                ),
+            ]
+            return self._deterministic_choice(options, seed)
+
+        if need == "picture_detail":
+            options = [
+                (
+                    f'You said "{reference}". Which visible detail in the picture supports '
+                    "that answer?"
+                ),
+                (
+                    f'You mentioned "{reference}". Look at the picture again: what action, '
+                    "person, or object shows this?"
+                ),
+                (
+                    f'You said "{reference}". Can you connect it to something specific you '
+                    "can see in the scene?"
+                ),
+            ]
+            return self._deterministic_choice(options, seed)
+
+        if need == "personal_link":
+            options = [
+                (
+                    f'You mentioned "{reference}". Can you connect that to your own experience '
+                    "or something you have seen before?"
+                ),
+                (
+                    f'You said "{reference}". Have you experienced something similar, and what '
+                    "did you do or feel?"
+                ),
+                (
+                    f'You mentioned "{reference}". Can you add a personal example to make your '
+                    "answer more complete?"
+                ),
+            ]
+            return self._deterministic_choice(options, seed)
+
+        if need == "reason":
+            options = [
+                (
+                    f'You said "{reference}". Why does that matter to the people involved?'
+                ),
+                (
+                    f'You mentioned "{reference}". What could happen if people did not think '
+                    "about this?"
+                ),
+                (
+                    f'You said "{reference}". Can you explain the effect or benefit of that idea '
+                    "in more detail?"
+                ),
+            ]
+            return self._deterministic_choice(options, seed)
+
         if self._response_has_action(response):
             options = [
                 (
@@ -1339,23 +1497,7 @@ class EducationCrew:
                 ),
                 (
                     f'You said "{reference}". Can you correct or complete the action you mean, '
-                    "then explain why the children might be doing that?"
-                ),
-            ]
-            return self._deterministic_choice(options, seed)
-
-        if self._question_asks_reason(question):
-            options = [
-                (
-                    f'You said "{reference}". Why does that matter to the people involved?'
-                ),
-                (
-                    f'You mentioned "{reference}". Can you give a real-life example or situation '
-                    "that shows why your reason is important?"
-                ),
-                (
-                    f'You said "{reference}". Can you explain the effect or benefit of that idea '
-                    "in more detail?"
+                    "then explain why the people might be doing that?"
                 ),
             ]
             return self._deterministic_choice(options, seed)

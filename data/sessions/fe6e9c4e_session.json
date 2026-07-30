@@ -1,46 +1,46 @@
 {
-  "session_id": "1dcf3048",
-  "paper_id": "assignment_123_9e8ba5fa",
+  "session_id": "fe6e9c4e",
+  "paper_id": "assignment_123_b4f7bb02",
   "student_id": "123",
-  "date_created": "2026-07-24T12:38:00.205483",
+  "date_created": "2026-07-31T00:47:23.922571",
   "state": "COMPLETED",
   "turns": [
     {
       "turn_id": 1,
-      "timestamp": "2026-07-24T12:40:54.692728",
+      "timestamp": "2026-07-31T00:53:33.204772",
       "speaker": "avatar",
-      "text": "What do you think the nurse is doing, and why might this be important for the elderly man?",
+      "text": "What do you think the boy might be thinking about while sitting with the soccer ball?",
       "audio_path": null,
       "transcription_path": null,
       "metadata": {
-        "visual_context": "A nurse in blue scrubs is feeding an elderly man in a hospital room. The man is sitting on a bed with a tray of food in front of him. There is a window with blinds, a painting on the wall, and a potted orchid on a table nearby."
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears thoughtful or pensive. The setting is outdoors, possibly at a sports facility or park, with greenery in the background."
       }
     },
     {
       "turn_id": 2,
-      "timestamp": "2026-07-24T12:40:54.712983",
+      "timestamp": "2026-07-31T00:53:33.213027",
       "speaker": "student",
-      "text": "The nurse is feeding him food. I think the nurse is doing a very good job by taking care of the elderly man. Elderly man might not be capable to eat food on his own because of his sickness or disability.",
-      "audio_path": "data\\sessions\\speech_20260724_044042_22335928.wav",
-      "transcription_path": "data\\sessions\\speech_20260724_044042_22335928.json",
+      "text": "First response: I think the boy might be thinking about his life or his family.\n\nResponse after examiner follow-up: Familia",
+      "audio_path": "data\\sessions\\speech_20260730_165312_d15dfc91.wav",
+      "transcription_path": "data\\sessions\\speech_20260730_165312_d15dfc91.json",
       "metadata": null
     },
     {
       "turn_id": 3,
-      "timestamp": "2026-07-24T12:41:57.710447",
+      "timestamp": "2026-07-31T01:00:16.291108",
       "speaker": "avatar",
-      "text": "Have you ever visited someone in a hospital or helped take care of someone?",
+      "text": "Have you ever played a sport or been part of a team? Can you share an experience and how it made you feel?",
       "audio_path": null,
       "transcription_path": null,
       "metadata": {
-        "visual_context": "A nurse in blue scrubs is feeding an elderly man in a hospital room. The man is sitting on a bed with a tray of food in front of him. There is a window with blinds, a painting on the wall, and a potted orchid on a table nearby."
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears thoughtful or pensive. The setting is outdoors, possibly at a sports facility or park, with greenery in the background."
       }
     },
     {
       "turn_id": 4,
-      "timestamp": "2026-07-24T12:41:57.789097",
+      "timestamp": "2026-07-31T01:00:16.307739",
       "speaker": "student",
-      "text": "[Skipped question]",
+      "text": "First response: Yes, I got to play part of team.\n\nResponse after examiner follow-up: [No response after guidance]",
       "audio_path": null,
       "transcription_path": null,
       "metadata": {
@@ -49,20 +49,20 @@
     },
     {
       "turn_id": 5,
-      "timestamp": "2026-07-24T12:42:07.187293",
+      "timestamp": "2026-07-31T01:02:41.051012",
       "speaker": "avatar",
-      "text": "Why do you think it is important to take care of the elderly in our community, and how can we show them respect and care?",
+      "text": "Why is it important to have sports facilities in our community, and how do they benefit people?",
       "audio_path": null,
       "transcription_path": null,
       "metadata": {
-        "visual_context": "A nurse in blue scrubs is feeding an elderly man in a hospital room. The man is sitting on a bed with a tray of food in front of him. There is a window with blinds, a painting on the wall, and a potted orchid on a table nearby."
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears thoughtful or pensive. The setting is outdoors, possibly at a sports facility or park, with greenery in the background."
       }
     },
     {
       "turn_id": 6,
-      "timestamp": "2026-07-24T12:42:07.234765",
+      "timestamp": "2026-07-31T01:02:41.062208",
       "speaker": "student",
-      "text": "[Skipped question]",
+      "text": "First response: I think it's important because they play sports.\n\nResponse after examiner follow-up: [No response after guidance]",
       "audio_path": null,
       "transcription_path": null,
       "metadata": {
@@ -73,9 +73,9 @@
   "scores": [
     {
       "Q1": {
-        "assignment": "What do you think the nurse is doing, and why might this be important for the elderly man?",
-        "answer": "The nurse is feeding him food. I think the nurse is doing a very good job by taking care of the elderly man. Elderly man might not be capable to eat food on his own because of his sickness or disability.",
-        "visual_context": "A nurse in blue scrubs is feeding an elderly man in a hospital room. The man is sitting on a bed with a tray of food in front of him. There is a window with blinds, a painting on the wall, and a potted orchid on a table nearby.",
+        "assignment": "What do you think the boy might be thinking about while sitting with the soccer ball?",
+        "answer": "First response: I think the boy might be thinking about his life or his family.\n\nResponse after examiner follow-up: Familia",
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears thoughtful or pensive. The setting is outdoors, possibly at a sports facility or park, with greenery in the background.",
         "scores": [
           {
             "criterion": "Reading Aloud - Pronunciation",
@@ -103,49 +103,49 @@
           },
           {
             "criterion": "Stimulus Response Relevance",
-            "score": 8,
+            "score": 6,
             "max_score": 8,
-            "feedback": "The student directly answers the question by stating that the nurse is feeding the elderly man, and provides a relevant personal response by mentioning the man's potential inability to eat on his own due to sickness or disability. The answer shows understanding of both the question and the stimulus.",
-            "evidence": "The nurse is feeding him food. I think the nurse is doing a very good job by taking care of the elderly man. Elderly man might not be capable to eat food on his own because of his sickness or disability.",
+            "feedback": "The response mostly answers the question and makes a relevant reference to the picture by mentioning 'familia.' However, the details may be considered general.",
+            "evidence": "Response after examiner follow-up: Familia",
             "source": "ai"
           },
           {
             "criterion": "Idea Development",
-            "score": 6,
+            "score": 4,
             "max_score": 8,
-            "feedback": "The response provides a clear idea with a useful reason, explaining that the elderly man might not be capable of eating on his own due to sickness or disability. However, the development is not consistently detailed or thoughtful.",
-            "evidence": "Elderly man might not be capable to eat food on his own because of his sickness or disability.",
+            "feedback": "The answer gives a basic idea but lacks explanation or examples to support it.",
+            "evidence": "The student mentioned that the boy might be thinking about his family, but did not provide any further elaboration or examples.",
             "source": "ai"
           },
           {
             "criterion": "Spoken Language Use",
             "score": 3,
             "max_score": 6,
-            "feedback": "The student uses simple but understandable language with noticeable grammar errors and incomplete sentences that occasionally affect clarity.",
-            "evidence": "Frequent grammar errors and incomplete sentences are present in the response.",
+            "feedback": "The student uses simple but understandable language with noticeable grammar errors.",
+            "evidence": "I think the boy might be thinking about his life or his family.",
             "source": "ai"
           },
           {
             "criterion": "Interaction and Confidence",
             "score": 2,
             "max_score": 3,
-            "feedback": "The student responds adequately with some confidence, but could benefit from providing more detail or examples to strengthen their answer.",
-            "evidence": "The student acknowledges that the nurse is feeding the elderly man and explains that this is important because the man may not be able to eat on his own due to sickness or disability.",
+            "feedback": "The student responds adequately with some confidence, but could benefit from more elaboration or detail in their response.",
+            "evidence": "The student responded confidently with 'Familia' when prompted by the examiner.",
             "source": "ai"
           }
         ],
-        "tutoring_feedback": "Well done for directly answering the question and recognizing the nurse's role in feeding the elderly man. Your idea development shows understanding of the situation, mentioning the man's potential difficulty in eating on his own. However, to improve, focus on using more complex sentences and correcting grammar errors to enhance clarity. Next time, try starting with a sentence like \"The nurse is assisting the elderly man by feeding him, which is crucial due to his potential difficulty in eating independently.\" Keep practicing to strengthen your spoken language skills and provide more detailed explanations.",
-        "total_score": 19,
+        "tutoring_feedback": "I appreciate your effort in responding to the stimulus with thoughts about family, showing a good connection to the image. However, it's important to remember to stick closely to the visual details provided. In your next response, try to expand on your ideas by giving examples or explanations to make your answer more detailed. Work on using more complex sentences and correcting grammar errors to improve your spoken language use. Remember, the more you elaborate, the more impressive your response will be. Let's practice by starting your sentences with phrases like \"I believe\" or \"In my opinion\" to add depth to your answers. Keep practicing and paying attention to details to enhance your oral responses further.",
+        "total_score": 15,
         "max_score": 25,
-        "percentage": 76.0,
+        "percentage": 60.0,
         "scoring_source": "ai"
       }
     },
     {
       "Q2": {
-        "assignment": "Have you ever visited someone in a hospital or helped take care of someone?",
-        "answer": "[Skipped question]",
-        "visual_context": "A nurse in blue scrubs is feeding an elderly man in a hospital room. The man is sitting on a bed with a tray of food in front of him. There is a window with blinds, a painting on the wall, and a potted orchid on a table nearby.",
+        "assignment": "Have you ever played a sport or been part of a team? Can you share an experience and how it made you feel?",
+        "answer": "First response: Yes, I got to play part of team.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears thoughtful or pensive. The setting is outdoors, possibly at a sports facility or park, with greenery in the background.",
         "skipped": true,
         "scores": [
           {
@@ -214,9 +214,9 @@
     },
     {
       "Q3": {
-        "assignment": "Why do you think it is important to take care of the elderly in our community, and how can we show them respect and care?",
-        "answer": "[Skipped question]",
-        "visual_context": "A nurse in blue scrubs is feeding an elderly man in a hospital room. The man is sitting on a bed with a tray of food in front of him. There is a window with blinds, a painting on the wall, and a potted orchid on a table nearby.",
+        "assignment": "Why is it important to have sports facilities in our community, and how do they benefit people?",
+        "answer": "First response: I think it's important because they play sports.\n\nResponse after examiner follow-up: [No response after guidance]",
+        "visual_context": "A boy in a blue sports jersey and black shorts is sitting on concrete steps with a soccer ball at his feet. He appears thoughtful or pensive. The setting is outdoors, possibly at a sports facility or park, with greenery in the background.",
         "skipped": true,
         "scores": [
           {
@@ -284,13 +284,13 @@
       }
     }
   ],
-  "start_time": "2026-07-24T12:38:00.221000",
-  "end_time": "2026-07-24T12:42:08.775769",
+  "start_time": "2026-07-31T00:47:23.934629",
+  "end_time": "2026-07-31T01:02:41.527977",
   "metadata": {
-    "assignment_id": "0b14bffade9f",
+    "assignment_id": "663a694e8aeb",
     "component": "student_assessment",
-    "subject": "assignment_123_9e8ba5fa",
-    "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload_2",
+    "subject": "assignment_123_b4f7bb02",
+    "rubric": "examiner_psle_oral_psle_singapore_oral_combined_strict_upload",
     "engine": "crewai",
     "assessment_focus": "PSLE English oral practice"
   }

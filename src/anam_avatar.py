@@ -27,8 +27,10 @@ class AnamAvatarConfig:
     llm_id: str = ""
     avatar_model: str = "cara-4"
     system_prompt: str = (
-        "You are a calm oral examiner. Speak only the assessment prompt "
-        "provided by the application."
+        "You are a calm oral examiner. Speak the exact question text provided "
+        "by the application and nothing else. Do not greet the student, "
+        "introduce yourself, add opening small talk, add encouragement, or add "
+        "closing remarks."
     )
     api_base_url: str = "https://api.anam.ai"
 

@@ -36,6 +36,7 @@ from exam_portal_store import (
     authenticate,
     create_assignment,
     delete_assignment,
+    delete_english_oral_rubric,
     list_assignments,
     list_english_oral_rubrics,
     list_students,
@@ -96,6 +97,7 @@ for key, default in [
     ("visual_upload_reset_nonce", 0),
     ("visual_upload_preview_open", False),
     ("visual_upload_signature", None),
+    ("reading_upload_reset_nonce", 0),
 ]:
     if key not in st.session_state:
         st.session_state[key] = default
@@ -363,8 +365,42 @@ def html_escape(value: str) -> str:
     )
 
 
-def avatar_cache_key_for(text: str, cache_key: str) -> tuple[str, str]:
+def skip_examiner_greeting(text: str) -> str:
+    """Reduce examiner speech to the actual question or guiding question."""
     clean_text = " ".join((text or "").split())
+    greeting_patterns = [
+        r"^(?:good\s+(?:morning|afternoon|evening)|hello|hi)\s*,?\s*(?:student|students|everyone|there)?\.?\s*",
+        r"^(?:welcome|let'?s\s+begin|we\s+will\s+begin)\s+(?:to\s+)?(?:your\s+)?(?:oral\s+)?assessment\.?\s*",
+        r"^(?:i\s+am|i'm)\s+(?:your\s+)?(?:ai\s+)?examiner\.?\s*",
+        r"^(?:okay|alright|now)\s*,?\s*",
+        r"^(?:thank\s+you)\s*,?\s*",
+        r"^(?:question\s+\d+(?:\s+of\s+\d+)?)\s*[:.-]?\s*",
+        r"^(?:please\s+)?(?:answer|respond\s+to)\s+(?:the\s+)?(?:following\s+)?question\s*[:.-]?\s*",
+        r"^(?:look\s+at\s+the\s+picture\s+and\s+answer)\s*[:.-]?\s*",
+    ]
+    previous = None
+    while previous != clean_text:
+        previous = clean_text
+        for pattern in greeting_patterns:
+            clean_text = re.sub(pattern, "", clean_text, flags=re.IGNORECASE).strip()
+
+    sentences = re.split(r"(?<=[.!?])\s+", clean_text)
+    if len(sentences) >= 2 and re.match(r'^(?:you|i)\s+(?:mentioned|said|noticed|heard)\b', sentences[0], re.I):
+        question_index = next((index for index, sentence in enumerate(sentences[1:], start=1) if "?" in sentence), None)
+        if question_index is not None:
+            anchor = sentences[0].rstrip(". ")
+            question = " ".join(sentences[question_index:])
+            clean_text = f"{anchor}; {question[:1].lower()}{question[1:]}"
+            sentences = re.split(r"(?<=[.!?])\s+", clean_text)
+
+    question_index = next((index for index, sentence in enumerate(sentences) if "?" in sentence), None)
+    if question_index is not None:
+        clean_text = " ".join(sentences[question_index:]).strip()
+    return clean_text
+
+
+def avatar_cache_key_for(text: str, cache_key: str) -> tuple[str, str]:
+    clean_text = skip_examiner_greeting(text)
     text_hash = hashlib.sha256(clean_text.encode("utf-8")).hexdigest()[:16]
     return clean_text, f"{active_avatar_provider()}_v2:{cache_key}:{text_hash}"
 
@@ -785,7 +821,7 @@ def avatar_asset_cache_path() -> Path:
 
 
 def avatar_asset_cache_key(text: str, config) -> str:
-    clean_text = " ".join((text or "").split())
+    clean_text = skip_examiner_greeting(text)
     identity = "|".join(
         [
             "simli-static-audio-v1",
@@ -950,10 +986,10 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             "Anam avatar is enabled, but ANAM_API_KEY plus ANAM_PERSONA_ID "
             "or ANAM_AVATAR_ID/ANAM_VOICE_ID/ANAM_LLM_ID are not set."
         )
-        st.markdown(f"**Examiner says:** {' '.join((text or '').split())}")
+        st.markdown(f"**Examiner says:** {skip_examiner_greeting(text)}")
         return
 
-    clean_text = " ".join((text or "").split())
+    clean_text = skip_examiner_greeting(text)
     if not clean_text:
         return
 
@@ -982,18 +1018,18 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
     close_delay_ms_json = json.dumps(int(float_env("ANAM_CLOSE_SESSION_DELAY_SECONDS", 10.0) * 1000))
     subtitle_html = html_escape(clean_text)
 
-    st.markdown("#### AI examiner")
     components.html(
         f"""
         <style>
           .anam-card {{
-            max-width: 620px;
-            margin: 0.75rem auto 1rem;
+            width: 100%;
+            max-width: none;
+            margin: 0 0 1rem;
             border: 1px solid #cfe3d5;
-            border-radius: 18px;
+            border-radius: 12px;
             overflow: hidden;
             background: #fbfffc;
-            box-shadow: 0 16px 34px rgba(37, 72, 53, 0.12);
+            box-shadow: 0 10px 24px rgba(37, 72, 53, 0.08);
             font-family: Aptos, Segoe UI, sans-serif;
             font-size: 20px;
           }}
@@ -1007,6 +1043,18 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             color: #203b36;
             font-weight: 750;
           }}
+          .anam-header-main {{
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            min-width: 0;
+          }}
+          .anam-controls {{
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex: 0 0 auto;
+          }}
           .anam-status {{
             color: #5b9d73;
             font-size: 1rem;
@@ -1016,7 +1064,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           }}
           .anam-video {{
             width: 100%;
-            aspect-ratio: 3 / 2;
+            aspect-ratio: 16 / 9;
             display: block;
             background: #13201b;
             object-fit: contain;
@@ -1027,15 +1075,8 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             color: #203b36;
             line-height: 1.5;
             font-size: 1.12rem;
-          }}
-          .anam-actions {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0 1rem 0.9rem;
-            color: #587267;
-            font-size: 1rem;
+            max-height: 7.5rem;
+            overflow-y: auto;
           }}
           .anam-button {{
             border: 1px solid #8bc59f;
@@ -1045,6 +1086,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
             padding: 0.45rem 0.7rem;
             font-weight: 700;
             cursor: pointer;
+            min-width: max-content;
           }}
           .anam-button:disabled {{
             opacity: 0.6;
@@ -1060,19 +1102,18 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
         </style>
         <div class="anam-card">
           <div class="anam-header">
-            <span>AI Examiner</span>
-            <span id="{status_id}" class="anam-status">{'Starting' if auto_play else 'Ready'}</span>
-          </div>
-          <video id="{video_id}" class="anam-video" autoplay playsinline></video>
-          <div class="anam-body"><strong>Subtitles:</strong> {subtitle_html}</div>
-          <div id="{detail_id}" class="anam-detail"></div>
-          <div class="anam-actions">
-            <span>{'Start the examiner if the video does not appear automatically.' if auto_play else 'The examiner has already asked this prompt. Press Play only if you need to hear it again.'}</span>
-            <div>
+            <div class="anam-header-main">
+              <span>AI Examiner</span>
+              <span id="{status_id}" class="anam-status">{'Starting' if auto_play else 'Ready'}</span>
+            </div>
+            <div class="anam-controls">
               <button id="{start_id}" class="anam-button" type="button">Start</button>
               <button id="{button_id}" class="anam-button" type="button">Play again</button>
             </div>
           </div>
+          <video id="{video_id}" class="anam-video" autoplay playsinline></video>
+          <div class="anam-body"><strong>Subtitles:</strong> {subtitle_html}</div>
+          <div id="{detail_id}" class="anam-detail"></div>
         </div>
         <script type="module">
           import {{ createClient }} from "https://esm.sh/@anam-ai/js-sdk@latest";
@@ -1228,7 +1269,7 @@ def render_anam_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = 
           }}
         </script>
         """,
-        height=560,
+        height=620,
         scrolling=False,
     )
 
@@ -1256,7 +1297,7 @@ def render_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = False
         st.info("Simli avatar is enabled, but SIMLI_API_KEY, SIMLI_FACE_ID, and OPENAI_API_KEY are not all set.")
         return
 
-    clean_text = " ".join((text or "").split())
+    clean_text = skip_examiner_greeting(text)
     if not clean_text:
         return
 
@@ -1267,7 +1308,6 @@ def render_examiner_avatar(text: str, *, cache_key: str, auto_play: bool = False
     errors = st.session_state.setdefault("simli_avatar_errors", {})
     futures: dict[str, Future] = st.session_state.setdefault("simli_avatar_futures", {})
 
-    st.markdown("#### AI examiner")
     if cached:
         if not render_avatar_video(
             cached,
@@ -1371,7 +1411,7 @@ def prepare_persistent_question_avatars(
     requests_sent = 0
     total = len(questions)
     for index, question in enumerate(questions, 1):
-        text = " ".join(str(question.get("text", "")).split())
+        text = skip_examiner_greeting(str(question.get("text", "")))
         if not text:
             prepared_questions.append({**question})
             continue
@@ -1821,13 +1861,14 @@ def render_avatar_video_file(
         f"""
         <style>
           .avatar-native-card {{
-            max-width: 620px;
-            margin: 0.75rem auto 0.75rem;
+            width: 100%;
+            max-width: none;
+            margin: 0 0 1rem;
             border: 1px solid #cfe3d5;
-            border-radius: 18px;
+            border-radius: 12px;
             overflow: hidden;
             background: #fbfffc;
-            box-shadow: 0 16px 34px rgba(37, 72, 53, 0.12);
+            box-shadow: 0 10px 24px rgba(37, 72, 53, 0.08);
             font-family: Aptos, Segoe UI, sans-serif;
             font-size: 20px;
           }}
@@ -1835,16 +1876,18 @@ def render_avatar_video_file(
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 0.75rem;
             padding: 0.75rem 0.95rem;
             background: linear-gradient(135deg, #effbf3, #dff2e7);
             color: #203b36;
             font-weight: 750;
           }}
-          .avatar-native-header span:last-child {{
+          .avatar-native-status {{
             color: #5b9d73;
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
+            margin-right: 0.55rem;
           }}
           .avatar-native-video {{
             width: 100%;
@@ -1860,16 +1903,13 @@ def render_avatar_video_file(
             color: #203b36;
             line-height: 1.45;
             font-size: 1rem;
+            max-height: 7rem;
+            overflow-y: auto;
           }}
           .avatar-native-help {{
-            padding: 0 1rem 0.45rem;
+            padding: 0 1rem 0.8rem;
             color: #587267;
             font-size: 1rem;
-          }}
-          .avatar-replay-row {{
-            display: flex;
-            justify-content: flex-end;
-            padding: 0 1rem 0.9rem;
           }}
           .avatar-replay-button {{
             min-height: 2.45rem;
@@ -1890,7 +1930,10 @@ def render_avatar_video_file(
         <div class="avatar-native-card">
           <div class="avatar-native-header">
             <span>AI Examiner</span>
-            <span>{'Speaking' if auto_play else 'Ready'}</span>
+            <div>
+              <span class="avatar-native-status">{'Speaking' if auto_play else 'Ready'}</span>
+              <button id="{replay_id}" class="avatar-replay-button" type="button">Play again</button>
+            </div>
           </div>
           <video id="{safe_id}" class="avatar-native-video" controls preload="auto" playsinline {autoplay_attr}>
             <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
@@ -1898,9 +1941,6 @@ def render_avatar_video_file(
           </video>
           <div class="avatar-native-subtitle"><strong>Subtitles:</strong> {subtitle_html}</div>
           <div class="avatar-native-help">{'If the examiner does not start automatically, press play.' if auto_play else 'Press the video play button to hear the examiner. Use the fullscreen control if needed.'}</div>
-          <div class="avatar-replay-row">
-            <button id="{replay_id}" class="avatar-replay-button" type="button">Play again</button>
-          </div>
         </div>
         <script>
           const replayButton = document.getElementById({replay_id_json});
@@ -1968,19 +2008,21 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
         f"""
         <style>
           .avatar-pop-card {{
-            max-width: 560px;
-            margin: 0.75rem auto 1rem;
+            width: 100%;
+            max-width: none;
+            margin: 0 0 1rem;
             border: 1px solid #cfe3d5;
-            border-radius: 20px;
+            border-radius: 12px;
             overflow: hidden;
             background: #fbfffc;
-            box-shadow: 0 18px 38px rgba(37,72,53,.16);
+            box-shadow: 0 10px 24px rgba(37,72,53,.08);
             font-family: Aptos, Segoe UI, sans-serif;
           }}
           .avatar-pop-header {{
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 0.75rem;
             padding: 0.7rem 0.9rem;
             background: linear-gradient(135deg, #effbf3, #dff2e7);
             color: #203b36;
@@ -2000,18 +2042,15 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
             font-size: 1rem;
             line-height: 1.45;
             border-top: 1px solid #dcefe3;
+            max-height: 7rem;
+            overflow-y: auto;
           }}
           .avatar-pop-label {{
             color: #5b9d73;
             font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: .06em;
-          }}
-          .avatar-replay-row {{
-            display: flex;
-            justify-content: flex-end;
-            padding: 0 1rem 0.9rem;
-            background: rgba(255,255,253,.97);
+            margin-right: 0.55rem;
           }}
           .avatar-replay-button {{
             min-height: 2.45rem;
@@ -2032,13 +2071,13 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
         <div class="avatar-pop-card">
           <div class="avatar-pop-header">
             <span>AI Examiner</span>
-            <span class="avatar-pop-label">{'Speaking' if auto_play else 'Ready'}</span>
+            <div>
+              <span class="avatar-pop-label">{'Speaking' if auto_play else 'Ready'}</span>
+              <button id="{replay_id}" class="avatar-replay-button" type="button">Play again</button>
+            </div>
           </div>
           <video id="{safe_id}" class="avatar-pop-video" controls preload="metadata" playsinline></video>
           <div class="avatar-pop-subtitle">{subtitle_html}</div>
-          <div class="avatar-replay-row">
-            <button id="{replay_id}" class="avatar-replay-button" type="button">Play again</button>
-          </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
         <script>
@@ -2082,7 +2121,7 @@ def render_avatar_video(url: str, *, element_key: str, subtitle: str = "", auto_
           }}
         </script>
         """,
-        height=595,
+        height=580,
         scrolling=False,
     )
     st.caption("If the examiner video does not load, open the returned Simli stream in a new tab.")
@@ -2135,6 +2174,26 @@ def render_examiner_feedback_note(review: dict | None) -> None:
         """,
         unsafe_allow_html=True,
     )
+
+
+def render_student_final_result_summary(grading: dict, review: dict | None) -> None:
+    """Show only released final marks and examiner feedback to students."""
+    total = grading.get("total_score", 0)
+    maximum = grading.get("max_score", 0)
+    percentage = grading.get("percentage")
+    score_label = f"{total}/{maximum}" if maximum else str(total)
+    cols = st.columns(2)
+    cols[0].metric("Final score", score_label)
+    if percentage is not None:
+        cols[1].metric("Percentage", f"{percentage}%")
+    else:
+        cols[1].metric("Percentage", "Pending")
+
+    note = str((review or {}).get("note") or "").strip()
+    if note:
+        render_examiner_feedback_note(review)
+    else:
+        st.info("Your examiner has released the final score. No additional note was added.")
 
 
 def render_delivery_indicators(indicators: dict | None) -> None:
@@ -3029,6 +3088,12 @@ def apply_portal_theme() -> None:
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
         }
+        .stButton > button p,
+        .stFormSubmitButton > button p,
+        .stDownloadButton > button p {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
         .stButton > button:hover,
         .stFormSubmitButton > button:hover,
         .stLinkButton > a:hover,
@@ -3126,6 +3191,29 @@ def apply_portal_theme() -> None:
             -webkit-text-fill-color: #1e3d2b !important;
             fill: #1e3d2b !important;
         }
+        [data-testid="stButton"] > button,
+        [data-testid="stButton"] button {
+            background: #273940 !important;
+            background-color: #273940 !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        [data-testid="stButton"] > button:hover,
+        [data-testid="stButton"] button:hover {
+            background: #365e4a !important;
+            background-color: #365e4a !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        [data-testid="stButton"] > button *,
+        [data-testid="stButton"] button *,
+        [data-testid="stButton"] [data-testid="stMarkdownContainer"],
+        [data-testid="stButton"] [data-testid="stMarkdownContainer"] *,
+        [data-testid="stButton"] p,
+        [data-testid="stButton"] span {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
         [data-testid="stTextInputRootElement"]:has(input[type="password"]) button {
             background: transparent !important;
             border: 0 !important;
@@ -3207,16 +3295,16 @@ def apply_portal_theme() -> None:
             justify-content: space-between;
             align-items: flex-start;
             gap: 1rem;
-            padding: 1rem 1.1rem;
-            margin: 0.4rem 0 0.7rem;
+            padding: 0.95rem 1rem;
+            margin: 0.35rem 0 0.8rem;
             border: 1px solid #cfe3d5;
-            border-radius: 18px;
+            border-radius: 12px;
             background: rgba(255, 255, 253, 0.82);
             box-shadow: 0 10px 24px rgba(37, 72, 53, 0.06);
         }
         .assessment-room-title h2 {
-            margin: 0.15rem 0 0.25rem;
-            font-size: 1.55rem;
+            margin: 0.1rem 0 0;
+            font-size: 1.35rem;
             line-height: 1.22;
         }
         .assessment-room-title p {
@@ -3335,7 +3423,7 @@ def apply_portal_theme() -> None:
             overflow-wrap: anywhere;
         }
         .assessment-panel-label {
-            margin: 0.35rem 0 0.45rem;
+            margin: 1rem 0 0.55rem;
             color: #315348;
             font-size: var(--portal-font-small);
             font-weight: 800;
@@ -3344,19 +3432,19 @@ def apply_portal_theme() -> None:
         }
         .assessment-help-card {
             padding: 0.85rem 0.95rem;
-            margin: 0.75rem 0 0;
+            margin: 0 0 0.85rem;
             border: 1px solid #d5e9da;
-            border-radius: 14px;
+            border-radius: 12px;
             background: #f7fff9;
             color: var(--portal-muted);
             font-size: 1rem;
             line-height: 1.5;
         }
         .response-panel {
-            margin-top: 1.15rem;
+            margin-top: 1.25rem;
             padding: 1rem 1.1rem 1.1rem;
             border: 1px solid #cfe3d5;
-            border-radius: 18px;
+            border-radius: 12px;
             background: rgba(255, 255, 253, 0.9);
             box-shadow: 0 10px 24px rgba(37, 72, 53, 0.06);
         }
@@ -3403,6 +3491,16 @@ def apply_portal_theme() -> None:
         @media (max-width: 800px) {
             [data-testid="stMainBlockContainer"] { padding-top: 1rem; }
             .portal-hero { min-height: auto; padding: 2rem; }
+            .assessment-room-title {
+                display: grid;
+                gap: 0.65rem;
+            }
+            .assessment-room-title h2 {
+                font-size: 1.15rem;
+            }
+            .assessment-badge {
+                justify-self: start;
+            }
             .student-stepbar {
                 grid-template-columns: 1fr;
                 gap: 0.65rem;
@@ -3656,6 +3754,44 @@ def render_custom_rubric_upload() -> None:
             st.rerun()
 
 
+def render_custom_rubric_delete() -> None:
+    custom_rubrics = [rubric for rubric in list_rubrics() if rubric != DEFAULT_PSLE_RUBRIC]
+    with st.expander("Delete a custom English Oral rubric"):
+        if not custom_rubrics:
+            st.caption("No custom English Oral rubrics have been uploaded yet.")
+            return
+
+        selected_rubric = st.selectbox(
+            "Custom rubric",
+            custom_rubrics,
+            format_func=rubric_display_name,
+            key="delete_custom_english_oral_rubric_choice",
+        )
+        selected_display_name = rubric_display_name(selected_rubric)
+        st.caption(f"Stored as `{selected_rubric}`.")
+        st.warning(
+            "Deleting a rubric removes its JSON file permanently. Rubrics currently used by an assessment are protected."
+        )
+        confirm_key = f"confirm_delete_custom_english_oral_rubric_{selected_rubric}"
+        confirmed = st.checkbox(
+            f"I understand this permanently deletes '{selected_display_name}'.",
+            key=confirm_key,
+        )
+        if st.button(
+            "Delete rubric",
+            key="delete_custom_english_oral_rubric",
+            width="stretch",
+            disabled=not confirmed,
+        ):
+            try:
+                delete_english_oral_rubric(selected_rubric)
+            except Exception as error:
+                st.error(f"The rubric was not deleted: {error}")
+                return
+            st.session_state["rubric_delete_notice"] = f"Deleted '{selected_display_name}'."
+            st.rerun()
+
+
 def render_assignment_generation_loading(request: dict) -> None:
     """Prepare assignment questions while showing a dedicated loading screen."""
     st.markdown(
@@ -3811,6 +3947,9 @@ def render_create_assignment() -> None:
     notice = st.session_state.pop("rubric_upload_notice", None)
     if notice:
         st.success(notice)
+    rubric_delete_notice = st.session_state.pop("rubric_delete_notice", None)
+    if rubric_delete_notice:
+        st.success(rubric_delete_notice)
     assignment_notice = st.session_state.pop("assignment_notice", None)
     if assignment_notice:
         st.success(assignment_notice)
@@ -3820,6 +3959,7 @@ def render_create_assignment() -> None:
         for warning in avatar_warnings:
             st.caption(warning)
     render_custom_rubric_upload()
+    render_custom_rubric_delete()
     if not students:
         st.warning("No registered students are available. Add students to `data/users.json` first.")
         return
@@ -4120,7 +4260,6 @@ def render_create_assignment() -> None:
         if visual_preview_col.button(
             "Preview",
             key=f"preview_visual_upload_{st.session_state.visual_upload_reset_nonce}",
-            type="primary",
             width="stretch",
             help="Expand the selected picture stimulus temporarily.",
         ):
@@ -4129,7 +4268,6 @@ def render_create_assignment() -> None:
         if visual_remove_col.button(
             "X",
             key=f"remove_visual_upload_{st.session_state.visual_upload_reset_nonce}",
-            type="primary",
             width="stretch",
             help="Remove the selected picture stimulus.",
         ):
@@ -4148,13 +4286,30 @@ def render_create_assignment() -> None:
                 ):
                     st.session_state.visual_upload_preview_open = False
                     st.rerun()
-    reading_upload = st.file_uploader(
-        "Upload reading passage (optional)",
-        type=["pdf", "docx", "txt"],
-        accept_multiple_files=False,
-        help="Upload one optional reading passage, or leave this blank.",
-        key="reading_material_uploads",
+    reading_upload_col, reading_remove_col = st.columns(
+        [4.6, 0.65],
+        gap="small",
+        vertical_alignment="bottom",
     )
+    with reading_upload_col:
+        reading_upload = st.file_uploader(
+            "Upload reading passage (optional)",
+            type=["pdf", "docx", "txt"],
+            accept_multiple_files=False,
+            help="Upload one optional reading passage, or leave this blank.",
+            key=f"reading_material_uploads_{st.session_state.reading_upload_reset_nonce}",
+        )
+    reading_ready = bool(reading_upload)
+    if reading_remove_col.button(
+        "X",
+        key=f"remove_reading_upload_{st.session_state.reading_upload_reset_nonce}",
+        width="stretch",
+        disabled=not reading_ready,
+        help="Remove the selected reading passage.",
+    ):
+        st.session_state.reading_upload_reset_nonce += 1
+        st.rerun()
+
     if reading_upload:
         st.caption(f"Selected reading passage: {reading_upload.name}")
 
@@ -4648,6 +4803,8 @@ def student_progress_stage(assignment: dict) -> str:
         return "submitted"
 
     portal_stage = st.session_state.get("student_portal_stage")
+    if portal_stage == "submitted":
+        return "submitted"
     if portal_stage in {"preparation_loading", "preparation"} or not st.session_state.get("preparation_complete"):
         return "preparation"
 
@@ -4934,12 +5091,11 @@ def render_student_materials(assignment: dict) -> None:
     if assignment.get("reading"):
         st.markdown("#### Reading passage preparation")
         st.caption("Read and prepare this passage here. You will record and submit it at the start of Take assessment.")
-        st.text_area(
-            "Reading passage",
-            value=assignment["reading"].get("text", ""),
-            height=220,
-            disabled=True,
-            key=f"materials_reading_{assignment['assignment_id']}",
+        render_student_reading_passage(
+            assignment["reading"],
+            key_prefix=f"materials_reading_{assignment['assignment_id']}",
+            normal_height=220,
+            expanded_height=560,
         )
     else:
         st.caption("No reading-aloud passage was assigned for this assessment.")
@@ -4953,6 +5109,32 @@ def render_student_materials(assignment: dict) -> None:
         st.session_state.preparation_complete = True
         st.session_state.student_portal_stage = "assessment_loading"
         st.rerun()
+
+
+def render_student_reading_passage(
+    reading: dict,
+    *,
+    key_prefix: str,
+    normal_height: int = 250,
+    expanded_height: int = 560,
+) -> None:
+    expanded_key = f"{key_prefix}_expanded"
+    expanded = bool(st.session_state.get(expanded_key, False))
+    button_label = "Collapse" if expanded else "Expand"
+    button_help = "Show the reading passage at normal size." if expanded else "Show a larger reading passage."
+
+    _, action_col = st.columns([5, 1], vertical_alignment="bottom")
+    if action_col.button(button_label, key=f"{key_prefix}_toggle", width="stretch", help=button_help):
+        st.session_state[expanded_key] = not expanded
+        st.rerun()
+
+    st.text_area(
+        "Reading passage",
+        value=reading.get("text", ""),
+        height=expanded_height if expanded else normal_height,
+        disabled=True,
+        key=f"{key_prefix}_text_{'expanded' if expanded else 'normal'}",
+    )
 
 
 @st.fragment(run_every=1)
@@ -5010,12 +5192,11 @@ def render_reading_before_questions(assignment: dict, crew: EducationCrew) -> bo
     reading_lock_key = f"reading_submission_locked_{assignment['assignment_id']}"
     st.markdown("### Reading Aloud")
     st.caption("Read this passage aloud and submit your recording once. You will not be able to review the transcript or retake it after submission.")
-    st.text_area(
-        "Reading passage",
-        value=reading.get("text", ""),
-        height=250,
-        disabled=True,
-        key=f"assessment_reading_{assignment['assignment_id']}",
+    render_student_reading_passage(
+        reading,
+        key_prefix=f"assessment_reading_{assignment['assignment_id']}",
+        normal_height=250,
+        expanded_height=640,
     )
 
     if st.session_state.get(reading_lock_key):
@@ -5120,10 +5301,17 @@ def _finish_if_complete(assignment: dict, crew: EducationCrew) -> bool:
     question_ids = {question.get("id") for question in assignment.get("questions", [])}
     answered_ids = {result.get("question_id") for result in assignment.get("results", [])}
     if question_ids and question_ids.issubset(answered_ids):
+        status_changed = False
         if assignment.get("status") != "completed":
-            mark_assignment_status(assignment["assignment_id"], "completed")
+            completed_assignment = mark_assignment_status(assignment["assignment_id"], "completed")
+            assignment.update(completed_assignment)
+            status_changed = True
         if st.session_state.session_id:
             crew.end_session()
+            st.session_state.session_id = None
+        st.session_state.student_portal_stage = "submitted"
+        if status_changed:
+            st.rerun()
         return True
     return False
 
@@ -5202,7 +5390,7 @@ def render_student_assessment(assignment: dict) -> None:
     )
     st.progress(current_number / len(questions), text=f"Question {current_number} of {len(questions)}")
 
-    examiner_col, stimulus_col = st.columns([0.95, 1.05], gap="large", vertical_alignment="top")
+    examiner_col, stimulus_col = st.columns([1, 1], gap="large", vertical_alignment="top")
     with examiner_col:
         st.markdown('<div class="assessment-panel-label">Step 1 - Listen to the examiner</div>', unsafe_allow_html=True)
         stored_avatar = None if guidance or anam_avatar_requested() else refresh_avatar_video_reference(question.get("avatar_video") or {})
@@ -5421,20 +5609,21 @@ def render_student_results(assignment: dict) -> None:
     reading_submission = assignment.get("reading_submission")
     if reading_submission and (reading_submission.get("final_grading") or reading_submission.get("ai_grading")):
         with st.expander("Reading aloud", expanded=True):
-            render_grading_result(reading_submission.get("final_grading") or reading_submission.get("ai_grading"))
-            render_examiner_feedback_note(reading_submission.get("examiner_review"))
+            render_student_final_result_summary(
+                reading_submission.get("final_grading") or reading_submission.get("ai_grading") or {},
+                reading_submission.get("examiner_review"),
+            )
     results = assignment.get("results", [])
     if not results:
-        st.info("Submit an image-question response to see its AI grade here.")
+        st.info("Submit an image-question response to see your released final score here.")
         return
     for number, result in enumerate(results, 1):
         with st.expander(f"Question {number}", expanded=(number == len(results))):
             st.write("**Question:**", result.get("question", ""))
-            render_recorded_response(result)
-            render_grading_result(result.get("final_grading") or result.get("ai_grading") or {})
-            if result.get("examiner_review"):
-                st.caption("An examiner has verified or adjusted this grade.")
-                render_examiner_feedback_note(result.get("examiner_review"))
+            render_student_final_result_summary(
+                result.get("final_grading") or result.get("ai_grading") or {},
+                result.get("examiner_review"),
+            )
 
 
 def render_student_portal() -> None:
